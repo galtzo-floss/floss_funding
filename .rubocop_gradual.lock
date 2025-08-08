@@ -1,0 +1,34 @@
+{
+  "lib/floss_funding.rb:2392365974": [
+    [89, 51, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765]
+  ],
+  "lib/floss_funding/check.rb:1578142082": [
+    [13, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 883476360],
+    [18, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 3247230807],
+    [25, 9, 23, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 2670016150]
+  ],
+  "spec/floss_funding/check_spec.rb:915611232": [
+    [121, 7, 25, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1102006496]
+  ],
+  "spec/floss_funding/config_spec.rb:311763899": [
+    [24, 7, 31, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3643592354],
+    [59, 13, 20, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding::Config`.", 3344193683],
+    [64, 7, 29, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 47319566]
+  ],
+  "spec/floss_funding/poke_spec.rb:3229485587": [
+    [13, 51, 18, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding::Poke`.", 2037617000],
+    [26, 53, 18, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding::Poke`.", 2037617000],
+    [39, 46, 18, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding::Poke`.", 2037617000],
+    [52, 48, 18, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding::Poke`.", 2037617000]
+  ],
+  "spec/floss_funding/tracking_spec.rb:3323786542": [
+    [9, 16, 37, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3603826461],
+    [17, 5, 30, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2641164834],
+    [35, 5, 32, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1160836345],
+    [51, 5, 54, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2460075868],
+    [66, 5, 67, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2120166849],
+    [78, 21, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361],
+    [82, 21, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361],
+    [100, 5, 100, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 2701256730]
+  ]
+}

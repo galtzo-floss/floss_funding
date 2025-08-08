@@ -1,0 +1,86 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# This script should not need to be run again until after the year 2224.
+#
+# When this script was run 3x in 2025, this was the output:
+# ➜  bin/gen_base
+# Generated: 1200 unique strings
+#
+# Old Number of Centuries: 0
+# New Number of Centuries: 1
+#
+# Old Number of Words: 0
+# New Number of Words: 1200
+#
+# Format:
+#   Prefix: "0"
+#   Word Length: 23 random alnum chars (excluding prefix)
+#   File: /var/home/pboling/src/galtzo-floss/floss_funding/base.txt
+#
+# ➜  bin/gen_base
+# Generated: 1200 unique strings
+#
+# Old Number of Centuries: 1
+# New Number of Centuries: 2
+#
+# Old Number of Words: 1200
+# New Number of Words: 2400
+#
+# Format:
+#   Prefix: "1"
+#   Word Length: 23 random alnum chars (excluding prefix)
+#   File: /var/home/pboling/src/galtzo-floss/floss_funding/base.txt
+#
+# ➜  bin/gen_base
+# bin/gen_base:4:in '<main>': This is not the script you are looking for. (RuntimeError)
+#
+
+# Prevent this script from being run again until after the year 2125, at the soonest.
+raise "This is not the script you are looking for." if Time.now.year <= 2125
+
+file_path = File.expand_path("../../base.txt", __FILE__)
+characters = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
+# Adding the "0" prefix to each string will make it possible to add new
+#   alphabetically sorted strings to the bottom of the file (in 100 years).
+# 100 years is 1200 months.
+# First check to see how many blocks of 100 years are in the file.
+line_count = 0
+File.foreach(file_path) { |line| line_count += 1 }
+months_in_century = 1200
+centuries = line_count / months_in_century
+prefix = "0"
+# This scheme will work for thousands of years.
+centuries.times { |n| prefix = prefix.succ }
+length = 23 # a total of 24 characters / bytes needed
+
+unique_strings = []
+while unique_strings.size < months_in_century
+  random_string = prefix + (0...length).map { characters.sample }.join
+  unique_strings << random_string unless unique_strings.include?(random_string)
+end
+
+unique_strings.sort!
+
+# Append mode, if the file doesn't exist, it will be created.
+File.open(file_path, "a") do |file|
+  unique_strings.each { |str| file.puts str }
+end
+
+new_line_count = 0
+File.foreach(file_path) { |line| new_line_count += 1 }
+
+puts <<-REPORT
+Generated: #{unique_strings.size} unique strings
+
+Old Number of Centuries: #{centuries}
+New Number of Centuries: #{new_line_count / months_in_century}
+
+Old Number of Words: #{line_count}
+New Number of Words: #{new_line_count}
+
+Format:
+  Prefix: "#{prefix}"
+  Word Length: #{length} random alnum chars (excluding prefix)
+  File: #{file_path}
+REPORT
