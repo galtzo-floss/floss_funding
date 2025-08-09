@@ -13,13 +13,13 @@ ENV["FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE"] = FlossFunding::FREE_AS_IN_BE
 # Define two modules and include Poke to trigger tracking
 module TraditionalTest
   module InnerModule
-    include FlossFunding::Poke
+    include FlossFunding::Poke.new(__FILE__)
   end
 end
 
 module OtherTest
   module InnerModule
-    include FlossFunding::Poke
+    include FlossFunding::Poke.new(__FILE__)
   end
 end
 # On process exit, FlossFunding's at_exit hook will print the summary

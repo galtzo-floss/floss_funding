@@ -8,35 +8,38 @@ module FlossFunding
   # 1. Traditional namespace (uses the including module's name):
   #
   #     module MyGemLibrary
-  #       include FlossFunding::Poke
+  #       include FlossFunding::Poke.new(__FILE__)
   #     end
   #
   # 2. Arbitrary custom namespace (can add version, or anything else):
   #
   #     module MyGemLibrary
-  #       include FlossFunding::Poke.new("Custom::Namespace::V4")
+  #       include FlossFunding::Poke.new(__FILE__, "Custom::Namespace::V4")
   #     end
   #
   module Poke
     # Use class << self for defining class methods
     class << self
-      # For traditional usage pattern
+      # Direct inclusion disallowed: including FlossFunding::Poke directly will raise.
       def included(base)
-        setup_begging(base, nil, nil)
+        raise ::FlossFunding::Error, "Do not include FlossFunding::Poke directly. Use include FlossFunding::Poke.new(__FILE__, optional_namespace, optional_env_prefix)."
       end
 
-      # For custom namespace usage pattern
+      # For custom (now standard) usage pattern: requires including file path
       # If env_prefix is nil, the default prefix will be used
-      def new(namespace, env_prefix = nil)
+      def new(including_path, namespace = nil, env_prefix = nil)
         Module.new do
           define_singleton_method(:included) do |base|
-            FlossFunding::Poke.setup_begging(base, namespace, env_prefix)
+            FlossFunding::Poke.setup_begging(base, namespace, env_prefix, including_path)
           end
         end
       end
 
-      # Common setup logic for both patterns
-      def setup_begging(base, custom_namespace, env_prefix)
+      # Common setup logic
+      def setup_begging(base, custom_namespace, env_prefix, including_path)
+        unless including_path.is_a?(String)
+          raise ::FlossFunding::Error, "including_path must be a String file path (e.g., __FILE__), got #{including_path.class}"
+        end
         checker =
           if RUBY_VERSION >= "3.1"
             # Load into an anonymous module to ensure no pollution from other gems loading the same module.
@@ -64,7 +67,7 @@ module FlossFunding
         license_key = ENV.fetch(env_var_name, "")
 
         # Load configuration from .floss_funding.yml if it exists
-        config = ::FlossFunding::Config.load_config(base)
+        config = ::FlossFunding::Config.load_config(including_path)
         ::FlossFunding.set_configuration(namespace, config)
 
         # Now call the begging method after extending

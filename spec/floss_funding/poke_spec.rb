@@ -10,7 +10,7 @@ RSpec.describe FlossFunding::Poke do
       # Stub the module to ensure it's clean for each test
       stub_const("TraditionalTest::InnerModule", Module.new)
       # Include the Poke module
-      TraditionalTest::InnerModule.send(:include, FlossFunding::Poke)
+      TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
     end
 
     it "uses the module's name as namespace" do
@@ -23,7 +23,7 @@ RSpec.describe FlossFunding::Poke do
       output = capture(:stdout) do
         # Re-include to trigger output by stubbing the module again
         stub_const("TraditionalTest::InnerModule", Module.new)
-        TraditionalTest::InnerModule.send(:include, FlossFunding::Poke)
+        TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
       end
 
       # Check that the output contains the correct env var name
@@ -36,7 +36,7 @@ RSpec.describe FlossFunding::Poke do
       # Stub the module to ensure it's clean for each test
       stub_const("CustomTest::InnerModule", Module.new)
       # Include the Poke module with custom namespace
-      CustomTest::InnerModule.send(:include, FlossFunding::Poke.new("MyNamespace::V4"))
+      CustomTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__, "MyNamespace::V4"))
     end
 
     it "uses the provided namespace" do
@@ -49,7 +49,7 @@ RSpec.describe FlossFunding::Poke do
       output = capture(:stdout) do
         # Re-include to trigger output by stubbing the module again
         stub_const("CustomTest::InnerModule", Module.new)
-        CustomTest::InnerModule.send(:include, FlossFunding::Poke.new("MyNamespace::V4"))
+        CustomTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__, "MyNamespace::V4"))
       end
 
       # Check that the output contains the correct env var name
@@ -59,13 +59,13 @@ RSpec.describe FlossFunding::Poke do
 
   describe ".new" do
     it "returns a module" do
-      expect(described_class.new("Test")).to be_a(Module)
+      expect(described_class.new(__FILE__)).to be_a(Module)
     end
 
     it "accepts a namespace parameter" do
-      # This test just verifies that the method accepts a parameter
+      # This test just verifies that the method accepts parameters
       # The actual functionality is tested in the custom namespace tests
-      expect { described_class.new("Test") }.not_to raise_error
+      expect { described_class.new(__FILE__, "Test") }.not_to raise_error
     end
   end
 end

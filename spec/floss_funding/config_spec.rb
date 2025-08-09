@@ -13,11 +13,11 @@ RSpec.describe FlossFunding::Config do
       end
 
       it "loads the configuration from the file" do
-        config = described_class.load_config(base)
+        config = described_class.load_config(__FILE__)
 
         expect(config).to include(
           "suggested_donation_amount" => 10,
-          "funding_url" => "https://example.com/fund",
+          "floss_funding_url" => "https://example.com/fund",
         )
       end
 
@@ -26,12 +26,12 @@ RSpec.describe FlossFunding::Config do
         original_default = FlossFunding::Config::DEFAULT_CONFIG.dup
         stub_const("FlossFunding::Config::DEFAULT_CONFIG", original_default.merge("test_key" => "test_value"))
 
-        config = described_class.load_config(base)
+        config = described_class.load_config(__FILE__)
 
         expect(config).to include("test_key" => "test_value")
         expect(config).to include(
           "suggested_donation_amount" => 10,
-          "funding_url" => "https://example.com/fund",
+          "floss_funding_url" => "https://example.com/fund",
         )
       end
     end
@@ -44,7 +44,7 @@ RSpec.describe FlossFunding::Config do
       end
 
       it "returns the default configuration" do
-        config = described_class.load_config(base)
+        config = described_class.load_config(__FILE__)
 
         expect(config).to eq(FlossFunding::Config::DEFAULT_CONFIG)
       end
@@ -69,14 +69,14 @@ RSpec.describe FlossFunding::Config do
 
     it "loads and stores configuration when included" do
       # Include the Poke module
-      test_module.include(FlossFunding::Poke)
+      test_module.include(FlossFunding::Poke.new(__FILE__))
 
       # Check that configuration was stored
       config = FlossFunding.configuration("TestModule")
 
       expect(config).to include(
         "suggested_donation_amount" => 10,
-        "funding_url" => "https://example.com/fund",
+        "floss_funding_url" => "https://example.com/fund",
       )
     end
   end

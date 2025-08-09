@@ -23,7 +23,7 @@ RSpec.describe "FlossFunding tracking functionality" do
         Timecop.freeze(Time.new(2125, 8, 1)) do
           # Include the Poke module
           stub_const("TraditionalTest::InnerModule", Module.new)
-          TraditionalTest::InnerModule.send(:include, FlossFunding::Poke)
+          TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
 
           # Check that the module was added to the licensed list
           expect(FlossFunding.licensed).to include("TraditionalTest::InnerModule")
@@ -39,7 +39,7 @@ RSpec.describe "FlossFunding tracking functionality" do
         capture(:stdout) do
           # Include the Poke module
           stub_const("TraditionalTest::InnerModule", Module.new)
-          TraditionalTest::InnerModule.send(:include, FlossFunding::Poke)
+          TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
         end
       end
 
@@ -53,7 +53,7 @@ RSpec.describe "FlossFunding tracking functionality" do
       stubbed_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => FlossFunding::FREE_AS_IN_BEER) do
         # Include the Poke module
         stub_const("TraditionalTest::InnerModule", Module.new)
-        TraditionalTest::InnerModule.send(:include, FlossFunding::Poke)
+        TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
 
         # Check that the module was added to the licensed list
         expect(FlossFunding.licensed).to include("TraditionalTest::InnerModule")
@@ -76,12 +76,12 @@ RSpec.describe "FlossFunding tracking functionality" do
 
           # Create and start two threads
           thread1 = Thread.new do
-            TraditionalTest::InnerModule.send(:include, FlossFunding::Poke)
+            TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
           end
 
           thread2 = Thread.new do
             # No license key for the second module
-            TraditionalTest::OtherModule.send(:include, FlossFunding::Poke)
+            TraditionalTest::OtherModule.send(:include, FlossFunding::Poke.new(__FILE__))
           end
 
           # Wait for both threads to complete

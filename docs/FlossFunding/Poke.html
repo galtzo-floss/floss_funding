@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: FlossFunding::Poke
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "FlossFunding::Poke";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span>
+     &raquo; 
+    <span class="title">Poke</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: FlossFunding::Poke
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/floss_funding/poke.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>This module is the externally facing API for this gem.</p>
+
+<p>It supports two usage patterns:</p>
+
+<ol>
+  <li>
+    <p>Traditional namespace (uses the including module’s name):</p>
+
+    <p>module MyGemLibrary<br />
+   include FlossFunding::Poke.new(<strong>FILE</strong>)<br />
+ end</p>
+  </li>
+  <li>
+    <p>Arbitrary custom namespace (can add version, or anything else):</p>
+
+    <p>module MyGemLibrary<br />
+   include FlossFunding::Poke.new(<strong>FILE</strong>, “Custom::Namespace::V4”)<br />
+ end</p>
+  </li>
+</ol>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#included-class_method" title="included (class method)">.<strong>included</strong>(base)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Direct inclusion disallowed: including FlossFunding::Poke directly will raise.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#new-class_method" title="new (class method)">.<strong>new</strong>(including_path, namespace = nil, env_prefix = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>For custom (now standard) usage pattern: requires including file path If env_prefix is nil, the default prefix will be used.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#setup_begging-class_method" title="setup_begging (class method)">.<strong>setup_begging</strong>(base, custom_namespace, env_prefix, including_path)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Common setup logic.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="included-class_method">
+  
+    .<strong>included</strong>(base)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Direct inclusion disallowed: including FlossFunding::Poke directly will raise.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Error.html" title="FlossFunding::Error (class)">::FlossFunding::Error</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/poke.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Error.html" title="FlossFunding::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Do not include FlossFunding::Poke directly. Use include FlossFunding::Poke.new(__FILE__, optional_namespace, optional_env_prefix).</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="new-class_method">
+  
+    .<strong>new</strong>(including_path, namespace = nil, env_prefix = nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>For custom (now standard) usage pattern: requires including file path<br />
+If env_prefix is nil, the default prefix will be used</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+30
+31
+32
+33
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/poke.rb', line 30</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_including_path'>including_path</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_env_prefix'>env_prefix</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='const'>Module</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_define_singleton_method'>define_singleton_method</span><span class='lparen'>(</span><span class='symbol'>:included</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_base'>base</span><span class='op'>|</span>
+      <span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="FlossFunding::Poke (module)">Poke</a></span></span><span class='period'>.</span><span class='id identifier rubyid_setup_begging'><span class='object_link'><a href="#setup_begging-class_method" title="FlossFunding::Poke.setup_begging (method)">setup_begging</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_prefix'>env_prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_including_path'>including_path</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="setup_begging-class_method">
+  
+    .<strong>setup_begging</strong>(base, custom_namespace, env_prefix, including_path)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Common setup logic</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/poke.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_setup_begging'>setup_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='comma'>,</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_prefix'>env_prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_including_path'>including_path</span><span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_including_path'>including_path</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Error.html" title="FlossFunding::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>including_path must be a String file path (e.g., __FILE__), got </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_including_path'>including_path</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_checker'>checker</span> <span class='op'>=</span>
+    <span class='kw'>if</span> <span class='const'>RUBY_VERSION</span> <span class='op'>&gt;=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>3.1</span><span class='tstring_end'>&quot;</span></span>
+      <span class='comment'># Load into an anonymous module to ensure no pollution from other gems loading the same module.
+</span>      <span class='const'>Module</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='period'>.</span><span class='id identifier rubyid_tap'>tap</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_mod'>mod</span><span class='op'>|</span> <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>floss_funding/check.rb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_mod'>mod</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Check.html" title="FlossFunding::Check (module)">Check</a></span></span>
+    <span class='kw'>else</span>
+      <span class='comment'># For older Ruby versions, we need to use load instead of require to ensure fresh time
+</span>      <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>floss_funding/check.rb</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Check.html" title="FlossFunding::Check (module)">Check</a></span></span>
+    <span class='kw'>end</span>
+
+  <span class='comment'># Extend the base with the checker module first
+</span>  <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='id identifier rubyid_checker'>checker</span><span class='rparen'>)</span>
+
+  <span class='comment'># Three data points needed:
+</span>  <span class='comment'># 1. namespace (derived from the base class name, if not given)
+</span>  <span class='comment'># 2. ENV variable name (derived from namespace)
+</span>  <span class='comment'># 3. license key (derived from ENV variable)
+</span>  <span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='op'>!</span><span class='id identifier rubyid_custom_namespace'>custom_namespace</span> <span class='op'>||</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>:</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span>
+  <span class='id identifier rubyid_env_var_name'>env_var_name</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnderBar.html" title="FlossFunding::UnderBar (module)">UnderBar</a></span></span><span class='period'>.</span><span class='id identifier rubyid_env_variable_name'><span class='object_link'><a href="UnderBar.html#env_variable_name-class_method" title="FlossFunding::UnderBar.env_variable_name (method)">env_variable_name</a></span></span><span class='lparen'>(</span>
+    <span class='lbrace'>{</span>
+      <span class='symbol'>:prefix</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_env_prefix'>env_prefix</span><span class='comma'>,</span>
+      <span class='symbol'>:namespace</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span>
+    <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='rparen'>)</span>
+  <span class='id identifier rubyid_license_key'>license_key</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+  <span class='comment'># Load configuration from .floss_funding.yml if it exists
+</span>  <span class='id identifier rubyid_config'>config</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Config.html" title="FlossFunding::Config (module)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_load_config'><span class='object_link'><a href="Config.html#load_config-class_method" title="FlossFunding::Config.load_config (method)">load_config</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_including_path'>including_path</span><span class='rparen'>)</span>
+  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_set_configuration'><span class='object_link'><a href="../FlossFunding.html#set_configuration-class_method" title="FlossFunding.set_configuration (method)">set_configuration</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_config'>config</span><span class='rparen'>)</span>
+
+  <span class='comment'># Now call the begging method after extending
+</span>  <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_floss_funding_initiate_begging'>floss_funding_initiate_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_license_key'>license_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Sat Aug  9 17:37:21 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.4.5).
+</div>
+
+    </div>
+  </body>
+</html>

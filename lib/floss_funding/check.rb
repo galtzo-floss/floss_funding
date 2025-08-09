@@ -128,7 +128,7 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
         config = ::FlossFunding.configuration(namespace) || {}
 
         # Use configuration values or defaults
-        funding_url = config["funding_url"] || "https://floss-funding.dev"
+        funding_url = config["floss_funding_url"] || "https://floss-funding.dev"
         suggested_amount = config["suggested_donation_amount"] || 5
 
         puts <<-BEGGING
