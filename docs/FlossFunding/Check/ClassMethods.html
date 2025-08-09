@@ -93,7 +93,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#now_time-class_method" title="now_time (class method)">.<strong>now_time</strong>  &#x21d2; Object </a>
+      <a href="#now_time-class_method" title="now_time (class method)">.<strong>now_time</strong>  &#x21d2; Time </a>
     
 
     
@@ -110,7 +110,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute now_time.</p>
+    <span class="summary_desc"><div class='inline'><p>Time source used for month arithmetic and testing.</p>
 </div></span>
   
 </li>
@@ -132,7 +132,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#base_words-instance_method" title="#base_words (instance method)">#<strong>base_words</strong>  &#x21d2; Object </a>
+      <a href="#base_words-instance_method" title="#base_words (instance method)">#<strong>base_words</strong>  &#x21d2; Array&lt;String&gt; </a>
     
 
     
@@ -146,7 +146,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Returns the list of valid license words for the current month window.</p>
 </div></span>
   
 </li>
@@ -155,7 +155,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#check_license-instance_method" title="#check_license (instance method)">#<strong>check_license</strong>(plain_text)  &#x21d2; Object </a>
+      <a href="#check_license-instance_method" title="#check_license (instance method)">#<strong>check_license</strong>(plain_text)  &#x21d2; Boolean </a>
     
 
     
@@ -169,7 +169,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Checks whether the given plaintext matches a valid license word.</p>
 </div></span>
   
 </li>
@@ -178,7 +178,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#check_unpaid_silence-instance_method" title="#check_unpaid_silence (instance method)">#<strong>check_unpaid_silence</strong>(license_key, namespace)  &#x21d2; Object </a>
+      <a href="#check_unpaid_silence-instance_method" title="#check_unpaid_silence (instance method)">#<strong>check_unpaid_silence</strong>(license_key, namespace)  &#x21d2; Boolean </a>
     
 
     
@@ -192,7 +192,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Returns true if license_key indicates an unpaid or opted-out license that should not emit any console output (silent success).</p>
 </div></span>
   
 </li>
@@ -201,7 +201,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#floss_funding_decrypt-instance_method" title="#floss_funding_decrypt (instance method)">#<strong>floss_funding_decrypt</strong>(license_key, namespace)  &#x21d2; Object </a>
+      <a href="#floss_funding_decrypt-instance_method" title="#floss_funding_decrypt (instance method)">#<strong>floss_funding_decrypt</strong>(license_key, namespace)  &#x21d2; String, false </a>
     
 
     
@@ -215,7 +215,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Decrypts a hex-encoded license key using a namespace-derived key.</p>
 </div></span>
   
 </li>
@@ -224,7 +224,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#floss_funding_initiate_begging-instance_method" title="#floss_funding_initiate_begging (instance method)">#<strong>floss_funding_initiate_begging</strong>(license_key, namespace, env_var_name)  &#x21d2; Object </a>
+      <a href="#floss_funding_initiate_begging-instance_method" title="#floss_funding_initiate_begging (instance method)">#<strong>floss_funding_initiate_begging</strong>(license_key, namespace, env_var_name)  &#x21d2; void </a>
     
 
     
@@ -238,7 +238,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Entry point for license evaluation and output behavior.</p>
 </div></span>
   
 </li>
@@ -256,7 +256,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="now_time-class_method">
   
-    .<strong>now_time</strong>  &#x21d2; <tt>Object</tt> 
+    .<strong>now_time</strong>  &#x21d2; <tt>Time</tt> 
   
 
   
@@ -264,13 +264,26 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns the value of attribute now_time.</p>
+    <p>Time source used for month arithmetic and testing.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Time</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -278,12 +291,12 @@
       <pre class="lines">
 
 
-25
-26
-27</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_now_time'>now_time</span>
   <span class='ivar'>@now_time</span>
@@ -303,24 +316,47 @@
       <div class="method_details first">
   <h3 class="signature first" id="base_words-instance_method">
   
-    #<strong>base_words</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>base_words</strong>  &#x21d2; <tt>Array&lt;String&gt;</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the list of valid license words for the current month window.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-49
-50
-51</pre>
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_base_words'>base_words</span>
   <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_base_words'><span class='object_link'><a href="../../FlossFunding.html#base_words-class_method" title="FlossFunding.base_words (method)">base_words</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_num_valid_words_for_month'>num_valid_words_for_month</span><span class='rparen'>)</span>
@@ -333,25 +369,63 @@
       <div class="method_details ">
   <h3 class="signature " id="check_license-instance_method">
   
-    #<strong>check_license</strong>(plain_text)  &#x21d2; <tt>Object</tt> 
+    #<strong>check_license</strong>(plain_text)  &#x21d2; <tt>Boolean</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Checks whether the given plaintext matches a valid license word.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>plain_text</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-53
-54
-55
-56</pre>
+85
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 85</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_license'>check_license</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_binary_search_result'>binary_search_result</span> <span class='op'>=</span> <span class='id identifier rubyid_base_words'>base_words</span><span class='period'>.</span><span class='id identifier rubyid_bsearch'>bsearch</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_word'>word</span><span class='op'>|</span> <span class='id identifier rubyid_plain_text'>plain_text</span> <span class='op'>==</span> <span class='id identifier rubyid_word'>word</span> <span class='rbrace'>}</span>
@@ -365,31 +439,81 @@
       <div class="method_details ">
   <h3 class="signature " id="check_unpaid_silence-instance_method">
   
-    #<strong>check_unpaid_silence</strong>(license_key, namespace)  &#x21d2; <tt>Object</tt> 
+    #<strong>check_unpaid_silence</strong>(license_key, namespace)  &#x21d2; <tt>Boolean</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns true if license_key indicates an unpaid or opted-out license that<br />
+should not emit any console output (silent success).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>license_key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>namespace</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47</pre>
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 63</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_unpaid_silence'>check_unpaid_silence</span><span class='lparen'>(</span><span class='id identifier rubyid_license_key'>license_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_license_key'>license_key</span>
@@ -409,30 +533,91 @@
       <div class="method_details ">
   <h3 class="signature " id="floss_funding_decrypt-instance_method">
   
-    #<strong>floss_funding_decrypt</strong>(license_key, namespace)  &#x21d2; <tt>Object</tt> 
+    #<strong>floss_funding_decrypt</strong>(license_key, namespace)  &#x21d2; <tt>String</tt>, <tt>false</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Decrypts a hex-encoded license key using a namespace-derived key.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>license_key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>64-character hex string for paid license</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>namespace</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the namespace used to derive the cipher key</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>false</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>plaintext license word on success; false if empty</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-28
-29
-30
-31
-32
-33
-34
-35
-36</pre>
+47
+48
+49
+50
+51
+52
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_floss_funding_decrypt'>floss_funding_decrypt</span><span class='lparen'>(</span><span class='id identifier rubyid_license_key'>license_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_license_key'>license_key</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -451,54 +636,113 @@
       <div class="method_details ">
   <h3 class="signature " id="floss_funding_initiate_begging-instance_method">
   
-    #<strong>floss_funding_initiate_begging</strong>(license_key, namespace, env_var_name)  &#x21d2; <tt>Object</tt> 
+    #<strong>floss_funding_initiate_begging</strong>(license_key, namespace, env_var_name)  &#x21d2; <tt>void</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p><p>Entry point for license evaluation and output behavior.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>license_key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>value from ENV</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>namespace</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>namespace this license governs</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>env_var_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the ENV variable name checked</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90</pre>
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_floss_funding_initiate_begging'>floss_funding_initiate_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_license_key'>license_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_license_key'>license_key</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -543,7 +787,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Aug  9 17:37:21 2025 by
+  Generated on Sat Aug  9 17:50:20 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

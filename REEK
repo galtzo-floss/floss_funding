@@ -1,0 +1,50 @@
+lib/floss_funding/check.rb -- 13 warnings:
+  [39]:Attribute: FlossFunding::Check::ClassMethods#now_time is a writable attribute [https://github.com/troessner/reek/blob/v6.5.0/docs/Attribute.md]
+  [64]:ControlParameter: FlossFunding::Check::ClassMethods#check_unpaid_silence is controlled by argument 'license_key' [https://github.com/troessner/reek/blob/v6.5.0/docs/Control-Parameter.md]
+  [96, 152, 180]:DataClump: FlossFunding::Check::ClassMethods takes parameters ['env_var_name', 'namespace'] to 3 methods [https://github.com/troessner/reek/blob/v6.5.0/docs/Data-Clump.md]
+  [47, 63, 96, 152]:DataClump: FlossFunding::Check::ClassMethods takes parameters ['license_key', 'namespace'] to 4 methods [https://github.com/troessner/reek/blob/v6.5.0/docs/Data-Clump.md]
+  [105, 121]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls '::FlossFunding.add_licensed(namespace)' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [99, 112, 126]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls '::FlossFunding.add_unlicensed(namespace)' 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [100, 127]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls 'start_begging(namespace, env_var_name)' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [143, 143]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#now_month calls 'ClassMethods.now_time' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [35]:IrresponsibleModule: FlossFunding::Check::ClassMethods has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]
+  [96]:TooManyStatements: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging has approx 12 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
+  [52]:UncommunicativeVariableName: FlossFunding::Check::ClassMethods#floss_funding_decrypt has the variable name 's' [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]
+  [47]:UtilityFunction: FlossFunding::Check::ClassMethods#floss_funding_decrypt doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Utility-Function.md]
+  [142]:UtilityFunction: FlossFunding::Check::ClassMethods#now_month doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Utility-Function.md]
+lib/floss_funding/poke.rb -- 3 warnings:
+  [58]:LongParameterList: FlossFunding::Poke#setup_begging has 4 parameters [https://github.com/troessner/reek/blob/v6.5.0/docs/Long-Parameter-List.md]
+  [58]:TooManyStatements: FlossFunding::Poke#setup_begging has approx 10 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
+  [30]:UnusedParameters: FlossFunding::Poke#included has unused parameter 'base' [https://github.com/troessner/reek/blob/v6.5.0/docs/Unused-Parameters.md]
+lib/floss_funding/under_bar.rb -- 2 warnings:
+  [32]:TooManyStatements: FlossFunding::UnderBar#env_variable_name has approx 7 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
+  [47]:TooManyStatements: FlossFunding::UnderBar#to_under_bar has approx 6 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
+lib/floss_funding.rb -- 3 warnings:
+  [126]:NilCheck: FlossFunding#base_words performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]
+  [15]:TooManyConstants: FlossFunding has 7 constants [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Constants.md]
+  [125]:TooManyStatements: FlossFunding#base_words has approx 6 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
+spec/fixtures/custom_test.rb -- 1 warning:
+  [5]:IrresponsibleModule: CustomTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]
+spec/fixtures/end_hook_script.rb -- 2 warnings:
+  [21]:IrresponsibleModule: OtherTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]
+  [15]:IrresponsibleModule: TraditionalTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]
+spec/fixtures/traditional_test.rb -- 1 warning:
+  [5]:IrresponsibleModule: TraditionalTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]
+spec/spec_helper.rb -- 9 warnings:
+  [20, 27]:DuplicateMethodCall: stubbed_env calls 'ENV.delete(k)' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [26, 29]:DuplicateMethodCall: stubbed_env calls 'saved[k]' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [18, 25]:DuplicateMethodCall: stubbed_env calls 'vars.each' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [19, 26, 29]:FeatureEnvy: stubbed_env refers to 'saved' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Feature-Envy.md]
+  [16, 18, 25]:FeatureEnvy: stubbed_env refers to 'vars' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Feature-Envy.md]
+  [20]:NilCheck: stubbed_env performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]
+  [15]:TooManyStatements: stubbed_env has approx 10 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
+  [18, 25]:UncommunicativeVariableName: stubbed_env has the variable name 'k' [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]
+  [18]:UncommunicativeVariableName: stubbed_env has the variable name 'v' [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]
+.yard_gfm_support.rb -- 1 warning:
+  [9, 9]:FeatureEnvy: KramdownGfmDocument#initialize refers to 'options' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Feature-Envy.md]
+test/debug_check.rb -- 1 warning:
+  [12]:IrresponsibleModule: TestModule::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]
+test/test_poke_patterns.rb -- 2 warnings:
+  [18]:IrresponsibleModule: CustomTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]
+  [10]:IrresponsibleModule: TraditionalTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]
+38 total warnings

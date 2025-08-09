@@ -13,14 +13,36 @@ require "floss_funding/version"
 
 # Now declare some constants
 module FlossFunding
+  # Base error class for all FlossFunding-specific failures.
   class Error < StandardError; end
 
+  # Unpaid license option intended for open-source and not-for-profit use.
+  # @return [String]
   FREE_AS_IN_BEER = "Free-as-in-beer"
+
+  # Unpaid license option acknowledging commercial use without payment.
+  # @return [String]
   BUSINESS_IS_NOT_GOOD_YET = "Business-is-not-good-yet"
+
+  # License option to explicitly opt out of funding prompts for a namespace.
+  # @return [String]
   NOT_FINANCIALLY_SUPPORTING = "Not-financially-supporting"
+
+  # First month index against which license words are validated.
+  # Do not change once released as it invalidates license word lists.
+  # @return [Integer]
   START_MONTH = Month.new(2025, 7).to_i # Don't change this, not ever!
+
+  # Absolute path to the base words list used for paid license validation.
+  # @return [String]
   BASE_WORDS_PATH = File.expand_path("../../base.txt", __FILE__)
+
+  # Number of hex characters required for a paid license (64 = 256 bits).
+  # @return [Integer]
   EIGHT_BYTES = 64
+
+  # Format for a paid license key (64 hex chars).
+  # @return [Regexp]
   HEX_LICENSE_RULE = /\A[0-9a-fA-F]{#{EIGHT_BYTES}}\z/
 
   # Thread-safe access to licensed and unlicensed libraries
@@ -96,6 +118,10 @@ module FlossFunding
       mutex.synchronize { @configurations[library] = config }
     end
 
+    # Reads the first N lines from the base words file to validate paid licenses.
+    #
+    # @param num_valid_words [Integer] number of words to read from the word list
+    # @return [Array<String>] the first N words; empty when N is nil or zero
     def base_words(num_valid_words)
       return [] if num_valid_words.nil? || num_valid_words.zero?
       File.open(::FlossFunding::BASE_WORDS_PATH, "r") do |file|

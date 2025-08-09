@@ -117,47 +117,199 @@
     <dl class="constants">
       
         <dt id="FREE_AS_IN_BEER-constant" class="">FREE_AS_IN_BEER =
-          
-        </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Free-as-in-beer</span><span class='tstring_end'>&quot;</span></span></pre></dd>
-      
-        <dt id="BUSINESS_IS_NOT_GOOD_YET-constant" class="">BUSINESS_IS_NOT_GOOD_YET =
-          
-        </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Business-is-not-good-yet</span><span class='tstring_end'>&quot;</span></span></pre></dd>
-      
-        <dt id="NOT_FINANCIALLY_SUPPORTING-constant" class="">NOT_FINANCIALLY_SUPPORTING =
-          
-        </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Not-financially-supporting</span><span class='tstring_end'>&quot;</span></span></pre></dd>
-      
-        <dt id="START_MONTH-constant" class="">START_MONTH =
           <div class="docstring">
   <div class="discussion">
-    <p>Don’t change this, not ever!</p>
+    <p>Unpaid license option intended for open-source and not-for-profit use.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Free-as-in-beer</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="BUSINESS_IS_NOT_GOOD_YET-constant" class="">BUSINESS_IS_NOT_GOOD_YET =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Unpaid license option acknowledging commercial use without payment.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Business-is-not-good-yet</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="NOT_FINANCIALLY_SUPPORTING-constant" class="">NOT_FINANCIALLY_SUPPORTING =
+          <div class="docstring">
+  <div class="discussion">
+    <p>License option to explicitly opt out of funding prompts for a namespace.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Not-financially-supporting</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="START_MONTH-constant" class="">START_MONTH =
+          <div class="docstring">
+  <div class="discussion">
+    <p>First month index against which license words are validated.<br />
+Do not change once released as it invalidates license word lists.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div>
         </dt>
         <dd><pre class="code"><span class='const'>Month</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>2025</span><span class='comma'>,</span> <span class='int'>7</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span></pre></dd>
       
         <dt id="BASE_WORDS_PATH-constant" class="">BASE_WORDS_PATH =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>Absolute path to the base words list used for paid license validation.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>../../base.txt</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='kw'>__FILE__</span><span class='rparen'>)</span></pre></dd>
       
         <dt id="EIGHT_BYTES-constant" class="">EIGHT_BYTES =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>Number of hex characters required for a paid license (64 = 256 bits).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='int'>64</span></pre></dd>
       
         <dt id="HEX_LICENSE_RULE-constant" class="">HEX_LICENSE_RULE =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>Format for a paid license key (64 hex chars).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Regexp</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A[0-9a-fA-F]{</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#EIGHT_BYTES-constant" title="FlossFunding::EIGHT_BYTES (constant)">EIGHT_BYTES</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>}\z</span><span class='regexp_end'>/</span></span></pre></dd>
       
@@ -260,7 +412,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#base_words-class_method" title="base_words (class method)">.<strong>base_words</strong>(num_valid_words)  &#x21d2; Object </a>
+      <a href="#base_words-class_method" title="base_words (class method)">.<strong>base_words</strong>(num_valid_words)  &#x21d2; Array&lt;String&gt; </a>
     
 
     
@@ -274,7 +426,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Reads the first N lines from the base words file to validate paid licenses.</p>
 </div></span>
   
 </li>
@@ -475,12 +627,12 @@
       <pre class="lines">
 
 
-36
-37
-38</pre>
+58
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mutex'>mutex</span>
   <span class='ivar'>@mutex</span>
@@ -542,12 +694,12 @@ Ensures no duplicates are added</p>
       <pre class="lines">
 
 
-67
-68
-69</pre>
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 89</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_licensed'>add_licensed</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@licensed</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_library'>library</span> <span class='kw'>unless</span> <span class='ivar'>@licensed</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -602,12 +754,12 @@ Ensures no duplicates are added</p>
       <pre class="lines">
 
 
-74
-75
-76</pre>
+96
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_unlicensed'>add_unlicensed</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@unlicensed</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_library'>library</span> <span class='kw'>unless</span> <span class='ivar'>@unlicensed</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -620,29 +772,75 @@ Ensures no duplicates are added</p>
       <div class="method_details ">
   <h3 class="signature " id="base_words-class_method">
   
-    .<strong>base_words</strong>(num_valid_words)  &#x21d2; <tt>Object</tt> 
+    .<strong>base_words</strong>(num_valid_words)  &#x21d2; <tt>Array&lt;String&gt;</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Reads the first N lines from the base words file to validate paid licenses.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>num_valid_words</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>number of words to read from the word list</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the first N words; empty when N is nil or zero</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-99
-100
-101
-102
-103
-104
-105
-106</pre>
+125
+126
+127
+128
+129
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_base_words'>base_words</span><span class='lparen'>(</span><span class='id identifier rubyid_num_valid_words'>num_valid_words</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_num_valid_words'>num_valid_words</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_num_valid_words'>num_valid_words</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
@@ -718,12 +916,12 @@ Ensures no duplicates are added</p>
       <pre class="lines">
 
 
-88
-89
-90</pre>
+110
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_configuration'>configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@configurations</span><span class='lbracket'>[</span><span class='id identifier rubyid_library'>library</span><span class='rbracket'>]</span><span class='op'>&amp;.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
@@ -776,12 +974,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-81
-82
-83</pre>
+103
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 103</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_configurations'>configurations</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@configurations</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
@@ -834,12 +1032,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-41
-42
-43</pre>
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 63</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_licensed'>licensed</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@licensed</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
@@ -893,12 +1091,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-47
-48
-49</pre>
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_licensed='>licensed=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@licensed</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span> <span class='rbrace'>}</span>
@@ -967,12 +1165,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-95
-96
-97</pre>
+117
+118
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 117</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_configuration'>set_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='comma'>,</span> <span class='id identifier rubyid_config'>config</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@configurations</span><span class='lbracket'>[</span><span class='id identifier rubyid_library'>library</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_config'>config</span> <span class='rbrace'>}</span>
@@ -1025,12 +1223,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-54
-55
-56</pre>
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unlicensed'>unlicensed</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@unlicensed</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
@@ -1084,12 +1282,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-60
-61
-62</pre>
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unlicensed='>unlicensed=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@unlicensed</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span> <span class='rbrace'>}</span>
@@ -1104,7 +1302,7 @@ Returns a duplicate to prevent external modification</p>
 </div>
 
       <div id="footer">
-  Generated on Sat Aug  9 17:37:21 2025 by
+  Generated on Sat Aug  9 17:50:20 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

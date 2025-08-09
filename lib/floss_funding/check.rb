@@ -10,11 +10,23 @@ module FlossFunding
   # This module loads inside an anonymous module on Ruby 3.1+.
   # This is why FlossFunding herein uses top-level namespace as `::FlossFunding`.
   module Check
+    # When this module is included, extend the target with class-level helpers
+    # and set the deterministic time source (used in specs via Timecop).
+    #
+    # @param base [Module] the including module
+    # @param now [Time] the current time (defaults to Time.now)
+    # @return [void]
     def self.included(base, now = Time.now)
       base.extend(ClassMethods)
       ClassMethods.now_time = now
     end
 
+    # When this module is extended, also extend with class-level helpers and
+    # set the deterministic time source.
+    #
+    # @param base [Module] the extending module
+    # @param now [Time] the current time (defaults to Time.now)
+    # @return [void]
     def self.extended(base, now = Time.now)
       base.extend(ClassMethods)
       ClassMethods.now_time = now
@@ -22,9 +34,16 @@ module FlossFunding
 
     module ClassMethods
       class << self
+        # Time source used for month arithmetic and testing.
+        # @return [Time]
         attr_accessor :now_time
       end
 
+      # Decrypts a hex-encoded license key using a namespace-derived key.
+      #
+      # @param license_key [String] 64-character hex string for paid license
+      # @param namespace [String] the namespace used to derive the cipher key
+      # @return [String, false] plaintext license word on success; false if empty
       def floss_funding_decrypt(license_key, namespace)
         return false if license_key.empty?
 
@@ -35,6 +54,12 @@ module FlossFunding
         cipher.update(s) + cipher.final
       end
 
+      # Returns true if license_key indicates an unpaid or opted-out license that
+      # should not emit any console output (silent success).
+      #
+      # @param license_key [String]
+      # @param namespace [String]
+      # @return [Boolean]
       def check_unpaid_silence(license_key, namespace)
         case license_key
         when ::FlossFunding::FREE_AS_IN_BEER, ::FlossFunding::BUSINESS_IS_NOT_GOOD_YET, "#{::FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{namespace}"
@@ -46,15 +71,28 @@ module FlossFunding
         end
       end
 
+      # Returns the list of valid license words for the current month window.
+      #
+      # @return [Array<String>]
       def base_words
         ::FlossFunding.base_words(num_valid_words_for_month)
       end
 
+      # Checks whether the given plaintext matches a valid license word.
+      #
+      # @param plain_text [String]
+      # @return [Boolean]
       def check_license(plain_text)
         binary_search_result = base_words.bsearch { |word| plain_text == word }
         !!binary_search_result
       end
 
+      # Entry point for license evaluation and output behavior.
+      #
+      # @param license_key [String] value from ENV
+      # @param namespace [String] namespace this license governs
+      # @param env_var_name [String] the ENV variable name checked
+      # @return [void]
       def floss_funding_initiate_begging(license_key, namespace, env_var_name)
         if license_key.empty?
           # No license key provided
@@ -91,15 +129,26 @@ module FlossFunding
 
       private
 
-      # Using the month gem to easily do month math
+      # Using the month gem to easily do month math.
+      #
+      # @return [Integer] number of valid words based on the month offset
       def num_valid_words_for_month
         now_month - ::FlossFunding::START_MONTH
       end
 
+      # Returns the Month integer for the configured time source.
+      #
+      # @return [Integer]
       def now_month
         Month.new(ClassMethods.now_time.year, ClassMethods.now_time.month).to_i
       end
 
+      # Emits a diagnostic message for invalid license key format.
+      #
+      # @param license_key [String]
+      # @param namespace [String]
+      # @param env_var_name [String]
+      # @return [void]
       def start_coughing(license_key, namespace, env_var_name)
         puts <<-COUGHING
 ==============================================================
@@ -123,6 +172,11 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
         COUGHING
       end
 
+      # Emits the standard friendly funding message for unlicensed usage.
+      #
+      # @param namespace [String]
+      # @param env_var_name [String]
+      # @return [void]
       def start_begging(namespace, env_var_name)
         # Get configuration for this namespace
         config = ::FlossFunding.configuration(namespace) || {}
@@ -163,6 +217,9 @@ Or in shell / dotenv / direnv:
         BEGGING
       end
 
+      # Footer appended to console messages.
+      #
+      # @return [String] formatted footer block including gem version
       def footer
         <<-FOOTER
 ==============================================================

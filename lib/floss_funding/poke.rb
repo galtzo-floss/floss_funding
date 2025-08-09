@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module FlossFunding
-  # This module is the externally facing API for this gem.
+  # Public API for including FlossFunding into your library/module.
   #
-  # It supports two usage patterns:
+  # Usage patterns:
   #
   # 1. Traditional namespace (uses the including module's name):
   #
@@ -17,16 +17,27 @@ module FlossFunding
   #       include FlossFunding::Poke.new(__FILE__, "Custom::Namespace::V4")
   #     end
   #
+  # In all cases, the first parameter must be a String file path (e.g., __FILE__).
   module Poke
     # Use class << self for defining class methods
     class << self
-      # Direct inclusion disallowed: including FlossFunding::Poke directly will raise.
+      # Hook invoked when including FlossFunding::Poke directly.
+      #
+      # Direct inclusion is not supported; always use Poke.new(__FILE__, ...).
+      #
+      # @param base [Module] the target including module
+      # @raise [::FlossFunding::Error] always, instructing correct usage
       def included(base)
         raise ::FlossFunding::Error, "Do not include FlossFunding::Poke directly. Use include FlossFunding::Poke.new(__FILE__, optional_namespace, optional_env_prefix)."
       end
 
-      # For custom (now standard) usage pattern: requires including file path
-      # If env_prefix is nil, the default prefix will be used
+      # Builds a module suitable for inclusion which sets up FlossFunding.
+      #
+      # @param including_path [String] the including file path (e.g., __FILE__)
+      # @param namespace [String, nil] optional custom namespace to license
+      # @param env_prefix [String, nil] optional ENV var prefix; defaults to
+      #   FlossFunding::UnderBar::DEFAULT_PREFIX when nil
+      # @return [Module] a module that can be included into your namespace
       def new(including_path, namespace = nil, env_prefix = nil)
         Module.new do
           define_singleton_method(:included) do |base|
@@ -35,23 +46,23 @@ module FlossFunding
         end
       end
 
-      # Common setup logic
+      # Performs common setup: extends the base with Check, computes the
+      # namespace and ENV var name, loads configuration, and initiates begging.
+      #
+      # @param base [Module] the module including the returned Poke module
+      # @param custom_namespace [String, nil] custom namespace or nil to use base.name
+      # @param env_prefix [String, nil] ENV var prefix or default when nil
+      # @param including_path [String] source file path of base (e.g., __FILE__)
+      # @return [void]
+      # @raise [::FlossFunding::Error] if including_path is not a String
       def setup_begging(base, custom_namespace, env_prefix, including_path)
         unless including_path.is_a?(String)
           raise ::FlossFunding::Error, "including_path must be a String file path (e.g., __FILE__), got #{including_path.class}"
         end
-        checker =
-          if RUBY_VERSION >= "3.1"
-            # Load into an anonymous module to ensure no pollution from other gems loading the same module.
-            Module.new.tap { |mod| Kernel.load("floss_funding/check.rb", mod) }::FlossFunding::Check
-          else
-            # For older Ruby versions, we need to use load instead of require to ensure fresh time
-            Kernel.load("floss_funding/check.rb")
-            ::FlossFunding::Check
-          end
 
+        require "floss_funding/check"
         # Extend the base with the checker module first
-        base.extend(checker)
+        base.extend(::FlossFunding::Check)
 
         # Three data points needed:
         # 1. namespace (derived from the base class name, if not given)

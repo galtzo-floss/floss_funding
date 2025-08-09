@@ -122,7 +122,7 @@ This is why FlossFunding herein uses top-level namespace as <code>::FlossFunding
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#extended-class_method" title="extended (class method)">.<strong>extended</strong>(base, now = Time.now)  &#x21d2; Object </a>
+      <a href="#extended-class_method" title="extended (class method)">.<strong>extended</strong>(base, now = Time.now)  &#x21d2; void </a>
     
 
     
@@ -136,7 +136,7 @@ This is why FlossFunding herein uses top-level namespace as <code>::FlossFunding
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>When this module is extended, also extend with class-level helpers and set the deterministic time source.</p>
 </div></span>
   
 </li>
@@ -145,7 +145,7 @@ This is why FlossFunding herein uses top-level namespace as <code>::FlossFunding
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#included-class_method" title="included (class method)">.<strong>included</strong>(base, now = Time.now)  &#x21d2; Object </a>
+      <a href="#included-class_method" title="included (class method)">.<strong>included</strong>(base, now = Time.now)  &#x21d2; void </a>
     
 
     
@@ -159,7 +159,7 @@ This is why FlossFunding herein uses top-level namespace as <code>::FlossFunding
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>When this module is included, extend the target with class-level helpers and set the deterministic time source (used in specs via Timecop).</p>
 </div></span>
   
 </li>
@@ -177,25 +177,72 @@ This is why FlossFunding herein uses top-level namespace as <code>::FlossFunding
       <div class="method_details first">
   <h3 class="signature first" id="extended-class_method">
   
-    .<strong>extended</strong>(base, now = Time.now)  &#x21d2; <tt>Object</tt> 
+    .<strong>extended</strong>(base, now = Time.now)  &#x21d2; <tt>void</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p><p>When this module is extended, also extend with class-level helpers and<br />
+set the deterministic time source.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>base</span>
+      
+      
+        <span class='type'>(<tt>Module</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the extending module</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>now</span>
+      
+      
+        <span class='type'>(<tt>Time</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Time.now</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the current time (defaults to Time.now)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-18
-19
-20
-21</pre>
+30
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extended'>extended</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='comma'>,</span> <span class='id identifier rubyid_now'>now</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Check/ClassMethods.html" title="FlossFunding::Check::ClassMethods (module)">ClassMethods</a></span></span><span class='rparen'>)</span>
@@ -209,25 +256,72 @@ This is why FlossFunding herein uses top-level namespace as <code>::FlossFunding
       <div class="method_details ">
   <h3 class="signature " id="included-class_method">
   
-    .<strong>included</strong>(base, now = Time.now)  &#x21d2; <tt>Object</tt> 
+    .<strong>included</strong>(base, now = Time.now)  &#x21d2; <tt>void</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p><p>When this module is included, extend the target with class-level helpers<br />
+and set the deterministic time source (used in specs via Timecop).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>base</span>
+      
+      
+        <span class='type'>(<tt>Module</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the including module</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>now</span>
+      
+      
+        <span class='type'>(<tt>Time</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Time.now</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the current time (defaults to Time.now)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-13
-14
-15
-16</pre>
+19
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 19</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='comma'>,</span> <span class='id identifier rubyid_now'>now</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Check/ClassMethods.html" title="FlossFunding::Check::ClassMethods (module)">ClassMethods</a></span></span><span class='rparen'>)</span>
@@ -243,7 +337,7 @@ This is why FlossFunding herein uses top-level namespace as <code>::FlossFunding
 </div>
 
       <div id="footer">
-  Generated on Sat Aug  9 17:37:21 2025 by
+  Generated on Sat Aug  9 17:50:20 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

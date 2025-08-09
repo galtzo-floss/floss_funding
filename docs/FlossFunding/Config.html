@@ -85,7 +85,15 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>This module handles configuration loading from .floss_funding.yml files</p>
+    <p>Handles configuration loading from a .floss_funding.yml file located at the<br />
+root of the including project (heuristically discovered by walking upward<br />
+from the including file path until a Gemfile or *.gemspec is found).</p>
+
+<p>All APIs in this module require the including file path (e.g., <strong>FILE</strong>).<br />
+Legacy behaviors (like deducing from a Module) are intentionally unsupported.</p>
+
+<p>The loaded config is merged over DEFAULT_CONFIG, so any unspecified keys fall<br />
+back to defaults.</p>
 
 
   </div>
@@ -103,12 +111,58 @@
     <dl class="constants">
       
         <dt id="CONFIG_FILE_NAME-constant" class="">CONFIG_FILE_NAME =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>The file name to look for in the project root.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.floss_funding.yml</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
         <dt id="DEFAULT_CONFIG-constant" class="">DEFAULT_CONFIG =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>Default configuration values for FlossFunding prompting.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash{String=&gt;Object}</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>suggested_donation_amount</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='int'>5</span><span class='comma'>,</span>
@@ -135,7 +189,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#load_config-class_method" title="load_config (class method)">.<strong>load_config</strong>(including_path)  &#x21d2; Hash </a>
+      <a href="#load_config-class_method" title="load_config (class method)">.<strong>load_config</strong>(including_path)  &#x21d2; Hash{String=&gt;Object} </a>
     
 
     
@@ -149,7 +203,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Loads configuration from .floss_funding.yml file.</p>
+    <span class="summary_desc"><div class='inline'><p>Loads configuration from .floss_funding.yml by walking up from the provided including file path to discover the project root.</p>
 </div></span>
   
 </li>
@@ -167,7 +221,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="load_config-class_method">
   
-    .<strong>load_config</strong>(including_path)  &#x21d2; <tt>Hash</tt> 
+    .<strong>load_config</strong>(including_path)  &#x21d2; <tt>Hash{String=&gt;Object}</tt> 
   
 
   
@@ -175,7 +229,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Loads configuration from .floss_funding.yml file</p>
+    <p>Loads configuration from .floss_funding.yml by walking up from the<br />
+provided including file path to discover the project root.</p>
 
 
   </div>
@@ -194,7 +249,7 @@
       
       
         &mdash;
-        <div class='inline'><p>The including file path (required)</p>
+        <div class='inline'><p>the including file path (e.g., <strong>FILE</strong>)</p>
 </div>
       
     </li>
@@ -207,12 +262,29 @@
     <li>
       
       
-        <span class='type'>(<tt>Hash</tt>)</span>
+        <span class='type'>(<tt>Hash{String=&gt;Object}</tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>Configuration hash with default values merged</p>
+        <div class='inline'><p>configuration hash with defaults merged</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Error.html" title="FlossFunding::Error (class)">::FlossFunding::Error</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if including_path is not a String</p>
 </div>
       
     </li>
@@ -225,19 +297,19 @@
       <pre class="lines">
 
 
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27</pre>
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_config'>load_config</span><span class='lparen'>(</span><span class='id identifier rubyid_including_path'>including_path</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_including_path'>including_path</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
@@ -259,7 +331,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Aug  9 17:37:21 2025 by
+  Generated on Sat Aug  9 17:50:20 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
