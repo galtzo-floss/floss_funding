@@ -2,8 +2,8 @@
 
 [🖼️galtzo-i]: https://logos.galtzo.com/assets/images/galtzo-floss/avatar-192px.svg
 [🖼️galtzo-discord]: https://discord.gg/3qme4XHNKN
+[🖼️ruby-lang-i]: https://logos.galtzo.com/assets/images/ruby-lang/avatar-192px.svg
 [🖼️ruby-lang]: https://www.ruby-lang.org/
-[🖼️ruby-lang]: https://github.com/ruby-lang
 [🖼️floss_funding-i]: https://logos.galtzo.com/assets/images/galtzo-floss/floss_funding/avatar-192px.svg
 [🖼️floss_funding]: https://github.com/galtzo-floss/floss_funding
 
