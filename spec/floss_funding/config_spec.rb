@@ -127,3 +127,33 @@ RSpec.describe FlossFunding::Config do
     end
   end
 end
+
+
+RSpec.describe FlossFunding::Config do
+  describe ".load_config invalid input" do
+    it "raises when including_path is not a String" do
+      expect { described_class.load_config(123) }.to raise_error(FlossFunding::Error, /including must be a String/)
+    end
+  end
+
+  describe "rescue paths" do
+    it "returns nil from find_project_root when an unexpected error occurs (rescued)" do
+      allow(File).to receive(:dirname).and_raise(StandardError)
+      result = described_class.send(:find_project_root, __FILE__)
+      expect(result).to be_nil
+    end
+
+    it "returns empty hash from load_yaml_file when YAML.load_file raises (rescued)" do
+      allow(YAML).to receive(:load_file).and_raise(StandardError)
+      result = described_class.send(:load_yaml_file, "/definitely/missing.yml")
+      expect(result).to eq({})
+    end
+
+    it "returns empty hash from read_gemspec_data when Gem::Specification.load raises (rescued)" do
+      allow(Dir).to receive(:glob).and_return(["/tmp/fake.gemspec"]) # ensure path discovered
+      allow(Gem::Specification).to receive(:load).and_raise(StandardError)
+      result = described_class.send(:read_gemspec_data, "/tmp")
+      expect(result).to eq({})
+    end
+  end
+end

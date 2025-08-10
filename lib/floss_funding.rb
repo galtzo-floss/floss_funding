@@ -200,6 +200,7 @@ require "floss_funding/config"
 require "floss_funding/poke"
 # require "floss_funding/check" # Lazy loaded at runtime
 
+# :nocov:
 # Add END hook to display summary and a consolidated blurb for usage without activation key
 # This hook runs when the Ruby process terminates
 at_exit {
@@ -293,3 +294,4 @@ Or in shell / dotenv / direnv, e.g.:
     puts details
   end
 }
+# :nocov:

@@ -17,13 +17,13 @@ module FlossFunding
   #       include FlossFunding::Poke.new(__FILE__, "Custom::Namespace::V4")
   #     end
   #
-  # In all cases, the first parameter must be a String file path (e.g., __FILE__).
+  # In all cases, the first parameter must be a String file path (e.g., `__FILE__`).
   module Poke
     # Use class << self for defining class methods
     class << self
       # Hook invoked when including FlossFunding::Poke directly.
       #
-      # Direct inclusion is not supported; always use Poke.new(__FILE__, ...).
+      # Direct inclusion is not supported; always use `Poke.new(__FILE__, ...)`.
       #
       # @param base [Module] the target including module
       # @raise [::FlossFunding::Error] always, instructing correct usage
@@ -52,12 +52,16 @@ module FlossFunding
       # @param base [Module] the module including the returned Poke module
       # @param custom_namespace [String, nil] custom namespace or nil to use base.name
       # @param env_prefix [String, nil] ENV var prefix or default when nil
-      # @param including_path [String] source file path of base (e.g., __FILE__)
+      # @param including_path [String] source file path of base (e.g., `__FILE__`)
       # @return [void]
       # @raise [::FlossFunding::Error] if including_path is not a String
+      # @raise [::FlossFunding::Error] if base.name is not a String
       def setup_begging(base, custom_namespace, env_prefix, including_path)
         unless including_path.is_a?(String)
           raise ::FlossFunding::Error, "including_path must be a String file path (e.g., __FILE__), got #{including_path.class}"
+        end
+        unless base.respond_to?(:name) && base.name && base.name.is_a?(String)
+          raise ::FlossFunding::Error, "base must have a name (e.g., MyGemLibrary), got #{base.inspect}"
         end
 
         require "floss_funding/check"
@@ -79,15 +83,13 @@ module FlossFunding
           end
 
         # Track both base.name and the custom namespace (if provided) in the configuration arrays
-        if config.is_a?(Hash)
-          config["base_namespaces"] ||= []
-          config["base_namespaces"] << base.name if base.name
-          config["custom_namespaces"] ||= []
-          config["custom_namespaces"] << custom_namespace if custom_namespace && !custom_namespace.empty?
-          # Deduplicate
-          config["base_namespaces"] = config["base_namespaces"].compact.flatten.uniq
-          config["custom_namespaces"] = config["custom_namespaces"].compact.flatten.uniq
-        end
+        config["base_namespaces"] ||= []
+        config["base_namespaces"] << base.name
+        config["custom_namespaces"] ||= []
+        config["custom_namespaces"] << custom_namespace if custom_namespace && !custom_namespace.empty?
+        # Deduplicate
+        config["base_namespaces"] = config["base_namespaces"].flatten.uniq
+        config["custom_namespaces"] = config["custom_namespaces"].flatten.uniq
 
         env_var_name = ::FlossFunding::UnderBar.env_variable_name(
           {

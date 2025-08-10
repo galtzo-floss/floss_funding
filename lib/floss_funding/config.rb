@@ -23,6 +23,9 @@ module FlossFunding
     DEFAULT_CONFIG = {
       "suggested_donation_amount" => [5],
       "floss_funding_url" => ["https://floss-funding.dev"],
+      # Optional namespace override for when including without explicit namespace
+      # When set (non-empty string), this will be used as the namespace instead of the including module's name
+      "namespace" => [],
       # Track both the base.name namespace(s) and any custom namespace(s) passed to Poke.new
       "base_namespaces" => [],
       "custom_namespaces" => [],
@@ -54,12 +57,10 @@ module FlossFunding
 
         # Strict filter: only allow known string keys, then normalize to arrays
         filtered = {}
-        if raw_config.is_a?(Hash)
-          raw_config.each do |k, v|
-            next unless k.is_a?(String)
-            next unless DEFAULT_CONFIG.key?(k)
-            filtered[k] = normalize_to_array(v)
-          end
+        raw_config.each do |k, v|
+          next unless k.is_a?(String)
+          next unless DEFAULT_CONFIG.key?(k)
+          filtered[k] = normalize_to_array(v)
         end
 
         # Load gemspec data for defaults if available
