@@ -1,4 +1,84 @@
 module FlossFunding
-  VERSION: String
-  # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+  class Error < StandardError
+  end
+
+  # Constants
+  FREE_AS_IN_BEER: String
+  BUSINESS_IS_NOT_GOOD_YET: String
+  NOT_FINANCIALLY_SUPPORTING: String
+  START_MONTH: Integer
+  BASE_WORDS_PATH: String
+  EIGHT_BYTES: Integer
+  HEX_LICENSE_RULE: Regexp
+  FOOTER: String
+
+  module Version
+    VERSION: String
+  end
+
+  # Singleton methods on FlossFunding
+  def self.mutex: -> Mutex
+
+  def self.activated: -> Array[String]
+  def self.activated=: (Array[String]) -> void
+
+  def self.unactivated: -> Array[String]
+  def self.unactivated=: (Array[String]) -> void
+
+  def self.add_activated: (String) -> void
+  def self.add_unactivated: (String) -> void
+
+  def self.configurations: -> Hash[String, Hash[String, Array[untyped]]]
+  def self.configuration: (String) -> (Hash[String, Array[untyped]] | nil)
+  def self.set_configuration: (String, Hash[String, untyped]) -> void
+
+  def self.set_env_var_name: (String, String) -> void
+  def self.env_var_name_for: (String) -> (String | nil)
+  def self.env_var_names: -> Hash[String, String]
+
+  def self.activation_occurrences: -> Array[String]
+  def self.add_activation_occurrence: (String) -> void
+
+  def self.base_words: (Integer) -> Array[String]
+
+  module UnderBar
+    DEFAULT_PREFIX: String
+    SAFE_TO_UNDERSCORE: Regexp
+    SUBBER_UNDER: Regexp
+    INITIAL_UNDERSCORE: Regexp
+
+    def self.env_variable_name: (?{ namespace: String, prefix: String? }) -> String
+    def self.to_under_bar: (String) -> String
+  end
+
+  module Config
+    CONFIG_FILE_NAME: String
+    DEFAULT_CONFIG: Hash[String, Array[untyped]]
+
+    def self.load_config: (String) -> Hash[String, Array[untyped]]
+    def self.find_config_file: (String) -> (String | nil)
+    def self.find_project_root: (String) -> (String | nil)
+    def self.load_yaml_file: (String) -> Hash[untyped, untyped]
+    def self.read_gemspec_data: (String) -> Hash[Symbol, untyped]
+    def self.normalize_to_array: (untyped) -> Array[untyped]
+  end
+
+  module Check
+    module ClassMethods
+      def self.now_time: Time
+      def self.now_time=: (Time) -> Time
+
+      def floss_funding_decrypt: (String, String) -> (String | false)
+      def check_unpaid_silence: (String, String) -> bool
+      def base_words: -> Array[String]
+      def check_activation: (String) -> bool
+      def floss_funding_initiate_begging: (String, String, String) -> void
+    end
+  end
+
+  module Poke
+    def self.included: (Module) -> void
+    def self.new: (String, ?String, ?String) -> Module
+    def self.setup_begging: (Module, String?, String?, String) -> void
+  end
 end
