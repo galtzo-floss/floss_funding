@@ -7,16 +7,16 @@ module FlossFunding
     module_function
 
     # Return the list of Ruby namespace module names used by the generated fixture gems
-    # - BenchGem01..BenchGem50 (unique per gem 1..50)
-    # - BenchGemShared (shared by gems 51..60)
+    # - BenchGem01..BenchGem90 (unique per gem 1..90)
+    # - BenchGemShared (shared by gems 91..100)
     def namespaces
-      (1..50).map { |i| format("BenchGem%02d", i) } + ["BenchGemShared"]
+      (1..90).map { |i| format("BenchGem%02d", i) } + ["BenchGemShared"]
     end
 
     def generate_all
       root = File.expand_path("../fixtures/bench_gems", __dir__)
       FileUtils.mkdir_p(root)
-      (1..60).each do |i|
+      (1..100).each do |i|
         generate_one(root, i)
       end
     end
@@ -74,14 +74,14 @@ suggested_donation_amount: 5
 
 # Derive gem number from parent directory of lib (bench_gem_XX)
 current_dir_name = File.basename(File.dirname(__dir__))
-current_num = current_dir_name[-2, 2].to_i
+current_num = current_dir_name.split("_").last.to_i
 
 # Namespace and ENV selection logic:
-# - For gems 1..50: unique namespaces BenchGemXX, grouped by 5 per ENV var FLOSS_FUNDING_FIXTURE_GROUP_1..10
-# - For gems 51..60: use unique module names BenchGem51..BenchGem60 but pass shared namespace "BenchGemShared" to Poke, with a single ENV var FLOSS_FUNDING_FIXTURE_FINAL_10
+# - For gems 1..90: unique namespaces BenchGemXX, grouped by 9 per ENV var FLOSS_FUNDING_FIXTURE_GROUP_1..10
+# - For gems 91..100: use unique module names BenchGem91..BenchGem100 but pass shared namespace "BenchGemShared" to Poke, with a single ENV var FLOSS_FUNDING_FIXTURE_FINAL_10
 mod_name = "BenchGem%02d" % current_num
-if current_num <= 50
-  group = ((current_num - 1) / 5) + 1
+if current_num <= 90
+  group = ((current_num - 1) / 9) + 1
   env_name = "FLOSS_FUNDING_FIXTURE_GROUP_#{group}"
   poke_namespace = mod_name
 else

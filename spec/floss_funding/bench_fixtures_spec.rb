@@ -4,16 +4,16 @@ require "rspec/stubbed_env"
 require "floss_funding"
 require_relative "../support/bench_gems_generator"
 
-# Generate the 60 gem fixtures on disk (idempotent)
+# Generate the 100 gem fixtures on disk (idempotent)
 FlossFunding::BenchGemsGenerator.generate_all
 
 RSpec.describe "Benchmark fixtures ENV segmentation" do # rubocop:disable RSpec/DescribeClass
   def remove_bench_constants
-    (1..50).each do |i|
+    (1..100).each do |i|
       mod_name = format("BenchGem%02d", i)
       Object.send(:remove_const, mod_name) if Object.const_defined?(mod_name) # rubocop:disable RSpec/RemoveConst
     end
-    # Also remove the shared namespace used by gems 51..60, if present
+    # Also remove the shared namespace used by gems 91..100, if present
     Object.send(:remove_const, :BenchGemShared) if Object.const_defined?(:BenchGemShared) # rubocop:disable RSpec/RemoveConst
   end
 
@@ -26,25 +26,25 @@ RSpec.describe "Benchmark fixtures ENV segmentation" do # rubocop:disable RSpec/
   end
 
   def enabled_count
-    (1..50).count do |i|
+    (1..90).count do |i|
       mod = Object.const_get(format("BenchGem%02d", i))
       core = mod.const_get(:Core)
       core.respond_to?(:floss_funding_initiate_begging)
     end
   end
 
-  it "enables exactly 5 fixtures when group 1 is enabled" do
+  it "enables exactly 9 fixtures when group 1 is enabled" do
     load_with_groups([1])
-    expect(enabled_count).to eq(5)
+    expect(enabled_count).to eq(9)
   end
 
-  it "enables exactly 10 fixtures when groups 1 and 2 are enabled" do
+  it "enables exactly 18 fixtures when groups 1 and 2 are enabled" do
     load_with_groups([1, 2])
-    expect(enabled_count).to eq(10)
+    expect(enabled_count).to eq(18)
   end
 
-  it "enables exactly 50 fixtures when all 10 groups are enabled" do
+  it "enables exactly 90 fixtures when all 10 groups are enabled" do
     load_with_groups((1..10).to_a)
-    expect(enabled_count).to eq(50)
+    expect(enabled_count).to eq(90)
   end
 end

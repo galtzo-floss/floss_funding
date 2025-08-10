@@ -5,7 +5,7 @@ require "benchmark"
 require "floss_funding/under_bar"
 require_relative "../support/bench_gems_generator"
 
-# Generate the 60 gem fixtures on disk (idempotent)
+# Generate the 100 gem fixtures on disk (idempotent)
 FlossFunding::BenchGemsGenerator.generate_all
 
 RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding usage" do # rubocop:disable RSpec/DescribeClass
@@ -28,10 +28,10 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     FlossFunding::UnderBar.env_variable_name(:namespace => ns)
   end
 
-  # Compute which BenchGemXX namespaces are activated for percentage (first N*5 of 1..50)
+  # Compute which BenchGemXX namespaces are activated for percentage (first N*9 of 1..90)
   def activated_bench_namespaces_for_percentage(percentage)
     enabled_groups = (percentage / 10).to_i
-    count = enabled_groups * 5
+    count = enabled_groups * 9
     (1..count).map { |i| format("BenchGem%02d", i) }
   end
 
@@ -58,16 +58,14 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
 
   # Remove any previously defined BenchGemXX constants to allow clean reloads
   def remove_bench_constants
-    (1..50).each do |i|
+    (1..100).each do |i|
       mod_name = format("BenchGem%02d", i)
       Object.send(:remove_const, mod_name) if Object.const_defined?(mod_name) # rubocop:disable RSpec/RemoveConst
     end
-    # Also remove the shared namespace used by gems 51..60, if present
-    Object.send(:remove_const, :BenchGemShared) if Object.const_defined?(:BenchGemShared) # rubocop:disable RSpec/RemoveConst
   end
 
   # Prepare ENV segmentation for a given percentage (0..100 in steps of 10)
-  # 10 groups control 50 gems (5 per group). For percentage p, enable first g = p/10 groups.
+  # 10 groups control 90 gems (9 per group). For percentage p, enable first g = p/10 groups.
   def set_percentage_env(percentage)
     raise ArgumentError, "percentage must be between 0 and 100" unless percentage.between?(0, 100)
 
@@ -78,9 +76,10 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     (1..enabled_groups).each { |g| ENV["FLOSS_FUNDING_FIXTURE_GROUP_#{g}"] = "1" }
   end
 
-  # Counts how many of the 50 gems ended up including the Poke integration
+  # Counts how many of the 100 gems ended up including the Poke integration
+  # For percentage tests, only the first 90 can be toggled by group ENV; final 10 remain disabled unless FINAL_10 is set.
   def enabled_count
-    (1..50).count do |i|
+    (1..100).count do |i|
       mod = Object.const_get(format("BenchGem%02d", i))
       core = mod.const_get(:Core)
       core.respond_to?(:floss_funding_initiate_begging)
@@ -106,8 +105,8 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
             load loader_path
           end
 
-          # Sanity check: the number of enabled gems matches the percentage (5 per 10%)
-          expect(enabled_count).to eq(step * 5)
+          # Sanity check: the number of enabled gems matches the percentage (9 per 10%)
+          expect(enabled_count).to eq(step * 9)
 
           results << {:percentage => percentage, :seconds => elapsed}
         end
@@ -141,7 +140,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
             load loader_path
           end
 
-          expect(enabled_count).to eq(step * 5)
+          expect(enabled_count).to eq(step * 9)
           results << {:percentage => percentage, :seconds => elapsed}
         end
       end
