@@ -104,7 +104,7 @@ end
 
 <p>This tool makes it far easier to get paid for your work down there at the bottom of the stack, in the dev dependencies that get overlooked by most OSS funding tools.</p>
 
-<p>Activation keys use a cipher encryption algorithm against a 2400-word dictionary to make valid activation keys slightly difficult to discover manually. The activation keys are <em>opaque</em>, rather than <em>private</em>. They are not tied to you in any way. Other people may use the same one. And that’s fine! They don’t do anything except silence some STDOUT nagging.</p>
+<p>Activation keys use a cipher encryption algorithm against a 2400-word dictionary, with some other data, like the project’s namespace, and the current month, thrown in, to make valid activation keys slightly difficult to discover manually. Once a key is made it is valid forever. There is no revocation. The activation keys are <em>opaque</em>, rather than <em>private</em>. They are not tied to you in any way. Other people may use the same one. And that’s fine! They don’t do anything except silence some STDOUT nagging.</p>
 
 <h2 id="to-do-list">TO DO List</h2>
 
@@ -321,15 +321,15 @@ NOTE: Be prepared to track down certs for signed gems and add them the same way 
 
 <ol>
   <li>Traditional namespace (uses the including module’s name):
-    <pre class="code language-ruby"><code class="language-ruby"> module MyGemLibrary
-   include FlossFunding::Poke.new(__FILE__)
- end
+    <pre class="code language-ruby"><code class="language-ruby">module MyGemLibrary
+  include FlossFunding::Poke.new(__FILE__)
+end
 </code></pre>
   </li>
   <li>Arbitrary custom namespace (can add version, or anything else):
-    <pre class="code language-ruby"><code class="language-ruby"> module MyGemLibrary
- include FlossFunding::Poke.new(__FILE__, &quot;Custom::Namespace::V4&quot;)
- end
+    <pre class="code language-ruby"><code class="language-ruby">module MyGemLibrary
+  include FlossFunding::Poke.new(__FILE__, &quot;Custom::Namespace::V4&quot;)
+end
 </code></pre>
   </li>
 </ol>
@@ -347,7 +347,7 @@ NOTE: Be prepared to track down certs for signed gems and add them the same way 
 <code>suggested_donation_amount</code> - The suggested donation amount to display in the begging message (default: 5)</li>
   <li>
 <code>floss_funding_url</code> - The URL to direct users to for donations or sponsorship<br>
-a. default: https://floss-funding.dev, which doesn’t take donations on behalf of other projects, so it will have helpful tips on how to find a way to donate.</li>
+a. default: https://floss-funding.dev, which doesn’t take donations on behalf of other projects, but it will have helpful tips on how to find a way to donate.</li>
 </ol>
 
 <h3 id="example-configuration">Example Configuration</h3>
@@ -489,7 +489,7 @@ or one of the smaller ones, depending on button size preference.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Sun Aug 10 07:23:16 2025 by
+  Generated on Sun Aug 10 13:08:17 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

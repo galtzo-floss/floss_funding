@@ -51,7 +51,7 @@ It has been my experience that work on the dark underbelly of software, down in 
 
 This tool makes it far easier to get paid for your work down there at the bottom of the stack, in the dev dependencies that get overlooked by most OSS funding tools.
 
-Activation keys use a cipher encryption algorithm against a 2400-word dictionary to make valid activation keys slightly difficult to discover manually. The activation keys are _opaque_, rather than _private_. They are not tied to you in any way. Other people may use the same one. And that's fine! They don't do anything except silence some STDOUT nagging.
+Activation keys use a cipher encryption algorithm against a 2400-word dictionary, with some other data, like the project's namespace, and the current month, thrown in, to make valid activation keys slightly difficult to discover manually. Once a key is made it is valid forever. There is no revocation. The activation keys are _opaque_, rather than _private_. They are not tied to you in any way. Other people may use the same one. And that's fine! They don't do anything except silence some STDOUT nagging.
 
 ## TO DO List
 
@@ -176,15 +176,15 @@ Usage patterns:
 
 1. Traditional namespace (uses the including module's name):
     ```ruby
-    module MyGemLibrary
-      include FlossFunding::Poke.new(__FILE__)
-    end
+module MyGemLibrary
+  include FlossFunding::Poke.new(__FILE__)
+end
     ```
 2. Arbitrary custom namespace (can add version, or anything else):
     ```ruby
-    module MyGemLibrary
-    include FlossFunding::Poke.new(__FILE__, "Custom::Namespace::V4")
-    end
+module MyGemLibrary
+  include FlossFunding::Poke.new(__FILE__, "Custom::Namespace::V4")
+end
     ```
 
 ## Configuration
@@ -197,7 +197,7 @@ The following options can be configured in the `.floss_funding.yml` file:
 
 1. `suggested_donation_amount` - The suggested donation amount to display in the begging message (default: 5)
 2. `floss_funding_url` - The URL to direct users to for donations or sponsorship
-   a. default: https://floss-funding.dev, which doesn't take donations on behalf of other projects, so it will have helpful tips on how to find a way to donate.
+   a. default: https://floss-funding.dev, which doesn't take donations on behalf of other projects, but it will have helpful tips on how to find a way to donate.
 
 ### Example Configuration
 
@@ -215,7 +215,7 @@ See [SECURITY.md][🔐security].
 ## 🤝 Contributing
 
 If you need some ideas of where to help, you could work on adding more code coverage,
-or if it is already 💯 (see [below](#code-coverage)) check [issues][🤝gh-issues], or [PRs][🤝gh-pulls],
+or if it is already 💯 (see [below](#code-coverage)) check [reek](REEK), [issues][🤝gh-issues], or [PRs][🤝gh-pulls],
 or use the gem and think about how it could be better.
 
 We [![Keep A Changelog][📗keep-changelog-img]][📗keep-changelog] so if you make changes, remember to update it.
