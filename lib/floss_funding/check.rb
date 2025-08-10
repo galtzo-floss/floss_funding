@@ -84,8 +84,13 @@ module FlossFunding
       # @param plain_text [String]
       # @return [Boolean]
       def check_activation(plain_text)
-        binary_search_result = base_words.bsearch { |word| plain_text == word }
-        !!binary_search_result
+        words = base_words
+        # Use fast binary search when available (Ruby >= 2.0), else fall back to include?
+        if words.respond_to?(:bsearch)
+          !!words.bsearch { |word| plain_text == word }
+        else
+          words.include?(plain_text)
+        end
       end
 
       # Entry point for activation key evaluation and output behavior.

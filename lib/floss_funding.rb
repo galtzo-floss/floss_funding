@@ -121,7 +121,10 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @param library [String] Namespace of the library
     # @return [Hash, nil] Configuration for the library or nil if not found
     def configuration(library)
-      mutex.synchronize { @configurations[library]&.dup }
+      mutex.synchronize do
+        value = @configurations[library]
+        value ? value.dup : nil
+      end
     end
 
     # Thread-safe setter for a library's configuration
