@@ -2,7 +2,7 @@
 
 [🖼️galtzo-i]: https://logos.galtzo.com/assets/images/galtzo-floss/avatar-192px.svg
 [🖼️galtzo-discord]: https://discord.gg/3qme4XHNKN
-[🖼️ruby-lang-i]: https://logos.galtzo.com/assets/images/ruby-lang/avatar-192px.svg
+[🖼️ruby-lang]: https://www.ruby-lang.org/
 [🖼️ruby-lang]: https://github.com/ruby-lang
 [🖼️floss_funding-i]: https://logos.galtzo.com/assets/images/galtzo-floss/floss_funding/avatar-192px.svg
 [🖼️floss_funding]: https://github.com/galtzo-floss/floss_funding
@@ -140,7 +140,7 @@ If bundler is not being used to manage dependencies, install the gem by executin
 <details>
   <summary>For Medium or High Security Installations</summary>
 
-`floss_funding` is cryptographically signed, and has verifiable [SHA-256 and SHA-512][💎SHA_checksums] checksums by
+This gem is cryptographically signed, and has verifiable [SHA-256 and SHA-512][💎SHA_checksums] checksums by
 [stone_checksums][💎stone_checksums]. Be sure the gem you install hasn’t been tampered with
 by following the instructions below.
 
