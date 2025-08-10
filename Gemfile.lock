@@ -13,7 +13,7 @@ GIT
 PATH
   remote: .
   specs:
-    floss_funding (1.0.0)
+    floss_funding (1.0.0.pre.alpha.1)
       month-serializer (~> 1.0, = 1.0.1)
 
 GEM

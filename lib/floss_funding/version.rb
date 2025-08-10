@@ -5,6 +5,6 @@ module FlossFunding
   module Version
     # The current gem version.
     # @return [String]
-    VERSION = "1.0.0"
+    VERSION = "1.0.0-alpha.1"
   end
 end
