@@ -6,6 +6,13 @@ module FlossFunding
   module BenchGemsGenerator
     module_function
 
+    # Return the list of Ruby namespace module names used by the generated fixture gems
+    # - BenchGem01..BenchGem50 (unique per gem 1..50)
+    # - BenchGemShared (shared by gems 51..60)
+    def namespaces
+      (1..50).map { |i| format("BenchGem%02d", i) } + ["BenchGemShared"]
+    end
+
     def generate_all
       root = File.expand_path("../fixtures/bench_gems", __dir__)
       FileUtils.mkdir_p(root)
