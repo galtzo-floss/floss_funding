@@ -28,7 +28,7 @@ funding_url: https://example.com/fund
 
 ### Should Haves
 
-- [ ] A website to generate license keys for gems
+- [ ] A website to generate activation keys for gems
   - [ ] List all known gems that can be licensed with floss_funding
   - [ ] Account creation with email address
   - [ ] Enter Gem Name

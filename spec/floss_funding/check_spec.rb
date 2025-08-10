@@ -182,16 +182,16 @@ RSpec.describe FlossFunding::Check do
 
       expect(output).to include("COUGH, COUGH.")
       expect(output).to include("using #{namespace} for free")
-      expect(output).to include("License Key: #{license_key}")
+      expect(output).to include("Activation Key: #{license_key}")
       expect(output).to include("Namespace: #{namespace}")
       expect(output).to include("ENV Variable: #{env_var_name}")
-      expect(output).to include("Paid license keys are 64 characters long")
+      expect(output).to include("Paid activation keys are 8 bytes, 64 hex characters, long")
       expect(output).to include("Yours is #{license_key.length} characters long")
     end
   end
 
   describe "#start_begging" do
-    it "outputs the expected message", :aggregate_failures do
+    it "outputs a single-line note deferring details to at_exit", :aggregate_failures do
       namespace = "TestNamespace"
       env_var_name = "TEST_NAMESPACE"
 
@@ -199,12 +199,9 @@ RSpec.describe FlossFunding::Check do
         test_class.send(:start_begging, namespace, env_var_name)
       end
 
-      expect(output).to include("Unremunerated use of #{namespace} detected!")
-      expect(output).to include("FlossFunding (https://floss-funding.dev)")
-      expect(output).to include("ENV[\"#{env_var_name}\"]")
-      expect(output).to include(FlossFunding::FREE_AS_IN_BEER)
-      expect(output).to include(FlossFunding::BUSINESS_IS_NOT_GOOD_YET)
-      expect(output).to include(FlossFunding::NOT_FINANCIALLY_SUPPORTING)
+      expect(output.strip).to include("FlossFunding: Activation key missing for #{namespace}.")
+      expect(output).to include("ENV[#{env_var_name}]")
+      expect(output).to include("details will be shown at exit")
     end
   end
 

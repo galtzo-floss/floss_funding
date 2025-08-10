@@ -1,19 +1,25 @@
 {
-  "lib/floss_funding.rb:2014353204": [
-    [111, 51, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765]
+  "lib/floss_funding.rb:3584338640": [
+    [112, 51, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765]
   ],
-  "lib/floss_funding/check.rb:24786754": [
+  "lib/floss_funding/check.rb:3386858161": [
     [19, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 883476360],
     [30, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 3247230807],
     [39, 9, 23, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 2670016150]
   ],
-  "spec/floss_funding/check_spec.rb:915611232": [
+  "spec/floss_funding/bench_integration_spec.rb:1564103033": [
+    [42, 3, 104, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2062875501]
+  ],
+  "spec/floss_funding/check_spec.rb:3209626737": [
     [121, 7, 25, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1102006496]
   ],
-  "spec/floss_funding/config_spec.rb:3833569339": [
+  "spec/floss_funding/config_spec.rb:3770076919": [
     [24, 7, 31, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3643592354],
-    [79, 7, 29, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 47319566],
-    [123, 5, 55, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3000927827]
+    [61, 7, 65, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1121531373],
+    [82, 7, 29, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 47319566],
+    [107, 5, 55, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3631723480],
+    [116, 5, 67, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 965093431],
+    [129, 5, 55, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3000927827]
   ],
   "spec/floss_funding/poke_spec.rb:4186497704": [
     [72, 5, 92, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 750385604]

@@ -70,7 +70,7 @@ module FlossFunding
         # Three data points needed:
         # 1. namespace (derived from the base class name, config, or param)
         # 2. ENV variable name (derived from namespace)
-        # 3. license key (derived from ENV variable)
+        # 3. activation key (derived from ENV variable)
         namespace =
           if custom_namespace && !custom_namespace.empty?
             custom_namespace
@@ -86,13 +86,14 @@ module FlossFunding
             :namespace => namespace,
           },
         )
-        license_key = ENV.fetch(env_var_name, "")
+        activation_key = ENV.fetch(env_var_name, "")
 
-        # Store configuration under the effective namespace
+        # Store configuration and ENV var name under the effective namespace
         ::FlossFunding.set_configuration(namespace, config)
+        ::FlossFunding.set_env_var_name(namespace, env_var_name)
 
         # Now call the begging method after extending
-        base.floss_funding_initiate_begging(license_key, namespace, env_var_name)
+        base.floss_funding_initiate_begging(activation_key, namespace, env_var_name)
       end
     end
   end

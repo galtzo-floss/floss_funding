@@ -549,7 +549,8 @@ namespace and ENV var name, loads configuration, and initiates begging.</p>
 93
 94
 95
-96</pre>
+96
+97</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/poke.rb', line 58</span>
@@ -569,7 +570,7 @@ namespace and ENV var name, loads configuration, and initiates begging.</p>
   <span class='comment'># Three data points needed:
 </span>  <span class='comment'># 1. namespace (derived from the base class name, config, or param)
 </span>  <span class='comment'># 2. ENV variable name (derived from namespace)
-</span>  <span class='comment'># 3. license key (derived from ENV variable)
+</span>  <span class='comment'># 3. activation key (derived from ENV variable)
 </span>  <span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>=</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_custom_namespace'>custom_namespace</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
       <span class='id identifier rubyid_custom_namespace'>custom_namespace</span>
@@ -585,13 +586,14 @@ namespace and ENV var name, loads configuration, and initiates begging.</p>
       <span class='symbol'>:namespace</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span>
     <span class='rbrace'>}</span><span class='comma'>,</span>
   <span class='rparen'>)</span>
-  <span class='id identifier rubyid_license_key'>license_key</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_activation_key'>activation_key</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 
-  <span class='comment'># Store configuration under the effective namespace
+  <span class='comment'># Store configuration and ENV var name under the effective namespace
 </span>  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_set_configuration'><span class='object_link'><a href="../FlossFunding.html#set_configuration-class_method" title="FlossFunding.set_configuration (method)">set_configuration</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_config'>config</span><span class='rparen'>)</span>
+  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_set_env_var_name'><span class='object_link'><a href="../FlossFunding.html#set_env_var_name-class_method" title="FlossFunding.set_env_var_name (method)">set_env_var_name</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
 
   <span class='comment'># Now call the begging method after extending
-</span>  <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_floss_funding_initiate_begging'>floss_funding_initiate_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_license_key'>license_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
+</span>  <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_floss_funding_initiate_begging'>floss_funding_initiate_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -603,7 +605,7 @@ namespace and ENV var name, loads configuration, and initiates begging.</p>
 </div>
 
       <div id="footer">
-  Generated on Sat Aug  9 19:36:12 2025 by
+  Generated on Sat Aug  9 20:40:56 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

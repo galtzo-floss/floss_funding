@@ -56,7 +56,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
       # Sanity check: the number of enabled gems matches the percentage (5 per 10%)
       expect(enabled_count).to eq(step * 5)
 
-      results << { :percentage => percentage, :seconds => elapsed }
+      results << {:percentage => percentage, :seconds => elapsed}
     end
 
     # We gathered 11 data points (0..100)
