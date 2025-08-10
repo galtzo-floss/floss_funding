@@ -78,14 +78,15 @@ current_num = current_dir_name[-2, 2].to_i
 
 # Namespace and ENV selection logic:
 # - For gems 1..50: unique namespaces BenchGemXX, grouped by 5 per ENV var FLOSS_FUNDING_FIXTURE_GROUP_1..10
-# - For gems 51..60: shared namespace BenchGemShared and a single ENV var FLOSS_FUNDING_FIXTURE_FINAL_10
+# - For gems 51..60: use unique module names BenchGem51..BenchGem60 but pass shared namespace "BenchGemShared" to Poke, with a single ENV var FLOSS_FUNDING_FIXTURE_FINAL_10
+mod_name = "BenchGem%02d" % current_num
 if current_num <= 50
-  mod_name = "BenchGem%02d" % current_num
   group = ((current_num - 1) / 5) + 1
   env_name = "FLOSS_FUNDING_FIXTURE_GROUP_#{group}"
+  poke_namespace = mod_name
 else
-  mod_name = "BenchGemShared"
   env_name = "FLOSS_FUNDING_FIXTURE_FINAL_10"
+  poke_namespace = "BenchGemShared"
 end
 
 # Define module and Core submodule
@@ -98,7 +99,7 @@ mod.const_set(:Core, Module.new) unless mod.const_defined?(:Core)
 # Conditionally include Poke based on env_name
 if ENV.fetch(env_name, "0") != "0"
   require "floss_funding"
-  mod::Core.send(:include, FlossFunding::Poke.new(__FILE__, mod_name))
+  mod::Core.send(:include, FlossFunding::Poke.new(__FILE__, poke_namespace))
 end
       RUBY
     end

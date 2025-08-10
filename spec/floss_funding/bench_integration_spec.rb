@@ -10,14 +10,15 @@ FlossFunding::BenchGemsGenerator.generate_all
 
 RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding usage" do # rubocop:disable RSpec/DescribeClass
   let(:valid_keys_csv) { File.join(__dir__, "../fixtures/valid_keys.csv") }
+  let(:loader_path) { File.join(__dir__, "../fixtures/bench_gems_loader.rb") }
 
   # Parse CSV: returns array of hashes {namespace:, key_2025:, key_5425:}
   def parsed_keys(csv_path)
     rows = []
-    File.readlines(csv_path, chomp: true).each do |line|
+    File.readlines(csv_path, :chomp => true).each do |line|
       next if line.strip.empty?
       ns, k2025, k5425 = line.split(",", 3)
-      rows << { :namespace => ns, :key_2025 => k2025, :key_5425 => k5425 }
+      rows << {:namespace => ns, :key_2025 => k2025, :key_5425 => k5425}
     end
     rows
   end
@@ -54,6 +55,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
 
     env
   end
+
   # Remove any previously defined BenchGemXX constants to allow clean reloads
   def remove_bench_constants
     (1..50).each do |i|
@@ -84,8 +86,6 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
       core.respond_to?(:floss_funding_initiate_begging)
     end
   end
-
-  let(:loader_path) { File.join(__dir__, "../fixtures/bench_gems_loader.rb") }
 
   it "benchmarks load time across 0%..100% in 10% increments with ENV setup outside timing at 2025-08-15", :check_output do
     results = []
@@ -134,7 +134,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
         remove_bench_constants
         set_percentage_env(percentage)
 
-        activation_env = build_activation_env(keys_rows, percentage, :key_5425, unpaid: true)
+        activation_env = build_activation_env(keys_rows, percentage, :key_5425, :unpaid => true)
 
         stubbed_env(activation_env) do
           elapsed = Benchmark.realtime do

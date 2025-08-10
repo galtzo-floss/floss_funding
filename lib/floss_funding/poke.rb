@@ -81,6 +81,17 @@ module FlossFunding
             base.name
           end
 
+        # Track both base.name and the custom namespace (if provided) in the configuration arrays
+        if config.is_a?(Hash)
+          config["base_namespaces"] ||= []
+          config["base_namespaces"] << base.name if base.name
+          config["custom_namespaces"] ||= []
+          config["custom_namespaces"] << custom_namespace if custom_namespace && !custom_namespace.empty?
+          # Deduplicate
+          config["base_namespaces"] = config["base_namespaces"].compact.flatten.uniq
+          config["custom_namespaces"] = config["custom_namespaces"].compact.flatten.uniq
+        end
+
         env_var_name = ::FlossFunding::UnderBar.env_variable_name(
           {
             :prefix => env_prefix,

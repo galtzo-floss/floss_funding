@@ -26,6 +26,9 @@ module FlossFunding
       # Optional namespace override for when including without explicit namespace
       # When set (non-empty string), this will be used as the namespace instead of the including module's name
       "namespace" => [],
+      # Track both the base.name namespace(s) and any custom namespace(s) passed to Poke.new
+      "base_namespaces" => [],
+      "custom_namespaces" => [],
       # Gemspec-derived attributes (nil when unknown)
       "gem_name" => [],
       "homepage" => [],
