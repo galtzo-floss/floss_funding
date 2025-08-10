@@ -1,9 +1,7 @@
 require "kettle/soup/cover/config"
 
-# Start SimpleCov with project-local overrides to avoid failing the test suite
-# due to strict minimum coverage thresholds set by kettle-soup-cover in dev/test.
-SimpleCov.start do
-  # Ensure coverage thresholds do not cause spec runs to fail locally.
-  minimum_coverage 0
-  minimum_coverage_by_file 0
-end
+# Minimum coverage thresholds are set by kettle-soup-cover.
+# It is controlled by ENV variables, which are set in .envrc and loaded via `direnv allow`
+# If the values for minimum coverage need to change, they should be changed both there,
+#   and in 2 places in .github/workflows/coverage.yml.
+SimpleCov.start
