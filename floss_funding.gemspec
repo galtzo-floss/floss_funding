@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.description = "Help overlooked open source projects - the ones at the bottom of the stack, and the dev dependencies - by funding them."
   spec.homepage = "https://github.com/galtzo-floss/#{spec.name}"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 1.9.3"
+  spec.required_ruby_version = ">= 1.9.2"
 
   spec.metadata["homepage_uri"] = "https://#{spec.name.tr("_", "-")}.galtzo.com/"
   spec.metadata["source_code_uri"] = "#{spec.homepage}/tree/v#{spec.version}"
