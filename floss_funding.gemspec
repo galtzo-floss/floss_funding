@@ -22,6 +22,24 @@ Gem::Specification.new do |spec|
   spec.authors = ["Peter H. Boling"]
   spec.email = ["floss@galtzo.com"]
 
+  # Linux distros often package gems and securely certify them independent
+  #   of the official RubyGem certification process. Allowed via ENV["SKIP_GEM_SIGNING"]
+  # Ref: https://gitlab.com/oauth-xx/version_gem/-/issues/3
+  # Hence, only enable signing if `SKIP_GEM_SIGNING` is not set in ENV.
+  # See CONTRIBUTING.md
+  unless ENV.include?("SKIP_GEM_SIGNING")
+    user_cert = "certs/#{ENV.fetch("GEM_CERT_USER", ENV["USER"])}.pem"
+    cert_file_path = File.join(__dir__, user_cert)
+    cert_chain = cert_file_path.split(",")
+    cert_chain.select! { |fp| File.exist?(fp) }
+    if cert_file_path && cert_chain.any?
+      spec.cert_chain = cert_chain
+      if $PROGRAM_NAME.end_with?("gem") && ARGV[0] == "build"
+        spec.signing_key = File.join(Gem.user_home, ".ssh", "gem-private_key.pem")
+      end
+    end
+  end
+
   spec.summary = "Help overlooked open source projects by funding them."
   spec.description = "Help overlooked open source projects - the ones at the bottom of the stack, and the dev dependencies - by funding them."
   spec.homepage = "https://github.com/galtzo-floss/#{spec.name}"
