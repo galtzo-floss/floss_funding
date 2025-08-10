@@ -146,6 +146,21 @@ NOTE: Be prepared to track down certs for signed gems and add them the same way 
 
 ## 🔧 Basic Usage
 
+Usage patterns:
+
+1. Traditional namespace (uses the including module's name):
+    ```ruby
+    module MyGemLibrary
+      include FlossFunding::Poke.new(__FILE__)
+    end
+    ```
+
+2. Arbitrary custom namespace (can add version, or anything else):
+    ```ruby
+    module MyGemLibrary
+      include FlossFunding::Poke.new(__FILE__, "Custom::Namespace::V4")
+    end
+    ```
 
 ## Configuration
 
@@ -160,6 +175,8 @@ The following options can be configured in the `.floss_funding.yml` file:
    a. default: https://floss-funding.dev, which doesn't take donations on behalf of other projects, so it will have helpful tips on how to find a way to donate.
 
 ### Example Configuration
+
+In your `.floss_funding.yml` at the root of your project:
 
 ```yaml
 suggested_donation_amount: 10

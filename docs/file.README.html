@@ -289,6 +289,23 @@ NOTE: Be prepared to track down certs for signed gems and add them the same way 
 
 <h2 id="-basic-usage">🔧 Basic Usage</h2>
 
+<p>Usage patterns:</p>
+
+<ol>
+  <li>Traditional namespace (uses the including module’s name):
+    <pre class="code language-ruby"><code class="language-ruby"> module MyGemLibrary
+   include FlossFunding::Poke.new(__FILE__)
+ end
+</code></pre>
+  </li>
+  <li>Arbitrary custom namespace (can add version, or anything else):
+    <pre class="code language-ruby"><code class="language-ruby"> module MyGemLibrary
+   include FlossFunding::Poke.new(__FILE__, &quot;Custom::Namespace::V4&quot;)
+ end
+</code></pre>
+  </li>
+</ol>
+
 <h2 id="configuration">Configuration</h2>
 
 <p>Gems that use the floss_funding gem can configure some features by creating a <code>.floss_funding.yml</code> file at their root directory. This works in the same manner as <code>.rubocop.yml</code> for gems that use RuboCop.</p>
@@ -306,6 +323,8 @@ a. default: https://floss-funding.dev, which doesn’t take donations on behalf 
 </ol>
 
 <h3 id="example-configuration">Example Configuration</h3>
+
+<p>In your <code>.floss_funding.yml</code> at the root of your project:</p>
 
 <pre class="code language-yaml"><code class="language-yaml">suggested_donation_amount: 10
 floss_funding_url: https://example.com/fund
@@ -442,7 +461,7 @@ or one of the smaller ones, depending on button size preference.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Sun Aug 10 05:58:17 2025 by
+  Generated on Sun Aug 10 06:05:48 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
