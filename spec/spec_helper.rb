@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # External gems
+require "debug"
 require "silent_stream"
 require "rspec/block_is_expected"
 require "rspec/block_is_expected/matchers/not"
@@ -35,6 +36,8 @@ end
 
 # Config files
 require "config/timecop"
+require "support/bench_gems_generator"
+
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
