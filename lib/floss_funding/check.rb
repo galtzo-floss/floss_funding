@@ -104,6 +104,7 @@ module FlossFunding
         # A silent short circuit for valid unpaid activations
         if check_unpaid_silence(activation_key, namespace)
           ::FlossFunding.add_activated(namespace)
+          ::FlossFunding.add_activation_occurrence(namespace)
           return
         end
 
@@ -120,6 +121,7 @@ module FlossFunding
         # A silent short circuit for valid paid activation keys
         if check_activation(plain_text)
           ::FlossFunding.add_activated(namespace)
+          ::FlossFunding.add_activation_occurrence(namespace)
           return
         end
 

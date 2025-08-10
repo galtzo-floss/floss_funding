@@ -59,6 +59,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
   @unactivated = [] # List of libraries without valid activation
   @configurations = {} # Hash to store configurations for each library
   @env_var_names = {} # Map of namespace => ENV var name used during setup
+  @activation_occurrences = [] # Tracks every successful activation occurrence (may include duplicates per namespace)
 
   class << self
     # Provides access to the mutex for thread synchronization
@@ -159,6 +160,18 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       mutex.synchronize { @env_var_names.dup }
     end
 
+    # Thread-safe getter for all activation occurrences (each successful activation event)
+    # @return [Array<String>] list of namespaces for each activation occurrence
+    def activation_occurrences
+      mutex.synchronize { @activation_occurrences.dup }
+    end
+
+    # Record a single activation occurrence (may include duplicates per namespace)
+    # @param namespace [String]
+    def add_activation_occurrence(namespace)
+      mutex.synchronize { @activation_occurrences << namespace }
+    end
+
     # Reads the first N lines from the base words file to validate paid activation keys.
     #
     # @param num_valid_words [Integer] number of words to read from the word list
@@ -187,6 +200,7 @@ at_exit {
   unactivated = FlossFunding.unactivated
   activated_count = activated.size
   unactivated_count = unactivated.size
+  occurrences_count = FlossFunding.activation_occurrences.size
 
   # Summary section
   if activated_count > 0 || unactivated_count > 0
@@ -195,6 +209,8 @@ at_exit {
     summary_lines = []
     summary_lines << "\nFLOSS Funding Summary:"
     summary_lines << "Activated libraries (#{activated_count}): #{stars}" if activated_count > 0
+    # Also show total successful inclusions (aka per-gem activations), which may exceed unique namespaces
+    summary_lines << "Activated gems (#{occurrences_count})" if occurrences_count > 0
     summary_lines << "Unactivated libraries (#{unactivated_count}): #{mimes}" if unactivated_count > 0
     summary = summary_lines.join("\n") + "\n\n"
     puts summary
