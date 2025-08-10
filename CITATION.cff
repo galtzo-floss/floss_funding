@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: RSpec::StubbedEnv
+title: FlossFunding
 message: >-
   If you use this work and you want to cite it,
   then you can use the metadata from this file.
@@ -13,8 +13,8 @@ authors:
 identifiers:
   - type: url
     value: 'https://github.com/galtzo-floss/floss_funding/'
-    description: RSpec::StubbedEnv
+    description: FlossFunding
 repository-code: 'https://github.com/galtzo-floss/floss_funding/'
 abstract: >-
-  RSpec::StubbedEnv
+  FlossFunding
 license: See license file
