@@ -14,10 +14,12 @@ and this project adheres to [Semantic Versioning v2](https://semver.org/spec/v2.
 
 ## [1.0.0-alpha.1] - 2025-08-08
 - TAG: [v1.0.0-alpha.1][1.0.0-alpha.1t]
-- COVERAGE: 100.00% -- 73/73 lines in 5 files
-- BRANCH COVERAGE: 100.00% -- 10/10 branches in 5 files
-- 85.71% documented
+- COVERAGE: 100.00% -- 262/262 lines in 6 files
+- BRANCH COVERAGE: 100.00% -- 85/85 branches in 6 files
+- 100.00% documented
+### Added
+- Initial release
 
 [Unreleased]: https://gitlab.com/galtzo-floss/floss_funding/-/compare/v1.0.0-alpha.1...main
-[1.0.0-alpha.1]: https://gitlab.com/galtzo-floss/floss_funding/-/compare/028cd6518d46df5cd9acd9895e9aa4110dcdfbc2...v1.0.0-alpha.1
+[1.0.0-alpha.1]: https://gitlab.com/galtzo-floss/floss_funding/-/compare/389ece6fb9bd04013d11edca6fb6830139a84f4c...v1.0.0-alpha.1
 [1.0.0-alpha.1t]: https://gitlab.com/galtzo-floss/floss_funding/-/tags/v1.0.0-alpha.1

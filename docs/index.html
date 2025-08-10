@@ -71,12 +71,40 @@
 
 <p>This tool can help library maintainers earn money from their open source work in one line of code.</p>
 
+<p>👉️ No network calls.<br>
+👉️ No tracking.<br>
+👉️ No oversight.<br>
+👉️ Minimal crypto hashing.</p>
+
 <p>If you blink you may miss it…</p>
 
 <pre class="code language-ruby"><code class="language-ruby">module MyGemLibrary
   include FlossFunding::Poke.new(__FILE__) # &lt;====== THERE IT IS! ONE LINE OF CODE!
 end
 </code></pre>
+
+<p>The website that will generate activation keys for your gems is coming soon @ <a href="https://floss-funding.dev">floss-funding.dev</a>.  FLOSS Funding relies on empathy, respect, honor, and annoyance of the most extreme mildness.  It doesn’t accept payments for activation keys, and trusts you to go and sponsor or donate to your favorite open source projects before getting their “activation key”.</p>
+
+<p>What does an <em>activation key</em> do?  It silences the nags, and “activates” your peace of mind. It rewards you with a gold star sticker (⭐️) for each project you fund when your process exits.  That’s it.</p>
+
+<p>The project <em>does not affect</em> licensing of projects.  It is purely a tool to help library maintainers earn money from their open source work.</p>
+
+<p>This is permitted by nearly all, if not all, FLOSS licenses, including the popular MIT, BSD 2-clause, BSD 3-clause, Apache 2.0, etc.</p>
+
+<p>There are two kinds of “free” in software:</p>
+
+<ol>
+  <li>Free as in beer</li>
+  <li>Free as in freedom (of speech)</li>
+</ol>
+
+<p>No FLOSS licenses I am aware of guarantee “free as in beer”. Since developers deserve to be paid for their work, I decided to make this tool.</p>
+
+<p>It has been my experience that work on the dark underbelly of software, down in the test harnesses, and the dev tools, often gets overlooked, as people focus on the big frameworks.</p>
+
+<p>This tool makes it far easier to get paid for your work down there at the bottom of the stack, in the dev dependencies that get overlooked by most OSS funding tools.</p>
+
+<p>Activation keys use a cipher encryption algorithm against a 2400-word dictionary to make valid activation keys slightly difficult to discover manually. The activation keys are <em>opaque</em>, rather than <em>private</em>. They are not tied to you in any way. Other people may use the same one. And that’s fine! They don’t do anything except silence some STDOUT nagging.</p>
 
 <h2 id="to-do-list">TO DO List</h2>
 
@@ -128,12 +156,12 @@ due to the inherent limitations of GitHub Actions.</p>
 <details>
   <summary>Find this repo on other forges (Coming soon!)</summary>
 
-| Federated [DVCS][💎d-in-dvcs] Repository               | Status                                                            | Issues                    | PRs                      | Wiki                      | CI                       | Discussions                  |
-|--------------------------------------------------------|-------------------------------------------------------------------|---------------------------|--------------------------|---------------------------|--------------------------|------------------------------|
-| 🧪 [galtzo-floss/floss_funding on GitLab][📜src-gl]     | The Truth                                                         | [💚][🤝gl-issues]         | [💚][🤝gl-pulls]         | [💚][📜wiki]              | 🏀 Tiny Matrix           | ➖                            |
+| Federated [DVCS][💎d-in-dvcs] Repository              | Status                                                            | Issues                    | PRs                      | Wiki                      | CI                       | Discussions                  |
+|-------------------------------------------------------|-------------------------------------------------------------------|---------------------------|--------------------------|---------------------------|--------------------------|------------------------------|
+| 🧪 [galtzo-floss/floss_funding on GitLab][📜src-gl]   | The Truth                                                         | [💚][🤝gl-issues]         | [💚][🤝gl-pulls]         | [💚][📜wiki]              | 🏀 Tiny Matrix           | ➖                            |
 | 🧊 [galtzo-floss/floss_funding on CodeBerg][📜src-cb] | An Ethical Mirror ([Donate][🤝cb-donate])                         | [💚][🤝cb-issues]         | [💚][🤝cb-pulls]         | ➖                         | ⭕️ No Matrix             | ➖                            |
 | 🐙 [galtzo-floss/floss_funding on GitHub][📜src-gh]   | A Dirty Mirror                                                    | [💚][🤝gh-issues]         | [💚][🤝gh-pulls]         | ➖                         | 💯 Full Matrix           | [💚][gh-discussions]         |
-| 🎮️ [Discord Server][✉️discord-invite]                 | [![Live Chat on Discord][✉️discord-invite-img]][✉️discord-invite] | [Let's][✉️discord-invite] | [talk][✉️discord-invite] | [about][✉️discord-invite] | [this][✉️discord-invite] | [library!][✉️discord-invite] |
+| 🎮️ [Discord Server][✉️discord-invite]                | [![Live Chat on Discord][✉️discord-invite-img]][✉️discord-invite] | [Let's][✉️discord-invite] | [talk][✉️discord-invite] | [about][✉️discord-invite] | [this][✉️discord-invite] | [library!][✉️discord-invite] |
 
 </details>
 
@@ -197,7 +225,7 @@ Alternatively:
     <tr>
       <td>Source</td>
       <td>
-<a href="https://gitlab.com/galtzo-floss/floss_funding/"><img src="https://img.shields.io/badge/GitLab-FBA326?style=for-the-badge&amp;logo=Gitlab&amp;logoColor=orange" alt="Source on GitLab.com"></a> <a href="https://codeberg.org/galtzo-floss/floss_funding"><img src="https://img.shields.io/badge/CodeBerg-4893CC?style=for-the-badge&amp;logo=CodeBerg&amp;logoColor=blue" alt="Source on CodeBerg.org"></a> <a href="https://github.com/galtzo-floss/floss_funding"><img src="https://img.shields.io/badge/GitHub-238636?style=for-the-badge&amp;logo=Github&amp;logoColor=green" alt="Source on Github.com"></a> <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="https://img.shields.io/badge/KLOC-0.073-FFDD67.svg?style=for-the-badge&amp;logo=YouTube&amp;logoColor=blue" alt="The best SHA: dQw4w9WgXcQ!"></a>
+<a href="https://gitlab.com/galtzo-floss/floss_funding/"><img src="https://img.shields.io/badge/GitLab-FBA326?style=for-the-badge&amp;logo=Gitlab&amp;logoColor=orange" alt="Source on GitLab.com"></a> <a href="https://codeberg.org/galtzo-floss/floss_funding"><img src="https://img.shields.io/badge/CodeBerg-4893CC?style=for-the-badge&amp;logo=CodeBerg&amp;logoColor=blue" alt="Source on CodeBerg.org"></a> <a href="https://github.com/galtzo-floss/floss_funding"><img src="https://img.shields.io/badge/GitHub-238636?style=for-the-badge&amp;logo=Github&amp;logoColor=green" alt="Source on Github.com"></a> <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="https://img.shields.io/badge/KLOC-0.262-FFDD67.svg?style=for-the-badge&amp;logo=YouTube&amp;logoColor=blue" alt="The best SHA: dQw4w9WgXcQ!"></a>
 </td>
     </tr>
     <tr>
@@ -461,7 +489,7 @@ or one of the smaller ones, depending on button size preference.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Sun Aug 10 06:08:37 2025 by
+  Generated on Sun Aug 10 06:31:17 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

@@ -156,8 +156,8 @@ module FlossFunding
         puts <<-COUGHING
 ==============================================================
 COUGH, COUGH.
-Ahem, it appears as though you might be using #{namespace} for free.
-It looks like you tried to set an activation key, but it was invalid.
+Ahem, it appears as though you tried to set an activation key
+for #{namespace}, but it was invalid.
 
   Current (Invalid) Activation Key: #{activation_key}
   Namespace: #{namespace}

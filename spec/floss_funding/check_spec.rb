@@ -181,7 +181,7 @@ RSpec.describe FlossFunding::Check do
       end
 
       expect(output).to include("COUGH, COUGH.")
-      expect(output).to include("using #{namespace} for free")
+      expect(output).to include("it appears as though you tried to set an activation key")
       expect(output).to include("Activation Key: #{activation_key}")
       expect(output).to include("Namespace: #{namespace}")
       expect(output).to include("ENV Variable: #{env_var_name}")

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # External gems
-require "debug"
+require "debug" if ENV.fetch("DEBUG", "false").casecmp("true").zero?
 require "silent_stream"
 require "rspec/block_is_expected"
 require "rspec/block_is_expected/matchers/not"
