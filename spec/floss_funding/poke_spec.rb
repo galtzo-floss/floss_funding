@@ -57,30 +57,6 @@ RSpec.describe FlossFunding::Poke do
     end
   end
 
-  describe "namespace from config file" do
-    before do
-      # Ensure a stable module name that differs from the config namespace
-      stub_const("ConfigNsTest::InnerModule", Module.new)
-      allow(ConfigNsTest::InnerModule).to receive(:name).and_return("ConfigNsTest::InnerModule")
-
-      # Make Config.load_config pick the namespace-enabled fixture
-      allow(FlossFunding::Config).to receive(:find_config_file).and_return(
-        File.join(File.dirname(__FILE__), "../fixtures/.floss_funding_with_namespace.yml"),
-      )
-    end
-
-    it "uses the namespace specified in .floss_funding.yml when no custom namespace is provided" do
-      output = capture(:stdout) do
-        ConfigNsTest::InnerModule.send(:include, described_class.new(__FILE__))
-      end
-
-      # ENV var should be derived from the config namespace "Config::Namespace"
-      expect(output).to include("CONFIG_NAMESPACE")
-      # And should not be derived from the module name
-      expect(output).not_to include("CONFIG_NS_TEST_INNER_MODULE")
-    end
-  end
-
   describe ".new" do
     it "returns a module" do
       expect(described_class.new(__FILE__)).to be_a(Module)

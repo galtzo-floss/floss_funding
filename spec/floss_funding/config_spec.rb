@@ -36,21 +36,6 @@ RSpec.describe FlossFunding::Config do
       end
     end
 
-    context "when .floss_funding.yml specifies a namespace" do
-      before do
-        allow(described_class).to receive(:find_config_file).and_return(
-          File.join(File.dirname(__FILE__), "../fixtures/.floss_funding_with_namespace.yml"),
-        )
-      end
-
-      it "includes the namespace key from the file" do
-        config = described_class.load_config(__FILE__)
-        expect(config).to include(
-          "namespace" => ["Config::Namespace"],
-        )
-      end
-    end
-
     context "when no .floss_funding.yml file exists" do
       let(:base) { Module.new }
 

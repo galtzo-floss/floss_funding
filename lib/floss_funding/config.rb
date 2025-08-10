@@ -23,9 +23,6 @@ module FlossFunding
     DEFAULT_CONFIG = {
       "suggested_donation_amount" => [5],
       "floss_funding_url" => ["https://floss-funding.dev"],
-      # Optional namespace override for when including without explicit namespace
-      # When set (non-empty string), this will be used as the namespace instead of the including module's name
-      "namespace" => [],
       # Track both the base.name namespace(s) and any custom namespace(s) passed to Poke.new
       "base_namespaces" => [],
       "custom_namespaces" => [],

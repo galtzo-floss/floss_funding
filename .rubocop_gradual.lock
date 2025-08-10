@@ -14,16 +14,13 @@
   "spec/floss_funding/check_spec.rb:3607085365": [
     [121, 7, 25, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1102006496]
   ],
-  "spec/floss_funding/config_spec.rb:4117454528": [
+  "spec/floss_funding/config_spec.rb:3189499365": [
     [24, 7, 31, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3643592354],
-    [61, 7, 65, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 1121531373],
-    [83, 7, 29, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 47319566],
-    [108, 5, 55, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3631723480],
-    [117, 5, 67, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 965093431],
-    [130, 5, 55, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3000927827]
-  ],
-  "spec/floss_funding/poke_spec.rb:4186497704": [
-    [72, 5, 92, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 750385604]
+    [46, 7, 65, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 1121531373],
+    [68, 7, 29, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 47319566],
+    [93, 5, 55, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3631723480],
+    [102, 5, 67, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 965093431],
+    [115, 5, 55, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3000927827]
   ],
   "spec/floss_funding/tracking_spec.rb:2914058025": [
     [9, 16, 37, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3603826461],
