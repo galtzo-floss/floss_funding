@@ -434,15 +434,31 @@ into client libraries when they <code>extend FlossFunding::Check</code>.</p>
 86
 87
 88
-89</pre>
+89
+90
+91
+92
+93
+94
+95
+96
+97</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 86</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_activation'>check_activation</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_binary_search_result'>binary_search_result</span> <span class='op'>=</span> <span class='id identifier rubyid_base_words'>base_words</span><span class='period'>.</span><span class='id identifier rubyid_bsearch'>bsearch</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_word'>word</span><span class='op'>|</span> <span class='id identifier rubyid_plain_text'>plain_text</span> <span class='op'>==</span> <span class='id identifier rubyid_word'>word</span> <span class='rbrace'>}</span>
-  <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_binary_search_result'>binary_search_result</span>
-<span class='kw'>end</span></pre>
+  <span class='id identifier rubyid_words'>words</span> <span class='op'>=</span> <span class='id identifier rubyid_base_words'>base_words</span>
+  <span class='comment'># Use fast binary search when available (Ruby &gt;= 2.0), else fall back to include?
+</span>  <span class='comment'># We can&#39;t run CI on Ruby &lt; 2.3 so the alternate branch is not going to have test coverage.
+</span>  <span class='comment'># :nocov:
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_words'>words</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:bsearch</span><span class='rparen'>)</span>
+    <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_words'>words</span><span class='period'>.</span><span class='id identifier rubyid_bsearch'>bsearch</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_word'>word</span><span class='op'>|</span> <span class='id identifier rubyid_plain_text'>plain_text</span> <span class='op'>==</span> <span class='id identifier rubyid_word'>word</span> <span class='rbrace'>}</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_words'>words</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='comment'># :nocov:
+</span><span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -720,14 +736,6 @@ Otherwise false.</p>
       <pre class="lines">
 
 
-97
-98
-99
-100
-101
-102
-103
-104
 105
 106
 107
@@ -754,10 +762,18 @@ Otherwise false.</p>
 128
 129
 130
-131</pre>
+131
+132
+133
+134
+135
+136
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 105</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_floss_funding_initiate_begging'>floss_funding_initiate_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -804,7 +820,7 @@ Otherwise false.</p>
 </div>
 
       <div id="footer">
-  Generated on Sun Aug 10 06:48:15 2025 by
+  Generated on Sun Aug 10 07:01:59 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

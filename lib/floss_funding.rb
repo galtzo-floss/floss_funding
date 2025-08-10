@@ -57,17 +57,18 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
   # Thread-safe access to activated and unactivated libraries
   # These track which modules/gems have included the Poke module
   # and whether they have valid activation keys or not
+  # rubocop:disable ThreadSafety/MutableClassInstanceVariable
   @mutex = Mutex.new
   @activated = []   # List of libraries with valid activation
   @unactivated = [] # List of libraries without valid activation
   @configurations = {} # Hash to store configurations for each library
   @env_var_names = {} # Map of namespace => ENV var name used during setup
   @activation_occurrences = [] # Tracks every successful activation occurrence (may include duplicates per namespace)
+  # rubocop:enable ThreadSafety/MutableClassInstanceVariable
 
   class << self
     # Provides access to the mutex for thread synchronization
     attr_reader :mutex
-
 
     # New name: activated (preferred)
     # @return [Array<String>]
@@ -75,20 +76,17 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       mutex.synchronize { @activated.dup }
     end
 
-
     # New name: activated= (preferred)
     # @param value [Array<String>]
     def activated=(value)
       mutex.synchronize { @activated = value }
     end
 
-
     # New name: unactivated (preferred)
     # @return [Array<String>]
     def unactivated
       mutex.synchronize { @unactivated.dup }
     end
-
 
     # New name: unactivated= (preferred)
     # @param value [Array<String>]
@@ -259,8 +257,8 @@ Unremunerated use of the following namespaces was detected:
       config = configs[ns] || {}
       funding_url = Array(config["floss_funding_url"]).first || "https://floss-funding.dev"
       suggested_amount = Array(config["suggested_donation_amount"]).first || 5
-      env_name = env_map[ns] || "FLOSS_FUNDING_#{ns.gsub(/[^A-Za-z0-9]+/, '_').upcase}"
-      opt_out = "#{::FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{ns}"
+      env_name = env_map[ns] || "FLOSS_FUNDING_#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
+      opt_out = "#{FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{ns}"
       details << <<-NS
   - Namespace: #{ns}
     ENV Variable: #{env_name}
@@ -280,9 +278,9 @@ Options:
      a. Receive ethically-sourced, buy-once, activation key for each namespace.
      b. Suggested donation amounts are listed above.
 
-  2. 🪄  If open source, or not-for-profit, continue to use for free, with activation key: "#{::FlossFunding::FREE_AS_IN_BEER}".
+  2. 🪄  If open source, or not-for-profit, continue to use for free, with activation key: "#{FlossFunding::FREE_AS_IN_BEER}".
 
-  3. 🏦  If commercial, continue to use for free, & feel a bit naughty, with activation key: "#{::FlossFunding::BUSINESS_IS_NOT_GOOD_YET}".
+  3. 🏦  If commercial, continue to use for free, & feel a bit naughty, with activation key: "#{FlossFunding::BUSINESS_IS_NOT_GOOD_YET}".
 
   4. ✖️  Disable activation key checks using the per-namespace opt-out keys listed above.
 
@@ -291,7 +289,7 @@ Or in shell / dotenv / direnv, e.g.:
     BODY
 
     unactivated.each do |ns|
-      env_name = env_map[ns] || "FLOSS_FUNDING_#{ns.gsub(/[^A-Za-z0-9]+/, '_').upcase}"
+      env_name = env_map[ns] || "FLOSS_FUNDING_#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
       details << "  export #{env_name}=\"<your key>\"\n"
     end
 

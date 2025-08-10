@@ -1,8 +1,5 @@
 {
-  "lib/floss_funding.rb:3516533919": [
-    [124, 51, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765]
-  ],
-  "lib/floss_funding/check.rb:1629754253": [
+  "lib/floss_funding/check.rb:2641336638": [
     [16, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 883476360],
     [27, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 3247230807],
     [39, 9, 23, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 2670016150]

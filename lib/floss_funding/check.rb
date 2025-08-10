@@ -86,11 +86,14 @@ module FlossFunding
       def check_activation(plain_text)
         words = base_words
         # Use fast binary search when available (Ruby >= 2.0), else fall back to include?
+        # We can't run CI on Ruby < 2.3 so the alternate branch is not going to have test coverage.
+        # :nocov:
         if words.respond_to?(:bsearch)
           !!words.bsearch { |word| plain_text == word }
         else
           words.include?(plain_text)
         end
+        # :nocov:
       end
 
       # Entry point for activation key evaluation and output behavior.

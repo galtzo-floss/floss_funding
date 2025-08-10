@@ -1,17 +1,19 @@
-lib/floss_funding/check.rb -- 13 warnings:
+lib/floss_funding/check.rb -- 15 warnings:
   [39]:Attribute: FlossFunding::Check::ClassMethods#now_time is a writable attribute [https://github.com/troessner/reek/blob/v6.5.0/docs/Attribute.md]
   [65]:ControlParameter: FlossFunding::Check::ClassMethods#check_unpaid_silence is controlled by argument 'activation_key' [https://github.com/troessner/reek/blob/v6.5.0/docs/Control-Parameter.md]
-  [47, 64, 97, 155]:DataClump: FlossFunding::Check::ClassMethods takes parameters ['activation_key', 'namespace'] to 4 methods [https://github.com/troessner/reek/blob/v6.5.0/docs/Data-Clump.md]
-  [97, 155, 183]:DataClump: FlossFunding::Check::ClassMethods takes parameters ['env_var_name', 'namespace'] to 3 methods [https://github.com/troessner/reek/blob/v6.5.0/docs/Data-Clump.md]
-  [106, 123]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls '::FlossFunding.add_activated(namespace)' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
-  [107, 124]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls '::FlossFunding.add_activation_occurrence(namespace)' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
-  [100, 114, 129]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls '::FlossFunding.add_unactivated(namespace)' 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
-  [101, 130]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls 'start_begging(namespace, env_var_name)' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
-  [146, 146]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#now_month calls 'ClassMethods.now_time' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
-  [97]:TooManyStatements: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging has approx 14 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
+  [47, 64, 105, 163]:DataClump: FlossFunding::Check::ClassMethods takes parameters ['activation_key', 'namespace'] to 4 methods [https://github.com/troessner/reek/blob/v6.5.0/docs/Data-Clump.md]
+  [105, 163, 191]:DataClump: FlossFunding::Check::ClassMethods takes parameters ['env_var_name', 'namespace'] to 3 methods [https://github.com/troessner/reek/blob/v6.5.0/docs/Data-Clump.md]
+  [114, 131]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls '::FlossFunding.add_activated(namespace)' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [115, 132]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls '::FlossFunding.add_activation_occurrence(namespace)' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [108, 122, 137]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls '::FlossFunding.add_unactivated(namespace)' 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [109, 138]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls 'start_begging(namespace, env_var_name)' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [154, 154]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#now_month calls 'ClassMethods.now_time' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [91, 92, 94]:FeatureEnvy: FlossFunding::Check::ClassMethods#check_activation refers to 'words' more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Feature-Envy.md]
+  [91]:ManualDispatch: FlossFunding::Check::ClassMethods#check_activation manually dispatches method call [https://github.com/troessner/reek/blob/v6.5.0/docs/Manual-Dispatch.md]
+  [105]:TooManyStatements: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging has approx 14 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
   [52]:UncommunicativeVariableName: FlossFunding::Check::ClassMethods#floss_funding_decrypt has the variable name 's' [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]
   [47]:UtilityFunction: FlossFunding::Check::ClassMethods#floss_funding_decrypt doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Utility-Function.md]
-  [145]:UtilityFunction: FlossFunding::Check::ClassMethods#now_month doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Utility-Function.md]
+  [153]:UtilityFunction: FlossFunding::Check::ClassMethods#now_month doesn't depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Utility-Function.md]
 lib/floss_funding/config.rb -- 16 warnings:
   [131, 141]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls 'File.dirname(current_dir)' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
   [116, 126]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls 'File.dirname(start_dir)' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
@@ -43,12 +45,12 @@ lib/floss_funding/under_bar.rb -- 2 warnings:
   [32]:TooManyStatements: FlossFunding::UnderBar#env_variable_name has approx 7 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
   [47]:TooManyStatements: FlossFunding::UnderBar#to_under_bar has approx 6 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
 lib/floss_funding.rb -- 6 warnings:
-  [138, 139, 140]:DuplicateMethodCall: FlossFunding#set_configuration calls 'merged[k]' 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
-  [183, 188]:NilCheck: FlossFunding#base_words performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]
+  [139, 140, 141]:DuplicateMethodCall: FlossFunding#set_configuration calls 'merged[k]' 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [184, 189]:NilCheck: FlossFunding#base_words performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]
   [15]:TooManyConstants: FlossFunding has 8 constants [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Constants.md]
-  [182]:TooManyStatements: FlossFunding#base_words has approx 8 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
-  [130]:TooManyStatements: FlossFunding#set_configuration has approx 10 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
-  [136]:UncommunicativeVariableName: FlossFunding#set_configuration has the variable name 'k' [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]
+  [183]:TooManyStatements: FlossFunding#base_words has approx 8 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
+  [131]:TooManyStatements: FlossFunding#set_configuration has approx 10 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
+  [137]:UncommunicativeVariableName: FlossFunding#set_configuration has the variable name 'k' [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]
 spec/fixtures/custom_test.rb -- 1 warning:
   [5]:IrresponsibleModule: CustomTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]
 spec/fixtures/end_hook_script.rb -- 2 warnings:
@@ -106,4 +108,4 @@ test/debug_check.rb -- 1 warning:
 test/test_poke_patterns.rb -- 2 warnings:
   [18]:IrresponsibleModule: CustomTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]
   [10]:IrresponsibleModule: TraditionalTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]
-92 total warnings
+94 total warnings

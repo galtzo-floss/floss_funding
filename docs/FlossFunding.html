@@ -775,12 +775,12 @@ floss_funding v</span><span class='embexpr_beg'>#{</span><span class='op'>::</sp
       <pre class="lines">
 
 
-69
-70
-71</pre>
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 71</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mutex'>mutex</span>
   <span class='ivar'>@mutex</span>
@@ -835,12 +835,12 @@ floss_funding v</span><span class='embexpr_beg'>#{</span><span class='op'>::</sp
       <pre class="lines">
 
 
-74
 75
-76</pre>
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 75</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_activated'>activated</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@activated</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
@@ -947,12 +947,12 @@ floss_funding v</span><span class='embexpr_beg'>#{</span><span class='op'>::</sp
       <pre class="lines">
 
 
-168
 169
-170</pre>
+170
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 168</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 169</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_activation_occurrences'>activation_occurrences</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@activation_occurrences</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
@@ -1007,12 +1007,12 @@ Ensures no duplicates are added</p>
       <pre class="lines">
 
 
-102
-103
-104</pre>
+100
+101
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_activated'>add_activated</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@activated</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_library'>library</span> <span class='kw'>unless</span> <span class='ivar'>@activated</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -1062,12 +1062,12 @@ Ensures no duplicates are added</p>
       <pre class="lines">
 
 
-174
 175
-176</pre>
+176
+177</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 175</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_activation_occurrence'>add_activation_occurrence</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@activation_occurrences</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_namespace'>namespace</span> <span class='rbrace'>}</span>
@@ -1122,12 +1122,12 @@ Ensures no duplicates are added</p>
       <pre class="lines">
 
 
-109
-110
-111</pre>
+107
+108
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 107</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_unactivated'>add_unactivated</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@unactivated</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_library'>library</span> <span class='kw'>unless</span> <span class='ivar'>@unactivated</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -1198,7 +1198,6 @@ Ensures no duplicates are added</p>
       <pre class="lines">
 
 
-182
 183
 184
 185
@@ -1209,10 +1208,11 @@ Ensures no duplicates are added</p>
 190
 191
 192
-193</pre>
+193
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 182</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 183</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_base_words'>base_words</span><span class='lparen'>(</span><span class='id identifier rubyid_num_valid_words'>num_valid_words</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_num_valid_words'>num_valid_words</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_num_valid_words'>num_valid_words</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
@@ -1292,15 +1292,21 @@ Ensures no duplicates are added</p>
       <pre class="lines">
 
 
+121
+122
 123
 124
-125</pre>
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 121</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_configuration'>configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@configurations</span><span class='lbracket'>[</span><span class='id identifier rubyid_library'>library</span><span class='rbracket'>]</span><span class='op'>&amp;.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='ivar'>@configurations</span><span class='lbracket'>[</span><span class='id identifier rubyid_library'>library</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_value'>value</span> <span class='op'>?</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='op'>:</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1350,12 +1356,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-116
-117
-118</pre>
+114
+115
+116</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_configurations'>configurations</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@configurations</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
@@ -1418,12 +1424,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-156
 157
-158</pre>
+158
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 157</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_env_var_name_for'>env_var_name_for</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@env_var_names</span><span class='lbracket'>[</span><span class='id identifier rubyid_library'>library</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -1471,12 +1477,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-162
 163
-164</pre>
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 162</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 163</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_env_var_names'>env_var_names</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@env_var_names</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
@@ -1545,7 +1551,6 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-130
 131
 132
 133
@@ -1559,10 +1564,11 @@ Returns a duplicate to prevent external modification</p>
 141
 142
 143
-144</pre>
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 131</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_configuration'>set_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='comma'>,</span> <span class='id identifier rubyid_config'>config</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
@@ -1635,12 +1641,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-149
 150
-151</pre>
+151
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 150</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_env_var_name'>set_env_var_name</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@env_var_names</span><span class='lbracket'>[</span><span class='id identifier rubyid_library'>library</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span> <span class='rbrace'>}</span>
@@ -1688,12 +1694,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
+87
 88
-89
-90</pre>
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unactivated'>unactivated</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@unactivated</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
@@ -1743,12 +1749,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-95
-96
-97</pre>
+93
+94
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 93</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unactivated='>unactivated=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@unactivated</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span> <span class='rbrace'>}</span>
@@ -1763,7 +1769,7 @@ Returns a duplicate to prevent external modification</p>
 </div>
 
       <div id="footer">
-  Generated on Sun Aug 10 06:48:15 2025 by
+  Generated on Sun Aug 10 07:01:59 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
