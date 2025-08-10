@@ -7,7 +7,7 @@ require "spec_helper"
 require_relative "../fixtures/traditional_test"
 
 RSpec.describe "FlossFunding tracking functionality" do
-  include_context 'with stubbed env'
+  include_context "with stubbed env"
 
   # Reset the activated and unactivated lists before each test
   before do

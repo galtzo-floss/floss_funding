@@ -1,14 +1,15 @@
 {
-  "lib/floss_funding.rb:3984708487": [
-    [120, 51, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765]
+  "lib/floss_funding.rb:3204014581": [
+    [124, 51, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765]
   ],
-  "lib/floss_funding/check.rb:1936262029": [
+  "lib/floss_funding/check.rb:4017891431": [
     [19, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 883476360],
     [30, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 3247230807],
-    [39, 9, 23, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 2670016150]
+    [42, 9, 23, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 2670016150]
   ],
-  "spec/floss_funding/bench_integration_spec.rb:2915645866": [
-    [44, 3, 104, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2062875501]
+  "spec/floss_funding/bench_integration_spec.rb:2716428330": [
+    [142, 3, 118, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 64765617],
+    [172, 3, 118, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1152239485]
   ],
   "spec/floss_funding/check_spec.rb:3607085365": [
     [121, 7, 25, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1102006496]
@@ -24,14 +25,14 @@
   "spec/floss_funding/poke_spec.rb:4186497704": [
     [72, 5, 92, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 750385604]
   ],
-  "spec/floss_funding/tracking_spec.rb:3264302041": [
+  "spec/floss_funding/tracking_spec.rb:2914058025": [
     [9, 16, 37, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3603826461],
-    [17, 5, 31, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2300487680],
-    [35, 5, 33, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 871784187],
+    [19, 5, 31, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2300487680],
+    [36, 5, 33, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 871784187],
     [51, 5, 57, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 248228467],
-    [66, 5, 67, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2120166849],
-    [78, 21, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361],
-    [82, 21, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361],
-    [100, 5, 102, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 60222586]
+    [65, 5, 67, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2120166849],
+    [77, 19, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361],
+    [81, 19, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361],
+    [98, 5, 102, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 60222586]
   ]
 }

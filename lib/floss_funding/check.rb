@@ -32,6 +32,9 @@ module FlossFunding
       ClassMethods.now_time = now
     end
 
+    # Class-level API used by FlossFunding::Poke to perform activation checks
+    # and generate user-facing messages. Methods here are intended for inclusion
+    # into client libraries when they `extend FlossFunding::Check`.
     module ClassMethods
       class << self
         # Time source used for month arithmetic and testing.

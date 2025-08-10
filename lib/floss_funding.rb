@@ -45,6 +45,9 @@ module FlossFunding
   # @return [Regexp]
   HEX_LICENSE_RULE = /\A[0-9a-fA-F]{#{EIGHT_BYTES}}\z/
 
+  # Footer text appended to messages shown to users when activation is missing
+  # or invalid. Includes gem version and attribution.
+  # @return [String]
   FOOTER = <<-FOOTER
 =====================================================================================
 - Please buy FLOSS "peace-of-mind" activation keys to support open source developers.

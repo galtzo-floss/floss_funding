@@ -10,7 +10,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
   let(:valid_keys_csv) { File.join(__dir__, "../fixtures/valid_keys.csv") }
   let(:loader_path) { File.join(__dir__, "../fixtures/bench_gems_loader.rb") }
 
-  include_context 'with stubbed env'
+  include_context "with stubbed env"
 
   # Parse CSV: returns array of hashes {namespace:, key_2025:, key_5425:}
   def parsed_keys(csv_path)
@@ -189,7 +189,6 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
       bench_step(8, keys_rows, results, :key_5425)
       bench_step(9, keys_rows, results, :key_5425)
       bench_step(10, keys_rows, results, :key_5425)
-
     end
 
     expect(results.size).to eq(11)
@@ -216,7 +215,10 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     # Now compute funded gem names via configurations for activated namespaces only, mirroring at_exit requirement
     configs = FlossFunding.configurations
     activated = FlossFunding.activated
-    funded_gem_names = activated.flat_map { |ns| cfg = configs[ns]; cfg.is_a?(Hash) ? Array(cfg["gem_name"]) : [] }.compact.uniq
+    funded_gem_names = activated.flat_map { |ns|
+      cfg = configs[ns]
+      cfg.is_a?(Hash) ? Array(cfg["gem_name"]) : []
+    }.compact.uniq
     expect(funded_gem_names.size).to eq(100)
   end
 end

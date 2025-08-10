@@ -7,7 +7,6 @@ require "rspec/block_is_expected"
 require "rspec/block_is_expected/matchers/not"
 require "rspec/stubbed_env"
 
-
 # Config files
 require "config/timecop"
 require "support/bench_gems_generator"

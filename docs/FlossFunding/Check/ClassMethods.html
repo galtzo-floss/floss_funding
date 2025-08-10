@@ -83,7 +83,19 @@
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Class-level API used by FlossFunding::Poke to perform activation checks<br />
+and generate user-facing messages. Methods here are intended for inclusion<br />
+into client libraries when they <code>extend FlossFunding::Check</code>.</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
 
 
@@ -291,12 +303,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_now_time'>now_time</span>
   <span class='ivar'>@now_time</span>
@@ -351,12 +363,12 @@
       <pre class="lines">
 
 
-78
-79
-80</pre>
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 81</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_base_words'>base_words</span>
   <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_base_words'><span class='object_link'><a href="../../FlossFunding.html#base_words-class_method" title="FlossFunding.base_words (method)">base_words</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_num_valid_words_for_month'>num_valid_words_for_month</span><span class='rparen'>)</span>
@@ -419,13 +431,13 @@
       <pre class="lines">
 
 
-86
-87
-88
-89</pre>
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 89</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_activation'>check_activation</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_binary_search_result'>binary_search_result</span> <span class='op'>=</span> <span class='id identifier rubyid_base_words'>base_words</span><span class='period'>.</span><span class='id identifier rubyid_bsearch'>bsearch</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_word'>word</span><span class='op'>|</span> <span class='id identifier rubyid_plain_text'>plain_text</span> <span class='op'>==</span> <span class='id identifier rubyid_word'>word</span> <span class='rbrace'>}</span>
@@ -502,19 +514,19 @@ Otherwise false.</p>
       <pre class="lines">
 
 
-64
-65
-66
 67
 68
 69
 70
 71
 72
-73</pre>
+73
+74
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_unpaid_silence'>check_unpaid_silence</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_activation_key'>activation_key</span>
@@ -607,18 +619,18 @@ Otherwise false.</p>
       <pre class="lines">
 
 
-47
-48
-49
 50
 51
 52
 53
 54
-55</pre>
+55
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_floss_funding_decrypt'>floss_funding_decrypt</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -708,9 +720,6 @@ Otherwise false.</p>
       <pre class="lines">
 
 
-97
-98
-99
 100
 101
 102
@@ -740,10 +749,15 @@ Otherwise false.</p>
 126
 127
 128
-129</pre>
+129
+130
+131
+132
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_floss_funding_initiate_begging'>floss_funding_initiate_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -755,6 +769,7 @@ Otherwise false.</p>
   <span class='comment'># A silent short circuit for valid unpaid activations
 </span>  <span class='kw'>if</span> <span class='id identifier rubyid_check_unpaid_silence'>check_unpaid_silence</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
     <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_activated'><span class='object_link'><a href="../../FlossFunding.html#add_activated-class_method" title="FlossFunding.add_activated (method)">add_activated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
+    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_activation_occurrence'><span class='object_link'><a href="../../FlossFunding.html#add_activation_occurrence-class_method" title="FlossFunding.add_activation_occurrence (method)">add_activation_occurrence</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
     <span class='kw'>return</span>
   <span class='kw'>end</span>
 
@@ -771,6 +786,7 @@ Otherwise false.</p>
   <span class='comment'># A silent short circuit for valid paid activation keys
 </span>  <span class='kw'>if</span> <span class='id identifier rubyid_check_activation'>check_activation</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
     <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_activated'><span class='object_link'><a href="../../FlossFunding.html#add_activated-class_method" title="FlossFunding.add_activated (method)">add_activated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
+    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_activation_occurrence'><span class='object_link'><a href="../../FlossFunding.html#add_activation_occurrence-class_method" title="FlossFunding.add_activation_occurrence (method)">add_activation_occurrence</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
     <span class='kw'>return</span>
   <span class='kw'>end</span>
 
@@ -788,7 +804,7 @@ Otherwise false.</p>
 </div>
 
       <div id="footer">
-  Generated on Sat Aug  9 22:27:56 2025 by
+  Generated on Sun Aug 10 02:14:11 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
