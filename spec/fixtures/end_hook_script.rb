@@ -7,7 +7,7 @@ lib = ARGV.shift
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "floss_funding"
 
-# Set ENV so one namespace is treated as licensed (silent)
+# Set ENV so one namespace is treated as activated (silent)
 ENV["FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE"] = FlossFunding::FREE_AS_IN_BEER
 
 # Define two modules and include Poke to trigger tracking

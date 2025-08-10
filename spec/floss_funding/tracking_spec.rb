@@ -7,15 +7,15 @@ require "spec_helper"
 require_relative "../fixtures/traditional_test"
 
 RSpec.describe "FlossFunding tracking functionality" do
-  # Reset the licensed and unlicensed lists before each test
+  # Reset the activated and unactivated lists before each test
   before do
-    FlossFunding.licensed = []
-    FlossFunding.unlicensed = []
+    FlossFunding.activated = []
+    FlossFunding.unactivated = []
   end
 
   describe "tracking libraries" do
-    it "tracks licensed libraries" do
-      # Set up a valid license key
+    it "tracks activated libraries" do
+      # Set up a valid activation key
       valid_key = "161A84A3F7383B5BEA81BA1A0B71EA558D987012BE0A07087961F96AC72CF777"
 
       stubbed_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => valid_key) do
@@ -25,15 +25,15 @@ RSpec.describe "FlossFunding tracking functionality" do
           stub_const("TraditionalTest::InnerModule", Module.new)
           TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
 
-          # Check that the module was added to the licensed list
-          expect(FlossFunding.licensed).to include("TraditionalTest::InnerModule")
-          expect(FlossFunding.unlicensed).not_to include("TraditionalTest::InnerModule")
+          # Check that the module was added to the activated list
+          expect(FlossFunding.activated).to include("TraditionalTest::InnerModule")
+          expect(FlossFunding.unactivated).not_to include("TraditionalTest::InnerModule")
         end
       end
     end
 
-    it "tracks unlicensed libraries" do
-      # No license key set
+    it "tracks unactivated libraries" do
+      # No activation key set
       stubbed_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => nil) do
         # Capture stdout to prevent output during tests
         capture(:stdout) do
@@ -43,28 +43,28 @@ RSpec.describe "FlossFunding tracking functionality" do
         end
       end
 
-      # Check that the module was added to the unlicensed list
-      expect(FlossFunding.unlicensed).to include("TraditionalTest::InnerModule")
-      expect(FlossFunding.licensed).not_to include("TraditionalTest::InnerModule")
+      # Check that the module was added to the unactivated list
+      expect(FlossFunding.unactivated).to include("TraditionalTest::InnerModule")
+      expect(FlossFunding.activated).not_to include("TraditionalTest::InnerModule")
     end
 
-    it "tracks libraries with unpaid silence license keys" do
-      # Set up an unpaid silence license key
+    it "tracks libraries with unpaid silence activation keys" do
+      # Set up an unpaid silence activation key
       stubbed_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => FlossFunding::FREE_AS_IN_BEER) do
         # Include the Poke module
         stub_const("TraditionalTest::InnerModule", Module.new)
         TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
 
-        # Check that the module was added to the licensed list
-        expect(FlossFunding.licensed).to include("TraditionalTest::InnerModule")
-        expect(FlossFunding.unlicensed).not_to include("TraditionalTest::InnerModule")
+        # Check that the module was added to the activated list
+        expect(FlossFunding.activated).to include("TraditionalTest::InnerModule")
+        expect(FlossFunding.unactivated).not_to include("TraditionalTest::InnerModule")
       end
     end
   end
 
   describe "multithreaded tracking" do
     it "correctly tracks libraries when included from multiple threads" do
-      # Set up a valid license key for the first module
+      # Set up a valid activation key for the first module
       valid_key = "161A84A3F7383B5BEA81BA1A0B71EA558D987012BE0A07087961F96AC72CF777"
 
       stubbed_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => valid_key) do
@@ -80,7 +80,7 @@ RSpec.describe "FlossFunding tracking functionality" do
           end
 
           thread2 = Thread.new do
-            # No license key for the second module
+            # No activation key for the second module
             TraditionalTest::OtherModule.send(:include, FlossFunding::Poke.new(__FILE__))
           end
 
@@ -89,15 +89,15 @@ RSpec.describe "FlossFunding tracking functionality" do
           thread2.join
 
           # Check that both modules were tracked correctly
-          expect(FlossFunding.licensed).to include("TraditionalTest::InnerModule")
-          expect(FlossFunding.unlicensed).to include("TraditionalTest::OtherModule")
+          expect(FlossFunding.activated).to include("TraditionalTest::InnerModule")
+          expect(FlossFunding.unactivated).to include("TraditionalTest::OtherModule")
         end
       end
     end
   end
 
   describe "END hook" do
-    it "outputs the correct emoji for licensed and unlicensed libraries via real process", :check_output do
+    it "outputs the correct emoji for activated and unactivated libraries via real process", :check_output do
       ruby = RbConfig.ruby
       lib_dir = File.expand_path("../../lib", __dir__) # project/lib
 
@@ -109,9 +109,9 @@ RSpec.describe "FlossFunding tracking functionality" do
       expect(status.exitstatus).to eq(0), "Child process failed: #{stderr}\nSTDOUT: #{stdout}"
 
       # Validate actual at_exit output from the child process
-      expect(stdout).to include("FlossFunding Summary:")
-      expect(stdout).to include("Licensed libraries (1): ⭐️")
-      expect(stdout).to include("Unlicensed libraries (1): 🫥")
+      expect(stdout).to include("FLOSS Funding Summary:")
+      expect(stdout).to include("Activated libraries (1): ⭐️")
+      expect(stdout).to include("Unactivated libraries (1): 🫥")
     end
   end
 end

@@ -24,4 +24,12 @@ RSpec.describe FlossFunding do
   it "defines HEX_LICENSE_RULE as a regular expression" do
     expect(described_class::HEX_LICENSE_RULE).to be_a(Regexp)
   end
+
+  it "has FOOTER constant with version" do
+    expect(described_class::FOOTER).to include("FlossFunding v#{FlossFunding::Version::VERSION}")
+  end
+
+  it "has FOOTER constant with solicitation" do
+    expect(described_class::FOOTER).to include("Please buy FLOSS \"peace-of-mind\" activation keys to support open source developers.")
+  end
 end

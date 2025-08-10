@@ -747,20 +747,20 @@ should not emit any console output (silent success).</p>
 <span class='kw'>def</span> <span class='id identifier rubyid_floss_funding_initiate_begging'>floss_funding_initiate_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
     <span class='comment'># No activation key provided
-</span>    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_unlicensed'><span class='object_link'><a href="../../FlossFunding.html#add_unlicensed-class_method" title="FlossFunding.add_unlicensed (method)">add_unlicensed</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
+</span>    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_unactivated'><span class='object_link'><a href="../../FlossFunding.html#add_unactivated-class_method" title="FlossFunding.add_unactivated (method)">add_unactivated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
     <span class='kw'>return</span> <span class='id identifier rubyid_start_begging'>start_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
   <span class='comment'># A silent short circuit for valid unpaid licenses
 </span>  <span class='kw'>if</span> <span class='id identifier rubyid_check_unpaid_silence'>check_unpaid_silence</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
-    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_licensed'><span class='object_link'><a href="../../FlossFunding.html#add_licensed-class_method" title="FlossFunding.add_licensed (method)">add_licensed</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
+    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_activated'><span class='object_link'><a href="../../FlossFunding.html#add_activated-class_method" title="FlossFunding.add_activated (method)">add_activated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
     <span class='kw'>return</span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_valid_license_hex'>valid_license_hex</span> <span class='op'>=</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='period'>.</span><span class='id identifier rubyid_match?'>match?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html#HEX_LICENSE_RULE-constant" title="FlossFunding::HEX_LICENSE_RULE (constant)">HEX_LICENSE_RULE</a></span></span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_valid_license_hex'>valid_license_hex</span>
     <span class='comment'># Invalid license format
-</span>    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_unlicensed'><span class='object_link'><a href="../../FlossFunding.html#add_unlicensed-class_method" title="FlossFunding.add_unlicensed (method)">add_unlicensed</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
+</span>    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_unactivated'><span class='object_link'><a href="../../FlossFunding.html#add_unactivated-class_method" title="FlossFunding.add_unactivated (method)">add_unactivated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
     <span class='kw'>return</span> <span class='id identifier rubyid_start_coughing'>start_coughing</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
@@ -769,12 +769,12 @@ should not emit any console output (silent success).</p>
 
   <span class='comment'># A silent short circuit for valid paid licenses
 </span>  <span class='kw'>if</span> <span class='id identifier rubyid_check_license'>check_license</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
-    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_licensed'><span class='object_link'><a href="../../FlossFunding.html#add_licensed-class_method" title="FlossFunding.add_licensed (method)">add_licensed</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
+    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_activated'><span class='object_link'><a href="../../FlossFunding.html#add_activated-class_method" title="FlossFunding.add_activated (method)">add_activated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
     <span class='kw'>return</span>
   <span class='kw'>end</span>
 
   <span class='comment'># No valid license found
-</span>  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_unlicensed'><span class='object_link'><a href="../../FlossFunding.html#add_unlicensed-class_method" title="FlossFunding.add_unlicensed (method)">add_unlicensed</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
+</span>  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_unactivated'><span class='object_link'><a href="../../FlossFunding.html#add_unactivated-class_method" title="FlossFunding.add_unactivated (method)">add_unactivated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_start_begging'>start_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -787,7 +787,7 @@ should not emit any console output (silent success).</p>
 </div>
 
       <div id="footer">
-  Generated on Sat Aug  9 20:48:28 2025 by
+  Generated on Sat Aug  9 21:14:06 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

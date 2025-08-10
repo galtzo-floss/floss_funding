@@ -27,8 +27,8 @@ puts TestModule::InnerModule.methods.grep(/floss_funding/).inspect
 begin
   namespace = "TestNamespace"
   env_var_name = "TEST_NAMESPACE"
-  license_key = ""
-  TestModule::InnerModule.floss_funding_initiate_begging(license_key, namespace, env_var_name)
+  activation_key = ""
+  TestModule::InnerModule.floss_funding_initiate_begging(activation_key, namespace, env_var_name)
   puts "Successfully called floss_funding_initiate_begging"
 rescue => e
   puts "Error calling floss_funding_initiate_begging: #{e.message}"

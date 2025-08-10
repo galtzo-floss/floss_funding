@@ -16,28 +16,28 @@ module FlossFunding
   # Base error class for all FlossFunding-specific failures.
   class Error < StandardError; end
 
-  # Unpaid license option intended for open-source and not-for-profit use.
+  # Unpaid activation option intended for open-source and not-for-profit use.
   # @return [String]
   FREE_AS_IN_BEER = "Free-as-in-beer"
 
-  # Unpaid license option acknowledging commercial use without payment.
+  # Unpaid activation option acknowledging commercial use without payment.
   # @return [String]
   BUSINESS_IS_NOT_GOOD_YET = "Business-is-not-good-yet"
 
-  # License option to explicitly opt out of funding prompts for a namespace.
+  # Activation option to explicitly opt out of funding prompts for a namespace.
   # @return [String]
   NOT_FINANCIALLY_SUPPORTING = "Not-financially-supporting"
 
-  # First month index against which license words are validated.
-  # Do not change once released as it invalidates license word lists.
+  # First month index against which base words are validated.
+  # Do not change once released as it would invalidate existing activation keys.
   # @return [Integer]
   START_MONTH = Month.new(2025, 7).to_i # Don't change this, not ever!
 
-  # Absolute path to the base words list used for paid license validation.
+  # Absolute path to the base words list used for paid activation validation.
   # @return [String]
   BASE_WORDS_PATH = File.expand_path("../../base.txt", __FILE__)
 
-  # Number of hex characters required for a paid license (64 = 256 bits).
+  # Number of hex characters required for a paid activation key (64 = 256 bits).
   # @return [Integer]
   EIGHT_BYTES = 64
 
@@ -45,12 +45,18 @@ module FlossFunding
   # @return [Regexp]
   HEX_LICENSE_RULE = /\A[0-9a-fA-F]{#{EIGHT_BYTES}}\z/
 
-  # Thread-safe access to licensed and unlicensed libraries
+  FOOTER = <<-FOOTER
+=====================================================================================
+- Please buy FLOSS "peace-of-mind" activation keys to support open source developers.
+FLOSS Funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺🇸 & 🇮🇩 by Galtzo FLOSS.
+  FOOTER
+
+  # Thread-safe access to activated and unactivated libraries
   # These track which modules/gems have included the Poke module
-  # and whether they have valid licenses or not
+  # and whether they have valid activation keys or not
   @mutex = Mutex.new
-  @licensed = []   # List of libraries with valid licenses
-  @unlicensed = [] # List of libraries without valid licenses
+  @activated = []   # List of libraries with valid activation
+  @unactivated = [] # List of libraries without valid activation
   @configurations = {} # Hash to store configurations for each library
   @env_var_names = {} # Map of namespace => ENV var name used during setup
 
@@ -58,44 +64,46 @@ module FlossFunding
     # Provides access to the mutex for thread synchronization
     attr_reader :mutex
 
-    # Thread-safe accessor for the licensed libraries list
-    # Returns a duplicate to prevent external modification
-    # @return [Array<String>] List of library namespaces with valid licenses
-    def licensed
-      mutex.synchronize { @licensed.dup }
+
+    # New name: activated (preferred)
+    # @return [Array<String>]
+    def activated
+      mutex.synchronize { @activated.dup }
     end
 
-    # Thread-safe setter for the licensed libraries list
-    # @param value [Array<String>] New list of licensed libraries
-    def licensed=(value)
-      mutex.synchronize { @licensed = value }
+
+    # New name: activated= (preferred)
+    # @param value [Array<String>]
+    def activated=(value)
+      mutex.synchronize { @activated = value }
     end
 
-    # Thread-safe accessor for the unlicensed libraries list
-    # Returns a duplicate to prevent external modification
-    # @return [Array<String>] List of library namespaces without valid licenses
-    def unlicensed
-      mutex.synchronize { @unlicensed.dup }
+
+    # New name: unactivated (preferred)
+    # @return [Array<String>]
+    def unactivated
+      mutex.synchronize { @unactivated.dup }
     end
 
-    # Thread-safe setter for the unlicensed libraries list
-    # @param value [Array<String>] New list of unlicensed libraries
-    def unlicensed=(value)
-      mutex.synchronize { @unlicensed = value }
+
+    # New name: unactivated= (preferred)
+    # @param value [Array<String>]
+    def unactivated=(value)
+      mutex.synchronize { @unactivated = value }
     end
 
-    # Thread-safely adds a library to the licensed list
+    # Thread-safely adds a library to the activated list
     # Ensures no duplicates are added
     # @param library [String] Namespace of the library to add
-    def add_licensed(library)
-      mutex.synchronize { @licensed << library unless @licensed.include?(library) }
+    def add_activated(library)
+      mutex.synchronize { @activated << library unless @activated.include?(library) }
     end
 
-    # Thread-safely adds a library to the unlicensed list
+    # Thread-safely adds a library to the unactivated list
     # Ensures no duplicates are added
     # @param library [String] Namespace of the library to add
-    def add_unlicensed(library)
-      mutex.synchronize { @unlicensed << library unless @unlicensed.include?(library) }
+    def add_unactivated(library)
+      mutex.synchronize { @unactivated << library unless @unactivated.include?(library) }
     end
 
     # Thread-safe accessor for the configurations hash
@@ -139,7 +147,7 @@ module FlossFunding
       mutex.synchronize { @env_var_names.dup }
     end
 
-    # Reads the first N lines from the base words file to validate paid licenses.
+    # Reads the first N lines from the base words file to validate paid activation keys.
     #
     # @param num_valid_words [Integer] number of words to read from the word list
     # @return [Array<String>] the first N words; empty when N is nil or zero
@@ -159,30 +167,29 @@ require "floss_funding/under_bar"
 require "floss_funding/config"
 require "floss_funding/poke"
 # require "floss_funding/check" # Lazy loaded at runtime
-# require "floss_funding/cli/gimlet" # Loaded by CLI only
 
-# Add END hook to display summary and a consolidated blurb for unlicensed usage
+# Add END hook to display summary and a consolidated blurb for usage without activation key
 # This hook runs when the Ruby process terminates
 at_exit {
-  licensed = FlossFunding.licensed
-  unlicensed = FlossFunding.unlicensed
-  licensed_count = licensed.size
-  unlicensed_count = unlicensed.size
+  activated = FlossFunding.activated
+  unactivated = FlossFunding.unactivated
+  activated_count = activated.size
+  unactivated_count = unactivated.size
 
   # Summary section
-  if licensed_count > 0 || unlicensed_count > 0
-    stars = ("⭐️" * licensed_count)
-    mimes = ("🫥" * unlicensed_count)
+  if activated_count > 0 || unactivated_count > 0
+    stars = ("⭐️" * activated_count)
+    mimes = ("🫥" * unactivated_count)
     summary_lines = []
-    summary_lines << "\nFlossFunding Summary:"
-    summary_lines << "Licensed libraries (#{licensed_count}): #{stars}" if licensed_count > 0
-    summary_lines << "Unlicensed libraries (#{unlicensed_count}): #{mimes}" if unlicensed_count > 0
+    summary_lines << "\nFLOSS Funding Summary:"
+    summary_lines << "Activated libraries (#{activated_count}): #{stars}" if activated_count > 0
+    summary_lines << "Unactivated libraries (#{unactivated_count}): #{mimes}" if unactivated_count > 0
     summary = summary_lines.join("\n") + "\n\n"
     puts summary
   end
 
-  # Emit a single, consolidated blurb for all unlicensed namespaces
-  if unlicensed_count > 0
+  # Emit a single, consolidated blurb for all unactivated namespaces
+  if unactivated_count > 0
     # Gather data needed for each namespace
     configs = FlossFunding.configurations
     env_map = FlossFunding.env_var_names
@@ -193,7 +200,7 @@ at_exit {
 Unremunerated use of the following namespaces was detected:
     HEADER
 
-    unlicensed.each do |ns|
+    unactivated.each do |ns|
       config = configs[ns] || {}
       funding_url = config["floss_funding_url"] || "https://floss-funding.dev"
       suggested_amount = config["suggested_donation_amount"] || 5
@@ -210,7 +217,7 @@ Unremunerated use of the following namespaces was detected:
     end
 
     details << <<-BODY
-FlossFunding relies on empathy, respect, honor, and annoyance of the most extreme mildness.
+FLOSS Funding relies on empathy, respect, honor, and annoyance of the most extreme mildness.
 👉️ No network calls. 👉️ No tracking. 👉️ No oversight. 👉️ Minimal crypto hashing.
 
 Options:
@@ -222,23 +229,18 @@ Options:
 
   3. 🏦  If commercial, continue to use for free, & feel a bit naughty, with activation key: "#{::FlossFunding::BUSINESS_IS_NOT_GOOD_YET}".
 
-  4. ✖️  Disable license checks using the per-namespace opt-out keys listed above.
+  4. ✖️  Disable activation key checks using the per-namespace opt-out keys listed above.
 
 Then, before loading the gems, set the ENV variables listed above to your chosen key.
 Or in shell / dotenv / direnv, e.g.:
     BODY
 
-    unlicensed.each do |ns|
+    unactivated.each do |ns|
       env_name = env_map[ns] || "FLOSS_FUNDING_#{ns.gsub(/[^A-Za-z0-9]+/, '_').upcase}"
       details << "  export #{env_name}=\"<your key>\"\n"
     end
 
-    details << <<-FOOTER
-
-==============================================================
-- Please buy FLOSS licenses to support open source developers.
-FlossFunding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺🇸 & 🇮🇩 by Galtzo FLOSS.
-    FOOTER
+    details << FlossFunding::FOOTER
 
     puts details
   end

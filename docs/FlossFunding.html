@@ -366,7 +366,7 @@ Do not change once released as it invalidates license word lists.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#add_licensed-class_method" title="add_licensed (class method)">.<strong>add_licensed</strong>(library)  &#x21d2; Object </a>
+      <a href="#activated-class_method" title="activated (class method)">.<strong>activated</strong>  &#x21d2; Array&lt;String&gt; </a>
     
 
     
@@ -380,7 +380,7 @@ Do not change once released as it invalidates license word lists.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Thread-safely adds a library to the licensed list Ensures no duplicates are added.</p>
+    <span class="summary_desc"><div class='inline'><p>New name: activated (preferred).</p>
 </div></span>
   
 </li>
@@ -389,7 +389,7 @@ Do not change once released as it invalidates license word lists.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#add_unlicensed-class_method" title="add_unlicensed (class method)">.<strong>add_unlicensed</strong>(library)  &#x21d2; Object </a>
+      <a href="#activated=-class_method" title="activated= (class method)">.<strong>activated=</strong>(value)  &#x21d2; Object </a>
     
 
     
@@ -403,7 +403,53 @@ Do not change once released as it invalidates license word lists.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Thread-safely adds a library to the unlicensed list Ensures no duplicates are added.</p>
+    <span class="summary_desc"><div class='inline'><p>New name: activated= (preferred).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_activated-class_method" title="add_activated (class method)">.<strong>add_activated</strong>(library)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Thread-safely adds a library to the activated list Ensures no duplicates are added.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_unactivated-class_method" title="add_unactivated (class method)">.<strong>add_unactivated</strong>(library)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Thread-safely adds a library to the unactivated list Ensures no duplicates are added.</p>
 </div></span>
   
 </li>
@@ -527,52 +573,6 @@ Do not change once released as it invalidates license word lists.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#licensed-class_method" title="licensed (class method)">.<strong>licensed</strong>  &#x21d2; Array&lt;String&gt; </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Thread-safe accessor for the licensed libraries list Returns a duplicate to prevent external modification.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#licensed=-class_method" title="licensed= (class method)">.<strong>licensed=</strong>(value)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Thread-safe setter for the licensed libraries list.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#set_configuration-class_method" title="set_configuration (class method)">.<strong>set_configuration</strong>(library, config)  &#x21d2; Object </a>
     
 
@@ -619,7 +619,7 @@ Do not change once released as it invalidates license word lists.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#unlicensed-class_method" title="unlicensed (class method)">.<strong>unlicensed</strong>  &#x21d2; Array&lt;String&gt; </a>
+      <a href="#unactivated-class_method" title="unactivated (class method)">.<strong>unactivated</strong>  &#x21d2; Array&lt;String&gt; </a>
     
 
     
@@ -633,7 +633,7 @@ Do not change once released as it invalidates license word lists.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Thread-safe accessor for the unlicensed libraries list Returns a duplicate to prevent external modification.</p>
+    <span class="summary_desc"><div class='inline'><p>New name: unactivated (preferred).</p>
 </div></span>
   
 </li>
@@ -642,7 +642,7 @@ Do not change once released as it invalidates license word lists.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#unlicensed=-class_method" title="unlicensed= (class method)">.<strong>unlicensed=</strong>(value)  &#x21d2; Object </a>
+      <a href="#unactivated=-class_method" title="unactivated= (class method)">.<strong>unactivated=</strong>(value)  &#x21d2; Object </a>
     
 
     
@@ -656,7 +656,7 @@ Do not change once released as it invalidates license word lists.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Thread-safe setter for the unlicensed libraries list.</p>
+    <span class="summary_desc"><div class='inline'><p>New name: unactivated= (preferred).</p>
 </div></span>
   
 </li>
@@ -719,9 +719,9 @@ Do not change once released as it invalidates license word lists.</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="add_licensed-class_method">
+  <h3 class="signature first" id="activated-class_method">
   
-    .<strong>add_licensed</strong>(library)  &#x21d2; <tt>Object</tt> 
+    .<strong>activated</strong>  &#x21d2; <tt>Array&lt;String&gt;</tt> 
   
 
   
@@ -729,7 +729,115 @@ Do not change once released as it invalidates license word lists.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Thread-safely adds a library to the licensed list<br />
+    <p>New name: activated (preferred)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64
+65
+66</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 64</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_activated'>activated</span>
+  <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@licensed</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="activated=-class_method">
+  
+    .<strong>activated=</strong>(value)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>New name: activated= (preferred)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+71
+72
+73</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 71</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_activated='>activated=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@licensed</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="add_activated-class_method">
+  
+    .<strong>add_activated</strong>(library)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Thread-safely adds a library to the activated list<br />
 Ensures no duplicates are added</p>
 
 
@@ -763,14 +871,14 @@ Ensures no duplicates are added</p>
       <pre class="lines">
 
 
-90
-91
-92</pre>
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 92</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_add_licensed'>add_licensed</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_add_activated'>add_activated</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@licensed</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_library'>library</span> <span class='kw'>unless</span> <span class='ivar'>@licensed</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -779,9 +887,9 @@ Ensures no duplicates are added</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="add_unlicensed-class_method">
+  <h3 class="signature " id="add_unactivated-class_method">
   
-    .<strong>add_unlicensed</strong>(library)  &#x21d2; <tt>Object</tt> 
+    .<strong>add_unactivated</strong>(library)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -789,7 +897,7 @@ Ensures no duplicates are added</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Thread-safely adds a library to the unlicensed list<br />
+    <p>Thread-safely adds a library to the unactivated list<br />
 Ensures no duplicates are added</p>
 
 
@@ -823,14 +931,14 @@ Ensures no duplicates are added</p>
       <pre class="lines">
 
 
-97
-98
-99</pre>
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 99</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_add_unlicensed'>add_unlicensed</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_add_unactivated'>add_unactivated</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@unlicensed</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_library'>library</span> <span class='kw'>unless</span> <span class='ivar'>@unlicensed</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -899,17 +1007,17 @@ Ensures no duplicates are added</p>
       <pre class="lines">
 
 
-146
-147
 148
 149
 150
 151
 152
-153</pre>
+153
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 146</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 148</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_base_words'>base_words</span><span class='lparen'>(</span><span class='id identifier rubyid_num_valid_words'>num_valid_words</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_num_valid_words'>num_valid_words</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_num_valid_words'>num_valid_words</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
@@ -985,12 +1093,12 @@ Ensures no duplicates are added</p>
       <pre class="lines">
 
 
-111
-112
-113</pre>
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 113</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_configuration'>configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@configurations</span><span class='lbracket'>[</span><span class='id identifier rubyid_library'>library</span><span class='rbracket'>]</span><span class='op'>&amp;.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
@@ -1043,12 +1151,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-104
-105
-106</pre>
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 104</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 106</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_configurations'>configurations</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@configurations</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
@@ -1111,12 +1219,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-132
-133
-134</pre>
+134
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 134</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_env_var_name_for'>env_var_name_for</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@env_var_names</span><span class='lbracket'>[</span><span class='id identifier rubyid_library'>library</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -1164,132 +1272,15 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-138
-139
-140</pre>
+140
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 140</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_env_var_names'>env_var_names</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@env_var_names</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="licensed-class_method">
-  
-    .<strong>licensed</strong>  &#x21d2; <tt>Array&lt;String&gt;</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Thread-safe accessor for the licensed libraries list<br />
-Returns a duplicate to prevent external modification</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>List of library namespaces with valid licenses</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-64
-65
-66</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 64</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_licensed'>licensed</span>
-  <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@licensed</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="licensed=-class_method">
-  
-    .<strong>licensed=</strong>(value)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Thread-safe setter for the licensed libraries list</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>value</span>
-      
-      
-        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>New list of licensed libraries</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-70
-71
-72</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 70</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_licensed='>licensed=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@licensed</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1355,12 +1346,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-118
-119
-120</pre>
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 118</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 120</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_configuration'>set_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='comma'>,</span> <span class='id identifier rubyid_config'>config</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@configurations</span><span class='lbracket'>[</span><span class='id identifier rubyid_library'>library</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_config'>config</span> <span class='rbrace'>}</span>
@@ -1421,12 +1412,12 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-125
-126
-127</pre>
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_env_var_name'>set_env_var_name</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@env_var_names</span><span class='lbracket'>[</span><span class='id identifier rubyid_library'>library</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span> <span class='rbrace'>}</span>
@@ -1437,9 +1428,9 @@ Returns a duplicate to prevent external modification</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="unlicensed-class_method">
+  <h3 class="signature " id="unactivated-class_method">
   
-    .<strong>unlicensed</strong>  &#x21d2; <tt>Array&lt;String&gt;</tt> 
+    .<strong>unactivated</strong>  &#x21d2; <tt>Array&lt;String&gt;</tt> 
   
 
   
@@ -1447,8 +1438,7 @@ Returns a duplicate to prevent external modification</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Thread-safe accessor for the unlicensed libraries list<br />
-Returns a duplicate to prevent external modification</p>
+    <p>New name: unactivated (preferred)</p>
 
 
   </div>
@@ -1465,10 +1455,6 @@ Returns a duplicate to prevent external modification</p>
       
       
       
-        &mdash;
-        <div class='inline'><p>List of library namespaces without valid licenses</p>
-</div>
-      
     </li>
   
 </ul>
@@ -1479,14 +1465,14 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-77
 78
-79</pre>
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 78</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_unlicensed'>unlicensed</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_unactivated'>unactivated</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@unlicensed</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1495,9 +1481,9 @@ Returns a duplicate to prevent external modification</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="unlicensed=-class_method">
+  <h3 class="signature " id="unactivated=-class_method">
   
-    .<strong>unlicensed=</strong>(value)  &#x21d2; <tt>Object</tt> 
+    .<strong>unactivated=</strong>(value)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1505,7 +1491,7 @@ Returns a duplicate to prevent external modification</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Thread-safe setter for the unlicensed libraries list</p>
+    <p>New name: unactivated= (preferred)</p>
 
 
   </div>
@@ -1523,10 +1509,6 @@ Returns a duplicate to prevent external modification</p>
       
       
       
-        &mdash;
-        <div class='inline'><p>New list of unlicensed libraries</p>
-</div>
-      
     </li>
   
 </ul>
@@ -1538,14 +1520,14 @@ Returns a duplicate to prevent external modification</p>
       <pre class="lines">
 
 
-83
-84
-85</pre>
+85
+86
+87</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 85</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_unlicensed='>unlicensed=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_unactivated='>unactivated=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@unlicensed</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1558,7 +1540,7 @@ Returns a duplicate to prevent external modification</p>
 </div>
 
       <div id="footer">
-  Generated on Sat Aug  9 20:48:28 2025 by
+  Generated on Sat Aug  9 21:14:06 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

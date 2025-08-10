@@ -43,7 +43,7 @@ module FlossFunding
       #
       # @param activation_key [String] 64-character hex string for paid activation
       # @param namespace [String] the namespace used to derive the cipher key
-      # @return [String, false] plaintext license word on success; false if empty
+      # @return [String, false] plaintext activation key (base word) on success; false if empty
       def floss_funding_decrypt(activation_key, namespace)
         return false if activation_key.empty?
 
@@ -54,8 +54,9 @@ module FlossFunding
         cipher.update(s) + cipher.final
       end
 
-      # Returns true if activation_key indicates an unpaid or opted-out license that
+      # Returns true for unpaid or opted-out activation_key that
       # should not emit any console output (silent success).
+      # Otherwise false.
       #
       # @param activation_key [String]
       # @param namespace [String]
@@ -71,59 +72,59 @@ module FlossFunding
         end
       end
 
-      # Returns the list of valid license words for the current month window.
+      # Returns the list of valid plain text base words for the current month window.
       #
       # @return [Array<String>]
       def base_words
         ::FlossFunding.base_words(num_valid_words_for_month)
       end
 
-      # Checks whether the given plaintext matches a valid license word.
+      # Checks whether the given plaintext matches a valid plaintext base word.
       #
       # @param plain_text [String]
       # @return [Boolean]
-      def check_license(plain_text)
+      def check_activation(plain_text)
         binary_search_result = base_words.bsearch { |word| plain_text == word }
         !!binary_search_result
       end
 
-      # Entry point for license evaluation and output behavior.
+      # Entry point for activation key evaluation and output behavior.
       #
       # @param activation_key [String] value from ENV
-      # @param namespace [String] namespace this license governs
+      # @param namespace [String] this activation key is valid for a specific namespace; can cover multiple projects / gems
       # @param env_var_name [String] the ENV variable name checked
       # @return [void]
       def floss_funding_initiate_begging(activation_key, namespace, env_var_name)
         if activation_key.empty?
           # No activation key provided
-          ::FlossFunding.add_unlicensed(namespace)
+          ::FlossFunding.add_unactivated(namespace)
           return start_begging(namespace, env_var_name)
         end
 
-        # A silent short circuit for valid unpaid licenses
+        # A silent short circuit for valid unpaid activations
         if check_unpaid_silence(activation_key, namespace)
-          ::FlossFunding.add_licensed(namespace)
+          ::FlossFunding.add_activated(namespace)
           return
         end
 
-        valid_license_hex = activation_key.match?(::FlossFunding::HEX_LICENSE_RULE)
-        unless valid_license_hex
-          # Invalid license format
-          ::FlossFunding.add_unlicensed(namespace)
+         valid_activation_hex = activation_key.match?(::FlossFunding::HEX_LICENSE_RULE)
+        unless  valid_activation_hex
+          # Invalid activation key format
+          ::FlossFunding.add_unactivated(namespace)
           return start_coughing(activation_key, namespace, env_var_name)
         end
 
         # decrypt the activation key for this namespace
         plain_text = floss_funding_decrypt(activation_key, namespace)
 
-        # A silent short circuit for valid paid licenses
-        if check_license(plain_text)
-          ::FlossFunding.add_licensed(namespace)
+        # A silent short circuit for valid paid activation keys
+        if check_activation(plain_text)
+          ::FlossFunding.add_activated(namespace)
           return
         end
 
-        # No valid license found
-        ::FlossFunding.add_unlicensed(namespace)
+        # No valid activation key found
+        ::FlossFunding.add_unactivated(namespace)
         start_begging(namespace, env_var_name)
       end
 
@@ -168,29 +169,18 @@ Please unset the current ENV variable #{env_var_name}, since it is invalid.
 
 Then find the correct one, or get a new one @ https://floss-funding.dev and set it.
 
-#{footer}
+#{FlossFunding::FOOTER}
         COUGHING
       end
 
-      # Emits the standard friendly funding message for unlicensed usage.
+      # Emits the standard friendly funding message for unactivated usage.
       #
       # @param namespace [String]
       # @param env_var_name [String]
       # @return [void]
       def start_begging(namespace, env_var_name)
         # During load, only emit a single-line note and defer the large blurb to at_exit
-        puts %(FlossFunding: Activation key missing for #{namespace}. Set ENV[#{env_var_name}] to activation key; details will be shown at exit.)
-      end
-
-      # Footer appended to console messages.
-      #
-      # @return [String] formatted footer block including gem version
-      def footer
-        <<-FOOTER
-==============================================================
-- Please buy FLOSS licenses to support open source developers.
-FlossFunding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺🇸 & 🇮🇩 by Galtzo FLOSS.
-        FOOTER
+        puts %(FLOSS Funding: Activation key missing for #{namespace}. Set ENV[#{env_var_name}] to activation key; details will be shown at exit.)
       end
     end
   end

@@ -28,11 +28,11 @@ RSpec.describe FlossFunding::Check do
   end
 
   describe "#floss_funding_decrypt" do
-    it "returns false for empty license key" do
+    it "returns false for empty activation key" do
       expect(test_class.floss_funding_decrypt("", "namespace")).to be(false)
     end
 
-    it "attempts to decrypt a valid license key" do
+    it "attempts to decrypt a valid activation key" do
       # Since we can't easily test actual decryption without a valid key,
       # we'll test that it calls the expected methods
       cipher_double = instance_double(OpenSSL::Cipher)
@@ -41,23 +41,23 @@ RSpec.describe FlossFunding::Check do
       allow(cipher_double).to receive(:key=)
 
       # Valid hex string of length 64
-      license_key = "a" * 64
+      activation_key = "a" * 64
       namespace = "TestNamespace"
 
-      expect(test_class.floss_funding_decrypt(license_key, namespace)).to eq("decrypted text")
+      expect(test_class.floss_funding_decrypt(activation_key, namespace)).to eq("decrypted text")
     end
   end
 
   describe "#check_unpaid_silence" do
-    it "returns true for FREE_AS_IN_BEER license key" do
+    it "returns true for FREE_AS_IN_BEER activation key" do
       expect(test_class.check_unpaid_silence(FlossFunding::FREE_AS_IN_BEER, "Dog")).to be(true)
     end
 
-    it "returns true for BUSINESS_IS_NOT_GOOD_YET license key" do
+    it "returns true for BUSINESS_IS_NOT_GOOD_YET activation key" do
       expect(test_class.check_unpaid_silence(FlossFunding::BUSINESS_IS_NOT_GOOD_YET, "Dog")).to be(true)
     end
 
-    it "returns false for NOT_FINANCIALLY_SUPPORTING license key" do
+    it "returns false for NOT_FINANCIALLY_SUPPORTING activation key" do
       expect(test_class.check_unpaid_silence(FlossFunding::NOT_FINANCIALLY_SUPPORTING, "Dog")).to be(false)
     end
 
@@ -65,7 +65,7 @@ RSpec.describe FlossFunding::Check do
       expect(test_class.check_unpaid_silence("#{FlossFunding::NOT_FINANCIALLY_SUPPORTING}-Quantum::Mechanics", "Quantum::Mechanics")).to be(true)
     end
 
-    it "returns false for other license keys" do
+    it "returns false for other activation keys" do
       expect(test_class.check_unpaid_silence("some-other-key", "Dog")).to be(false)
     end
   end
@@ -78,15 +78,15 @@ RSpec.describe FlossFunding::Check do
     end
   end
 
-  describe "#check_license" do
+  describe "#check_activation" do
     it "returns true when plain_text is found in base_words" do
       allow(test_class).to receive(:base_words).and_return(["word1", "word2", "word3"])
-      expect(test_class.check_license("word2")).to be(true)
+      expect(test_class.check_activation("word2")).to be(true)
     end
 
     it "returns false when plain_text is not found in base_words" do
       allow(test_class).to receive(:base_words).and_return(["word1", "word2", "word3"])
-      expect(test_class.check_license("word4")).to be(false)
+      expect(test_class.check_activation("word4")).to be(false)
     end
   end
 
@@ -94,7 +94,7 @@ RSpec.describe FlossFunding::Check do
     let(:namespace) { "TestNamespace" }
     let(:env_var_name) { "TEST_NAMESPACE" }
 
-    context "with empty license key" do
+    context "with empty activation key" do
       it "calls start_begging" do
         allow(test_class).to receive(:start_begging).with(namespace, env_var_name)
         test_class.floss_funding_initiate_begging("", namespace, env_var_name)
@@ -102,7 +102,7 @@ RSpec.describe FlossFunding::Check do
       end
     end
 
-    context "with unpaid silence license key" do
+    context "with unpaid silence activation key" do
       it "returns nil without begging", :aggregate_failures do
         allow(test_class).to receive(:check_unpaid_silence).with(FlossFunding::FREE_AS_IN_BEER, "TestNamespace").and_return(true)
         allow(test_class).to receive(:start_begging)
@@ -117,7 +117,7 @@ RSpec.describe FlossFunding::Check do
       end
     end
 
-    context "with invalid hex license key" do
+    context "with invalid hex activation key" do
       it "calls start_coughing" do
         invalid_key = "not-a-hex-key"
         allow(test_class).to receive(:check_unpaid_silence).with(invalid_key, "TestNamespace").and_return(false)
@@ -130,26 +130,26 @@ RSpec.describe FlossFunding::Check do
       end
     end
 
-    context "with valid hex license key but invalid after decryption" do
+    context "with valid hex activation key but invalid after decryption" do
       it "calls start_begging", :aggregate_failures do
         valid_hex_key = "a" * 64
         allow(test_class).to receive(:check_unpaid_silence).with(valid_hex_key, namespace).and_return(false)
         allow(test_class).to receive(:floss_funding_decrypt).with(valid_hex_key, namespace).and_return("decrypted")
-        allow(test_class).to receive(:check_license).with("decrypted").and_return(false)
+        allow(test_class).to receive(:check_activation).with("decrypted").and_return(false)
         allow(test_class).to receive(:start_begging).with(namespace, env_var_name)
 
         test_class.floss_funding_initiate_begging(valid_hex_key, namespace, env_var_name)
 
         expect(test_class).to have_received(:check_unpaid_silence).with(valid_hex_key, namespace)
         expect(test_class).to have_received(:floss_funding_decrypt).with(valid_hex_key, namespace)
-        expect(test_class).to have_received(:check_license).with("decrypted")
+        expect(test_class).to have_received(:check_activation).with("decrypted")
         expect(test_class).to have_received(:start_begging).with(namespace, env_var_name)
       end
     end
 
-    context "with valid hex license key and valid after decryption" do
+    context "with valid hex activation key and valid after decryption" do
       it "returns nil without begging", :aggregate_failures do
-        # A valid license key for
+        # A valid activation key for
         #   namespace: "Testing::Flavors::Of::Ice::Cream"
         #   ENV var: "TESTING_FLAVORS_OF_ICE_CREAM"
         #   Month: 2225-07
@@ -172,21 +172,21 @@ RSpec.describe FlossFunding::Check do
 
   describe "#start_coughing" do
     it "outputs the expected message", :aggregate_failures do
-      license_key = "invalid-key"
+      activation_key = "invalid-key"
       namespace = "TestNamespace"
       env_var_name = "TEST_NAMESPACE"
 
       output = capture(:stdout) do
-        test_class.send(:start_coughing, license_key, namespace, env_var_name)
+        test_class.send(:start_coughing, activation_key, namespace, env_var_name)
       end
 
       expect(output).to include("COUGH, COUGH.")
       expect(output).to include("using #{namespace} for free")
-      expect(output).to include("Activation Key: #{license_key}")
+      expect(output).to include("Activation Key: #{activation_key}")
       expect(output).to include("Namespace: #{namespace}")
       expect(output).to include("ENV Variable: #{env_var_name}")
       expect(output).to include("Paid activation keys are 8 bytes, 64 hex characters, long")
-      expect(output).to include("Yours is #{license_key.length} characters long")
+      expect(output).to include("Yours is #{activation_key.length} characters long")
     end
   end
 
@@ -199,21 +199,9 @@ RSpec.describe FlossFunding::Check do
         test_class.send(:start_begging, namespace, env_var_name)
       end
 
-      expect(output.strip).to include("FlossFunding: Activation key missing for #{namespace}.")
+      expect(output.strip).to include("FLOSS Funding: Activation key missing for #{namespace}.")
       expect(output).to include("ENV[#{env_var_name}]")
       expect(output).to include("details will be shown at exit")
-    end
-  end
-
-  describe "#footer" do
-    it "includes the version number" do
-      footer = test_class.send(:footer)
-      expect(footer).to include("FlossFunding v#{FlossFunding::Version::VERSION}")
-    end
-
-    it "includes the expected message" do
-      footer = test_class.send(:footer)
-      expect(footer).to include("Please buy FLOSS licenses to support open source developers.")
     end
   end
 end

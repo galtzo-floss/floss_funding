@@ -33,8 +33,8 @@ module FlossFunding
 
       # Builds a module suitable for inclusion which sets up FlossFunding.
       #
-      # @param including_path [String] the including file path (e.g., __FILE__)
-      # @param namespace [String, nil] optional custom namespace to license
+      # @param including_path [String] the including file path (e.g., `__FILE__`)
+      # @param namespace [String, nil] optional custom namespace for activation key
       # @param env_prefix [String, nil] optional ENV var prefix; defaults to
       #   FlossFunding::UnderBar::DEFAULT_PREFIX when nil
       # @return [Module] a module that can be included into your namespace
