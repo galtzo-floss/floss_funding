@@ -315,7 +315,7 @@
       
       
         &mdash;
-        <div class='inline'><p>the including file path (e.g., <strong>FILE</strong>)</p>
+        <div class='inline'><p>the including file path (e.g., <code>__FILE__</code>)</p>
 </div>
       
     </li>
@@ -332,7 +332,7 @@
       
       
         &mdash;
-        <div class='inline'><p>optional custom namespace to license</p>
+        <div class='inline'><p>optional custom namespace for activation key</p>
 </div>
       
     </li>
@@ -550,7 +550,8 @@ namespace and ENV var name, loads configuration, and initiates begging.</p>
 94
 95
 96
-97</pre>
+97
+98</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/poke.rb', line 58</span>
@@ -574,8 +575,9 @@ namespace and ENV var name, loads configuration, and initiates begging.</p>
 </span>  <span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>=</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_custom_namespace'>custom_namespace</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
       <span class='id identifier rubyid_custom_namespace'>custom_namespace</span>
-    <span class='kw'>elsif</span> <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_config'>config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>namespace</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_config'>config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>namespace</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-      <span class='id identifier rubyid_config'>config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>namespace</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+    <span class='kw'>elsif</span> <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
+      <span class='comment'># namespace config is now an array; take the first non-empty string
+</span>      <span class='const'>Array</span><span class='lparen'>(</span><span class='id identifier rubyid_config'>config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>namespace</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_ns'>ns</span><span class='op'>|</span> <span class='id identifier rubyid_ns'>ns</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_ns'>ns</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='rbrace'>}</span> <span class='op'>||</span> <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
     <span class='kw'>else</span>
       <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
     <span class='kw'>end</span>
@@ -605,7 +607,7 @@ namespace and ENV var name, loads configuration, and initiates begging.</p>
 </div>
 
       <div id="footer">
-  Generated on Sat Aug  9 21:14:06 2025 by
+  Generated on Sat Aug  9 22:27:56 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

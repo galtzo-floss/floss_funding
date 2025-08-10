@@ -146,7 +146,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns the list of valid license words for the current month window.</p>
+    <span class="summary_desc"><div class='inline'><p>Returns the list of valid plain text base words for the current month window.</p>
 </div></span>
   
 </li>
@@ -155,7 +155,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#check_license-instance_method" title="#check_license (instance method)">#<strong>check_license</strong>(plain_text)  &#x21d2; Boolean </a>
+      <a href="#check_activation-instance_method" title="#check_activation (instance method)">#<strong>check_activation</strong>(plain_text)  &#x21d2; Boolean </a>
     
 
     
@@ -169,7 +169,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Checks whether the given plaintext matches a valid license word.</p>
+    <span class="summary_desc"><div class='inline'><p>Checks whether the given plaintext matches a valid plaintext base word.</p>
 </div></span>
   
 </li>
@@ -192,7 +192,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns true if activation_key indicates an unpaid or opted-out license that should not emit any console output (silent success).</p>
+    <span class="summary_desc"><div class='inline'><p>Returns true for unpaid or opted-out activation_key that should not emit any console output (silent success).</p>
 </div></span>
   
 </li>
@@ -238,7 +238,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Entry point for license evaluation and output behavior.</p>
+    <span class="summary_desc"><div class='inline'><p>Entry point for activation key evaluation and output behavior.</p>
 </div></span>
   
 </li>
@@ -324,7 +324,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns the list of valid license words for the current month window.</p>
+    <p>Returns the list of valid plain text base words for the current month window.</p>
 
 
   </div>
@@ -351,12 +351,12 @@
       <pre class="lines">
 
 
-77
 78
-79</pre>
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 78</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_base_words'>base_words</span>
   <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_base_words'><span class='object_link'><a href="../../FlossFunding.html#base_words-class_method" title="FlossFunding.base_words (method)">base_words</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_num_valid_words_for_month'>num_valid_words_for_month</span><span class='rparen'>)</span>
@@ -367,9 +367,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="check_license-instance_method">
+  <h3 class="signature " id="check_activation-instance_method">
   
-    #<strong>check_license</strong>(plain_text)  &#x21d2; <tt>Boolean</tt> 
+    #<strong>check_activation</strong>(plain_text)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -377,7 +377,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Checks whether the given plaintext matches a valid license word.</p>
+    <p>Checks whether the given plaintext matches a valid plaintext base word.</p>
 
 
   </div>
@@ -419,15 +419,15 @@
       <pre class="lines">
 
 
-85
 86
 87
-88</pre>
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 86</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_check_license'>check_license</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_check_activation'>check_activation</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_binary_search_result'>binary_search_result</span> <span class='op'>=</span> <span class='id identifier rubyid_base_words'>base_words</span><span class='period'>.</span><span class='id identifier rubyid_bsearch'>bsearch</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_word'>word</span><span class='op'>|</span> <span class='id identifier rubyid_plain_text'>plain_text</span> <span class='op'>==</span> <span class='id identifier rubyid_word'>word</span> <span class='rbrace'>}</span>
   <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_binary_search_result'>binary_search_result</span>
 <span class='kw'>end</span></pre>
@@ -447,8 +447,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns true if activation_key indicates an unpaid or opted-out license that<br />
-should not emit any console output (silent success).</p>
+    <p>Returns true for unpaid or opted-out activation_key that<br />
+should not emit any console output (silent success).<br />
+Otherwise false.</p>
 
 
   </div>
@@ -501,7 +502,6 @@ should not emit any console output (silent success).</p>
       <pre class="lines">
 
 
-63
 64
 65
 66
@@ -510,10 +510,11 @@ should not emit any console output (silent success).</p>
 69
 70
 71
-72</pre>
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 64</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_unpaid_silence'>check_unpaid_silence</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_activation_key'>activation_key</span>
@@ -593,7 +594,7 @@ should not emit any console output (silent success).</p>
       
       
         &mdash;
-        <div class='inline'><p>plaintext license word on success; false if empty</p>
+        <div class='inline'><p>plaintext activation key (base word) on success; false if empty</p>
 </div>
       
     </li>
@@ -644,7 +645,7 @@ should not emit any console output (silent success).</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>Entry point for license evaluation and output behavior.</p>
+    <p class="note returns_void">This method returns an undefined value.</p><p>Entry point for activation key evaluation and output behavior.</p>
 
 
   </div>
@@ -678,7 +679,7 @@ should not emit any console output (silent success).</p>
       
       
         &mdash;
-        <div class='inline'><p>namespace this license governs</p>
+        <div class='inline'><p>this activation key is valid for a specific namespace; can cover multiple projects / gems</p>
 </div>
       
     </li>
@@ -707,7 +708,6 @@ should not emit any console output (silent success).</p>
       <pre class="lines">
 
 
-96
 97
 98
 99
@@ -739,10 +739,11 @@ should not emit any console output (silent success).</p>
 125
 126
 127
-128</pre>
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_floss_funding_initiate_begging'>floss_funding_initiate_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -751,15 +752,15 @@ should not emit any console output (silent success).</p>
     <span class='kw'>return</span> <span class='id identifier rubyid_start_begging'>start_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
-  <span class='comment'># A silent short circuit for valid unpaid licenses
+  <span class='comment'># A silent short circuit for valid unpaid activations
 </span>  <span class='kw'>if</span> <span class='id identifier rubyid_check_unpaid_silence'>check_unpaid_silence</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
     <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_activated'><span class='object_link'><a href="../../FlossFunding.html#add_activated-class_method" title="FlossFunding.add_activated (method)">add_activated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
     <span class='kw'>return</span>
   <span class='kw'>end</span>
 
-  <span class='id identifier rubyid_valid_license_hex'>valid_license_hex</span> <span class='op'>=</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='period'>.</span><span class='id identifier rubyid_match?'>match?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html#HEX_LICENSE_RULE-constant" title="FlossFunding::HEX_LICENSE_RULE (constant)">HEX_LICENSE_RULE</a></span></span><span class='rparen'>)</span>
-  <span class='kw'>unless</span> <span class='id identifier rubyid_valid_license_hex'>valid_license_hex</span>
-    <span class='comment'># Invalid license format
+  <span class='id identifier rubyid_valid_activation_hex'>valid_activation_hex</span> <span class='op'>=</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='period'>.</span><span class='id identifier rubyid_match?'>match?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html#HEX_LICENSE_RULE-constant" title="FlossFunding::HEX_LICENSE_RULE (constant)">HEX_LICENSE_RULE</a></span></span><span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_valid_activation_hex'>valid_activation_hex</span>
+    <span class='comment'># Invalid activation key format
 </span>    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_unactivated'><span class='object_link'><a href="../../FlossFunding.html#add_unactivated-class_method" title="FlossFunding.add_unactivated (method)">add_unactivated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
     <span class='kw'>return</span> <span class='id identifier rubyid_start_coughing'>start_coughing</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
@@ -767,13 +768,13 @@ should not emit any console output (silent success).</p>
   <span class='comment'># decrypt the activation key for this namespace
 </span>  <span class='id identifier rubyid_plain_text'>plain_text</span> <span class='op'>=</span> <span class='id identifier rubyid_floss_funding_decrypt'>floss_funding_decrypt</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
 
-  <span class='comment'># A silent short circuit for valid paid licenses
-</span>  <span class='kw'>if</span> <span class='id identifier rubyid_check_license'>check_license</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
+  <span class='comment'># A silent short circuit for valid paid activation keys
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_check_activation'>check_activation</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
     <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_activated'><span class='object_link'><a href="../../FlossFunding.html#add_activated-class_method" title="FlossFunding.add_activated (method)">add_activated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
     <span class='kw'>return</span>
   <span class='kw'>end</span>
 
-  <span class='comment'># No valid license found
+  <span class='comment'># No valid activation key found
 </span>  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_unactivated'><span class='object_link'><a href="../../FlossFunding.html#add_unactivated-class_method" title="FlossFunding.add_unactivated (method)">add_unactivated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_start_begging'>start_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -787,7 +788,7 @@ should not emit any console output (silent success).</p>
 </div>
 
       <div id="footer">
-  Generated on Sat Aug  9 21:14:06 2025 by
+  Generated on Sat Aug  9 22:27:56 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

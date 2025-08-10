@@ -7,8 +7,8 @@
     [30, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 3247230807],
     [39, 9, 23, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 2670016150]
   ],
-  "spec/floss_funding/bench_integration_spec.rb:1564103033": [
-    [42, 3, 104, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2062875501]
+  "spec/floss_funding/bench_integration_spec.rb:2915645866": [
+    [44, 3, 104, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2062875501]
   ],
   "spec/floss_funding/check_spec.rb:3607085365": [
     [121, 7, 25, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1102006496]

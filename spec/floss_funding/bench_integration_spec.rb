@@ -4,7 +4,7 @@ require "rspec/stubbed_env"
 require "benchmark"
 require_relative "../support/bench_gems_generator"
 
-# Generate the 50 gem fixtures on disk (idempotent)
+# Generate the 60 gem fixtures on disk (idempotent)
 FlossFunding::BenchGemsGenerator.generate_all
 
 RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding usage" do # rubocop:disable RSpec/DescribeClass
@@ -14,6 +14,8 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
       mod_name = format("BenchGem%02d", i)
       Object.send(:remove_const, mod_name) if Object.const_defined?(mod_name) # rubocop:disable RSpec/RemoveConst
     end
+    # Also remove the shared namespace used by gems 51..60, if present
+    Object.send(:remove_const, :BenchGemShared) if Object.const_defined?(:BenchGemShared) # rubocop:disable RSpec/RemoveConst
   end
 
   # Prepare ENV segmentation for a given percentage (0..100 in steps of 10)

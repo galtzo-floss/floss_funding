@@ -1,22 +1,21 @@
 # frozen_string_literal: true
 
-# Loader for 51 reusable benchmark fixture gems that exist on disk under
+# Loader for 60 reusable benchmark fixture gems that exist on disk under
 # spec/fixtures/bench_gems/bench_gem_XX with minimal gem structure.
 #
 # Each gem folder contains:
 #   - Gemfile
 #   - bench_gem_XX.gemspec
 #   - .floss_funding.yml
-#   - lib/bench_gem_XX.rb (defines BenchGemXX::Core and conditionally includes Poke)
+#   - lib/bench_gem_XX.rb (defines BenchGemXX::Core or shared BenchGemShared::Core and conditionally includes Poke)
 #
 # ENV segmentation for conditional Poke inclusion (implemented inside each gem's lib file):
-#   FLOSS_FUNDING_FIXTURE_GROUP_1 .. FLOSS_FUNDING_FIXTURE_GROUP_10
-# Group 1 controls gems 01..05, group 2 controls 06..10, ..., group 10 controls 46..50.
-# Exactly 50 gems are managed by the 10 segmented ENV variables.
+#   - FLOSS_FUNDING_FIXTURE_GROUP_1 .. FLOSS_FUNDING_FIXTURE_GROUP_10 control gems 01..50 (5 per group)
+#   - FLOSS_FUNDING_FIXTURE_FINAL_10 controls gems 51..60 (shared namespace)
 
 base_dir = File.expand_path("bench_gems", __dir__)
 
-(1..50).each do |i|
+(1..60).each do |i|
   dir = format("bench_gem_%02d", i)
   lib_file = File.join(base_dir, dir, "lib", format("bench_gem_%02d.rb", i))
   # Use load (not require) to allow reloading across tests when ENV changes
