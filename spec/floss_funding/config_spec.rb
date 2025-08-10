@@ -80,4 +80,43 @@ RSpec.describe FlossFunding::Config do
       )
     end
   end
+
+  describe "key style handling" do
+    before do
+      allow(described_class).to receive(:find_config_file).and_return("/dev/null")
+    end
+
+    it "ignores unknown keys not present in DEFAULT_CONFIG" do
+      allow(described_class).to receive(:load_yaml_file).and_return({"unknown_key" => 123})
+      config = described_class.load_config(__FILE__)
+      expect(config).to eq(FlossFunding::Config::DEFAULT_CONFIG)
+    end
+
+    it "does not accept legacy symbol keys (only string keys override)" do
+      allow(described_class).to receive(:load_yaml_file).and_return({
+        :suggested_donation_amount => 99,
+        :floss_funding_url => "https://legacy.example.com",
+      })
+      config = described_class.load_config(__FILE__)
+      # Since only string keys are supported, defaults remain unchanged
+      expect(config).to include(
+        "suggested_donation_amount" => 5,
+        "floss_funding_url" => "https://floss-funding.dev",
+      )
+    end
+
+    it "allows only known string keys to override defaults" do
+      allow(described_class).to receive(:load_yaml_file).and_return({
+        "suggested_donation_amount" => 42,
+        "floss_funding_url" => "https://ok.example.com",
+        "extra" => "ignored",
+      })
+      config = described_class.load_config(__FILE__)
+      expect(config).to include(
+        "suggested_donation_amount" => 42,
+        "floss_funding_url" => "https://ok.example.com",
+      )
+      expect(config.key?("extra")).to be false
+    end
+  end
 end

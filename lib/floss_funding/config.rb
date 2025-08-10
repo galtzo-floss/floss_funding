@@ -38,8 +38,18 @@ module FlossFunding
         config_file = find_config_file(including_path)
         raw_config = config_file ? load_yaml_file(config_file) : {}
 
-        # Merge with defaults; only support new-style keys
-        DEFAULT_CONFIG.merge(raw_config)
+        # Merge with defaults, with constraints:
+        # - Keys are Strings (not Symbols)
+        # - Keys match names defined in DEFAULT_CONFIG
+        # - Ignore all other keys to avoid accidental misconfiguration
+        filtered = {}
+        if raw_config.is_a?(Hash)
+          raw_config.each do |k, v|
+            next unless k.is_a?(String)
+            filtered[k] = v if DEFAULT_CONFIG.key?(k)
+          end
+        end
+        DEFAULT_CONFIG.merge(filtered)
       end
 
       private
