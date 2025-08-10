@@ -45,4 +45,37 @@ RSpec.describe "Benchmark fixtures ENV segmentation" do # rubocop:disable RSpec/
     load_with_groups((1..9).to_a)
     expect(enabled_count).to eq(90)
   end
+
+  context "when 10 fixture gems are enabled from group 1" do
+    context "when load returns nil" do
+      before do
+        allow(Gem::Specification).to receive(:load).and_return(nil)
+      end
+
+      it "can recover" do
+        load_with_groups([1])
+        expect(enabled_count).to eq(10)
+      end
+    end
+
+    context "when load returns a hash of bad data" do
+      let(:bad_data) {
+        {
+          :name => "foo_bar",
+          :authors => nil,
+          :homepage => nil,
+        }
+      }
+      let(:bad_spec) { instance_double(Gem::Specification, :metadata => {}, **bad_data) }
+
+      before do
+        allow(Gem::Specification).to receive(:load).and_return(bad_spec)
+      end
+
+      it "can handle it" do
+        load_with_groups([1])
+        expect(enabled_count).to eq(10)
+      end
+    end
+  end
 end

@@ -44,15 +44,16 @@ gem "floss_funding", :path => "../../../.."
 gemspec
       RUBY
 
+      # not setting authors will result in the default value of []
+      author = (i <= 90) ? %{  s.authors     = ["Author#{i}"]\n} : nil
       # Gemspec (always overwrite to ensure dependency on floss_funding)
       File.write(gemspec, <<-RUBY)
 # frozen_string_literal: true
 Gem::Specification.new do |s|
   s.name        = "bench_gem_#{num}"
-  s.version     = "0.0.0"
-  s.summary     = "Fixture gem for benchmarking"
-  s.authors     = ["Fixture"]
-  s.files       = Dir["lib/**/*.rb"]
+  s.version     = "0.0.#{i}"
+  s.summary     = "Fixture gem #{i} for benchmarking"
+#{author}  s.files       = Dir["lib/**/*.rb"]
   s.require_paths = ["lib"]
 
   # Ensure fixtures depend on the library under test
@@ -64,7 +65,7 @@ end
       unless File.exist?(cfgfile)
         File.write(cfgfile, <<-YAML)
 # Minimal config for fixture gem #{num}
-suggested_donation_amount: 5
+suggested_donation_amount: #{i}
         YAML
       end
 

@@ -109,3 +109,6 @@ module FlossFunding
     end
   end
 end
+
+# Dog Food
+FlossFunding.send(:include, FlossFunding::Poke.new(__FILE__, "FlossFunding"))

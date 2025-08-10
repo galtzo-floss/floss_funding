@@ -1,0 +1,6 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+# Reference floss_funding from the repository root for testing
+# Not used for bundling here, but presence of Gemfile toggles project root detection

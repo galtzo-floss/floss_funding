@@ -36,6 +36,9 @@ RSpec.configure do |config|
   end
 end
 
+# Within the test suite, we will consider this gem to be activated
+ENV["FLOSS_FUNDING_FLOSS_FUNDING"] = "Free-as-in-beer"
+
 # NOTE: Gemfiles for older rubies won't have kettle-soup-cover.
 #       The rescue LoadError handles that scenario.
 begin

@@ -3,9 +3,6 @@
 # std libs
 require "openssl"
 
-# this gem
-require "floss_funding"
-
 module FlossFunding
   # This module loads inside an anonymous module on Ruby 3.1+.
   # This is why FlossFunding herein uses top-level namespace as `::FlossFunding`.

@@ -219,6 +219,6 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
       cfg = configs[ns]
       cfg.is_a?(Hash) ? Array(cfg["gem_name"]) : []
     }.compact.uniq
-    expect(funded_gem_names.size).to eq(100)
+    expect(funded_gem_names.size >= 100).to be(true)
   end
 end

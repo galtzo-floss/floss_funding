@@ -61,20 +61,6 @@
 
 <h2 id="to-do-list">TO DO List</h2>
 
-<h3 id="must-haves">Must Haves</h3>
-
-<ul class="task-list">
-  <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled checked>A gem must be able to silence, or “cover” the license requirement for, its own dependencies.
-    <ul class="task-list">
-      <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>This should only be used by developers who own/control both the silencing and the silenced libraries.</li>
-      <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled checked>Use a .yml file at the root of each gem that uses floss_funding.</li>
-    </ul>
-  </li>
-</ul>
-
 <h2 id="configuration">Configuration</h2>
 
 <p>Gems that use the floss_funding gem can configure some features by creating a <code>.floss_funding.yml</code> file at their root directory. This works in the same manner as <code>.rubocop.yml</code> for gems that use RuboCop.</p>
@@ -87,7 +73,8 @@
   <li>
 <code>suggested_donation_amount</code> - The suggested donation amount to display in the begging message (default: 5)</li>
   <li>
-<code>funding_url</code> - The URL to direct users to for donations or sponsorship (default: https://floss-funding.dev)</li>
+<code>funding_url</code> - The URL to direct users to for donations or sponsorship<br>
+a. default: https://floss-funding.dev, which doesn’t take donations on behalf of other projects, so it will have helpful tips on how to find a way to donate.</li>
 </ol>
 
 <h3 id="example-configuration">Example Configuration</h3>
@@ -103,15 +90,17 @@ funding_url: https://example.com/fund
 <input type="checkbox" class="task-list-item-checkbox" disabled>A website to generate activation keys for gems
     <ul class="task-list">
       <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>List all known gems that can be licensed with floss_funding</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>List all known gems that can be activated with floss_funding</li>
       <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>Account creation with email address</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>Account creation with email address, for those who want to keep a record of their generated activation keys</li>
       <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>Enter Gem Name</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>(Optional) Enter Gem Name</li>
       <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>Affirm they have purchased a license</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>Affirm they have purchased an activation key</li>
       <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>Receive license specific to namespace and the month</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>(Optional) Receive activation key specific to namespace &amp; month generated</li>
+      <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>Activation key will remain valid for that namespace forever (tested out to the June, 5425 C.E.)</li>
     </ul>
   </li>
 </ul>
@@ -124,7 +113,7 @@ funding_url: https://example.com/fund
 </div></div>
 
       <div id="footer">
-  Generated on Sun Aug 10 03:07:44 2025 by
+  Generated on Sun Aug 10 04:58:15 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

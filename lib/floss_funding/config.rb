@@ -69,10 +69,10 @@ module FlossFunding
         # - Store all gemspec attributes into config slots, as arrays
         # - If floss_funding_url not set in YAML, default to gemspec funding_uri
         gemspec_defaults = {}
-        if gemspec_data
-          gemspec_defaults["gem_name"] = normalize_to_array(gemspec_data[:name]) if gemspec_data[:name]
+        unless gemspec_data.empty?
+          gemspec_defaults["gem_name"] = normalize_to_array(gemspec_data[:name]) # name is required by rubygems
           gemspec_defaults["homepage"] = normalize_to_array(gemspec_data[:homepage]) if gemspec_data[:homepage]
-          gemspec_defaults["authors"] = normalize_to_array(gemspec_data[:authors]) if gemspec_data[:authors]
+          gemspec_defaults["authors"] = normalize_to_array(gemspec_data[:authors]) # authors defaults to []
           gemspec_defaults["funding_uri"] = normalize_to_array(gemspec_data[:funding_uri]) if gemspec_data[:funding_uri]
           if gemspec_data[:funding_uri] && !filtered.key?("floss_funding_url")
             gemspec_defaults["floss_funding_url"] = normalize_to_array(gemspec_data[:funding_uri])
@@ -98,17 +98,52 @@ module FlossFunding
 
       private
 
-      # Finds the configuration file by looking in the project's root directory.
+      # Finds the configuration file by walking up from including_path looking for
+      # a .floss_funding.yml file. This works for gems, Bundler projects, and
+      # plain Ruby projects without Gemfile/gemspec.
       #
       # @param including_path [String] the including file path
       # @return [String, nil] absolute path to the config file or nil if not found
       def find_config_file(including_path)
-        # Try to find the project's root directory
-        project_root = find_project_root(including_path)
-        return unless project_root
+        begin
+          start_dir = File.dirname(File.expand_path(including_path))
+          current_dir = start_dir
 
-        config_path = File.join(project_root, CONFIG_FILE_NAME)
-        File.exist?(config_path) ? config_path : nil
+          # Determine an upper boundary for search to avoid leaking configs from unrelated parents.
+          project_root = find_project_root(including_path)
+
+          # Prefer the directory that looks like the local project root (parent of lib)
+          lib_root = (File.basename(start_dir) == "lib") ? File.dirname(start_dir) : nil
+
+          boundary_dir = lib_root || project_root
+
+          # If we couldn't determine any reasonable boundary (very unusual), limit the
+          # search to the including file's directory and its immediate parent. This
+          # still allows patterns like lib/... including a config placed at the
+          # project root (parent of lib), while preventing accidental pickup of
+          # higher-level fixture/config files.
+          if boundary_dir.nil?
+            parent_once = File.dirname(start_dir)
+            while current_dir && current_dir != "/"
+              candidate = File.join(current_dir, CONFIG_FILE_NAME)
+              return candidate if File.exist?(candidate)
+              break if current_dir == parent_once
+              current_dir = File.dirname(current_dir)
+            end
+            return
+          end
+
+          # Search upward until the boundary (inclusive)
+          while current_dir && current_dir != "/"
+            candidate = File.join(current_dir, CONFIG_FILE_NAME)
+            return candidate if File.exist?(candidate)
+            break if current_dir == boundary_dir
+            current_dir = File.dirname(current_dir)
+          end
+        rescue
+          # Fall through to nil when any unexpected error happens
+        end
+        nil
       end
 
       # Attempts to find the root directory of the project that included

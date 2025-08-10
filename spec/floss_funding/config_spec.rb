@@ -128,7 +128,6 @@ RSpec.describe FlossFunding::Config do
   end
 end
 
-
 RSpec.describe FlossFunding::Config do
   describe ".load_config invalid input" do
     it "raises when including_path is not a String" do

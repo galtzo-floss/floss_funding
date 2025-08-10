@@ -70,7 +70,6 @@ RSpec.describe FlossFunding::Poke do
   end
 end
 
-
 RSpec.describe FlossFunding::Poke do
   describe ".included (error path)" do
     it "raises if FlossFunding::Poke is included directly" do
@@ -99,7 +98,9 @@ RSpec.describe FlossFunding::Poke do
 
     it "raises if base responds to :name, but name returns nil (custom object)" do
       base = Object.new
-      def base.name; nil; end
+      def base.name
+        nil
+      end
       expect do
         described_class.setup_begging(base, nil, nil, __FILE__)
       end.to raise_error(FlossFunding::Error, /base must have a name/)
@@ -116,7 +117,9 @@ RSpec.describe FlossFunding::Poke do
 
     it "raises if base responds to :name, but name returns an Integer" do
       base = Object.new
-      def base.name; 123; end
+      def base.name
+        123
+      end
       expect do
         described_class.setup_begging(base, nil, nil, __FILE__)
       end.to raise_error(FlossFunding::Error, /base must have a name/)
