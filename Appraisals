@@ -33,6 +33,7 @@ end
 appraise "head" do
   gem "mutex_m", ">= 0.2"
   gem "stringio", ">= 3.0"
+  gem "benchmark", "~> 0.4", ">= 0.4.1"
 end
 
 # Used for current releases of ruby, truffleruby, and jruby.
