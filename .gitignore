@@ -43,3 +43,6 @@ Appraisal.*.gemfile.lock
 
 # Editors
 *~
+
+# Ephemeral fixtures
+/spec/fixtures/bench_gems/*
