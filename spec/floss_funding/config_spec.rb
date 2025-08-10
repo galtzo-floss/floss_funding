@@ -58,10 +58,13 @@ RSpec.describe FlossFunding::Config do
         allow(described_class).to receive(:find_config_file).and_return(nil)
       end
 
-      it "returns the default configuration" do
+      it "returns defaults possibly enriched by gemspec (when present)" do
         config = described_class.load_config(__FILE__)
 
-        expect(config).to eq(described_class::DEFAULT_CONFIG)
+        # Should at least have the base defaults
+        expect(config["suggested_donation_amount"]).to eq(5)
+        # Unknown whether gemspec is present; url should be a String
+        expect(config["floss_funding_url"]).to be_a(String)
       end
     end
   end
@@ -104,7 +107,10 @@ RSpec.describe FlossFunding::Config do
     it "ignores unknown keys not present in DEFAULT_CONFIG" do
       allow(described_class).to receive(:load_yaml_file).and_return({"unknown_key" => 123})
       config = described_class.load_config(__FILE__)
-      expect(config).to eq(described_class::DEFAULT_CONFIG)
+      # Should not include the unknown key and should retain defaults/gemspec-derived values
+      expect(config.key?("unknown_key")).to be false
+      expect(config["suggested_donation_amount"]).to eq(5)
+      expect(config["floss_funding_url"]).to be_a(String)
     end
 
     it "does not accept legacy symbol keys (only string keys override)" do
@@ -113,11 +119,11 @@ RSpec.describe FlossFunding::Config do
         :floss_funding_url => "https://legacy.example.com",
       })
       config = described_class.load_config(__FILE__)
-      # Since only string keys are supported, defaults remain unchanged
-      expect(config).to include(
-        "suggested_donation_amount" => 5,
-        "floss_funding_url" => "https://floss-funding.dev",
-      )
+      # Since only string keys are supported, defaults remain unchanged for known keys
+      expect(config["suggested_donation_amount"]).to eq(5)
+      # And the legacy-provided URL must not be used
+      expect(config["floss_funding_url"]).not_to eq("https://legacy.example.com")
+      expect(config["floss_funding_url"]).to be_a(String)
     end
 
     it "allows only known string keys to override defaults" do

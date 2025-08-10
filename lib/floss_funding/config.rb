@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "yaml"
+require "rubygems" # For Gem::Specification
 
 module FlossFunding
   # Handles configuration loading from a .floss_funding.yml file located at the
@@ -17,6 +18,7 @@ module FlossFunding
     CONFIG_FILE_NAME = ".floss_funding.yml"
 
     # Default configuration values for FlossFunding prompting.
+    # Also includes slots for gemspec-derived attributes we track per gem.
     # @return [Hash{String=>Object}]
     DEFAULT_CONFIG = {
       "suggested_donation_amount" => 5,
@@ -24,6 +26,11 @@ module FlossFunding
       # Optional namespace override for when including without explicit namespace
       # When set (non-empty string), this will be used as the namespace instead of the including module's name
       "namespace" => nil,
+      # Gemspec-derived attributes (nil when unknown)
+      "gem_name" => nil,
+      "homepage" => nil,
+      "authors" => nil,
+      "funding_uri" => nil,
     }.freeze
 
     class << self
@@ -37,13 +44,15 @@ module FlossFunding
         unless including_path.is_a?(String)
           raise ::FlossFunding::Error, "including must be a String file path (e.g., __FILE__), got #{including_path.class}"
         end
+
+        # Discover project root (Gemfile or *.gemspec)
+        project_root = find_project_root(including_path)
+
+        # Load YAML config if present (respect test stubs of find_config_file)
         config_file = find_config_file(including_path)
         raw_config = config_file ? load_yaml_file(config_file) : {}
 
-        # Merge with defaults, with constraints:
-        # - Keys are Strings (not Symbols)
-        # - Keys match names defined in DEFAULT_CONFIG
-        # - Ignore all other keys to avoid accidental misconfiguration
+        # Strict filter: only allow known string keys
         filtered = {}
         if raw_config.is_a?(Hash)
           raw_config.each do |k, v|
@@ -51,7 +60,25 @@ module FlossFunding
             filtered[k] = v if DEFAULT_CONFIG.key?(k)
           end
         end
-        DEFAULT_CONFIG.merge(filtered)
+
+        # Load gemspec data for defaults if available
+        gemspec_data = project_root ? read_gemspec_data(project_root) : {}
+        # Prepare defaults from gemspec:
+        # - Store all gemspec attributes into config slots
+        # - If floss_funding_url not set in YAML, default to gemspec funding_uri
+        gemspec_defaults = {}
+        if gemspec_data
+          gemspec_defaults["gem_name"] = gemspec_data[:name] if gemspec_data[:name]
+          gemspec_defaults["homepage"] = gemspec_data[:homepage] if gemspec_data[:homepage]
+          gemspec_defaults["authors"] = gemspec_data[:authors] if gemspec_data[:authors]
+          gemspec_defaults["funding_uri"] = gemspec_data[:funding_uri] if gemspec_data[:funding_uri]
+          if gemspec_data[:funding_uri] && !filtered.key?("floss_funding_url")
+            gemspec_defaults["floss_funding_url"] = gemspec_data[:funding_uri]
+          end
+        end
+
+        # Merge precedence: DEFAULT < gemspec_defaults < filtered_yaml
+        DEFAULT_CONFIG.merge(gemspec_defaults).merge(filtered)
       end
 
       private
@@ -97,6 +124,29 @@ module FlossFunding
           YAML.load_file(file_path) || {}
         rescue
           # If there's any error loading the file, return an empty hash
+          {}
+        end
+      end
+
+      # Reads gemspec data from the first *.gemspec in project_root using
+      # RubyGems API, and extracts fields of interest.
+      # @param project_root [String]
+      # @return [Hash] keys: :name, :homepage, :authors, :funding_uri
+      def read_gemspec_data(project_root)
+        gemspec_path = Dir.glob(File.join(project_root, "*.gemspec")).first
+        return {} unless gemspec_path
+        begin
+          spec = Gem::Specification.load(gemspec_path)
+          return {} unless spec
+          metadata = spec.metadata || {}
+          funding_uri = metadata["funding_uri"] || metadata[:funding_uri]
+          {
+            :name => spec.name,
+            :homepage => spec.homepage,
+            :authors => spec.authors,
+            :funding_uri => funding_uri,
+          }
+        rescue StandardError
           {}
         end
       end
