@@ -7,6 +7,8 @@ require "spec_helper"
 require_relative "../fixtures/traditional_test"
 
 RSpec.describe "FlossFunding tracking functionality" do
+  include_context 'with stubbed env'
+
   # Reset the activated and unactivated lists before each test
   before do
     FlossFunding.activated = []
@@ -18,39 +20,9 @@ RSpec.describe "FlossFunding tracking functionality" do
       # Set up a valid activation key
       valid_key = "161A84A3F7383B5BEA81BA1A0B71EA558D987012BE0A07087961F96AC72CF777"
 
-      stubbed_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => valid_key) do
-        # Freeze time to August 2125
-        Timecop.freeze(Time.new(2125, 8, 1)) do
-          # Include the Poke module
-          stub_const("TraditionalTest::InnerModule", Module.new)
-          TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
-
-          # Check that the module was added to the activated list
-          expect(FlossFunding.activated).to include("TraditionalTest::InnerModule")
-          expect(FlossFunding.unactivated).not_to include("TraditionalTest::InnerModule")
-        end
-      end
-    end
-
-    it "tracks unactivated libraries" do
-      # No activation key set
-      stubbed_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => nil) do
-        # Capture stdout to prevent output during tests
-        capture(:stdout) do
-          # Include the Poke module
-          stub_const("TraditionalTest::InnerModule", Module.new)
-          TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
-        end
-      end
-
-      # Check that the module was added to the unactivated list
-      expect(FlossFunding.unactivated).to include("TraditionalTest::InnerModule")
-      expect(FlossFunding.activated).not_to include("TraditionalTest::InnerModule")
-    end
-
-    it "tracks libraries with unpaid silence activation keys" do
-      # Set up an unpaid silence activation key
-      stubbed_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => FlossFunding::FREE_AS_IN_BEER) do
+      stub_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => valid_key)
+      # Freeze time to August 2125
+      Timecop.freeze(Time.new(2125, 8, 1)) do
         # Include the Poke module
         stub_const("TraditionalTest::InnerModule", Module.new)
         TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
@@ -60,6 +32,33 @@ RSpec.describe "FlossFunding tracking functionality" do
         expect(FlossFunding.unactivated).not_to include("TraditionalTest::InnerModule")
       end
     end
+
+    it "tracks unactivated libraries" do
+      # No activation key set
+      stub_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => nil)
+      # Capture stdout to prevent output during tests
+      capture(:stdout) do
+        # Include the Poke module
+        stub_const("TraditionalTest::InnerModule", Module.new)
+        TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
+      end
+
+      # Check that the module was added to the unactivated list
+      expect(FlossFunding.unactivated).to include("TraditionalTest::InnerModule")
+      expect(FlossFunding.activated).not_to include("TraditionalTest::InnerModule")
+    end
+
+    it "tracks libraries with unpaid silence activation keys" do
+      # Set up an unpaid silence activation key
+      stub_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => FlossFunding::FREE_AS_IN_BEER)
+      # Include the Poke module
+      stub_const("TraditionalTest::InnerModule", Module.new)
+      TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
+
+      # Check that the module was added to the activated list
+      expect(FlossFunding.activated).to include("TraditionalTest::InnerModule")
+      expect(FlossFunding.unactivated).not_to include("TraditionalTest::InnerModule")
+    end
   end
 
   describe "multithreaded tracking" do
@@ -67,31 +66,30 @@ RSpec.describe "FlossFunding tracking functionality" do
       # Set up a valid activation key for the first module
       valid_key = "161A84A3F7383B5BEA81BA1A0B71EA558D987012BE0A07087961F96AC72CF777"
 
-      stubbed_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => valid_key) do
-        # Freeze time to August 2125
-        Timecop.freeze(Time.new(2125, 8, 1)) do
-          # Create two modules for testing
-          stub_const("TraditionalTest::InnerModule", Module.new)
-          stub_const("TraditionalTest::OtherModule", Module.new)
+      stub_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => valid_key)
+      # Freeze time to August 2125
+      Timecop.freeze(Time.new(2125, 8, 1)) do
+        # Create two modules for testing
+        stub_const("TraditionalTest::InnerModule", Module.new)
+        stub_const("TraditionalTest::OtherModule", Module.new)
 
-          # Create and start two threads
-          thread1 = Thread.new do
-            TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
-          end
-
-          thread2 = Thread.new do
-            # No activation key for the second module
-            TraditionalTest::OtherModule.send(:include, FlossFunding::Poke.new(__FILE__))
-          end
-
-          # Wait for both threads to complete
-          thread1.join
-          thread2.join
-
-          # Check that both modules were tracked correctly
-          expect(FlossFunding.activated).to include("TraditionalTest::InnerModule")
-          expect(FlossFunding.unactivated).to include("TraditionalTest::OtherModule")
+        # Create and start two threads
+        thread1 = Thread.new do
+          TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
         end
+
+        thread2 = Thread.new do
+          # No activation key for the second module
+          TraditionalTest::OtherModule.send(:include, FlossFunding::Poke.new(__FILE__))
+        end
+
+        # Wait for both threads to complete
+        thread1.join
+        thread2.join
+
+        # Check that both modules were tracked correctly
+        expect(FlossFunding.activated).to include("TraditionalTest::InnerModule")
+        expect(FlossFunding.unactivated).to include("TraditionalTest::OtherModule")
       end
     end
   end

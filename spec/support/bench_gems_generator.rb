@@ -76,17 +76,17 @@ suggested_donation_amount: 5
 current_dir_name = File.basename(File.dirname(__dir__))
 current_num = current_dir_name.split("_").last.to_i
 
-# Namespace and ENV selection logic:
-# - For gems 1..90: unique namespaces BenchGemXX, grouped by 9 per ENV var FLOSS_FUNDING_FIXTURE_GROUP_1..10
-# - For gems 91..100: use unique module names BenchGem91..BenchGem100 but pass shared namespace "BenchGemShared" to Poke, with a single ENV var FLOSS_FUNDING_FIXTURE_FINAL_10
+# Namespace and ENV selection logic (updated for 10-per-group):
+# - For gems 1..90: unique namespaces BenchGemXX, grouped by 10 per ENV var FLOSS_FUNDING_FIXTURE_GROUP_1..9
+# - For gems 91..100: unique module names BenchGem91..BenchGem100 but pass shared namespace "BenchGemShared" to Poke, with a single ENV var FLOSS_FUNDING_FIXTURE_FINAL_10
 mod_name = "BenchGem%02d" % current_num
-if current_num <= 90
-  group = ((current_num - 1) / 9) + 1
-  env_name = "FLOSS_FUNDING_FIXTURE_GROUP_#{group}"
-  poke_namespace = mod_name
-else
+if current_num >= 91
   env_name = "FLOSS_FUNDING_FIXTURE_FINAL_10"
   poke_namespace = "BenchGemShared"
+else
+  group = ((current_num - 1) / 10) + 1 # 1..10 => 1, 11..20 => 2, ..., 81..90 => 9
+  env_name = "FLOSS_FUNDING_FIXTURE_GROUP_#{group}"
+  poke_namespace = mod_name
 end
 
 # Define module and Core submodule

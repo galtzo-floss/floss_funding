@@ -96,7 +96,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency("rspec", "~> 3.13")                     # ruby >= 0
   spec.add_development_dependency("rspec-block_is_expected", "~> 1.0")    # ruby >= 1.8.7
   spec.add_development_dependency("rspec_junit_formatter", "~> 0.6")      # ruby >= 2.3.0, for GitLab Test Result Parsing
-  spec.add_development_dependency("rspec-stubbed_env", "~> 1.0")            # ruby >= 2.3.0 (helper for stubbing ENV in specs)
+  spec.add_development_dependency("rspec-stubbed_env", "~> 1.0")          # ruby >= 2.3.0 (helper for stubbing ENV in specs)
   spec.add_development_dependency("silent_stream", "~> 1.0", ">= 1.0.11") # ruby >= 2.3.0, for output capture
   spec.add_development_dependency("timecop", "~> 0.9", ">= 0.9.10")       # ruby >= 1.9.2
 

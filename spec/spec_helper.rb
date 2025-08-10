@@ -5,34 +5,8 @@ require "debug"
 require "silent_stream"
 require "rspec/block_is_expected"
 require "rspec/block_is_expected/matchers/not"
-begin
-  require "rspec/stubbed_env"
-rescue LoadError
-  # ignore, we'll define a fallback below
-end
+require "rspec/stubbed_env"
 
-# Provide a minimal fallback unless provided by the gem
-unless defined?(stubbed_env)
-  def stubbed_env(vars)
-    raise ArgumentError, "stubbed_env expects a hash" unless vars.is_a?(Hash)
-    saved = {}
-    vars.each do |k, v|
-      saved[k] = ENV.key?(k) ? ENV[k] : :__absent__
-      v.nil? ? ENV.delete(k) : ENV[k] = v
-    end
-    begin
-      yield
-    ensure
-      vars.each do |k, _|
-        if saved[k] == :__absent__
-          ENV.delete(k)
-        else
-          ENV[k] = saved[k]
-        end
-      end
-    end
-  end
-end
 
 # Config files
 require "config/timecop"

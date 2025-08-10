@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rspec/stubbed_env"
-require "floss_funding"
 require_relative "../support/bench_gems_generator"
 
 # Generate the 100 gem fixtures on disk (idempotent)
@@ -19,8 +17,8 @@ RSpec.describe "Benchmark fixtures ENV segmentation" do # rubocop:disable RSpec/
 
   def load_with_groups(enabled_groups)
     remove_bench_constants
-    # Reset all group ENV vars to disabled
-    (1..10).each { |g| ENV["FLOSS_FUNDING_FIXTURE_GROUP_#{g}"] = "0" }
+    # Reset all group ENV vars to disabled (1..9 control the first 90 gems)
+    (1..9).each { |g| ENV["FLOSS_FUNDING_FIXTURE_GROUP_#{g}"] = "0" }
     enabled_groups.each { |g| ENV["FLOSS_FUNDING_FIXTURE_GROUP_#{g}"] = "1" }
     load File.join(__dir__, "../fixtures/bench_gems_loader.rb")
   end
@@ -33,18 +31,18 @@ RSpec.describe "Benchmark fixtures ENV segmentation" do # rubocop:disable RSpec/
     end
   end
 
-  it "enables exactly 9 fixtures when group 1 is enabled" do
+  it "enables exactly 10 fixtures when group 1 is enabled" do
     load_with_groups([1])
-    expect(enabled_count).to eq(9)
+    expect(enabled_count).to eq(10)
   end
 
-  it "enables exactly 18 fixtures when groups 1 and 2 are enabled" do
+  it "enables exactly 20 fixtures when groups 1 and 2 are enabled" do
     load_with_groups([1, 2])
-    expect(enabled_count).to eq(18)
+    expect(enabled_count).to eq(20)
   end
 
-  it "enables exactly 90 fixtures when all 10 groups are enabled" do
-    load_with_groups((1..10).to_a)
+  it "enables exactly 90 fixtures when all 9 groups are enabled" do
+    load_with_groups((1..9).to_a)
     expect(enabled_count).to eq(90)
   end
 end

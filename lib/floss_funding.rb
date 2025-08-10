@@ -180,7 +180,11 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       return [] if num_valid_words.nil? || num_valid_words.zero?
       File.open(::FlossFunding::BASE_WORDS_PATH, "r") do |file|
         lines = []
-        num_valid_words.times { lines << file.gets.chomp }
+        num_valid_words.times do
+          line = file.gets
+          break if line.nil?
+          lines << line.chomp
+        end
         lines
       end
     end
@@ -202,6 +206,17 @@ at_exit {
   unactivated_count = unactivated.size
   occurrences_count = FlossFunding.activation_occurrences.size
 
+  # Compute how many distinct gem names are covered by funding.
+  # Only consider namespaces that ended up ACTIVATED; unactivated are excluded by design.
+  # Shared namespaces (e.g., final 10) will still contribute all gem names because configs merge per-namespace.
+  configs = FlossFunding.configurations
+  observed_namespaces = activated.uniq
+  funded_gem_names = observed_namespaces.flat_map { |ns|
+    cfg = configs[ns]
+    cfg.is_a?(Hash) ? Array(cfg["gem_name"]) : []
+  }.compact.uniq
+  funded_gem_count = funded_gem_names.size
+
   # Summary section
   if activated_count > 0 || unactivated_count > 0
     stars = ("⭐️" * activated_count)
@@ -211,6 +226,8 @@ at_exit {
     summary_lines << "Activated libraries (#{activated_count}): #{stars}" if activated_count > 0
     # Also show total successful inclusions (aka per-gem activations), which may exceed unique namespaces
     summary_lines << "Activated gems (#{occurrences_count})" if occurrences_count > 0
+    # Show how many distinct gem names are covered by funding
+    summary_lines << "Gems covered by funding (#{funded_gem_count})" if funded_gem_count > 0
     summary_lines << "Unactivated libraries (#{unactivated_count}): #{mimes}" if unactivated_count > 0
     summary = summary_lines.join("\n") + "\n\n"
     puts summary
