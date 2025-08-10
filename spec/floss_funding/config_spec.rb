@@ -23,7 +23,7 @@ RSpec.describe FlossFunding::Config do
 
       it "merges with default values" do
         # Temporarily modify DEFAULT_CONFIG to include a value not in our fixture
-        original_default = FlossFunding::Config::DEFAULT_CONFIG.dup
+        original_default = described_class::DEFAULT_CONFIG.dup
         stub_const("FlossFunding::Config::DEFAULT_CONFIG", original_default.merge("test_key" => "test_value"))
 
         config = described_class.load_config(__FILE__)
@@ -32,6 +32,21 @@ RSpec.describe FlossFunding::Config do
         expect(config).to include(
           "suggested_donation_amount" => 10,
           "floss_funding_url" => "https://example.com/fund",
+        )
+      end
+    end
+
+    context "when .floss_funding.yml specifies a namespace" do
+      before do
+        allow(described_class).to receive(:find_config_file).and_return(
+          File.join(File.dirname(__FILE__), "../fixtures/.floss_funding_with_namespace.yml"),
+        )
+      end
+
+      it "includes the namespace key from the file" do
+        config = described_class.load_config(__FILE__)
+        expect(config).to include(
+          "namespace" => "Config::Namespace",
         )
       end
     end
@@ -46,7 +61,7 @@ RSpec.describe FlossFunding::Config do
       it "returns the default configuration" do
         config = described_class.load_config(__FILE__)
 
-        expect(config).to eq(FlossFunding::Config::DEFAULT_CONFIG)
+        expect(config).to eq(described_class::DEFAULT_CONFIG)
       end
     end
   end
@@ -56,7 +71,7 @@ RSpec.describe FlossFunding::Config do
 
     before do
       # Mock the find_config_file method to return our fixture file
-      allow(FlossFunding::Config).to receive(:find_config_file).and_return(
+      allow(described_class).to receive(:find_config_file).and_return(
         File.join(File.dirname(__FILE__), "../fixtures/.floss_funding.yml"),
       )
 
@@ -89,7 +104,7 @@ RSpec.describe FlossFunding::Config do
     it "ignores unknown keys not present in DEFAULT_CONFIG" do
       allow(described_class).to receive(:load_yaml_file).and_return({"unknown_key" => 123})
       config = described_class.load_config(__FILE__)
-      expect(config).to eq(FlossFunding::Config::DEFAULT_CONFIG)
+      expect(config).to eq(described_class::DEFAULT_CONFIG)
     end
 
     it "does not accept legacy symbol keys (only string keys override)" do

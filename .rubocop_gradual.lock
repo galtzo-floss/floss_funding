@@ -10,16 +10,13 @@
   "spec/floss_funding/check_spec.rb:915611232": [
     [121, 7, 25, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1102006496]
   ],
-  "spec/floss_funding/config_spec.rb:390735303": [
+  "spec/floss_funding/config_spec.rb:3833569339": [
     [24, 7, 31, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3643592354],
-    [59, 13, 20, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding::Config`.", 3344193683],
-    [64, 7, 29, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 47319566]
+    [79, 7, 29, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 47319566],
+    [123, 5, 55, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3000927827]
   ],
-  "spec/floss_funding/poke_spec.rb:919531675": [
-    [13, 51, 18, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding::Poke`.", 2037617000],
-    [26, 53, 18, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding::Poke`.", 2037617000],
-    [39, 46, 18, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding::Poke`.", 2037617000],
-    [52, 48, 18, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding::Poke`.", 2037617000]
+  "spec/floss_funding/poke_spec.rb:4186497704": [
+    [72, 5, 92, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 750385604]
   ],
   "spec/floss_funding/tracking_spec.rb:1323736667": [
     [9, 16, 37, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3603826461],

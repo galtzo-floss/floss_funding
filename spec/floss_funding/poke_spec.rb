@@ -10,7 +10,7 @@ RSpec.describe FlossFunding::Poke do
       # Stub the module to ensure it's clean for each test
       stub_const("TraditionalTest::InnerModule", Module.new)
       # Include the Poke module
-      TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
+      TraditionalTest::InnerModule.send(:include, described_class.new(__FILE__))
     end
 
     it "uses the module's name as namespace" do
@@ -23,7 +23,7 @@ RSpec.describe FlossFunding::Poke do
       output = capture(:stdout) do
         # Re-include to trigger output by stubbing the module again
         stub_const("TraditionalTest::InnerModule", Module.new)
-        TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
+        TraditionalTest::InnerModule.send(:include, described_class.new(__FILE__))
       end
 
       # Check that the output contains the correct env var name
@@ -36,7 +36,7 @@ RSpec.describe FlossFunding::Poke do
       # Stub the module to ensure it's clean for each test
       stub_const("CustomTest::InnerModule", Module.new)
       # Include the Poke module with custom namespace
-      CustomTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__, "MyNamespace::V4"))
+      CustomTest::InnerModule.send(:include, described_class.new(__FILE__, "MyNamespace::V4"))
     end
 
     it "uses the provided namespace" do
@@ -49,11 +49,35 @@ RSpec.describe FlossFunding::Poke do
       output = capture(:stdout) do
         # Re-include to trigger output by stubbing the module again
         stub_const("CustomTest::InnerModule", Module.new)
-        CustomTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__, "MyNamespace::V4"))
+        CustomTest::InnerModule.send(:include, described_class.new(__FILE__, "MyNamespace::V4"))
       end
 
       # Check that the output contains the correct env var name
       expect(output).to include("MY_NAMESPACE_V4")
+    end
+  end
+
+  describe "namespace from config file" do
+    before do
+      # Ensure a stable module name that differs from the config namespace
+      stub_const("ConfigNsTest::InnerModule", Module.new)
+      allow(ConfigNsTest::InnerModule).to receive(:name).and_return("ConfigNsTest::InnerModule")
+
+      # Make Config.load_config pick the namespace-enabled fixture
+      allow(FlossFunding::Config).to receive(:find_config_file).and_return(
+        File.join(File.dirname(__FILE__), "../fixtures/.floss_funding_with_namespace.yml"),
+      )
+    end
+
+    it "uses the namespace specified in .floss_funding.yml when no custom namespace is provided" do
+      output = capture(:stdout) do
+        ConfigNsTest::InnerModule.send(:include, described_class.new(__FILE__))
+      end
+
+      # ENV var should be derived from the config namespace "Config::Namespace"
+      expect(output).to include("CONFIG_NAMESPACE")
+      # And should not be derived from the module name
+      expect(output).not_to include("CONFIG_NS_TEST_INNER_MODULE")
     end
   end
 

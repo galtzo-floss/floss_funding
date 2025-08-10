@@ -1,0 +1,3 @@
+suggested_donation_amount: 10
+floss_funding_url: https://example.com/fund
+namespace: Config::Namespace

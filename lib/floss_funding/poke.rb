@@ -64,11 +64,22 @@ module FlossFunding
         # Extend the base with the checker module first
         base.extend(::FlossFunding::Check)
 
+        # Load configuration from .floss_funding.yml if it exists
+        config = ::FlossFunding::Config.load_config(including_path)
+
         # Three data points needed:
-        # 1. namespace (derived from the base class name, if not given)
+        # 1. namespace (derived from the base class name, config, or param)
         # 2. ENV variable name (derived from namespace)
         # 3. license key (derived from ENV variable)
-        namespace = (!custom_namespace || custom_namespace.empty?) ? base.name : custom_namespace
+        namespace =
+          if custom_namespace && !custom_namespace.empty?
+            custom_namespace
+          elsif config.is_a?(Hash) && config["namespace"].is_a?(String) && !config["namespace"].empty?
+            config["namespace"]
+          else
+            base.name
+          end
+
         env_var_name = ::FlossFunding::UnderBar.env_variable_name(
           {
             :prefix => env_prefix,
@@ -77,8 +88,7 @@ module FlossFunding
         )
         license_key = ENV.fetch(env_var_name, "")
 
-        # Load configuration from .floss_funding.yml if it exists
-        config = ::FlossFunding::Config.load_config(including_path)
+        # Store configuration under the effective namespace
         ::FlossFunding.set_configuration(namespace, config)
 
         # Now call the begging method after extending
