@@ -1,5 +1,5 @@
 {
-  "lib/floss_funding.rb:3584338640": [
+  "lib/floss_funding.rb:1164885742": [
     [112, 51, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765]
   ],
   "lib/floss_funding/check.rb:3386858161": [

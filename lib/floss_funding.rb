@@ -169,11 +169,16 @@ at_exit {
   licensed_count = licensed.size
   unlicensed_count = unlicensed.size
 
+  # Summary section
   if licensed_count > 0 || unlicensed_count > 0
-    puts "\nFlossFunding Summary:"
-    puts "Licensed libraries (#{licensed_count}): #{"⭐️" * licensed_count}" if licensed_count > 0
-    puts "Unlicensed libraries (#{unlicensed_count}): #{"🫥" * unlicensed_count}" if unlicensed_count > 0
-    puts ""
+    stars = ("⭐️" * licensed_count)
+    mimes = ("🫥" * unlicensed_count)
+    summary_lines = []
+    summary_lines << "\nFlossFunding Summary:"
+    summary_lines << "Licensed libraries (#{licensed_count}): #{stars}" if licensed_count > 0
+    summary_lines << "Unlicensed libraries (#{unlicensed_count}): #{mimes}" if unlicensed_count > 0
+    summary = summary_lines.join("\n") + "\n\n"
+    puts summary
   end
 
   # Emit a single, consolidated blurb for all unlicensed namespaces
@@ -182,44 +187,59 @@ at_exit {
     configs = FlossFunding.configurations
     env_map = FlossFunding.env_var_names
 
-    puts "=============================================================="
-    puts "Unremunerated use of the following namespaces was detected:"
+    details = +""
+    details << <<-HEADER
+==============================================================
+Unremunerated use of the following namespaces was detected:
+    HEADER
+
     unlicensed.each do |ns|
       config = configs[ns] || {}
       funding_url = config["floss_funding_url"] || "https://floss-funding.dev"
       suggested_amount = config["suggested_donation_amount"] || 5
       env_name = env_map[ns] || "FLOSS_FUNDING_#{ns.gsub(/[^A-Za-z0-9]+/, '_').upcase}"
       opt_out = "#{::FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{ns}"
-      puts "  - Namespace: #{ns}"
-      puts "    ENV Variable: #{env_name}"
-      puts "    Suggested donation amount: $#{suggested_amount}"
-      puts "    Funding URL: #{funding_url}"
-      puts "    Opt-out key: \"#{opt_out}\""
+      details << <<-NS
+  - Namespace: #{ns}
+    ENV Variable: #{env_name}
+    Suggested donation amount: $#{suggested_amount}
+    Funding URL: #{funding_url}
+    Opt-out key: "#{opt_out}"
+
+      NS
     end
-    puts ""
-    puts "FlossFunding relies on empathy, respect, honor, and annoyance of the most extreme mildness."
-    puts "👉️ No network calls. 👉️ No tracking. 👉️ No oversight. 👉️ Minimal crypto hashing."
-    puts ""
-    puts "Options:"
-    puts "  1. 🌐  Donate or sponsor at the funding URLs above, and affirm on your honor your donor or sponsor status."
-    puts "     a. Receive ethically-sourced, buy-once, activation key for each namespace."
-    puts "     b. Suggested donation amounts are listed above."
-    puts ""
-    puts "  2. 🪄  If open source, or not-for-profit, continue to use for free, with activation key: \"#{::FlossFunding::FREE_AS_IN_BEER}\"."
-    puts ""
-    puts "  3. 🏦  If commercial, continue to use for free, & feel a bit naughty, with activation key: \"#{::FlossFunding::BUSINESS_IS_NOT_GOOD_YET}\"."
-    puts ""
-    puts "  4. ✖️  Disable license checks using the per-namespace opt-out keys listed above."
-    puts ""
-    puts "Then, before loading the gems, set the ENV variables listed above to your chosen key."
-    puts "Or in shell / dotenv / direnv, e.g.:"
+
+    details << <<-BODY
+FlossFunding relies on empathy, respect, honor, and annoyance of the most extreme mildness.
+👉️ No network calls. 👉️ No tracking. 👉️ No oversight. 👉️ Minimal crypto hashing.
+
+Options:
+  1. 🌐  Donate or sponsor at the funding URLs above, and affirm on your honor your donor or sponsor status.
+     a. Receive ethically-sourced, buy-once, activation key for each namespace.
+     b. Suggested donation amounts are listed above.
+
+  2. 🪄  If open source, or not-for-profit, continue to use for free, with activation key: "#{::FlossFunding::FREE_AS_IN_BEER}".
+
+  3. 🏦  If commercial, continue to use for free, & feel a bit naughty, with activation key: "#{::FlossFunding::BUSINESS_IS_NOT_GOOD_YET}".
+
+  4. ✖️  Disable license checks using the per-namespace opt-out keys listed above.
+
+Then, before loading the gems, set the ENV variables listed above to your chosen key.
+Or in shell / dotenv / direnv, e.g.:
+    BODY
+
     unlicensed.each do |ns|
       env_name = env_map[ns] || "FLOSS_FUNDING_#{ns.gsub(/[^A-Za-z0-9]+/, '_').upcase}"
-      puts "  export #{env_name}=\"<your key>\""
+      details << "  export #{env_name}=\"<your key>\"\n"
     end
-    puts ""
-    puts "=============================================================="
-    puts "- Please buy FLOSS licenses to support open source developers."
-    puts "FlossFunding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺🇸 & 🇮🇩 by Galtzo FLOSS."
+
+    details << <<-FOOTER
+
+==============================================================
+- Please buy FLOSS licenses to support open source developers.
+FlossFunding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺🇸 & 🇮🇩 by Galtzo FLOSS.
+    FOOTER
+
+    puts details
   end
 }
