@@ -176,16 +176,15 @@ Usage patterns:
 
 1. Traditional namespace (uses the including module's name):
     ```ruby
-module MyGemLibrary
-  include FlossFunding::Poke.new(__FILE__)
-end
+    module MyGemLibrary
+      include FlossFunding::Poke.new(__FILE__)
+    end
     ```
-
 2. Arbitrary custom namespace (can add version, or anything else):
     ```ruby
-module MyGemLibrary
-  include FlossFunding::Poke.new(__FILE__, "Custom::Namespace::V4")
-end
+    module MyGemLibrary
+    include FlossFunding::Poke.new(__FILE__, "Custom::Namespace::V4")
+    end
     ```
 
 ## Configuration

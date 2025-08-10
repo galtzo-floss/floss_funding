@@ -1,4 +1,9 @@
 {
+  "README.md:1368232518": [
+    [179, 5, 74, "Layout/IndentationConsistency: Inconsistent indentation detected.", 4223370527],
+    [185, 5, 97, "Layout/IndentationConsistency: Inconsistent indentation detected.", 4173570977],
+    [186, 5, 0, "Layout/IndentationWidth: Use 2 (not 0) spaces for indentation.", 5381]
+  ],
   "lib/floss_funding/check.rb:2641336638": [
     [16, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 883476360],
     [27, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 3247230807],
