@@ -37,4 +37,4 @@ funding_url: https://example.com/fund
 
 ### Nice to haves
 
-- [x] Poke will display random quote from a random philosopher.
+- [] Poke will display random quote from a random philosopher.

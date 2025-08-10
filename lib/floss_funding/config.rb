@@ -7,8 +7,7 @@ module FlossFunding
   # root of the including project (heuristically discovered by walking upward
   # from the including file path until a Gemfile or *.gemspec is found).
   #
-  # All APIs in this module require the including file path (e.g., __FILE__).
-  # Legacy behaviors (like deducing from a Module) are intentionally unsupported.
+  # All APIs in this module require the including file path (e.g., `__FILE__`).
   #
   # The loaded config is merged over DEFAULT_CONFIG, so any unspecified keys fall
   # back to defaults.
