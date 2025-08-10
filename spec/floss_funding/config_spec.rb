@@ -16,22 +16,22 @@ RSpec.describe FlossFunding::Config do
         config = described_class.load_config(__FILE__)
 
         expect(config).to include(
-          "suggested_donation_amount" => 10,
-          "floss_funding_url" => "https://example.com/fund",
+          "suggested_donation_amount" => [10],
+          "floss_funding_url" => ["https://example.com/fund"],
         )
       end
 
       it "merges with default values" do
         # Temporarily modify DEFAULT_CONFIG to include a value not in our fixture
         original_default = described_class::DEFAULT_CONFIG.dup
-        stub_const("FlossFunding::Config::DEFAULT_CONFIG", original_default.merge("test_key" => "test_value"))
+        stub_const("FlossFunding::Config::DEFAULT_CONFIG", original_default.merge("test_key" => ["test_value"]))
 
         config = described_class.load_config(__FILE__)
 
-        expect(config).to include("test_key" => "test_value")
+        expect(config).to include("test_key" => ["test_value"])
         expect(config).to include(
-          "suggested_donation_amount" => 10,
-          "floss_funding_url" => "https://example.com/fund",
+          "suggested_donation_amount" => [10],
+          "floss_funding_url" => ["https://example.com/fund"],
         )
       end
     end
@@ -46,7 +46,7 @@ RSpec.describe FlossFunding::Config do
       it "includes the namespace key from the file" do
         config = described_class.load_config(__FILE__)
         expect(config).to include(
-          "namespace" => "Config::Namespace",
+          "namespace" => ["Config::Namespace"],
         )
       end
     end
@@ -62,9 +62,10 @@ RSpec.describe FlossFunding::Config do
         config = described_class.load_config(__FILE__)
 
         # Should at least have the base defaults
-        expect(config["suggested_donation_amount"]).to eq(5)
-        # Unknown whether gemspec is present; url should be a String
-        expect(config["floss_funding_url"]).to be_a(String)
+        expect(config["suggested_donation_amount"]).to eq([5])
+        # Unknown whether gemspec is present; url should be an Array of String
+        expect(config["floss_funding_url"]).to be_a(Array)
+        expect(config["floss_funding_url"].first).to be_a(String)
       end
     end
   end
@@ -93,8 +94,8 @@ RSpec.describe FlossFunding::Config do
       config = FlossFunding.configuration("TestModule")
 
       expect(config).to include(
-        "suggested_donation_amount" => 10,
-        "floss_funding_url" => "https://example.com/fund",
+        "suggested_donation_amount" => [10],
+        "floss_funding_url" => ["https://example.com/fund"],
       )
     end
   end
@@ -109,8 +110,8 @@ RSpec.describe FlossFunding::Config do
       config = described_class.load_config(__FILE__)
       # Should not include the unknown key and should retain defaults/gemspec-derived values
       expect(config.key?("unknown_key")).to be false
-      expect(config["suggested_donation_amount"]).to eq(5)
-      expect(config["floss_funding_url"]).to be_a(String)
+      expect(config["suggested_donation_amount"]).to eq([5])
+      expect(config["floss_funding_url"]).to be_a(Array)
     end
 
     it "does not accept legacy symbol keys (only string keys override)" do
@@ -120,10 +121,10 @@ RSpec.describe FlossFunding::Config do
       })
       config = described_class.load_config(__FILE__)
       # Since only string keys are supported, defaults remain unchanged for known keys
-      expect(config["suggested_donation_amount"]).to eq(5)
+      expect(config["suggested_donation_amount"]).to eq([5])
       # And the legacy-provided URL must not be used
-      expect(config["floss_funding_url"]).not_to eq("https://legacy.example.com")
-      expect(config["floss_funding_url"]).to be_a(String)
+      expect(config["floss_funding_url"]).not_to eq(["https://legacy.example.com"])
+      expect(config["floss_funding_url"]).to be_a(Array)
     end
 
     it "allows only known string keys to override defaults" do
@@ -134,8 +135,8 @@ RSpec.describe FlossFunding::Config do
       })
       config = described_class.load_config(__FILE__)
       expect(config).to include(
-        "suggested_donation_amount" => 42,
-        "floss_funding_url" => "https://ok.example.com",
+        "suggested_donation_amount" => [42],
+        "floss_funding_url" => ["https://ok.example.com"],
       )
       expect(config.key?("extra")).to be false
     end

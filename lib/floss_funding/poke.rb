@@ -74,8 +74,9 @@ module FlossFunding
         namespace =
           if custom_namespace && !custom_namespace.empty?
             custom_namespace
-          elsif config.is_a?(Hash) && config["namespace"].is_a?(String) && !config["namespace"].empty?
-            config["namespace"]
+          elsif config.is_a?(Hash)
+            # namespace config is now an array; take the first non-empty string
+            Array(config["namespace"]).find { |ns| ns.is_a?(String) && !ns.empty? } || base.name
           else
             base.name
           end

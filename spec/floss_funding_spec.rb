@@ -26,7 +26,7 @@ RSpec.describe FlossFunding do
   end
 
   it "has FOOTER constant with version" do
-    expect(described_class::FOOTER).to include("FlossFunding v#{FlossFunding::Version::VERSION}")
+    expect(described_class::FOOTER).to include("floss_funding v#{FlossFunding::Version::VERSION}")
   end
 
   it "has FOOTER constant with solicitation" do

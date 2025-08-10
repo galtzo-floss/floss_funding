@@ -21,16 +21,16 @@ module FlossFunding
     # Also includes slots for gemspec-derived attributes we track per gem.
     # @return [Hash{String=>Object}]
     DEFAULT_CONFIG = {
-      "suggested_donation_amount" => 5,
-      "floss_funding_url" => "https://floss-funding.dev",
+      "suggested_donation_amount" => [5],
+      "floss_funding_url" => ["https://floss-funding.dev"],
       # Optional namespace override for when including without explicit namespace
       # When set (non-empty string), this will be used as the namespace instead of the including module's name
-      "namespace" => nil,
+      "namespace" => [],
       # Gemspec-derived attributes (nil when unknown)
-      "gem_name" => nil,
-      "homepage" => nil,
-      "authors" => nil,
-      "funding_uri" => nil,
+      "gem_name" => [],
+      "homepage" => [],
+      "authors" => [],
+      "funding_uri" => [],
     }.freeze
 
     class << self
@@ -52,33 +52,47 @@ module FlossFunding
         config_file = find_config_file(including_path)
         raw_config = config_file ? load_yaml_file(config_file) : {}
 
-        # Strict filter: only allow known string keys
+        # Strict filter: only allow known string keys, then normalize to arrays
         filtered = {}
         if raw_config.is_a?(Hash)
           raw_config.each do |k, v|
             next unless k.is_a?(String)
-            filtered[k] = v if DEFAULT_CONFIG.key?(k)
+            next unless DEFAULT_CONFIG.key?(k)
+            filtered[k] = normalize_to_array(v)
           end
         end
 
         # Load gemspec data for defaults if available
         gemspec_data = project_root ? read_gemspec_data(project_root) : {}
         # Prepare defaults from gemspec:
-        # - Store all gemspec attributes into config slots
+        # - Store all gemspec attributes into config slots, as arrays
         # - If floss_funding_url not set in YAML, default to gemspec funding_uri
         gemspec_defaults = {}
         if gemspec_data
-          gemspec_defaults["gem_name"] = gemspec_data[:name] if gemspec_data[:name]
-          gemspec_defaults["homepage"] = gemspec_data[:homepage] if gemspec_data[:homepage]
-          gemspec_defaults["authors"] = gemspec_data[:authors] if gemspec_data[:authors]
-          gemspec_defaults["funding_uri"] = gemspec_data[:funding_uri] if gemspec_data[:funding_uri]
+          gemspec_defaults["gem_name"] = normalize_to_array(gemspec_data[:name]) if gemspec_data[:name]
+          gemspec_defaults["homepage"] = normalize_to_array(gemspec_data[:homepage]) if gemspec_data[:homepage]
+          gemspec_defaults["authors"] = normalize_to_array(gemspec_data[:authors]) if gemspec_data[:authors]
+          gemspec_defaults["funding_uri"] = normalize_to_array(gemspec_data[:funding_uri]) if gemspec_data[:funding_uri]
           if gemspec_data[:funding_uri] && !filtered.key?("floss_funding_url")
-            gemspec_defaults["floss_funding_url"] = gemspec_data[:funding_uri]
+            gemspec_defaults["floss_funding_url"] = normalize_to_array(gemspec_data[:funding_uri])
           end
         end
 
-        # Merge precedence: DEFAULT < gemspec_defaults < filtered_yaml
-        DEFAULT_CONFIG.merge(gemspec_defaults).merge(filtered)
+        # Merge precedence: DEFAULT < gemspec_defaults, with filtered_yaml overriding entirely when present
+        merged = {}
+        DEFAULT_CONFIG.keys.each do |key|
+          if filtered.key?(key)
+            # YAML-provided known string keys take full precedence (override defaults and gemspec values)
+            merged[key] = Array(filtered[key]).compact.flatten.uniq
+          else
+            # Otherwise, start from defaults and enrich with gemspec-derived values when available
+            merged[key] = []
+            merged[key].concat(Array(DEFAULT_CONFIG[key]))
+            merged[key].concat(Array(gemspec_defaults[key])) if gemspec_defaults.key?(key)
+            merged[key] = merged[key].compact.flatten.uniq
+          end
+        end
+        merged
       end
 
       private
@@ -149,6 +163,16 @@ module FlossFunding
         rescue StandardError
           {}
         end
+      end
+
+      # Normalize a value from YAML or gemspec to an array.
+      # - nil => []
+      # - array => same array
+      # - scalar => [scalar]
+      def normalize_to_array(value)
+        return [] if value.nil?
+        return value.compact if value.is_a?(Array)
+        [value]
       end
     end
   end

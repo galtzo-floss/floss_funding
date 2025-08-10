@@ -48,7 +48,7 @@ module FlossFunding
   FOOTER = <<-FOOTER
 =====================================================================================
 - Please buy FLOSS "peace-of-mind" activation keys to support open source developers.
-FLOSS Funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺🇸 & 🇮🇩 by Galtzo FLOSS.
+floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺🇸 & 🇮🇩 by Galtzo FLOSS (galtzo.com)
   FOOTER
 
   # Thread-safe access to activated and unactivated libraries
@@ -124,7 +124,19 @@ FLOSS Funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @param library [String] Namespace of the library
     # @param config [Hash] Configuration for the library
     def set_configuration(library, config)
-      mutex.synchronize { @configurations[library] = config }
+      mutex.synchronize do
+        existing = @configurations[library] || {}
+        merged = {}
+        # Ensure all known keys are arrays and merged
+        keys = (existing.keys + config.keys).uniq
+        keys.each do |k|
+          merged[k] = []
+          merged[k].concat(Array(existing[k])) if existing.key?(k)
+          merged[k].concat(Array(config[k])) if config.key?(k)
+          merged[k] = merged[k].compact.flatten.uniq
+        end
+        @configurations[library] = merged
+      end
     end
 
     # Thread-safe setter for ENV var name used by a library
@@ -202,8 +214,8 @@ Unremunerated use of the following namespaces was detected:
 
     unactivated.each do |ns|
       config = configs[ns] || {}
-      funding_url = config["floss_funding_url"] || "https://floss-funding.dev"
-      suggested_amount = config["suggested_donation_amount"] || 5
+      funding_url = Array(config["floss_funding_url"]).first || "https://floss-funding.dev"
+      suggested_amount = Array(config["suggested_donation_amount"]).first || 5
       env_name = env_map[ns] || "FLOSS_FUNDING_#{ns.gsub(/[^A-Za-z0-9]+/, '_').upcase}"
       opt_out = "#{::FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{ns}"
       details << <<-NS

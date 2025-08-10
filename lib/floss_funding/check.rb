@@ -107,8 +107,8 @@ module FlossFunding
           return
         end
 
-         valid_activation_hex = activation_key.match?(::FlossFunding::HEX_LICENSE_RULE)
-        unless  valid_activation_hex
+        valid_activation_hex = activation_key.match?(::FlossFunding::HEX_LICENSE_RULE)
+        unless valid_activation_hex
           # Invalid activation key format
           ::FlossFunding.add_unactivated(namespace)
           return start_coughing(activation_key, namespace, env_var_name)
