@@ -106,34 +106,6 @@ names via conservative character rules.</p>
 
     <dl class="constants">
       
-        <dt id="DEFAULT_PREFIX-constant" class="">DEFAULT_PREFIX =
-          <div class="docstring">
-  <div class="discussion">
-    <p>Default ENV prefix used when none is provided.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div>
-        </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FLOSS_FUNDING_</span><span class='tstring_end'>&quot;</span></span></pre></dd>
-      
         <dt id="SAFE_TO_UNDERSCORE-constant" class="">SAFE_TO_UNDERSCORE =
           <div class="docstring">
   <div class="discussion">
@@ -346,18 +318,6 @@ names via conservative character rules.</p>
           
         </li>
       
-        <li>
-          <span class="name">:prefix</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'><p>optional ENV name prefix (defaults to DEFAULT_PREFIX)</p>
-</div>
-          
-        </li>
-      
     </ul>
   
 
@@ -402,27 +362,25 @@ names via conservative character rules.</p>
       <pre class="lines">
 
 
+27
+28
+29
+30
+31
 32
 33
-34
-35
-36
-37
-38
-39
-40</pre>
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/under_bar.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/under_bar.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_env_variable_name'>env_variable_name</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:namespace</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_prefix'>prefix</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:prefix</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="#DEFAULT_PREFIX-constant" title="FlossFunding::UnderBar::DEFAULT_PREFIX (constant)">DEFAULT_PREFIX</a></span></span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Error.html" title="FlossFunding::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>namespace must be a String, but is </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_namespace'>namespace</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_name_parts'>name_parts</span> <span class='op'>=</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>::</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_env_name'>env_name</span> <span class='op'>=</span> <span class='id identifier rubyid_name_parts'>name_parts</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_np'>np</span><span class='op'>|</span> <span class='id identifier rubyid_to_under_bar'>to_under_bar</span><span class='lparen'>(</span><span class='id identifier rubyid_np'>np</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_prefix'>prefix</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_env_name'>env_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html#DEFAULT_PREFIX-constant" title="FlossFunding::DEFAULT_PREFIX (constant)">DEFAULT_PREFIX</a></span></span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_env_name'>env_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -507,17 +465,17 @@ names via conservative character rules.</p>
       <pre class="lines">
 
 
+41
+42
+43
+44
+45
+46
 47
-48
-49
-50
-51
-52
-53
-54</pre>
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/under_bar.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/under_bar.rb', line 41</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_under_bar'>to_under_bar</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_safe'>safe</span> <span class='op'>=</span> <span class='id identifier rubyid_string'>string</span><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="#SAFE_TO_UNDERSCORE-constant" title="FlossFunding::UnderBar::SAFE_TO_UNDERSCORE (constant)">SAFE_TO_UNDERSCORE</a></span></span><span class='rbracket'>]</span>
@@ -537,7 +495,7 @@ names via conservative character rules.</p>
 </div>
 
       <div id="footer">
-  Generated on Mon Aug 11 00:29:43 2025 by
+  Generated on Mon Aug 11 01:03:41 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

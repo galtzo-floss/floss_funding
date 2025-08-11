@@ -28,7 +28,7 @@ module FlossFunding
       # @param base [Module] the target including module
       # @raise [::FlossFunding::Error] always, instructing correct usage
       def included(base)
-        raise ::FlossFunding::Error, "Do not include FlossFunding::Poke directly. Use include FlossFunding::Poke.new(__FILE__, namespace: optional_namespace, env_prefix: optional_env_prefix)."
+        raise ::FlossFunding::Error, "Do not include FlossFunding::Poke directly. Use include FlossFunding::Poke.new(__FILE__, namespace: optional_namespace)."
       end
 
       # Builds a module suitable for inclusion which sets up FlossFunding.
@@ -36,17 +36,14 @@ module FlossFunding
       # @param including_path [String] the including file path (e.g., `__FILE__`)
       # @param options [Hash] options hash for configuration
       # @option options [String, nil] :namespace optional custom namespace for activation key
-      # @option options [String, nil] :env_prefix optional ENV var prefix; defaults to
-      #   FlossFunding::UnderBar::DEFAULT_PREFIX when nil
       # @option options [Object, nil] :silent optional silence flag or callable to request global silence
       # @return [Module] a module that can be included into your namespace
       def new(including_path, options = {})
         namespace = options[:namespace]
-        env_prefix = options[:env_prefix]
         silent_opt = options[:silent]
         Module.new do
           define_singleton_method(:included) do |base|
-            FlossFunding::Poke.setup_begging(base, namespace, env_prefix, including_path, silent_opt)
+            FlossFunding::Poke.setup_begging(base, namespace, including_path, silent_opt)
           end
         end
       end
@@ -56,13 +53,12 @@ module FlossFunding
       #
       # @param base [Module] the module including the returned Poke module
       # @param custom_namespace [String, nil] custom namespace or nil to use base.name
-      # @param env_prefix [String, nil] ENV var prefix or default when nil
       # @param including_path [String] source file path of base (e.g., `__FILE__`)
       # @param silent_opt [Object, nil] optional silence flag or callable stored under "silent" in config
       # @return [void]
       # @raise [::FlossFunding::Error] if including_path is not a String
       # @raise [::FlossFunding::Error] if base.name is not a String
-      def setup_begging(base, custom_namespace, env_prefix, including_path, silent_opt = nil)
+      def setup_begging(base, custom_namespace, including_path, silent_opt = nil)
         unless including_path.is_a?(String)
           raise ::FlossFunding::Error, "including_path must be a String file path (e.g., __FILE__), got #{including_path.class}"
         end
@@ -99,7 +95,6 @@ module FlossFunding
 
         env_var_name = ::FlossFunding::UnderBar.env_variable_name(
           {
-            :prefix => env_prefix,
             :namespace => namespace,
           },
         )

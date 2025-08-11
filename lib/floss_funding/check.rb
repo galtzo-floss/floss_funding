@@ -195,7 +195,7 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
         # During load, only emit a single-line note and defer the large blurb to at_exit
         configs = ::FlossFunding.configurations
         return if ::FlossFunding::Config.silence_requested?(configs)
-        puts %(FLOSS Funding: Activation key missing for #{namespace}. Set ENV[#{env_var_name}] to activation key; details will be shown at exit.)
+        puts %(FLOSS Funding: Activation key missing for #{namespace}. Set ENV["#{env_var_name}"] to activation key; details will be shown at exit.)
       end
     end
   end

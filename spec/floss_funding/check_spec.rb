@@ -200,7 +200,7 @@ RSpec.describe FlossFunding::Check do
       end
 
       expect(output.strip).to include("FLOSS Funding: Activation key missing for #{namespace}.")
-      expect(output).to include("ENV[#{env_var_name}]")
+      expect(output).to include("ENV[\"#{env_var_name}\"]")
       expect(output).to include("details will be shown at exit")
     end
   end

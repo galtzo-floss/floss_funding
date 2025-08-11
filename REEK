@@ -35,29 +35,28 @@ lib/floss_funding/config.rb -- 20 warnings:
   [64]:UncommunicativeVariableName: FlossFunding::Config#load_config has the variable name 'k' [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]
   [64]:UncommunicativeVariableName: FlossFunding::Config#load_config has the variable name 'v' [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]
   [117]:UncommunicativeVariableName: FlossFunding::Config#silence_requested? has the variable name 'v' [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]
-lib/floss_funding/poke.rb -- 12 warnings:
-  [85, 95]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls '!custom_namespace.empty?' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
-  [69, 69, 88, 93]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls 'base.name' 4 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
-  [94, 95, 98]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls 'config["custom_namespaces"]' 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
-  [92, 93, 97]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls 'config["namespace"]' 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
-  [110, 111]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls 'config["silent"]' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
-  [85, 95]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls 'custom_namespace.empty?' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
-  [65]:LongParameterList: FlossFunding::Poke#setup_begging has 5 parameters [https://github.com/troessner/reek/blob/v6.5.0/docs/Long-Parameter-List.md]
-  [69]:ManualDispatch: FlossFunding::Poke#setup_begging manually dispatches method call [https://github.com/troessner/reek/blob/v6.5.0/docs/Manual-Dispatch.md]
-  [109]:NilCheck: FlossFunding::Poke#setup_begging performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]
-  [43]:TooManyStatements: FlossFunding::Poke#new has approx 6 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
-  [65]:TooManyStatements: FlossFunding::Poke#setup_begging has approx 20 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
+lib/floss_funding/poke.rb -- 11 warnings:
+  [81, 91]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls '!custom_namespace.empty?' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [65, 65, 84, 89]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls 'base.name' 4 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [90, 91, 94]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls 'config["custom_namespaces"]' 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [88, 89, 93]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls 'config["namespace"]' 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [105, 106]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls 'config["silent"]' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [81, 91]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls 'custom_namespace.empty?' 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [61]:LongParameterList: FlossFunding::Poke#setup_begging has 4 parameters [https://github.com/troessner/reek/blob/v6.5.0/docs/Long-Parameter-List.md]
+  [65]:ManualDispatch: FlossFunding::Poke#setup_begging manually dispatches method call [https://github.com/troessner/reek/blob/v6.5.0/docs/Manual-Dispatch.md]
+  [104]:NilCheck: FlossFunding::Poke#setup_begging performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]
+  [61]:TooManyStatements: FlossFunding::Poke#setup_begging has approx 20 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
   [30]:UnusedParameters: FlossFunding::Poke#included has unused parameter 'base' [https://github.com/troessner/reek/blob/v6.5.0/docs/Unused-Parameters.md]
 lib/floss_funding/under_bar.rb -- 2 warnings:
-  [32]:TooManyStatements: FlossFunding::UnderBar#env_variable_name has approx 7 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
-  [47]:TooManyStatements: FlossFunding::UnderBar#to_under_bar has approx 6 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
+  [27]:TooManyStatements: FlossFunding::UnderBar#env_variable_name has approx 6 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
+  [41]:TooManyStatements: FlossFunding::UnderBar#to_under_bar has approx 6 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
 lib/floss_funding.rb -- 6 warnings:
-  [139, 140, 141]:DuplicateMethodCall: FlossFunding#set_configuration calls 'merged[k]' 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
-  [184, 189]:NilCheck: FlossFunding#base_words performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]
-  [15]:TooManyConstants: FlossFunding has 8 constants [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Constants.md]
-  [183]:TooManyStatements: FlossFunding#base_words has approx 8 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
-  [131]:TooManyStatements: FlossFunding#set_configuration has approx 10 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
-  [137]:UncommunicativeVariableName: FlossFunding#set_configuration has the variable name 'k' [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]
+  [149, 150, 151]:DuplicateMethodCall: FlossFunding#set_configuration calls 'merged[k]' 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]
+  [194, 199]:NilCheck: FlossFunding#base_words performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]
+  [15]:TooManyConstants: FlossFunding has 9 constants [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Constants.md]
+  [193]:TooManyStatements: FlossFunding#base_words has approx 8 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
+  [141]:TooManyStatements: FlossFunding#set_configuration has approx 10 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]
+  [147]:UncommunicativeVariableName: FlossFunding#set_configuration has the variable name 'k' [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]
 spec/fixtures/custom_test.rb -- 1 warning:
   [5]:IrresponsibleModule: CustomTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]
 spec/fixtures/end_hook_script.rb -- 2 warnings:
@@ -115,4 +114,4 @@ test/debug_check.rb -- 1 warning:
 test/test_poke_patterns.rb -- 2 warnings:
   [18]:IrresponsibleModule: CustomTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]
   [10]:IrresponsibleModule: TraditionalTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]
-101 total warnings
+100 total warnings

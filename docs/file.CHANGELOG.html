@@ -65,26 +65,32 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 
 <h2 id="unreleased"><a href="https://gitlab.com/galtzo-floss/floss_funding/-/compare/v1.0.0-alpha.3...main">Unreleased</a></h2>
 <h3 id="added">Added</h3>
+<h3 id="changed">Changed</h3>
+<h3 id="deprecated">Deprecated</h3>
+<h3 id="removed">Removed</h3>
+<h3 id="fixed">Fixed</h3>
+<h3 id="security">Security</h3>
+
+<h2 id="100-alpha3---2025-08-11">
+<a href="https://gitlab.com/galtzo-floss/floss_funding/-/compare/v1.0.0-alpha.2...v1.0.0-alpha.3">1.0.0-alpha.3</a> - 2025-08-11</h2>
 <ul>
-  <li>More documentation
-    <h3 id="changed">Changed</h3>
+  <li>TAG: <a href="https://gitlab.com/galtzo-floss/floss_funding/-/tags/v1.0.0-alpha.3">v1.0.0-alpha.3</a>
+    <h3 id="added-1">Added</h3>
   </li>
-  <li>(BREAKING) <code>FlossFunding::Poke.new</code> now takes a hash of options instead of the ordered arguments:
-    <ul>
-      <li>namespace</li>
-      <li>env_prefix</li>
-    </ul>
+  <li>Global override for environment variable prefix via <code>ENV['FLOSS_FUNDING_ENV_PREFIX']</code>. Set to an empty string to disable any prefix entirely.
+    <h3 id="changed-1">Changed</h3>
   </li>
-  <li>(BREAKING) Consolidated configuration keys: removed <code>base_namespaces</code>; use <code>namespace</code> only. No backward compatibility.
-    <h3 id="deprecated">Deprecated</h3>
-    <h3 id="removed">Removed</h3>
+  <li>(BREAKING) Moved <code>DEFAULT_PREFIX</code> constant from <code>FlossFunding::UnderBar</code> to top-level <code>FlossFunding</code> and updated all usages to reference <code>::FlossFunding::DEFAULT_PREFIX</code>.</li>
+  <li>Replaced hard-coded “FLOSS_FUNDING_” magic strings with <code>::FlossFunding::DEFAULT_PREFIX</code> where applicable.</li>
+  <li>Updated documentation, RBS signatures, and specs to reflect the new global prefix behavior and constant location.
+    <h3 id="removed-1">Removed</h3>
   </li>
-  <li>
-<code>base_namespaces</code> configuration key.
-    <h3 id="fixed">Fixed</h3>
+  <li>(BREAKING) Removed per-library ability to override the ENV prefix via <code>:env_prefix</code> option to <code>FlossFunding::Poke.new</code>. A single process-wide override is now supported via <code>ENV['FLOSS_FUNDING_ENV_PREFIX']</code>.</li>
+  <li>(BREAKING) Removed <code>UnderBar::DEFAULT_PREFIX</code> constant.
+    <h3 id="fixed-1">Fixed</h3>
   </li>
-  <li>Documentation typos
-    <h3 id="security">Security</h3>
+  <li>Clarified examples and error messages referencing how to set the ENV variable name.
+    <h3 id="security-1">Security</h3>
   </li>
 </ul>
 
@@ -96,10 +102,10 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
   <li>COVERAGE: 100.00% – 263/263 lines in 6 files</li>
   <li>BRANCH COVERAGE: 100.00% – 85/85 branches in 6 files</li>
   <li>100.00% documented
-    <h3 id="added-1">Added</h3>
+    <h3 id="added-2">Added</h3>
   </li>
   <li>More documentation
-    <h3 id="fixed-1">Fixed</h3>
+    <h3 id="fixed-2">Fixed</h3>
   </li>
   <li>Required <code>base.txt</code> added to gem package</li>
   <li>Documentation typos</li>
@@ -113,7 +119,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
   <li>COVERAGE: 100.00% – 262/262 lines in 6 files</li>
   <li>BRANCH COVERAGE: 100.00% – 85/85 branches in 6 files</li>
   <li>100.00% documented
-    <h3 id="added-2">Added</h3>
+    <h3 id="added-3">Added</h3>
   </li>
   <li>Initial release</li>
 </ul>
@@ -121,7 +127,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 </div></div>
 
       <div id="footer">
-  Generated on Mon Aug 11 00:29:43 2025 by
+  Generated on Mon Aug 11 01:03:41 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

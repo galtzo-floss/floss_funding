@@ -16,6 +16,16 @@ module FlossFunding
   # Base error class for all FlossFunding-specific failures.
   class Error < StandardError; end
 
+  # Default ENV prefix used when constructing activation ENV variable names.
+  # This can be globally overridden for the entire process by setting
+  # ENV['FLOSS_FUNDING_ENV_PREFIX'] to a String (including an empty String
+  # to indicate no prefix at all).
+  DEFAULT_PREFIX = if ENV.key?("FLOSS_FUNDING_ENV_PREFIX")
+    ENV["FLOSS_FUNDING_ENV_PREFIX"]
+  else
+    "FLOSS_FUNDING_"
+  end
+
   # Unpaid activation option intended for open-source and not-for-profit use.
   # @return [String]
   FREE_AS_IN_BEER = "Free-as-in-beer"
@@ -261,7 +271,7 @@ Unremunerated use of the following namespaces was detected:
         config = configs[ns] || {}
         funding_url = Array(config["floss_funding_url"]).first || "https://floss-funding.dev"
         suggested_amount = Array(config["suggested_donation_amount"]).first || 5
-        env_name = env_map[ns] || "FLOSS_FUNDING_#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
+        env_name = env_map[ns] || "#{FlossFunding::DEFAULT_PREFIX}#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
         opt_out = "#{FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{ns}"
         details << <<-NS
   - Namespace: #{ns}
@@ -293,7 +303,7 @@ Or in shell / dotenv / direnv, e.g.:
       BODY
 
       unactivated.each do |ns|
-        env_name = env_map[ns] || "FLOSS_FUNDING_#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
+        env_name = env_map[ns] || "#{FlossFunding::DEFAULT_PREFIX}#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
         details << "  export #{env_name}=\"<your key>\"\n"
       end
 

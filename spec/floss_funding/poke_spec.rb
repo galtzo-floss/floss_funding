@@ -85,14 +85,14 @@ RSpec.describe FlossFunding::Poke do
     it "raises if including_path is not a String" do
       mod = Module.new
       expect do
-        described_class.setup_begging(mod, nil, nil, 123)
+        described_class.setup_begging(mod, nil, 123)
       end.to raise_error(FlossFunding::Error, /including_path must be a String/)
     end
 
     it "raises if base does not respond to :name" do
       base = Object.new # does not have .name
       expect do
-        described_class.setup_begging(base, nil, nil, __FILE__)
+        described_class.setup_begging(base, nil, __FILE__)
       end.to raise_error(FlossFunding::Error, /base must have a name/)
     end
 
@@ -102,7 +102,7 @@ RSpec.describe FlossFunding::Poke do
         nil
       end
       expect do
-        described_class.setup_begging(base, nil, nil, __FILE__)
+        described_class.setup_begging(base, nil, __FILE__)
       end.to raise_error(FlossFunding::Error, /base must have a name/)
     end
 
@@ -111,7 +111,7 @@ RSpec.describe FlossFunding::Poke do
       expect(base.respond_to?(:name)).to be true
       expect(base.name).to be_nil
       expect do
-        described_class.setup_begging(base, nil, nil, __FILE__)
+        described_class.setup_begging(base, nil, __FILE__)
       end.to raise_error(FlossFunding::Error, /base must have a name/)
     end
 
@@ -121,7 +121,7 @@ RSpec.describe FlossFunding::Poke do
         123
       end
       expect do
-        described_class.setup_begging(base, nil, nil, __FILE__)
+        described_class.setup_begging(base, nil, __FILE__)
       end.to raise_error(FlossFunding::Error, /base must have a name/)
     end
   end

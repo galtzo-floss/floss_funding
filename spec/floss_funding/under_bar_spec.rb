@@ -94,10 +94,6 @@ RSpec.describe FlossFunding::UnderBar do
         expect(described_class.env_variable_name(:namespace => TestModule::NestedModule::NestedClass.name)).to eq("FLOSS_FUNDING_TEST_MODULE_NESTED_MODULE_NESTED_CLASS")
       end
 
-      it "appends a suffix when provided" do
-        expect(described_class.env_variable_name(:namespace => TestModule::TestClass.name, :prefix => "PREFIX_")).to eq("PREFIX_TEST_MODULE_TEST_CLASS")
-      end
-
       it "works with Ruby standard library classes" do
         expect(described_class.env_variable_name(:namespace => String.name)).to eq("FLOSS_FUNDING_STRING")
       end

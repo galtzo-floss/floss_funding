@@ -1,5 +1,5 @@
 {
-  "lib/floss_funding/check.rb:1159810272": [
+  "lib/floss_funding/check.rb:2710823456": [
     [16, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 883476360],
     [27, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 3247230807],
     [39, 9, 23, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 2670016150]
@@ -8,7 +8,7 @@
     [142, 3, 118, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 64765617],
     [172, 3, 118, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1152239485]
   ],
-  "spec/floss_funding/check_spec.rb:2463450784": [
+  "spec/floss_funding/check_spec.rb:3279873056": [
     [121, 7, 25, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1102006496]
   ],
   "spec/floss_funding/config_spec.rb:3760508644": [
@@ -31,10 +31,10 @@
     [106, 3, 100, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 686813999],
     [133, 3, 75, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 1167268030]
   ],
-  "spec/floss_funding/poke_spec.rb:2890653275": [
+  "spec/floss_funding/poke_spec.rb:2048832764": [
     [7, 1, 33, "RSpec/MultipleDescribes: Do not use multiple top-level example groups - try to nest them.", 3101784828],
     [7, 1, 2646, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [73]", 2985515678],
-    [73, 1, 1921, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [7]", 822461594],
+    [73, 1, 1896, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [7]", 822461594],
     [77, 9, 73, "RSpec/LeakyConstantDeclaration: Stub module constant instead of declaring explicitly.", 3748187113],
     [109, 5, 78, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3367893419]
   ],

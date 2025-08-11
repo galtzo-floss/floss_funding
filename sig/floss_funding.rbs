@@ -11,7 +11,8 @@ module FlossFunding
   EIGHT_BYTES: Integer
   HEX_LICENSE_RULE: Regexp
   FOOTER: String
-
+  DEFAULT_PREFIX: String
+  
   module Version
     VERSION: String
   end
@@ -42,12 +43,11 @@ module FlossFunding
   def self.base_words: (Integer) -> Array[String]
 
   module UnderBar
-    DEFAULT_PREFIX: String
     SAFE_TO_UNDERSCORE: Regexp
     SUBBER_UNDER: Regexp
     INITIAL_UNDERSCORE: Regexp
 
-    def self.env_variable_name: (?{ namespace: String, prefix: String? }) -> String
+    def self.env_variable_name: (?{ namespace: String }) -> String
     def self.to_under_bar: (String) -> String
   end
 
@@ -79,7 +79,7 @@ module FlossFunding
 
   module Poke
     def self.included: (Module) -> void
-    def self.new: (String, ?{ namespace: String?, env_prefix: String?, silent: untyped? }) -> Module
-    def self.setup_begging: (Module, String?, String?, String, untyped?) -> void
+    def self.new: (String, ?{ namespace: String?, silent: untyped? }) -> Module
+    def self.setup_begging: (Module, String?, String, untyped?) -> void
   end
 end

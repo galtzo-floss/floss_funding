@@ -5,10 +5,6 @@ module FlossFunding
   #
   # See also: https://github.com/galtzo-floss/shields-badge/blob/main/lib/shields/badge.rb
   module UnderBar
-    # Default ENV prefix used when none is provided.
-    # @return [String]
-    DEFAULT_PREFIX = "FLOSS_FUNDING_"
-
     # Allowed characters for a single namespace segment. Max length 256 to avoid abuse.
     # @return [Regexp]
     SAFE_TO_UNDERSCORE = /\A[\p{UPPERCASE-LETTER}\p{LOWERCASE-LETTER}\p{DECIMAL-NUMBER}]{1,256}\Z/
@@ -26,17 +22,15 @@ module FlossFunding
       #
       # @param opts [Hash]
       # @option opts [String] :namespace (required) the Ruby namespace (e.g., "My::Lib")
-      # @option opts [String] :prefix optional ENV name prefix (defaults to DEFAULT_PREFIX)
       # @return [String] the resulting ENV variable name
       # @raise [FlossFunding::Error] when :namespace is not a String or contains invalid characters
       def env_variable_name(opts = {})
         namespace = opts[:namespace]
-        prefix = opts[:prefix] || DEFAULT_PREFIX
         raise FlossFunding::Error, "namespace must be a String, but is #{namespace.class}" unless namespace.is_a?(String)
 
         name_parts = namespace.split("::")
         env_name = name_parts.map { |np| to_under_bar(np) }.join("_")
-        "#{prefix}#{env_name}".upcase
+        "#{::FlossFunding::DEFAULT_PREFIX}#{env_name}".upcase
       end
 
       # Converts a single namespace segment to an underscored, uppercased string.
