@@ -3,3 +3,6 @@ inherit_gem:
 
 RSpec/ExampleLength:
   Enabled: false
+
+Layout/IndentationConsistency:
+  Exclude: ['*.md']

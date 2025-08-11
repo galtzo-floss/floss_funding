@@ -322,15 +322,15 @@ NOTE: Be prepared to track down certs for signed gems and add them the same way 
 
 <ol>
   <li>Traditional namespace (uses the including module’s name):
-    <pre class="code language-ruby"><code class="language-ruby">module MyGemLibrary
-  include FlossFunding::Poke.new(__FILE__)
-end
+    <pre class="code language-ruby"><code class="language-ruby"> module MyGemLibrary
+   include FlossFunding::Poke.new(__FILE__)
+ end
 </code></pre>
   </li>
   <li>Arbitrary custom namespace (can add version, or anything else):
-    <pre class="code language-ruby"><code class="language-ruby">module MyGemLibrary
-  include FlossFunding::Poke.new(__FILE__, :namespace =&gt; &quot;Custom::Namespace::V4&quot;)
-end
+    <pre class="code language-ruby"><code class="language-ruby"> module MyGemLibrary
+   include FlossFunding::Poke.new(__FILE__, :namespace =&gt; &quot;Custom::Namespace::V4&quot;)
+ end
 </code></pre>
   </li>
 </ol>
@@ -512,7 +512,7 @@ or one of the smaller ones, depending on button size preference.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Mon Aug 11 03:08:54 2025 by
+  Generated on Mon Aug 11 03:18:29 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
