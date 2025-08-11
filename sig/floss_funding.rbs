@@ -61,11 +61,12 @@ module FlossFunding
     def self.load_yaml_file: (String) -> Hash[untyped, untyped]
     def self.read_gemspec_data: (String) -> Hash[Symbol, untyped]
     def self.normalize_to_array: (untyped) -> Array[untyped]
+    def self.silence_requested?: (Hash[String, Hash[untyped, untyped]]) -> bool
   end
 
   module Check
     module ClassMethods
-      def self.now_time: Time
+      def self.now_time: -> Time
       def self.now_time=: (Time) -> Time
 
       def floss_funding_decrypt: (String, String) -> (String | false)
@@ -78,7 +79,7 @@ module FlossFunding
 
   module Poke
     def self.included: (Module) -> void
-    def self.new: (String, ?{ namespace: String?, env_prefix: String? }) -> Module
-    def self.setup_begging: (Module, String?, String?, String) -> void
+    def self.new: (String, ?{ namespace: String?, env_prefix: String?, silent: untyped? }) -> Module
+    def self.setup_begging: (Module, String?, String?, String, untyped?) -> void
   end
 end

@@ -61,7 +61,7 @@
   [39]:Attribute: FlossFunding::Check::ClassMethods#now_time is a writable attribute [https://github.com/troessner/reek/blob/v6.5.0/docs/Attribute.md]<br>
   [65]:ControlParameter: FlossFunding::Check::ClassMethods#check_unpaid_silence is controlled by argument ‘activation_key’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Control-Parameter.md]<br>
   [47, 64, 105, 163]:DataClump: FlossFunding::Check::ClassMethods takes parameters [‘activation_key’, ‘namespace’] to 4 methods [https://github.com/troessner/reek/blob/v6.5.0/docs/Data-Clump.md]<br>
-  [105, 163, 191]:DataClump: FlossFunding::Check::ClassMethods takes parameters [‘env_var_name’, ‘namespace’] to 3 methods [https://github.com/troessner/reek/blob/v6.5.0/docs/Data-Clump.md]<br>
+  [105, 163, 194]:DataClump: FlossFunding::Check::ClassMethods takes parameters [‘env_var_name’, ‘namespace’] to 3 methods [https://github.com/troessner/reek/blob/v6.5.0/docs/Data-Clump.md]<br>
   [114, 131]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls ‘::FlossFunding.add_activated(namespace)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
   [115, 132]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls ‘::FlossFunding.add_activation_occurrence(namespace)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
   [108, 122, 137]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls ‘::FlossFunding.add_unactivated(namespace)’ 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
@@ -73,32 +73,39 @@
   [52]:UncommunicativeVariableName: FlossFunding::Check::ClassMethods#floss_funding_decrypt has the variable name ‘s’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
   [47]:UtilityFunction: FlossFunding::Check::ClassMethods#floss_funding_decrypt doesn’t depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Utility-Function.md]<br>
   [153]:UtilityFunction: FlossFunding::Check::ClassMethods#now_month doesn’t depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Utility-Function.md]<br>
-lib/floss_funding/config.rb – 16 warnings:<br>
-  [131, 141]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘File.dirname(current_dir)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
-  [116, 126]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘File.dirname(start_dir)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
-  [129, 139]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘File.exist?(candidate)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
-  [128, 138]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘File.join(current_dir, CONFIG_FILE_NAME)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
-  [127, 137]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘current_dir != “/”’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
-  [76, 76, 77, 78]:DuplicateMethodCall: FlossFunding::Config#load_config calls ‘gemspec_data[:funding_uri]’ 4 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
-  [74, 74]:DuplicateMethodCall: FlossFunding::Config#load_config calls ‘gemspec_data[:homepage]’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
-  [91, 92, 93]:DuplicateMethodCall: FlossFunding::Config#load_config calls ‘merged[key]’ 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
-  [76, 78]:DuplicateMethodCall: FlossFunding::Config#load_config calls ‘normalize_to_array(gemspec_data[:funding_uri])’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
-  [125]:NilCheck: FlossFunding::Config#find_config_file performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]<br>
-  [209]:NilCheck: FlossFunding::Config#normalize_to_array performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]<br>
-  [107]:TooManyStatements: FlossFunding::Config#find_config_file has approx 17 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
-  [46]:TooManyStatements: FlossFunding::Config#load_config has approx 26 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
-  [185]:TooManyStatements: FlossFunding::Config#read_gemspec_data has approx 8 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
-  [60]:UncommunicativeVariableName: FlossFunding::Config#load_config has the variable name ‘k’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
-  [60]:UncommunicativeVariableName: FlossFunding::Config#load_config has the variable name ‘v’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
-lib/floss_funding/poke.rb – 9 warnings:<br>
-  [79, 89]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘!custom_namespace.empty?’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
-  [63, 63, 82, 87]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘base.name’ 4 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
-  [86, 87, 91]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘config[“base_namespaces”]’ 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
-  [88, 89, 92]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘config[“custom_namespaces”]’ 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
-  [79, 89]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘custom_namespace.empty?’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
-  [59]:LongParameterList: FlossFunding::Poke#setup_begging has 4 parameters [https://github.com/troessner/reek/blob/v6.5.0/docs/Long-Parameter-List.md]<br>
-  [63]:ManualDispatch: FlossFunding::Poke#setup_begging manually dispatches method call [https://github.com/troessner/reek/blob/v6.5.0/docs/Manual-Dispatch.md]<br>
-  [59]:TooManyStatements: FlossFunding::Poke#setup_begging has approx 18 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+lib/floss_funding/config.rb – 20 warnings:<br>
+  [160, 170]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘File.dirname(current_dir)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [145, 155]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘File.dirname(start_dir)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [158, 168]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘File.exist?(candidate)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [157, 167]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘File.join(current_dir, CONFIG_FILE_NAME)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [156, 166]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘current_dir != “/”’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [80, 80, 81, 82]:DuplicateMethodCall: FlossFunding::Config#load_config calls ‘gemspec_data[:funding_uri]’ 4 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [78, 78]:DuplicateMethodCall: FlossFunding::Config#load_config calls ‘gemspec_data[:homepage]’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [95, 96, 97]:DuplicateMethodCall: FlossFunding::Config#load_config calls ‘merged[key]’ 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [80, 82]:DuplicateMethodCall: FlossFunding::Config#load_config calls ‘normalize_to_array(gemspec_data[:funding_uri])’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [119]:ManualDispatch: FlossFunding::Config#silence_requested? manually dispatches method call [https://github.com/troessner/reek/blob/v6.5.0/docs/Manual-Dispatch.md]<br>
+  [117]:NestedIterators: FlossFunding::Config#silence_requested? contains iterators nested 2 deep [https://github.com/troessner/reek/blob/v6.5.0/docs/Nested-Iterators.md]<br>
+  [154]:NilCheck: FlossFunding::Config#find_config_file performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]<br>
+  [238]:NilCheck: FlossFunding::Config#normalize_to_array performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]<br>
+  [136]:TooManyStatements: FlossFunding::Config#find_config_file has approx 17 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [50]:TooManyStatements: FlossFunding::Config#load_config has approx 26 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [214]:TooManyStatements: FlossFunding::Config#read_gemspec_data has approx 8 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [112]:TooManyStatements: FlossFunding::Config#silence_requested? has approx 8 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [64]:UncommunicativeVariableName: FlossFunding::Config#load_config has the variable name ‘k’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+  [64]:UncommunicativeVariableName: FlossFunding::Config#load_config has the variable name ‘v’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+  [117]:UncommunicativeVariableName: FlossFunding::Config#silence_requested? has the variable name ‘v’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+lib/floss_funding/poke.rb – 12 warnings:<br>
+  [85, 95]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘!custom_namespace.empty?’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [69, 69, 88, 93]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘base.name’ 4 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [94, 95, 98]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘config[“custom_namespaces”]’ 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [92, 93, 97]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘config[“namespace”]’ 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [110, 111]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘config[“silent”]’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [85, 95]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘custom_namespace.empty?’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [65]:LongParameterList: FlossFunding::Poke#setup_begging has 5 parameters [https://github.com/troessner/reek/blob/v6.5.0/docs/Long-Parameter-List.md]<br>
+  [69]:ManualDispatch: FlossFunding::Poke#setup_begging manually dispatches method call [https://github.com/troessner/reek/blob/v6.5.0/docs/Manual-Dispatch.md]<br>
+  [109]:NilCheck: FlossFunding::Poke#setup_begging performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]<br>
+  [43]:TooManyStatements: FlossFunding::Poke#new has approx 6 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [65]:TooManyStatements: FlossFunding::Poke#setup_begging has approx 20 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
   [30]:UnusedParameters: FlossFunding::Poke#included has unused parameter ‘base’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Unused-Parameters.md]<br>
 lib/floss_funding/under_bar.rb – 2 warnings:<br>
   [32]:TooManyStatements: FlossFunding::UnderBar#env_variable_name has approx 7 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
@@ -167,11 +174,11 @@ test/debug_check.rb – 1 warning:<br>
 test/test_poke_patterns.rb – 2 warnings:<br>
   [18]:IrresponsibleModule: CustomTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]<br>
   [10]:IrresponsibleModule: TraditionalTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]<br>
-94 total warnings</p>
+101 total warnings</p>
 </div></div>
 
       <div id="footer">
-  Generated on Mon Aug 11 00:21:05 2025 by
+  Generated on Mon Aug 11 00:29:43 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

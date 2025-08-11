@@ -38,6 +38,7 @@ module FlossFunding
       # @option options [String, nil] :namespace optional custom namespace for activation key
       # @option options [String, nil] :env_prefix optional ENV var prefix; defaults to
       #   FlossFunding::UnderBar::DEFAULT_PREFIX when nil
+      # @option options [Object, nil] :silent optional silence flag or callable to request global silence
       # @return [Module] a module that can be included into your namespace
       def new(including_path, options = {})
         namespace = options[:namespace]
@@ -57,6 +58,7 @@ module FlossFunding
       # @param custom_namespace [String, nil] custom namespace or nil to use base.name
       # @param env_prefix [String, nil] ENV var prefix or default when nil
       # @param including_path [String] source file path of base (e.g., `__FILE__`)
+      # @param silent_opt [Object, nil] optional silence flag or callable stored under "silent" in config
       # @return [void]
       # @raise [::FlossFunding::Error] if including_path is not a String
       # @raise [::FlossFunding::Error] if base.name is not a String

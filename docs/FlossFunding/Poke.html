@@ -372,6 +372,18 @@ FlossFunding::UnderBar::DEFAULT_PREFIX when nil</p>
           
         </li>
       
+        <li>
+          <span class="name">:silent</span>
+          <span class="type">(<tt>Object</tt>, <tt>nil</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>optional silence flag or callable to request global silence</p>
+</div>
+          
+        </li>
+      
     </ul>
   
 
@@ -399,7 +411,6 @@ FlossFunding::UnderBar::DEFAULT_PREFIX when nil</p>
       <pre class="lines">
 
 
-42
 43
 44
 45
@@ -408,10 +419,11 @@ FlossFunding::UnderBar::DEFAULT_PREFIX when nil</p>
 48
 49
 50
-51</pre>
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/poke.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/poke.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_including_path'>including_path</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:namespace</span><span class='rbracket'>]</span>
@@ -509,6 +521,23 @@ namespace and ENV var name, loads configuration, and initiates begging.</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>silent_opt</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>optional silence flag or callable stored under “silent” in config</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Raises:</p>
@@ -548,8 +577,6 @@ namespace and ENV var name, loads configuration, and initiates begging.</p>
       <pre class="lines">
 
 
-63
-64
 65
 66
 67
@@ -603,10 +630,12 @@ namespace and ENV var name, loads configuration, and initiates begging.</p>
 115
 116
 117
-118</pre>
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/poke.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/poke.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_setup_begging'>setup_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='comma'>,</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_prefix'>env_prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_including_path'>including_path</span><span class='comma'>,</span> <span class='id identifier rubyid_silent_opt'>silent_opt</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_including_path'>including_path</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
@@ -674,7 +703,7 @@ namespace and ENV var name, loads configuration, and initiates begging.</p>
 </div>
 
       <div id="footer">
-  Generated on Mon Aug 11 00:21:05 2025 by
+  Generated on Mon Aug 11 00:29:43 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
