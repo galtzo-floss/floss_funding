@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: REEK
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "REEK";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: REEK</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><p>lib/floss_funding/check.rb – 15 warnings:<br>
+  [39]:Attribute: FlossFunding::Check::ClassMethods#now_time is a writable attribute [https://github.com/troessner/reek/blob/v6.5.0/docs/Attribute.md]<br>
+  [65]:ControlParameter: FlossFunding::Check::ClassMethods#check_unpaid_silence is controlled by argument ‘activation_key’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Control-Parameter.md]<br>
+  [47, 64, 105, 163]:DataClump: FlossFunding::Check::ClassMethods takes parameters [‘activation_key’, ‘namespace’] to 4 methods [https://github.com/troessner/reek/blob/v6.5.0/docs/Data-Clump.md]<br>
+  [105, 163, 191]:DataClump: FlossFunding::Check::ClassMethods takes parameters [‘env_var_name’, ‘namespace’] to 3 methods [https://github.com/troessner/reek/blob/v6.5.0/docs/Data-Clump.md]<br>
+  [114, 131]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls ‘::FlossFunding.add_activated(namespace)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [115, 132]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls ‘::FlossFunding.add_activation_occurrence(namespace)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [108, 122, 137]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls ‘::FlossFunding.add_unactivated(namespace)’ 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [109, 138]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging calls ‘start_begging(namespace, env_var_name)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [154, 154]:DuplicateMethodCall: FlossFunding::Check::ClassMethods#now_month calls ‘ClassMethods.now_time’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [91, 92, 94]:FeatureEnvy: FlossFunding::Check::ClassMethods#check_activation refers to ‘words’ more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Feature-Envy.md]<br>
+  [91]:ManualDispatch: FlossFunding::Check::ClassMethods#check_activation manually dispatches method call [https://github.com/troessner/reek/blob/v6.5.0/docs/Manual-Dispatch.md]<br>
+  [105]:TooManyStatements: FlossFunding::Check::ClassMethods#floss_funding_initiate_begging has approx 14 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [52]:UncommunicativeVariableName: FlossFunding::Check::ClassMethods#floss_funding_decrypt has the variable name ‘s’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+  [47]:UtilityFunction: FlossFunding::Check::ClassMethods#floss_funding_decrypt doesn’t depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Utility-Function.md]<br>
+  [153]:UtilityFunction: FlossFunding::Check::ClassMethods#now_month doesn’t depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Utility-Function.md]<br>
+lib/floss_funding/config.rb – 16 warnings:<br>
+  [131, 141]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘File.dirname(current_dir)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [116, 126]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘File.dirname(start_dir)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [129, 139]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘File.exist?(candidate)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [128, 138]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘File.join(current_dir, CONFIG_FILE_NAME)’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [127, 137]:DuplicateMethodCall: FlossFunding::Config#find_config_file calls ‘current_dir != “/”’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [76, 76, 77, 78]:DuplicateMethodCall: FlossFunding::Config#load_config calls ‘gemspec_data[:funding_uri]’ 4 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [74, 74]:DuplicateMethodCall: FlossFunding::Config#load_config calls ‘gemspec_data[:homepage]’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [91, 92, 93]:DuplicateMethodCall: FlossFunding::Config#load_config calls ‘merged[key]’ 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [76, 78]:DuplicateMethodCall: FlossFunding::Config#load_config calls ‘normalize_to_array(gemspec_data[:funding_uri])’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [125]:NilCheck: FlossFunding::Config#find_config_file performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]<br>
+  [209]:NilCheck: FlossFunding::Config#normalize_to_array performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]<br>
+  [107]:TooManyStatements: FlossFunding::Config#find_config_file has approx 17 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [46]:TooManyStatements: FlossFunding::Config#load_config has approx 26 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [185]:TooManyStatements: FlossFunding::Config#read_gemspec_data has approx 8 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [60]:UncommunicativeVariableName: FlossFunding::Config#load_config has the variable name ‘k’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+  [60]:UncommunicativeVariableName: FlossFunding::Config#load_config has the variable name ‘v’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+lib/floss_funding/poke.rb – 9 warnings:<br>
+  [79, 89]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘!custom_namespace.empty?’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [63, 63, 82, 87]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘base.name’ 4 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [86, 87, 91]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘config[“base_namespaces”]’ 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [88, 89, 92]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘config[“custom_namespaces”]’ 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [79, 89]:DuplicateMethodCall: FlossFunding::Poke#setup_begging calls ‘custom_namespace.empty?’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [59]:LongParameterList: FlossFunding::Poke#setup_begging has 4 parameters [https://github.com/troessner/reek/blob/v6.5.0/docs/Long-Parameter-List.md]<br>
+  [63]:ManualDispatch: FlossFunding::Poke#setup_begging manually dispatches method call [https://github.com/troessner/reek/blob/v6.5.0/docs/Manual-Dispatch.md]<br>
+  [59]:TooManyStatements: FlossFunding::Poke#setup_begging has approx 18 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [30]:UnusedParameters: FlossFunding::Poke#included has unused parameter ‘base’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Unused-Parameters.md]<br>
+lib/floss_funding/under_bar.rb – 2 warnings:<br>
+  [32]:TooManyStatements: FlossFunding::UnderBar#env_variable_name has approx 7 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [47]:TooManyStatements: FlossFunding::UnderBar#to_under_bar has approx 6 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+lib/floss_funding.rb – 6 warnings:<br>
+  [139, 140, 141]:DuplicateMethodCall: FlossFunding#set_configuration calls ‘merged[k]’ 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [184, 189]:NilCheck: FlossFunding#base_words performs a nil-check [https://github.com/troessner/reek/blob/v6.5.0/docs/Nil-Check.md]<br>
+  [15]:TooManyConstants: FlossFunding has 8 constants [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Constants.md]<br>
+  [183]:TooManyStatements: FlossFunding#base_words has approx 8 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [131]:TooManyStatements: FlossFunding#set_configuration has approx 10 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [137]:UncommunicativeVariableName: FlossFunding#set_configuration has the variable name ‘k’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+spec/fixtures/custom_test.rb – 1 warning:<br>
+  [5]:IrresponsibleModule: CustomTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]<br>
+spec/fixtures/end_hook_script.rb – 2 warnings:<br>
+  [21]:IrresponsibleModule: OtherTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]<br>
+  [15]:IrresponsibleModule: TraditionalTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]<br>
+spec/fixtures/traditional_test.rb – 1 warning:<br>
+  [5]:IrresponsibleModule: TraditionalTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]<br>
+spec/floss_funding/bench_fixtures_spec.rb – 5 warnings:<br>
+  [30]:ManualDispatch: enabled_count manually dispatches method call [https://github.com/troessner/reek/blob/v6.5.0/docs/Manual-Dispatch.md]<br>
+  [18]:TooManyStatements: load_with_groups has approx 6 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [27]:UncommunicativeVariableName: enabled_count has the variable name ‘i’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+  [21, 22]:UncommunicativeVariableName: load_with_groups has the variable name ‘g’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+  [10]:UncommunicativeVariableName: remove_bench_constants has the variable name ‘i’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+spec/floss_funding/bench_integration_spec.rb – 24 warnings:<br>
+  [53]:BooleanParameter: build_activation_env has boolean parameter ‘unpaid’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Boolean-Parameter.md]<br>
+  [65]:ControlParameter: build_activation_env is controlled by argument ‘unpaid’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Control-Parameter.md]<br>
+  [59, 65]:DuplicateMethodCall: build_activation_env calls ‘env_var_for(row[:namespace])’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [58, 63]:DuplicateMethodCall: build_activation_env calls ‘keys_rows.each’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [59, 64, 65]:DuplicateMethodCall: build_activation_env calls ‘row[:namespace]’ 3 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [59, 64, 65, 65]:FeatureEnvy: build_activation_env refers to ‘row’ more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Feature-Envy.md]<br>
+  [86, 100, 101]:FeatureEnvy: set_percentage_env refers to ‘percentage’ more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Feature-Envy.md]<br>
+  [121]:LongParameterList: bench_step has 5 parameters [https://github.com/troessner/reek/blob/v6.5.0/docs/Long-Parameter-List.md]<br>
+  [53]:LongParameterList: build_activation_env has 4 parameters [https://github.com/troessner/reek/blob/v6.5.0/docs/Long-Parameter-List.md]<br>
+  [117]:ManualDispatch: enabled_count manually dispatches method call [https://github.com/troessner/reek/blob/v6.5.0/docs/Manual-Dispatch.md]<br>
+  [35]:TooManyStatements: activated_bench_namespaces_for_percentage has approx 8 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [121]:TooManyStatements: bench_step has approx 9 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [53]:TooManyStatements: build_activation_env has approx 8 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [16]:TooManyStatements: parsed_keys has approx 6 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [85]:TooManyStatements: set_percentage_env has approx 9 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [47]:UncommunicativeVariableName: activated_bench_namespaces_for_percentage has the variable name ‘i’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+  [114]:UncommunicativeVariableName: enabled_count has the variable name ‘i’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+  [20]:UncommunicativeVariableName: parsed_keys has the variable name ‘k2025’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+  [20]:UncommunicativeVariableName: parsed_keys has the variable name ‘k5425’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+  [74]:UncommunicativeVariableName: remove_bench_constants has the variable name ‘i’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+  [89]:UncommunicativeVariableName: set_percentage_env has the variable name ‘g’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+  [121]:UnusedParameters: bench_step has unused parameter ‘options’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Unused-Parameters.md]<br>
+  [27]:UtilityFunction: env_var_for doesn’t depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Utility-Function.md]<br>
+  [16]:UtilityFunction: parsed_keys doesn’t depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Utility-Function.md]<br>
+spec/floss_funding/non_gem_fixtures_spec.rb – 3 warnings:<br>
+  [30, 30]:DuplicateMethodCall: remove_fixture_constants calls ‘fx[:name]’ 2 times [https://github.com/troessner/reek/blob/v6.5.0/docs/Duplicate-Method-Call.md]<br>
+  [30, 30]:FeatureEnvy: remove_fixture_constants refers to ‘fx’ more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Feature-Envy.md]<br>
+  [24]:UtilityFunction: env_var_for doesn’t depend on instance state (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Utility-Function.md]<br>
+spec/floss_funding/poke_spec.rb – 1 warning:<br>
+  [77]:IrresponsibleModule: DirectIncludeTest has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]<br>
+spec/support/bench_gems_generator.rb – 5 warnings:<br>
+  [6]:IrresponsibleModule: FlossFunding::BenchGemsGenerator has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]<br>
+  [24]:TooManyStatements: FlossFunding::BenchGemsGenerator#generate_one has approx 14 statements [https://github.com/troessner/reek/blob/v6.5.0/docs/Too-Many-Statements.md]<br>
+  [24]:UncommunicativeParameterName: FlossFunding::BenchGemsGenerator#generate_one has the parameter name ‘i’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Parameter-Name.md]<br>
+  [19]:UncommunicativeVariableName: FlossFunding::BenchGemsGenerator#generate_all has the variable name ‘i’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+  [13]:UncommunicativeVariableName: FlossFunding::BenchGemsGenerator#namespaces has the variable name ‘i’ [https://github.com/troessner/reek/blob/v6.5.0/docs/Uncommunicative-Variable-Name.md]<br>
+.yard_gfm_support.rb – 1 warning:<br>
+  [9, 9]:FeatureEnvy: KramdownGfmDocument#initialize refers to ‘options’ more than self (maybe move it to another class?) [https://github.com/troessner/reek/blob/v6.5.0/docs/Feature-Envy.md]<br>
+test/debug_check.rb – 1 warning:<br>
+  [12]:IrresponsibleModule: TestModule::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]<br>
+test/test_poke_patterns.rb – 2 warnings:<br>
+  [18]:IrresponsibleModule: CustomTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]<br>
+  [10]:IrresponsibleModule: TraditionalTest::InnerModule has no descriptive comment [https://github.com/troessner/reek/blob/v6.5.0/docs/Irresponsible-Module.md]<br>
+94 total warnings</p>
+</div></div>
+
+      <div id="footer">
+  Generated on Sun Aug 10 23:03:15 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.4.5).
+</div>
+
+    </div>
+  </body>
+</html>

@@ -82,6 +82,7 @@ begin
       "*.cff",
       "*.md",
       "*.txt",
+      "REEK",
     ]
   end
   defaults << "yard"
