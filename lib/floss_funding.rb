@@ -64,8 +64,10 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
   @mutex = Mutex.new
   @activated = []   # List of libraries with valid activation
   @unactivated = [] # List of libraries without valid activation
-  @configurations = Hash.new do |h, k| # Hash to store configurations for each library
-    h[k] = {}
+  @configurations = Hash.new do |h1, k1| # Hash to store configurations for each library
+    h1[k1] = Hash.new do |h2, k2|
+      h2[k2] = []
+    end
   end
   @env_var_names = {} # Map of namespace => ENV var name used during setup
   @activation_occurrences = [] # Tracks every successful activation occurrence (may include duplicates per namespace)
@@ -133,16 +135,12 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     def set_configuration(library, config)
       mutex.synchronize do
         existing = @configurations[library]
-        merged = {}
         # Ensure all known keys are arrays and merged
         keys = (existing.keys + config.keys).uniq
         keys.each do |k|
-          merged[k] = []
-          merged[k].concat(Array(existing[k])) if existing.key?(k)
-          merged[k].concat(Array(config[k])) if config.key?(k)
-          merged[k] = merged[k].compact.flatten.uniq
+          existing[k].concat(Array(config[k])) if config.key?(k)
+          existing[k] = existing[k].compact.flatten.uniq
         end
-        @configurations[library] = merged
       end
     end
 
