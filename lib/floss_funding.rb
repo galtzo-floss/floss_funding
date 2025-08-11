@@ -202,7 +202,7 @@ require "floss_funding/poke"
 # require "floss_funding/check" # Lazy loaded at runtime
 
 # Dog Food
-FlossFunding.send(:include, FlossFunding::Poke.new(__FILE__, "FlossFunding"))
+FlossFunding.send(:include, FlossFunding::Poke.new(__FILE__, :namespace => "FlossFunding"))
 
 # :nocov:
 # Add END hook to display summary and a consolidated blurb for usage without activation key

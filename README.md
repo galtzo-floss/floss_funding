@@ -183,7 +183,7 @@ end
 2. Arbitrary custom namespace (can add version, or anything else):
     ```ruby
 module MyGemLibrary
-  include FlossFunding::Poke.new(__FILE__, "Custom::Namespace::V4")
+  include FlossFunding::Poke.new(__FILE__, :namespace => "Custom::Namespace::V4")
 end
     ```
 

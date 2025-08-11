@@ -14,7 +14,7 @@ module FlossFunding
   # 2. Arbitrary custom namespace (can add version, or anything else):
   #
   #     module MyGemLibrary
-  #       include FlossFunding::Poke.new(__FILE__, "Custom::Namespace::V4")
+  #       include FlossFunding::Poke.new(__FILE__, namespace: "Custom::Namespace::V4")
   #     end
   #
   # In all cases, the first parameter must be a String file path (e.g., `__FILE__`).
@@ -28,17 +28,20 @@ module FlossFunding
       # @param base [Module] the target including module
       # @raise [::FlossFunding::Error] always, instructing correct usage
       def included(base)
-        raise ::FlossFunding::Error, "Do not include FlossFunding::Poke directly. Use include FlossFunding::Poke.new(__FILE__, optional_namespace, optional_env_prefix)."
+        raise ::FlossFunding::Error, "Do not include FlossFunding::Poke directly. Use include FlossFunding::Poke.new(__FILE__, namespace: optional_namespace, env_prefix: optional_env_prefix)."
       end
 
       # Builds a module suitable for inclusion which sets up FlossFunding.
       #
       # @param including_path [String] the including file path (e.g., `__FILE__`)
-      # @param namespace [String, nil] optional custom namespace for activation key
-      # @param env_prefix [String, nil] optional ENV var prefix; defaults to
+      # @param options [Hash] options hash for configuration
+      # @option options [String, nil] :namespace optional custom namespace for activation key
+      # @option options [String, nil] :env_prefix optional ENV var prefix; defaults to
       #   FlossFunding::UnderBar::DEFAULT_PREFIX when nil
       # @return [Module] a module that can be included into your namespace
-      def new(including_path, namespace = nil, env_prefix = nil)
+      def new(including_path, options = {})
+        namespace = options[:namespace]
+        env_prefix = options[:env_prefix]
         Module.new do
           define_singleton_method(:included) do |base|
             FlossFunding::Poke.setup_begging(base, namespace, env_prefix, including_path)

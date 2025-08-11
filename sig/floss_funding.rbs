@@ -78,7 +78,7 @@ module FlossFunding
 
   module Poke
     def self.included: (Module) -> void
-    def self.new: (String, ?String, ?String) -> Module
+    def self.new: (String, ?{ namespace: String?, env_prefix: String? }) -> Module
     def self.setup_begging: (Module, String?, String?, String) -> void
   end
 end

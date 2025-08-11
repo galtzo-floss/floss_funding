@@ -100,7 +100,7 @@ mod.const_set(:Core, Module.new) unless mod.const_defined?(:Core)
 # Conditionally include Poke based on env_name
 if ENV.fetch(env_name, "0") != "0"
   require "floss_funding"
-  mod::Core.send(:include, FlossFunding::Poke.new(__FILE__, poke_namespace))
+  mod::Core.send(:include, FlossFunding::Poke.new(__FILE__, namespace: poke_namespace))
 end
       RUBY
     end

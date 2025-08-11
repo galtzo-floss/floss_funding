@@ -15,5 +15,5 @@ mod.const_set(core_name, Module.new) unless mod.const_defined?(core_name)
 
 if ENV.fetch("NG_PLAIN_5_ENABLE", "0") != "0"
   require "floss_funding"
-  mod::Core.send(:include, FlossFunding::Poke.new(__FILE__, mod_name))
+  mod::Core.send(:include, FlossFunding::Poke.new(__FILE__, :namespace => mod_name))
 end

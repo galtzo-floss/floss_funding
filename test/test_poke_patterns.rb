@@ -9,7 +9,7 @@ require "floss_funding"
 module TraditionalTest
   module InnerModule
     # Using the traditional pattern (no custom namespace)
-    include FlossFunding::Poke
+    include FlossFunding::Poke.new(__FILE__)
   end
 end
 
@@ -17,7 +17,7 @@ end
 module CustomTest
   module InnerModule
     # Using the custom namespace pattern
-    include FlossFunding::Poke.new("MyNamespace::V4")
+    include FlossFunding::Poke.new(__FILE__, :namespace => "MyNamespace::V4")
   end
 end
 
