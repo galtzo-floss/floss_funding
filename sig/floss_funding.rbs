@@ -11,7 +11,11 @@ module FlossFunding
   EIGHT_BYTES: Integer
   HEX_LICENSE_RULE: Regexp
   FOOTER: String
-  DEFAULT_PREFIX: String
+  
+  module Constants
+    DEFAULT_PREFIX: String
+    SILENT: bool
+  end
   
   module Version
     VERSION: String

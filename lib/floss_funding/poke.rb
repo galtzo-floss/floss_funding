@@ -39,6 +39,9 @@ module FlossFunding
       # @option options [Object, nil] :silent optional silence flag or callable to request global silence
       # @return [Module] a module that can be included into your namespace
       def new(including_path, options = {})
+        # Global silencer: short-circuit and do nothing when globally silenced.
+        return Module.new if ::FlossFunding::Constants::SILENT
+
         namespace = options[:namespace]
         silent_opt = options[:silent]
         Module.new do

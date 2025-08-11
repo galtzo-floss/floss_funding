@@ -156,3 +156,21 @@ RSpec.describe FlossFunding::Config do
     end
   end
 end
+
+RSpec.describe FlossFunding::Config do
+  describe ".silence_requested? variants" do
+    it "returns true when any library provides a truthy callable value" do
+      cfg = {
+        "Lib::One" => {"silent" => [-> { true }]},
+      }
+      expect(described_class.silence_requested?(cfg)).to be(true)
+    end
+
+    it "returns false when a callable raises an error (rescued)" do
+      cfg = {
+        "Lib::Two" => {"silent" => [-> { raise "boom" }]},
+      }
+      expect(described_class.silence_requested?(cfg)).to be(false)
+    end
+  end
+end

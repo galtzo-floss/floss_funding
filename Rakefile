@@ -69,6 +69,40 @@ rescue LoadError
   end
 end
 
+# Setup Reek
+begin
+  require "reek/rake/task"
+
+  Reek::Rake::Task.new do |t|
+    t.fail_on_error = true
+    t.verbose = false
+    t.source_files = "{lib,spec,test}/**/*.rb"
+  end
+
+  # Store current Reek output into REEK file
+  require "open3"
+  desc("Run reek and store the output into the REEK file")
+  task("reek:update") do
+    # Run via Bundler if available to ensure the right gem version is used
+    cmd = [Gem.bindir ? File.join(Gem.bindir, "bundle") : "bundle", "exec", "reek"]
+
+    output, status = Open3.capture2e(*cmd)
+
+    File.write("REEK", output)
+
+    # Mirror the failure semantics of the standard reek task
+    unless status.success?
+      abort("reek:update failed (reek reported smells). Output written to REEK")
+    end
+  end
+  defaults << "reek:update" unless is_ci
+rescue LoadError
+  desc("(stub) reek is unavailable")
+  task(:reek) do
+    warn("NOTE: reek isn't installed, or is disabled for #{RUBY_VERSION} in the current environment")
+  end
+end
+
 # Setup Yard
 begin
   require "yard"
@@ -90,23 +124,6 @@ rescue LoadError
   desc("(stub) yard is unavailable")
   task(:yard) do
     warn("NOTE: yard isn't installed, or is disabled for #{RUBY_VERSION} in the current environment")
-  end
-end
-
-# Setup Reek
-begin
-  require "reek/rake/task"
-
-  Reek::Rake::Task.new do |t|
-    t.fail_on_error = true
-    t.verbose = false
-    t.source_files = "{lib,spec}/**/*.rb"
-  end
-  defaults << "reek" unless is_ci
-rescue LoadError
-  desc("(stub) reek is unavailable")
-  task(:reek) do
-    warn("NOTE: reek isn't installed, or is disabled for #{RUBY_VERSION} in the current environment")
   end
 end
 

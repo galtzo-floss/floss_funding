@@ -11,20 +11,13 @@ Month.include(Month::Serializer)
 # Just the version from this gem
 require "floss_funding/version"
 
+# Load runtime control switch constants separately for easier test isolation
+require "floss_funding/constants"
+
 # Now declare some constants
 module FlossFunding
   # Base error class for all FlossFunding-specific failures.
   class Error < StandardError; end
-
-  # Default ENV prefix used when constructing activation ENV variable names.
-  # This can be globally overridden for the entire process by setting
-  # ENV['FLOSS_FUNDING_ENV_PREFIX'] to a String (including an empty String
-  # to indicate no prefix at all).
-  DEFAULT_PREFIX = if ENV.key?("FLOSS_FUNDING_ENV_PREFIX")
-    ENV["FLOSS_FUNDING_ENV_PREFIX"]
-  else
-    "FLOSS_FUNDING_"
-  end
 
   # Unpaid activation option intended for open-source and not-for-profit use.
   # @return [String]
@@ -271,7 +264,7 @@ Unremunerated use of the following namespaces was detected:
         config = configs[ns] || {}
         funding_url = Array(config["floss_funding_url"]).first || "https://floss-funding.dev"
         suggested_amount = Array(config["suggested_donation_amount"]).first || 5
-        env_name = env_map[ns] || "#{FlossFunding::DEFAULT_PREFIX}#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
+        env_name = env_map[ns] || "#{FlossFunding::Constants::DEFAULT_PREFIX}#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
         opt_out = "#{FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{ns}"
         details << <<-NS
   - Namespace: #{ns}
@@ -303,7 +296,7 @@ Or in shell / dotenv / direnv, e.g.:
       BODY
 
       unactivated.each do |ns|
-        env_name = env_map[ns] || "#{FlossFunding::DEFAULT_PREFIX}#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
+        env_name = env_map[ns] || "#{FlossFunding::Constants::DEFAULT_PREFIX}#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
         details << "  export #{env_name}=\"<your key>\"\n"
       end
 

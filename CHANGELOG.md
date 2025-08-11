@@ -6,20 +6,15 @@ and this project adheres to [Semantic Versioning v2](https://semver.org/spec/v2.
 
 ## [Unreleased]
 ### Added
-### Changed
-### Deprecated
-### Removed
-### Fixed
-### Security
-
-## [1.0.0-alpha.3] - 2025-08-11
-- TAG: [v1.0.0-alpha.3][1.0.0-alpha.3t]
-### Added
 - Global override for environment variable prefix via `ENV['FLOSS_FUNDING_ENV_PREFIX']`. Set to an empty string to disable any prefix entirely.
+- Global override to disable and silence FlossFunding entirely.
+  - Set `ENV['FLOSS_FUNDING_SILENT']` to a value of `"CATHEDRAL_OR_BAZAAR"` (case insensitive match) to disable and silence FlossFunding entirely.
+  - Any other value will allow FlossFunding to run normally.
 ### Changed
-- (BREAKING) Moved `DEFAULT_PREFIX` constant from `FlossFunding::UnderBar` to top-level `FlossFunding` and updated all usages to reference `::FlossFunding::DEFAULT_PREFIX`.
-- Replaced hard-coded "FLOSS_FUNDING_" magic strings with `::FlossFunding::DEFAULT_PREFIX` where applicable.
-- Updated documentation, RBS signatures, and specs to reflect the new global prefix behavior and constant location.
+- (BREAKING) Moved `DEFAULT_PREFIX` and `SILENT` constants into `FlossFunding::Constants` and updated all usages to reference `::FlossFunding::Constants::DEFAULT_PREFIX` and `::FlossFunding::Constants::SILENT`.
+- Replaced hard-coded "FLOSS_FUNDING_" magic strings with `::FlossFunding::Constants::DEFAULT_PREFIX` where applicable.
+- Updated documentation, RBS signatures, and specs to reflect the new Constants module and global prefix behavior.
+### Deprecated
 ### Removed
 - (BREAKING) Removed per-library ability to override the ENV prefix via `:env_prefix` option to `FlossFunding::Poke.new`. A single process-wide override is now supported via `ENV['FLOSS_FUNDING_ENV_PREFIX']`.
 - (BREAKING) Removed `UnderBar::DEFAULT_PREFIX` constant.

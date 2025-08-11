@@ -30,7 +30,7 @@ module FlossFunding
 
         name_parts = namespace.split("::")
         env_name = name_parts.map { |np| to_under_bar(np) }.join("_")
-        "#{::FlossFunding::DEFAULT_PREFIX}#{env_name}".upcase
+        "#{::FlossFunding::Constants::DEFAULT_PREFIX}#{env_name}".upcase
       end
 
       # Converts a single namespace segment to an underscored, uppercased string.

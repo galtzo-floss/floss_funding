@@ -23,8 +23,9 @@ This tool can help library maintainers earn money from their open source work in
 👉️ No tracking.
 👉️ No oversight.
 👉️ Minimal crypto hashing.
+💡 Easily disabled by `ENV['FLOSS_FUNDING_SILENT'] = "CATHEDRAL_OR_BAZAAR"`
 
-If you blink you may miss it...
+Now, back to the one line of code I mentioned. If you blink you may miss it...
 
 ```ruby
 module MyGemLibrary
@@ -34,7 +35,7 @@ end
 
 The website that will generate activation keys for your gems is coming soon @ [floss-funding.dev](https://floss-funding.dev).  FLOSS Funding relies on empathy, respect, honor, and annoyance of the most extreme mildness.  It doesn't accept payments for activation keys, and trusts you to go and sponsor or donate to your favorite open source projects before getting their "activation key".
 
-What does an _activation key_ do?  It silences the nags, and "activates" your peace of mind. It rewards you with a gold star sticker (⭐️) for each project you fund when your process exits.  That's it.
+What does an _activation key_ do?  It silences the nags for a library, and "activates" your peace of mind. It rewards you with a gold star sticker (⭐️) for each project you fund when your process exits.  That's it.
 
 The project *does not affect* licensing of projects.  It is purely a tool to help library maintainers earn money from their open source work.
 
@@ -189,17 +190,37 @@ end
 
 ## Configuration
 
+### Silence via lobal Environment Variable
+
+For global silence the best solution is to set the environment variable `FLOSS_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
+
+If you can't control ENV variables, and you can control the stack, at the beginning of the stack, before other things load, simply `require "floss_funding/silent"`, and it will silence all output. Note that this is less performant than setting the global environment variable, as above.
+
+### Silence via Poke.new `silent` option.
+
+`silent` options values can be any of:
+
+- truthy - indicates that the library including Poke.new requires `FlossFunding` to be silent, perhaps due to scanning the output of a command, or generating output that is expected elsewhere.
+- falsey - indicates that the library including Poke.new does not require `FlossFunding` to be silent. This is effectively the default.
+- Object that responds to `:call` - indicates that the library including Poke.new might require `FlossFunding` to be silent, and that evaluation will be done whenever FlossFunding attempts to print something.
+
+If you have a library that doesn't know, at the time of `Poke.new` inclusion, if it needs silence, pass an object that responds to `:call` as the `silent` option to `FlossFunding::Poke.new`.
+
+**IMPORTANT** - By the time your `Poke.new` using library loads into a stack, other libraries may have already loaded `Poke.new` for themselves, and may have already generated output. This is not a solution for silencing all output. The main thing it can reliably do is silence the output from the at_exit handler.
+
+If you need to silence **everything**, do so by setting the environment variable `FLOSS_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
+
+### File-based Configuration
+
 Gems that use the floss_funding gem can configure some features by creating a `.floss_funding.yml` file at their root directory. This works in the same manner as `.rubocop.yml` for gems that use RuboCop.
 
-### Configuration Options
-
-The following options can be configured in the `.floss_funding.yml` file:
+The following options are configured via the `.floss_funding.yml` file:
 
 1. `suggested_donation_amount` - The suggested donation amount to display in the begging message (default: 5)
 2. `floss_funding_url` - The URL to direct users to for donations or sponsorship
    a. default: https://floss-funding.dev, which doesn't take donations on behalf of other projects, but it will have helpful tips on how to find a way to donate.
 
-### Example Configuration
+#### Example Configuration
 
 In your `.floss_funding.yml` at the root of your project:
 
