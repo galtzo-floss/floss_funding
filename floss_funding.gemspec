@@ -61,15 +61,19 @@ Gem::Specification.new do |spec|
   spec.files = Dir[
     # Splats (alphabetical)
     "lib/**/*.rb",
+    "base.txt",
   ]
   # Automatically included with gem package, no need to list again in files.
   spec.extra_rdoc_files = Dir[
     # Files (alphabetical)
     "CHANGELOG.md",
+    "CITATION.cff",
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",
     "LICENSE.txt",
     "README.md",
+    "REEK",
+    "RUBOCOP.md",
     "SECURITY.md",
   ]
   spec.rdoc_options += [
@@ -77,10 +81,13 @@ Gem::Specification.new do |spec|
     "#{spec.name} - #{spec.summary}",
     "--main",
     "CHANGELOG.md",
+    "CITATION.cff",
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",
     "LICENSE.txt",
     "README.md",
+    "REEK",
+    "RUBOCOP.md",
     "SECURITY.md",
     "--line-numbers",
     "--inline-source",
