@@ -20,12 +20,10 @@ module FlossFunding
     class << self
       # Builds an uppercased ENV variable name from a Ruby namespace.
       #
-      # @param opts [Hash]
-      # @option opts [String] :namespace (required) the Ruby namespace (e.g., "My::Lib")
+      # @param namespace [String] the Ruby namespace (e.g., "My::Lib")
       # @return [String] the resulting ENV variable name
       # @raise [FlossFunding::Error] when :namespace is not a String or contains invalid characters
-      def env_variable_name(opts = {})
-        namespace = opts[:namespace]
+      def env_variable_name(namespace)
         raise FlossFunding::Error, "namespace must be a String, but is #{namespace.class}" unless namespace.is_a?(String)
 
         name_parts = namespace.split("::")

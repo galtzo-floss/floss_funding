@@ -15,6 +15,7 @@ PATH
   specs:
     floss_funding (1.0.0.pre.alpha.2)
       month-serializer (~> 1.0, = 1.0.1)
+      rainbow (>= 1.99.2, < 4.0, != 3.1.0, != 2.2.1, != 2.2.0)
 
 GEM
   remote: https://rubygems.org/

@@ -99,6 +99,8 @@ Gem::Specification.new do |spec|
   spec.executables = []
 
   spec.add_dependency("month-serializer", "~> 1.0", "1.0.1")
+  # Exclude broken rainbow releases: https://github.com/ku1ik/rainbow/blob/master/Changelog.md
+  spec.add_dependency("rainbow", ">= 1.99.2", "!= 2.2.0", "!= 2.2.1", "!= 3.1.0", "< 4.0")
 
   # NOTE: It is preferable to list development dependencies in the gemspec due to increased
   #       visibility and discoverability on RubyGems.org.

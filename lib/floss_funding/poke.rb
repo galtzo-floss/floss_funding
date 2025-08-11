@@ -63,6 +63,8 @@ module FlossFunding
       # @raise [::FlossFunding::Error] if including_path is not a String
       # @raise [::FlossFunding::Error] if base.name is not a String
       def setup_begging(base, custom_namespace, including_path, silent_opt = nil)
+        # Implementers will hit these errors if they set up FlossFunding incorrectly.
+        # End users of libraries will never see these errors.
         unless including_path.is_a?(String)
           raise ::FlossFunding::Error, "including_path must be a String file path (e.g., __FILE__), got #{including_path.class}"
         end
@@ -74,30 +76,25 @@ module FlossFunding
         # Extend the base with the checker module first
         base.extend(::FlossFunding::Check)
 
-        # Load configuration from .floss_funding.yml if it exists
-        config = ::FlossFunding::Config.load_config(including_path)
-
-        # Three data points needed:
-        # 1. namespace (derived from the base class name, config, or param)
-        # 2. ENV variable name (derived from namespace)
-        # 3. activation key (derived from ENV variable)
         namespace =
-          if custom_namespace && !custom_namespace.empty?
+          if custom_namespace.is_a?(String) && !custom_namespace.empty?
             custom_namespace
           else
             base.name
           end
 
+        library = ::FlossFunding::Library.new(
+          namespace,
+          including_path,
+          :silent => silent_opt,
+        )
+
+        config = library.config
+        activation_key = library.activation_key
+
         # Track both the effective base namespace and the custom namespace (if provided)
         config["namespace"] |= Array(base.name)
         config["custom_namespaces"] |= Array(custom_namespace) if custom_namespace && !custom_namespace.empty?
-
-        env_var_name = ::FlossFunding::UnderBar.env_variable_name(
-          {
-            :namespace => namespace,
-          },
-        )
-        activation_key = ENV.fetch(env_var_name, "")
 
         # Apply silent option if provided, storing into configuration under this library
         unless silent_opt.nil?
@@ -106,14 +103,14 @@ module FlossFunding
 
         # Store configuration and ENV var name under the effective namespace
         ::FlossFunding.set_configuration(namespace, config)
-        ::FlossFunding.set_env_var_name(namespace, env_var_name)
+        ::FlossFunding.set_env_var_name(namespace, library.env_var_name)
 
         # Only handle true here, because the :call evaluations should happen as late as possible,
         #   just prior to printing output.
         return if silent_opt == true
 
         # Now call the begging method after extending
-        base.floss_funding_initiate_begging(activation_key, namespace, env_var_name, config["gem_name"])
+        base.floss_funding_initiate_begging(activation_key, namespace, library.env_var_name, library.gem_name)
       end
     end
   end
