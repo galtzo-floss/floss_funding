@@ -62,8 +62,8 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
   # and whether they have valid activation keys or not
   # rubocop:disable ThreadSafety/MutableClassInstanceVariable
   @mutex = Mutex.new
-  @activated = []   # List of libraries with valid activation
-  @unactivated = [] # List of libraries without valid activation
+  @activated = []   # List of library namespaces with valid activation
+  @unactivated = [] # List of library namespaces without valid activation
   @configurations = Hash.new do |h1, k1| # Hash to store configurations for each library
     h1[k1] = Hash.new do |h2, k2|
       h2[k2] = []
@@ -101,18 +101,18 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       mutex.synchronize { @unactivated = value }
     end
 
-    # Thread-safely adds a library to the activated list
+    # Thread-safely adds a namespace to the activated list
     # Ensures no duplicates are added
-    # @param library [String] Namespace of the library to add
-    def add_activated(library)
-      mutex.synchronize { @activated << library unless @activated.include?(library) }
+    # @param namespace [String] Namespace of the library to add
+    def add_activated(namespace)
+      mutex.synchronize { @activated << namespace unless @activated.include?(namespace) }
     end
 
-    # Thread-safely adds a library to the unactivated list
+    # Thread-safely adds a namespace to the unactivated list
     # Ensures no duplicates are added
-    # @param library [String] Namespace of the library to add
-    def add_unactivated(library)
-      mutex.synchronize { @unactivated << library unless @unactivated.include?(library) }
+    # @param namespace [String] Namespace of the library to add
+    def add_unactivated(namespace)
+      mutex.synchronize { @unactivated << namespace unless @unactivated.include?(namespace) }
     end
 
     # Thread-safe accessor for the configurations hash
@@ -123,18 +123,18 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     end
 
     # Thread-safe getter for a specific library's configuration
-    # @param library [String] Namespace of the library
+    # @param namespace [String] Namespace of the library
     # @return [Hash] Configuration for the library; always a hash, but might be empty
-    def configuration(library)
-      mutex.synchronize { @configurations[library].dup }
+    def configuration(namespace)
+      mutex.synchronize { @configurations[namespace].dup }
     end
 
-    # Thread-safe setter for a library's configuration
-    # @param library [String] Namespace of the library
-    # @param config [Hash] Configuration for the library
-    def set_configuration(library, config)
+    # Thread-safe setter for a namespace's configuration
+    # @param namespace [String] Namespace of the library
+    # @param config [Hash] Configuration for the namespace
+    def set_configuration(namespace, config)
       mutex.synchronize do
-        existing = @configurations[library]
+        existing = @configurations[namespace]
         # Ensure all known keys are arrays and merged
         keys = (existing.keys + config.keys).uniq
         keys.each do |k|
@@ -144,18 +144,18 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       end
     end
 
-    # Thread-safe setter for ENV var name used by a library
-    # @param library [String]
+    # Thread-safe setter for ENV var name used by a namespace
+    # @param namespace [String]
     # @param env_var_name [String]
-    def set_env_var_name(library, env_var_name)
-      mutex.synchronize { @env_var_names[library] = env_var_name }
+    def set_env_var_name(namespace, env_var_name)
+      mutex.synchronize { @env_var_names[namespace] = env_var_name }
     end
 
-    # Thread-safe getter for ENV var name used by a library
-    # @param library [String]
+    # Thread-safe getter for ENV var name used by a namespace
+    # @param namespace [String]
     # @return [String, nil]
-    def env_var_name_for(library)
-      mutex.synchronize { @env_var_names[library] }
+    def env_var_name_for(namespace)
+      mutex.synchronize { @env_var_names[namespace] }
     end
 
     # Thread-safe getter for all ENV var names
@@ -174,6 +174,15 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @param namespace [String]
     def add_activation_occurrence(namespace)
       mutex.synchronize { @activation_occurrences << namespace }
+    end
+
+    # Registrations when activation is valid
+    # @param namespace [String]
+    def add_registration(namespace)
+      mutex.synchronize do
+        @activation_occurrences << namespace
+        @activated << namespace unless @activated.include?(namespace)
+      end
     end
 
     # Reads the first N lines from the base words file to validate paid activation keys.
@@ -229,6 +238,7 @@ at_exit {
   # Shared namespaces (e.g., final 10) will still contribute all gem names because configs merge per-namespace.
   configs = FlossFunding.configurations
   observed_namespaces = activated.uniq
+  # These are the gem names that are covered by funding, regardless of whether they are ACTIVATED or not.
   funded_gem_names = observed_namespaces.flat_map { |ns|
     configs[ns]["gem_name"]
   }.compact.uniq
