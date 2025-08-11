@@ -89,13 +89,8 @@ module FlossFunding
           end
 
         # Track both the effective base namespace and the custom namespace (if provided)
-        config["namespace"] ||= []
-        config["namespace"] << base.name
-        config["custom_namespaces"] ||= []
-        config["custom_namespaces"] << custom_namespace if custom_namespace && !custom_namespace.empty?
-        # Deduplicate
-        config["namespace"] = config["namespace"].flatten.uniq
-        config["custom_namespaces"] = config["custom_namespaces"].flatten.uniq
+        config["namespace"] |= Array(base.name)
+        config["custom_namespaces"] |= Array(custom_namespace) if custom_namespace && !custom_namespace.empty?
 
         env_var_name = ::FlossFunding::UnderBar.env_variable_name(
           {
@@ -106,13 +101,16 @@ module FlossFunding
 
         # Apply silent option if provided, storing into configuration under this library
         unless silent_opt.nil?
-          config["silent"] ||= []
           config["silent"] << silent_opt
         end
 
         # Store configuration and ENV var name under the effective namespace
         ::FlossFunding.set_configuration(namespace, config)
         ::FlossFunding.set_env_var_name(namespace, env_var_name)
+
+        # Only handle true here, because the :call evaluations should happen as late as possible,
+        #   just prior to printing output.
+        return if silent_opt == true
 
         # Now call the begging method after extending
         base.floss_funding_initiate_begging(activation_key, namespace, env_var_name)

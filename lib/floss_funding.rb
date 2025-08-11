@@ -182,6 +182,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @return [Array<String>] the first N words; empty when N is nil or zero
     def base_words(num_valid_words)
       return [] if num_valid_words.nil? || num_valid_words.zero?
+
       File.open(::FlossFunding::BASE_WORDS_PATH, "r") do |file|
         lines = []
         num_valid_words.times do
@@ -229,8 +230,7 @@ at_exit {
   configs = FlossFunding.configurations
   observed_namespaces = activated.uniq
   funded_gem_names = observed_namespaces.flat_map { |ns|
-    cfg = configs[ns]
-    cfg.is_a?(Hash) ? Array(cfg["gem_name"]) : []
+    configs[ns]["gem_name"]
   }.compact.uniq
   funded_gem_count = funded_gem_names.size
 
@@ -267,7 +267,7 @@ Unremunerated use of the following namespaces was detected:
     HEADER
 
     unactivated.each do |ns|
-      config = configs[ns] || {}
+      config = configs[ns]
       funding_url = Array(config["floss_funding_url"]).first || "https://floss-funding.dev"
       suggested_amount = Array(config["suggested_donation_amount"]).first || 5
       env_name = env_map[ns] || "#{FlossFunding::Constants::DEFAULT_PREFIX}#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
