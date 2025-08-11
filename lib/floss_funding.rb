@@ -57,7 +57,33 @@ module FlossFunding
 floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺🇸 & 🇮🇩 by Galtzo FLOSS (galtzo.com)
   FOOTER
 
-  Occurrence = Struct.new(:namespace, :gem_name, :env_var_name, :order)
+  # Represents a single funding-related occurrence for a gem/namespace pair.
+  # This replaces the ad-hoc tuple usage of (namespace, gem_name, env_var_name)
+  # by providing a dedicated immutable object with an occurrence timestamp.
+  class Occurrence
+    # @return [String]
+    attr_reader :namespace
+    # @return [String]
+    attr_reader :gem_name
+    # @return [String]
+    attr_reader :env_var_name
+    # @return [Time]
+    attr_reader :occurred_at
+
+    # Initialize a new occurrence record.
+    #
+    # @param namespace [String]
+    # @param gem_name [String]
+    # @param env_var_name [String]
+    # @param occurred_at [Time] when the occurrence happened (defaults to Time.now)
+    def initialize(namespace, gem_name, env_var_name, occurred_at = Time.now)
+      @namespace = namespace
+      @gem_name = gem_name
+      @env_var_name = env_var_name
+      @occurred_at = occurred_at
+      freeze
+    end
+  end
 
   # Thread-safe access to activated and unactivated libraries
   # These track which modules/gems have included the Poke module
