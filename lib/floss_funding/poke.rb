@@ -44,6 +44,7 @@ module FlossFunding
 
         namespace = options[:namespace]
         silent_opt = options[:silent]
+        # an anonymous module that will set up an activation key Check when included
         Module.new do
           define_singleton_method(:included) do |base|
             FlossFunding::Poke.setup_begging(base, namespace, including_path, silent_opt)

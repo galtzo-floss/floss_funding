@@ -101,18 +101,16 @@ module FlossFunding
       end
 
       # Determines whether any registered configuration requests silence.
-      # Accepts the configurations hash (as returned by FlossFunding.configurations).
+      # Uses ::FlossFunding.configurations internally.
       # For each library's config, examines the "silent" key values. If any value
       # responds to :call, it will be invoked (with no args) and the truthiness of
       # its return value is used. Otherwise, the value's own truthiness is used.
       # Returns true if any library requires silence; false otherwise.
       #
-      # @param configurations [Hash{String=>Hash}]
       # @return [Boolean]
-      def silence_requested?(configurations)
-        return false unless configurations.is_a?(Hash)
+      def silence_requested?
+        configurations = ::FlossFunding.configurations
         configurations.any? do |_library, cfg|
-          next false unless cfg.is_a?(Hash)
           values = Array(cfg["silent"]) # may be nil/array/scalar
           values.any? do |v|
             begin

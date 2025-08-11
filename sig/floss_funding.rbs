@@ -65,7 +65,7 @@ module FlossFunding
     def self.load_yaml_file: (String) -> Hash[untyped, untyped]
     def self.read_gemspec_data: (String) -> Hash[Symbol, untyped]
     def self.normalize_to_array: (untyped) -> Array[untyped]
-    def self.silence_requested?: (Hash[String, Hash[untyped, untyped]]) -> bool
+    def self.silence_requested?: () -> bool
   end
 
   module Check

@@ -162,8 +162,7 @@ module FlossFunding
       # @return [void]
       def start_coughing(activation_key, namespace, env_var_name)
         # Respect global silence setting from any registered library
-        configs = ::FlossFunding.configurations
-        return if ::FlossFunding::Config.silence_requested?(configs)
+        return if ::FlossFunding::Config.silence_requested?
         puts <<-COUGHING
 ==============================================================
 COUGH, COUGH.
@@ -193,8 +192,7 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
       # @return [void]
       def start_begging(namespace, env_var_name)
         # During load, only emit a single-line note and defer the large blurb to at_exit
-        configs = ::FlossFunding.configurations
-        return if ::FlossFunding::Config.silence_requested?(configs)
+        return if ::FlossFunding::Config.silence_requested?
         puts %(FLOSS Funding: Activation key missing for #{namespace}. Set ENV["#{env_var_name}"] to activation key; details will be shown at exit.)
       end
     end

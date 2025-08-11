@@ -126,3 +126,48 @@ RSpec.describe FlossFunding::Poke do
     end
   end
 end
+
+RSpec.describe FlossFunding::Poke do
+  describe ".new (global SILENT path)" do
+    it "returns an inert module when FlossFunding::Constants::SILENT is true and does not set up begging" do
+      original = ENV["FLOSS_FUNDING_SILENT"]
+      begin
+        # 1. unload Constants
+        if Object.const_defined?(:FlossFunding) && FlossFunding.const_defined?(:Constants)
+          FlossFunding.send(:remove_const, :Constants)
+        end
+
+        # 2. set the ENV variable that controls SILENT
+        ENV["FLOSS_FUNDING_SILENT"] = "CATHEDRAL_OR_BAZAAR"
+
+        # 3. reload Constants
+        load File.expand_path("../../lib/floss_funding/constants.rb", __dir__)
+
+        # Sanity check
+        expect(FlossFunding::Constants::SILENT).to be(true)
+
+        # 4. run the test to capture the other side of the branch
+        test_mod = Module.new
+
+        output = capture(:stdout) do
+          test_mod.send(:include, described_class.new(__FILE__))
+        end
+
+        # Should be truly silent and not extend Check methods
+        expect(output).to eq("")
+        expect(test_mod).not_to respond_to(:floss_funding_initiate_begging)
+      ensure
+        # Cleanup: restore ENV and reload original Constants
+        if Object.const_defined?(:FlossFunding) && FlossFunding.const_defined?(:Constants)
+          FlossFunding.send(:remove_const, :Constants)
+        end
+        if original.nil?
+          ENV.delete("FLOSS_FUNDING_SILENT")
+        else
+          ENV["FLOSS_FUNDING_SILENT"] = original
+        end
+        load File.expand_path("../../lib/floss_funding/constants.rb", __dir__)
+      end
+    end
+  end
+end

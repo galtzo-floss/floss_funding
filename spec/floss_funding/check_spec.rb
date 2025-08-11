@@ -188,6 +188,20 @@ RSpec.describe FlossFunding::Check do
       expect(output).to include("Paid activation keys are 8 bytes, 64 hex characters, long")
       expect(output).to include("Yours is #{activation_key.length} characters long")
     end
+
+    it "does not output when global silence is requested" do
+      activation_key = "invalid-key"
+      namespace = "TestNamespace"
+      env_var_name = "TEST_NAMESPACE"
+
+      allow(FlossFunding::Config).to receive(:silence_requested?).and_return(true)
+
+      output = capture(:stdout) do
+        test_class.send(:start_coughing, activation_key, namespace, env_var_name)
+      end
+
+      expect(output).to eq("")
+    end
   end
 
   describe "#start_begging" do

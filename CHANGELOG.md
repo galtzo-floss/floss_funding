@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning v2](https://semver.org/spec/v2.
 
 ## [Unreleased]
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
+## [1.0.0-alpha.3] - 2025-08-11
+- TAG: [v1.0.0-alpha.3][1.0.0-alpha.3t]
+- COVERAGE: 100.00% -- 283/283 lines in 8 files
+- BRANCH COVERAGE: 100.00% -- 93/93 branches in 8 files
+- 98.25% documented
+### Added
 - Global override for environment variable prefix via `ENV['FLOSS_FUNDING_ENV_PREFIX']`. Set to an empty string to disable any prefix entirely.
 - Global override to disable and silence FlossFunding entirely.
   - Set `ENV['FLOSS_FUNDING_SILENT']` to a value of `"CATHEDRAL_OR_BAZAAR"` (case insensitive match) to disable and silence FlossFunding entirely.

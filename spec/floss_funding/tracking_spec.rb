@@ -111,8 +111,8 @@ RSpec.describe "FlossFunding tracking functionality" do
         expect(merged_config["namespace"]).to include("TraditionalTest::InnerModule")
         expect(merged_config["custom_namespaces"]).to include("Custom::NS")
 
-        # Call configuration for a non-existent library to cover the nil branch
-        expect(FlossFunding.configuration("Does::Not::Exist")).to be_nil
+        # Call configuration for a non-existent library to validate behavior
+        expect(FlossFunding.configuration("Does::Not::Exist")).to be_empty
 
         # Exercise base_words early return branch
         expect(FlossFunding.base_words(0)).to eq([])

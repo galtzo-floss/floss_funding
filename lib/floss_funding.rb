@@ -64,7 +64,9 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
   @mutex = Mutex.new
   @activated = []   # List of libraries with valid activation
   @unactivated = [] # List of libraries without valid activation
-  @configurations = {} # Hash to store configurations for each library
+  @configurations = Hash.new do |h, k| # Hash to store configurations for each library
+    h[k] = {}
+  end
   @env_var_names = {} # Map of namespace => ENV var name used during setup
   @activation_occurrences = [] # Tracks every successful activation occurrence (may include duplicates per namespace)
   # rubocop:enable ThreadSafety/MutableClassInstanceVariable
@@ -120,12 +122,9 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
 
     # Thread-safe getter for a specific library's configuration
     # @param library [String] Namespace of the library
-    # @return [Hash, nil] Configuration for the library or nil if not found
+    # @return [Hash] Configuration for the library; always a hash, but might be empty
     def configuration(library)
-      mutex.synchronize do
-        value = @configurations[library]
-        value ? value.dup : nil
-      end
+      mutex.synchronize { @configurations[library].dup }
     end
 
     # Thread-safe setter for a library's configuration
@@ -133,7 +132,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @param config [Hash] Configuration for the library
     def set_configuration(library, config)
       mutex.synchronize do
-        existing = @configurations[library] || {}
+        existing = @configurations[library]
         merged = {}
         # Ensure all known keys are arrays and merged
         keys = (existing.keys + config.keys).uniq
@@ -231,7 +230,7 @@ at_exit {
   # Summary section
   if activated_count > 0 || unactivated_count > 0
     configs = FlossFunding.configurations
-    unless FlossFunding::Config.silence_requested?(configs)
+    unless FlossFunding::Config.silence_requested?
       stars = ("⭐️" * activated_count)
       mimes = ("🫥" * unactivated_count)
       summary_lines = []
@@ -253,7 +252,7 @@ at_exit {
     configs = FlossFunding.configurations
     env_map = FlossFunding.env_var_names
 
-    unless FlossFunding::Config.silence_requested?(configs)
+    unless FlossFunding::Config.silence_requested?
       details = +""
       details << <<-HEADER
 ==============================================================

@@ -227,7 +227,7 @@ Also includes slots for gemspec-derived attributes we track per gem.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#silence_requested%3F-class_method" title="silence_requested? (class method)">.<strong>silence_requested?</strong>(configurations)  &#x21d2; Boolean </a>
+      <a href="#silence_requested%3F-class_method" title="silence_requested? (class method)">.<strong>silence_requested?</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -451,7 +451,7 @@ provided including file path to discover the project root.</p>
       <div class="method_details ">
   <h3 class="signature " id="silence_requested?-class_method">
   
-    .<strong>silence_requested?</strong>(configurations)  &#x21d2; <tt>Boolean</tt> 
+    .<strong>silence_requested?</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -460,7 +460,7 @@ provided including file path to discover the project root.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p>Determines whether any registered configuration requests silence.<br />
-Accepts the configurations hash (as returned by FlossFunding.configurations).<br />
+Uses ::FlossFunding.configurations internally.<br />
 For each library’s config, examines the “silent” key values. If any value<br />
 responds to :call, it will be invoked (with no args) and the truthiness of<br />
 its return value is used. Otherwise, the value’s own truthiness is used.<br />
@@ -470,22 +470,7 @@ Returns true if any library requires silence; false otherwise.</p>
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
   
-    <li>
-      
-        <span class='name'>configurations</span>
-      
-      
-        <span class='type'>(<tt>Hash{String=&gt;Hash}</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
@@ -506,6 +491,7 @@ Returns true if any library requires silence; false otherwise.</p>
       <pre class="lines">
 
 
+111
 112
 113
 114
@@ -518,17 +504,14 @@ Returns true if any library requires silence; false otherwise.</p>
 121
 122
 123
-124
-125
-126</pre>
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config.rb', line 111</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_silence_requested?'>silence_requested?</span><span class='lparen'>(</span><span class='id identifier rubyid_configurations'>configurations</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_configurations'>configurations</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_silence_requested?'>silence_requested?</span>
+  <span class='id identifier rubyid_configurations'>configurations</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configurations'><span class='object_link'><a href="../FlossFunding.html#configurations-class_method" title="FlossFunding.configurations (method)">configurations</a></span></span>
   <span class='id identifier rubyid_configurations'>configurations</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid__library'>_library</span><span class='comma'>,</span> <span class='id identifier rubyid_cfg'>cfg</span><span class='op'>|</span>
-    <span class='kw'>next</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_cfg'>cfg</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='const'>Array</span><span class='lparen'>(</span><span class='id identifier rubyid_cfg'>cfg</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>silent</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='comment'># may be nil/array/scalar
 </span>    <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
       <span class='kw'>begin</span>
@@ -550,7 +533,7 @@ Returns true if any library requires silence; false otherwise.</p>
 </div>
 
       <div id="footer">
-  Generated on Mon Aug 11 02:10:56 2025 by
+  Generated on Mon Aug 11 03:08:55 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
