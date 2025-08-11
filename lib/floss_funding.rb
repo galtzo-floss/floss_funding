@@ -204,12 +204,21 @@ require "floss_funding/poke"
 # require "floss_funding/check" # Lazy loaded at runtime
 
 # Dog Food
-FlossFunding.send(:include, FlossFunding::Poke.new(__FILE__, :namespace => "FlossFunding"))
+FlossFunding.send(
+  :include,
+  FlossFunding::Poke.new(
+    __FILE__,
+    :namespace => "FlossFunding",
+    :silent => false,
+  ),
+)
 
 # :nocov:
-# Add END hook to display summary and a consolidated blurb for usage without activation key
+# Add END hook to display a summary and a consolidated blurb for usage without activation key
 # This hook runs when the Ruby process terminates
 at_exit {
+  return if FlossFunding::Config.silence_requested?
+
   activated = FlossFunding.activated
   unactivated = FlossFunding.unactivated
   activated_count = activated.size
@@ -230,20 +239,21 @@ at_exit {
   # Summary section
   if activated_count > 0 || unactivated_count > 0
     configs = FlossFunding.configurations
-    unless FlossFunding::Config.silence_requested?
-      stars = ("⭐️" * activated_count)
-      mimes = ("🫥" * unactivated_count)
-      summary_lines = []
-      summary_lines << "\nFLOSS Funding Summary:"
-      summary_lines << "Activated libraries (#{activated_count}): #{stars}" if activated_count > 0
-      # Also show total successful inclusions (aka per-gem activations), which may exceed unique namespaces
-      summary_lines << "Activated gems (#{occurrences_count})" if occurrences_count > 0
-      # Show how many distinct gem names are covered by funding
-      summary_lines << "Gems covered by funding (#{funded_gem_count})" if funded_gem_count > 0
-      summary_lines << "Unactivated libraries (#{unactivated_count}): #{mimes}" if unactivated_count > 0
-      summary = summary_lines.join("\n") + "\n\n"
-      puts summary
+    if defined?(Bundler) && Bundler.respond_to?(:loaded_gems)
+      Bundler.loaded_gems.count
     end
+    stars = ("⭐️" * activated_count)
+    mimes = ("🫥" * unactivated_count)
+    summary_lines = []
+    summary_lines << "\nFLOSS Funding Summary:"
+    summary_lines << "Activated libraries (#{activated_count}): #{stars}" if activated_count > 0
+    # Also show total successful inclusions (aka per-gem activations), which may exceed unique namespaces
+    summary_lines << "Activated gems (#{occurrences_count})" if occurrences_count > 0
+    # Show how many distinct gem names are covered by funding
+    summary_lines << "Gems covered by funding (#{funded_gem_count})" if funded_gem_count > 0
+    summary_lines << "Unactivated libraries (#{unactivated_count}): #{mimes}" if unactivated_count > 0
+    summary = summary_lines.join("\n") + "\n\n"
+    puts summary
   end
 
   # Emit a single, consolidated blurb for all unactivated namespaces
@@ -252,30 +262,29 @@ at_exit {
     configs = FlossFunding.configurations
     env_map = FlossFunding.env_var_names
 
-    unless FlossFunding::Config.silence_requested?
-      details = +""
-      details << <<-HEADER
+    details = +""
+    details << <<-HEADER
 ==============================================================
 Unremunerated use of the following namespaces was detected:
-      HEADER
+    HEADER
 
-      unactivated.each do |ns|
-        config = configs[ns] || {}
-        funding_url = Array(config["floss_funding_url"]).first || "https://floss-funding.dev"
-        suggested_amount = Array(config["suggested_donation_amount"]).first || 5
-        env_name = env_map[ns] || "#{FlossFunding::Constants::DEFAULT_PREFIX}#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
-        opt_out = "#{FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{ns}"
-        details << <<-NS
+    unactivated.each do |ns|
+      config = configs[ns] || {}
+      funding_url = Array(config["floss_funding_url"]).first || "https://floss-funding.dev"
+      suggested_amount = Array(config["suggested_donation_amount"]).first || 5
+      env_name = env_map[ns] || "#{FlossFunding::Constants::DEFAULT_PREFIX}#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
+      opt_out = "#{FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{ns}"
+      details << <<-NS
   - Namespace: #{ns}
     ENV Variable: #{env_name}
     Suggested donation amount: $#{suggested_amount}
     Funding URL: #{funding_url}
     Opt-out key: "#{opt_out}"
 
-        NS
-      end
+      NS
+    end
 
-      details << <<-BODY
+    details << <<-BODY
 FLOSS Funding relies on empathy, respect, honor, and annoyance of the most extreme mildness.
 👉️ No network calls. 👉️ No tracking. 👉️ No oversight. 👉️ Minimal crypto hashing.
 
@@ -292,17 +301,16 @@ Options:
 
 Then, before loading the gems, set the ENV variables listed above to your chosen key.
 Or in shell / dotenv / direnv, e.g.:
-      BODY
+    BODY
 
-      unactivated.each do |ns|
-        env_name = env_map[ns] || "#{FlossFunding::Constants::DEFAULT_PREFIX}#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
-        details << "  export #{env_name}=\"<your key>\"\n"
-      end
-
-      details << FlossFunding::FOOTER
-
-      puts details
+    unactivated.each do |ns|
+      env_name = env_map[ns] || "#{FlossFunding::Constants::DEFAULT_PREFIX}#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
+      details << "  export #{env_name}=\"<your key>\"\n"
     end
+
+    details << FlossFunding::FOOTER
+
+    puts details
   end
 }
 # :nocov:
