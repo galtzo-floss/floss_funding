@@ -113,7 +113,7 @@ module FlossFunding
         return if silent_opt == true
 
         # Now call the begging method after extending
-        base.floss_funding_initiate_begging(activation_key, namespace, env_var_name)
+        base.floss_funding_initiate_begging(activation_key, namespace, env_var_name, config["gem_name"])
       end
     end
   end

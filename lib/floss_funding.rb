@@ -57,6 +57,8 @@ module FlossFunding
 floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺🇸 & 🇮🇩 by Galtzo FLOSS (galtzo.com)
   FOOTER
 
+  Occurrence = Struct.new(:namespace, :gem_name, :env_var_name, :order)
+
   # Thread-safe access to activated and unactivated libraries
   # These track which modules/gems have included the Poke module
   # and whether they have valid activation keys or not
@@ -77,25 +79,23 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # Provides access to the mutex for thread synchronization
     attr_reader :mutex
 
-    # New name: activated (preferred)
+    # Unique namespaces that have a valid activation key
     # @return [Array<String>]
     def activated
       mutex.synchronize { @activated.dup }
     end
 
-    # New name: activated= (preferred)
     # @param value [Array<String>]
     def activated=(value)
       mutex.synchronize { @activated = value }
     end
 
-    # New name: unactivated (preferred)
+    # Unique namespaces that do not have a valid activation key
     # @return [Array<String>]
     def unactivated
       mutex.synchronize { @unactivated.dup }
     end
 
-    # New name: unactivated= (preferred)
     # @param value [Array<String>]
     def unactivated=(value)
       mutex.synchronize { @unactivated = value }
@@ -227,7 +227,9 @@ FlossFunding.send(
 at_exit {
   return if FlossFunding::Config.silence_requested?
 
+  # Unique namespaces that have a valid activation key
   activated = FlossFunding.activated
+  # Unique namespaces that do not have a valid activation key
   unactivated = FlossFunding.unactivated
   activated_count = activated.size
   unactivated_count = unactivated.size
@@ -244,28 +246,42 @@ at_exit {
   }.compact.uniq
   funded_gem_count = funded_gem_names.size
 
+  has_activated = activated_count > 0
+  has_unactivated = unactivated_count > 0
   # Summary section
-  if activated_count > 0 || unactivated_count > 0
-    configs = FlossFunding.configurations
-    if defined?(Bundler) && Bundler.respond_to?(:loaded_gems)
-      Bundler.loaded_gems.count
-    end
+  if has_activated
+    # # When there at least one activated namespace, show a progress bar and a summary.
+    # print_progress_bar = -> (current, total, bar_length) {
+    #   percentage = (current.to_f / total) * 100
+    #   filled_length = (bar_length * percentage / 100).round
+    #   bar = "=" * filled_length + "-" * (bar_length - filled_length)
+    #   printf("\rProgress: [%s] %.1f%%", bar, percentage)
+    #   STDOUT.flush # Ensure the output is immediately written to the terminal
+    # }
+    #
+    # # Example usage:
+    # total_items = 100
+    # bar_length = 50
+    # (0..total_items).each do |i|
+    #   print_progress_bar.call(i, total_items, bar_length)
+    #   sleep(0.05) # Simulate work being done
+    # end
+    # puts # Move to the next line after the progress bar is complete
+
     stars = ("⭐️" * activated_count)
     mimes = ("🫥" * unactivated_count)
     summary_lines = []
     summary_lines << "\nFLOSS Funding Summary:"
-    summary_lines << "Activated libraries (#{activated_count}): #{stars}" if activated_count > 0
+    summary_lines << "Activated namespaces (#{activated_count}): #{stars}" if activated_count > 0
     # Also show total successful inclusions (aka per-gem activations), which may exceed unique namespaces
-    summary_lines << "Activated gems (#{occurrences_count})" if occurrences_count > 0
+    summary_lines << "Number of pokes (#{occurrences_count})" if occurrences_count > 0
     # Show how many distinct gem names are covered by funding
-    summary_lines << "Gems covered by funding (#{funded_gem_count})" if funded_gem_count > 0
+    summary_lines << "Gems covered by funding (#{funded_gem_count}): #{funded_gem_names.join(", ")}" if funded_gem_count > 0
     summary_lines << "Unactivated libraries (#{unactivated_count}): #{mimes}" if unactivated_count > 0
     summary = summary_lines.join("\n") + "\n\n"
     puts summary
-  end
-
-  # Emit a single, consolidated blurb for all unactivated namespaces
-  if unactivated_count > 0
+  elsif has_unactivated
+    # Emit a single, consolidated blurb showcasing a random unactivated namespace
     # Gather data needed for each namespace
     configs = FlossFunding.configurations
     env_map = FlossFunding.env_var_names

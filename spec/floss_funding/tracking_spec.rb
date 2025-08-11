@@ -134,7 +134,7 @@ RSpec.describe "FlossFunding tracking functionality" do
 
       # Validate actual at_exit output from the child process
       expect(stdout).to include("FLOSS Funding Summary:")
-      expect(stdout).to include("Activated libraries (2): ⭐️⭐️") # One of them is FlossFunding!
+      expect(stdout).to include("Activated namespaces (2): ⭐️⭐️") # One of them is FlossFunding!
       expect(stdout).to include("Unactivated libraries (1): 🫥")
     end
   end

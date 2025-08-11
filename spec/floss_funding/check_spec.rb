@@ -93,12 +93,13 @@ RSpec.describe FlossFunding::Check do
   describe "#floss_funding_initiate_begging" do
     let(:namespace) { "TestNamespace" }
     let(:env_var_name) { "TEST_NAMESPACE" }
+    let(:gem_name) { "papa_bear" }
 
     context "with empty activation key" do
       it "calls start_begging" do
-        allow(test_class).to receive(:start_begging).with(namespace, env_var_name)
-        test_class.floss_funding_initiate_begging("", namespace, env_var_name)
-        expect(test_class).to have_received(:start_begging).with(namespace, env_var_name)
+        allow(test_class).to receive(:start_begging).with(namespace, env_var_name, gem_name)
+        test_class.floss_funding_initiate_begging("", namespace, env_var_name, gem_name)
+        expect(test_class).to have_received(:start_begging).with(namespace, env_var_name, gem_name)
       end
     end
 
@@ -108,7 +109,7 @@ RSpec.describe FlossFunding::Check do
         allow(test_class).to receive(:start_begging)
         allow(test_class).to receive(:start_coughing)
 
-        result = test_class.floss_funding_initiate_begging(FlossFunding::FREE_AS_IN_BEER, namespace, env_var_name)
+        result = test_class.floss_funding_initiate_begging(FlossFunding::FREE_AS_IN_BEER, namespace, env_var_name, gem_name)
 
         expect(test_class).to have_received(:check_unpaid_silence).with(FlossFunding::FREE_AS_IN_BEER, "TestNamespace")
         expect(test_class).not_to have_received(:start_begging)
@@ -123,7 +124,7 @@ RSpec.describe FlossFunding::Check do
         allow(test_class).to receive(:check_unpaid_silence).with(invalid_key, "TestNamespace").and_return(false)
         allow(test_class).to receive(:start_coughing).with(invalid_key, namespace, env_var_name)
 
-        test_class.floss_funding_initiate_begging(invalid_key, namespace, env_var_name)
+        test_class.floss_funding_initiate_begging(invalid_key, namespace, env_var_name, gem_name)
 
         expect(test_class).to have_received(:check_unpaid_silence).with(invalid_key, "TestNamespace")
         expect(test_class).to have_received(:start_coughing).with(invalid_key, namespace, env_var_name)
@@ -136,14 +137,14 @@ RSpec.describe FlossFunding::Check do
         allow(test_class).to receive(:check_unpaid_silence).with(valid_hex_key, namespace).and_return(false)
         allow(test_class).to receive(:floss_funding_decrypt).with(valid_hex_key, namespace).and_return("decrypted")
         allow(test_class).to receive(:check_activation).with("decrypted").and_return(false)
-        allow(test_class).to receive(:start_begging).with(namespace, env_var_name)
+        allow(test_class).to receive(:start_begging).with(namespace, env_var_name, gem_name)
 
-        test_class.floss_funding_initiate_begging(valid_hex_key, namespace, env_var_name)
+        test_class.floss_funding_initiate_begging(valid_hex_key, namespace, env_var_name, gem_name)
 
         expect(test_class).to have_received(:check_unpaid_silence).with(valid_hex_key, namespace)
         expect(test_class).to have_received(:floss_funding_decrypt).with(valid_hex_key, namespace)
         expect(test_class).to have_received(:check_activation).with("decrypted")
-        expect(test_class).to have_received(:start_begging).with(namespace, env_var_name)
+        expect(test_class).to have_received(:start_begging).with(namespace, env_var_name, gem_name)
       end
     end
 
@@ -162,7 +163,7 @@ RSpec.describe FlossFunding::Check do
 
         back_to_the_future = Time.local(2225, 7, 7, 7, 7, 7)
         Timecop.freeze(back_to_the_future) do
-          result = test_class.floss_funding_initiate_begging(valid_hex_key, namespace, env_var_name)
+          result = test_class.floss_funding_initiate_begging(valid_hex_key, namespace, env_var_name, gem_name)
         end
 
         expect(result).to be_nil
@@ -205,15 +206,16 @@ RSpec.describe FlossFunding::Check do
   end
 
   describe "#start_begging" do
+    let(:gem_name) { "mama_bear" }
     it "outputs a single-line note deferring details to at_exit", :aggregate_failures do
       namespace = "TestNamespace"
       env_var_name = "TEST_NAMESPACE"
 
       output = capture(:stdout) do
-        test_class.send(:start_begging, namespace, env_var_name)
+        test_class.send(:start_begging, namespace, env_var_name, gem_name)
       end
 
-      expect(output.strip).to include("FLOSS Funding: Activation key missing for #{namespace}.")
+      expect(output.strip).to include("FLOSS Funding: Activation key missing for #{gem_name} (#{namespace}).")
       expect(output).to include("ENV[\"#{env_var_name}\"]")
       expect(output).to include("details will be shown at exit")
     end

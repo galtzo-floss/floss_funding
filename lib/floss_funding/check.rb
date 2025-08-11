@@ -102,11 +102,11 @@ module FlossFunding
       # @param namespace [String] this activation key is valid for a specific namespace; can cover multiple projects / gems
       # @param env_var_name [String] the ENV variable name checked
       # @return [void]
-      def floss_funding_initiate_begging(activation_key, namespace, env_var_name)
+      def floss_funding_initiate_begging(activation_key, namespace, env_var_name, gem_name)
         if activation_key.empty?
           # No activation key provided
           ::FlossFunding.add_unactivated(namespace)
-          return start_begging(namespace, env_var_name)
+          return start_begging(namespace, env_var_name, gem_name)
         end
 
         # A silent short circuit for valid unpaid activations
@@ -133,7 +133,7 @@ module FlossFunding
 
         # No valid activation key found
         ::FlossFunding.add_unactivated(namespace)
-        start_begging(namespace, env_var_name)
+        start_begging(namespace, env_var_name, gem_name)
       end
 
       private
@@ -188,10 +188,10 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
       # @param namespace [String]
       # @param env_var_name [String]
       # @return [void]
-      def start_begging(namespace, env_var_name)
+      def start_begging(namespace, env_var_name, gem_name)
         # During load, only emit a single-line note and defer the large blurb to at_exit
         return if ::FlossFunding::Config.silence_requested?
-        puts %(FLOSS Funding: Activation key missing for #{namespace}. Set ENV["#{env_var_name}"] to activation key; details will be shown at exit.)
+        puts %(FLOSS Funding: Activation key missing for #{gem_name} (#{namespace}). Set ENV["#{env_var_name}"] to your activation key; details will be shown at exit.)
       end
     end
   end

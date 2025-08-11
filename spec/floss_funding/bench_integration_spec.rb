@@ -78,7 +78,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
   end
 
   # Prepare ENV segmentation for a given percentage (0..100 in steps of 10)
-  # New mapping rules:
+  # Mapping rules:
   # - 0% => all disabled
   # - 10% => only FINAL_10 enabled
   # - 20%..100% => as many of the groups 1..9 (10 gems each) as are needed to fill in each 10% section up to 100%
