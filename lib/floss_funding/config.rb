@@ -23,12 +23,16 @@ module FlossFunding
     DEFAULT_CONFIG = {
       "suggested_donation_amount" => [5],
       "floss_funding_url" => ["https://floss-funding.dev"],
-      # Optional namespace override for when including without explicit namespace
-      # When set (non-empty string), this will be used as the namespace instead of the including module's name
+      # Tracks the including modules' names,
+      #   for every module including FlossFunding::Poke.new.
+      # These inform the ENV variable name,
+      #   except when overridden by custom_namespaces.
       "namespace" => [],
-      # Track both the base.name namespace(s) and any custom namespace(s) passed to Poke.new
-      "base_namespaces" => [],
+      # Tracks the custom namespace passed into FlossFunding::Poke.new as the :namespace option.
       "custom_namespaces" => [],
+      # Whether to silence all output from the FlossFunding library when included.
+      # Accepts truthy values or callable objects (Proc/lambda) that return truthy.
+      "silent" => [],
       # Gemspec-derived attributes (nil when unknown)
       "gem_name" => [],
       "homepage" => [],
@@ -94,6 +98,31 @@ module FlossFunding
           end
         end
         merged
+      end
+
+      # Determines whether any registered configuration requests silence.
+      # Accepts the configurations hash (as returned by FlossFunding.configurations).
+      # For each library's config, examines the "silent" key values. If any value
+      # responds to :call, it will be invoked (with no args) and the truthiness of
+      # its return value is used. Otherwise, the value's own truthiness is used.
+      # Returns true if any library requires silence; false otherwise.
+      #
+      # @param configurations [Hash{String=>Hash}]
+      # @return [Boolean]
+      def silence_requested?(configurations)
+        return false unless configurations.is_a?(Hash)
+        configurations.any? do |_library, cfg|
+          next false unless cfg.is_a?(Hash)
+          values = Array(cfg["silent"]) # may be nil/array/scalar
+          values.any? do |v|
+            begin
+              v.respond_to?(:call) ? !!v.call : !!v
+            rescue StandardError
+              # If callable raises, treat as not silencing
+              false
+            end
+          end
+        end
       end
 
       private

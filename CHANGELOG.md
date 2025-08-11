@@ -6,25 +6,18 @@ and this project adheres to [Semantic Versioning v2](https://semver.org/spec/v2.
 
 ## [Unreleased]
 ### Added
-### Changed
-### Deprecated
-### Removed
-### Fixed
-### Security
-
-## [1.0.0-alpha.3] - 2025-08-11
-- TAG: [v1.0.0-alpha.3][1.0.0-alpha.3t]
-- COVERAGE: 100.00% -- 265/265 lines in 6 files
-  BRANCH COVERAGE: 100.00% -- 85/85 branches in 6 files
-- 100.00% documented
-### Added
 - More documentation
 ### Changed
 - (BREAKING) `FlossFunding::Poke.new` now takes a hash of options instead of the ordered arguments:
-  - namespace
-  - env_prefix
+    - namespace
+    - env_prefix
+- (BREAKING) Consolidated configuration keys: removed `base_namespaces`; use `namespace` only. No backward compatibility.
+### Deprecated
+### Removed
+- `base_namespaces` configuration key.
 ### Fixed
 - Documentation typos
+### Security
 
 ## [1.0.0-alpha.2] - 2025-08-10
 - TAG: [v1.0.0-alpha.2][1.0.0-alpha.2t]

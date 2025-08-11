@@ -74,14 +74,14 @@ RSpec.describe "FlossFunding tracking functionality" do
         stub_const("TraditionalTest::OtherModule", Module.new)
 
         # Prepare to exercise configuration merging branches
-        # First set gives :base_namespaces only; second set adds :custom_namespaces
+        # First set gives :namespace only; second set adds :custom_namespaces
         thread1 = Thread.new do
           # Include and set env var name for one module
           TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
           FlossFunding.set_env_var_name("TraditionalTest::InnerModule", "FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE")
 
           # First config pass with one key to create an existing entry
-          FlossFunding.set_configuration("TraditionalTest::InnerModule", {"base_namespaces" => ["TraditionalTest::InnerModule"]})
+          FlossFunding.set_configuration("TraditionalTest::InnerModule", {"namespace" => ["TraditionalTest::InnerModule"]})
         end
 
         thread2 = Thread.new do
@@ -108,7 +108,7 @@ RSpec.describe "FlossFunding tracking functionality" do
 
         # Validate configuration merge covered both existing and config-only keys
         merged_config = FlossFunding.configuration("TraditionalTest::InnerModule")
-        expect(merged_config["base_namespaces"]).to include("TraditionalTest::InnerModule")
+        expect(merged_config["namespace"]).to include("TraditionalTest::InnerModule")
         expect(merged_config["custom_namespaces"]).to include("Custom::NS")
 
         # Call configuration for a non-existent library to cover the nil branch

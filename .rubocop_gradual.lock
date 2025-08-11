@@ -1,5 +1,5 @@
 {
-  "lib/floss_funding/check.rb:2641336638": [
+  "lib/floss_funding/check.rb:1159810272": [
     [16, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 883476360],
     [27, 5, 113, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 3247230807],
     [39, 9, 23, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 2670016150]
@@ -38,7 +38,7 @@
     [77, 9, 73, "RSpec/LeakyConstantDeclaration: Stub module constant instead of declaring explicitly.", 3748187113],
     [109, 5, 78, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3367893419]
   ],
-  "spec/floss_funding/tracking_spec.rb:3497128989": [
+  "spec/floss_funding/tracking_spec.rb:52361892": [
     [9, 16, 37, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3603826461],
     [19, 5, 31, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2300487680],
     [36, 5, 33, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 871784187],

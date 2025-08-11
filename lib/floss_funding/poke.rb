@@ -42,9 +42,10 @@ module FlossFunding
       def new(including_path, options = {})
         namespace = options[:namespace]
         env_prefix = options[:env_prefix]
+        silent_opt = options[:silent]
         Module.new do
           define_singleton_method(:included) do |base|
-            FlossFunding::Poke.setup_begging(base, namespace, env_prefix, including_path)
+            FlossFunding::Poke.setup_begging(base, namespace, env_prefix, including_path, silent_opt)
           end
         end
       end
@@ -59,7 +60,7 @@ module FlossFunding
       # @return [void]
       # @raise [::FlossFunding::Error] if including_path is not a String
       # @raise [::FlossFunding::Error] if base.name is not a String
-      def setup_begging(base, custom_namespace, env_prefix, including_path)
+      def setup_begging(base, custom_namespace, env_prefix, including_path, silent_opt = nil)
         unless including_path.is_a?(String)
           raise ::FlossFunding::Error, "including_path must be a String file path (e.g., __FILE__), got #{including_path.class}"
         end
@@ -85,13 +86,13 @@ module FlossFunding
             base.name
           end
 
-        # Track both base.name and the custom namespace (if provided) in the configuration arrays
-        config["base_namespaces"] ||= []
-        config["base_namespaces"] << base.name
+        # Track both the effective base namespace and the custom namespace (if provided)
+        config["namespace"] ||= []
+        config["namespace"] << base.name
         config["custom_namespaces"] ||= []
         config["custom_namespaces"] << custom_namespace if custom_namespace && !custom_namespace.empty?
         # Deduplicate
-        config["base_namespaces"] = config["base_namespaces"].flatten.uniq
+        config["namespace"] = config["namespace"].flatten.uniq
         config["custom_namespaces"] = config["custom_namespaces"].flatten.uniq
 
         env_var_name = ::FlossFunding::UnderBar.env_variable_name(
@@ -101,6 +102,12 @@ module FlossFunding
           },
         )
         activation_key = ENV.fetch(env_var_name, "")
+
+        # Apply silent option if provided, storing into configuration under this library
+        unless silent_opt.nil?
+          config["silent"] ||= []
+          config["silent"] << silent_opt
+        end
 
         # Store configuration and ENV var name under the effective namespace
         ::FlossFunding.set_configuration(namespace, config)
