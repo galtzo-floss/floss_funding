@@ -18,28 +18,13 @@ module FlossFunding
     CONFIG_FILE_NAME = ".floss_funding.yml"
 
     class << self
-      # Determines whether any registered configuration requests silence.
-      # Uses ::FlossFunding.configurations internally.
-      # For each library's config, examines the "silent" key values. If any value
-      # responds to :call, it will be invoked (with no args) and the truthiness of
-      # its return value is used. Otherwise, the value's own truthiness is used.
-      # Returns true if any library requires silence; false otherwise.
-      #
-      # @return [Boolean]
-      def silence_requested?
-        configurations = ::FlossFunding.configurations
-        configurations.any? do |_library, cfg|
-          values = Array(cfg["silent"]) # may be nil/array/scalar
-          values.any? do |v|
-            begin
-              v.respond_to?(:call) ? !!v.call : !!v
-            rescue StandardError
-              # If callable raises, treat as not silencing
-              false
-            end
-          end
-        end
+      # Expose project root discovery to allow tests and callers to stub or
+      # override it. Delegates to ConfigFinder.
+      # @return [String, nil]
+      def find_project_root
+        ::FlossFunding::ConfigFinder.project_root
       end
+
 
       private
 

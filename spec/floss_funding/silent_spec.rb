@@ -23,7 +23,7 @@ RSpec.describe "FlossFunding::Silent integration" do
 
       config = FlossFunding.configuration("FlossFunding::Silent")
       # It should exist and include a truthy silent flag we passed via Poke.new
-      expect(config).to be_a(Hash)
+      expect(config).to be_a(FlossFunding::Configuration)
       expect(Array(config["silent"]).any?).to be(true)
       expect(Array(config["silent"]).first).to be(true)
     end

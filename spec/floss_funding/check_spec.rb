@@ -27,9 +27,10 @@ RSpec.describe FlossFunding::Check do
     end
   end
 
-  describe "#floss_funding_decrypt" do
+  describe "Namespace crypto helpers" do
     it "returns false for empty activation key" do
-      expect(test_class.floss_funding_decrypt("", "namespace")).to be(false)
+      ns = FlossFunding::Namespace.new("namespace")
+      expect(ns.floss_funding_decrypt("")).to be(false)
     end
 
     it "attempts to decrypt a valid activation key" do
@@ -42,31 +43,18 @@ RSpec.describe FlossFunding::Check do
 
       # Valid hex string of length 64
       activation_key = "a" * 64
-      namespace = "TestNamespace"
+      ns = FlossFunding::Namespace.new("TestNamespace")
 
-      expect(test_class.floss_funding_decrypt(activation_key, namespace)).to eq("decrypted text")
-    end
-  end
-
-  describe "#check_unpaid_silence" do
-    it "returns true for FREE_AS_IN_BEER activation key" do
-      expect(test_class.check_unpaid_silence(FlossFunding::FREE_AS_IN_BEER, "Dog")).to be(true)
+      expect(ns.floss_funding_decrypt(activation_key)).to eq("decrypted text")
     end
 
-    it "returns true for BUSINESS_IS_NOT_GOOD_YET activation key" do
-      expect(test_class.check_unpaid_silence(FlossFunding::BUSINESS_IS_NOT_GOOD_YET, "Dog")).to be(true)
-    end
-
-    it "returns false for NOT_FINANCIALLY_SUPPORTING activation key" do
-      expect(test_class.check_unpaid_silence(FlossFunding::NOT_FINANCIALLY_SUPPORTING, "Dog")).to be(false)
-    end
-
-    it "returns true for NOT_FINANCIALLY_SUPPORTING-namespace format" do
-      expect(test_class.check_unpaid_silence("#{FlossFunding::NOT_FINANCIALLY_SUPPORTING}-Quantum::Mechanics", "Quantum::Mechanics")).to be(true)
-    end
-
-    it "returns false for other activation keys" do
-      expect(test_class.check_unpaid_silence("some-other-key", "Dog")).to be(false)
+    it "check_unpaid_silence works with namespace-specific key formats" do
+      ns = FlossFunding::Namespace.new("Quantum::Mechanics")
+      expect(ns.check_unpaid_silence(FlossFunding::FREE_AS_IN_BEER)).to be(true)
+      expect(ns.check_unpaid_silence(FlossFunding::BUSINESS_IS_NOT_GOOD_YET)).to be(true)
+      expect(ns.check_unpaid_silence(FlossFunding::NOT_FINANCIALLY_SUPPORTING)).to be(false)
+      expect(ns.check_unpaid_silence("#{FlossFunding::NOT_FINANCIALLY_SUPPORTING}-Quantum::Mechanics")).to be(true)
+      expect(ns.check_unpaid_silence("some-other-key")).to be(false)
     end
   end
 
@@ -92,81 +80,42 @@ RSpec.describe FlossFunding::Check do
 
   describe "#floss_funding_initiate_begging" do
     let(:namespace) { "TestNamespace" }
-    let(:env_var_name) { "TEST_NAMESPACE" }
+    let(:env_var_name) { FlossFunding::UnderBar.env_variable_name(namespace) }
     let(:gem_name) { "papa_bear" }
 
-    context "with empty activation key" do
+    def event_for(activation_key, state)
+      library = instance_double(FlossFunding::Library, :namespace => namespace, :gem_name => gem_name)
+      FlossFunding::ActivationEvent.new(library, activation_key, state, FlossFunding::Check::ClassMethods.now_time, nil)
+    end
+
+    context "with unactivated state (empty key)" do
       it "calls start_begging" do
         allow(test_class).to receive(:start_begging).with(namespace, env_var_name, gem_name)
-        test_class.floss_funding_initiate_begging("", namespace, env_var_name, gem_name)
+        evt = event_for("", FlossFunding::STATES[:unactivated])
+        test_class.floss_funding_initiate_begging(evt)
         expect(test_class).to have_received(:start_begging).with(namespace, env_var_name, gem_name)
       end
     end
 
-    context "with unpaid silence activation key" do
-      it "returns nil without begging", :aggregate_failures do
-        allow(test_class).to receive(:check_unpaid_silence).with(FlossFunding::FREE_AS_IN_BEER, "TestNamespace").and_return(true)
-        allow(test_class).to receive(:start_begging)
-        allow(test_class).to receive(:start_coughing)
-
-        result = test_class.floss_funding_initiate_begging(FlossFunding::FREE_AS_IN_BEER, namespace, env_var_name, gem_name)
-
-        expect(test_class).to have_received(:check_unpaid_silence).with(FlossFunding::FREE_AS_IN_BEER, "TestNamespace")
-        expect(test_class).not_to have_received(:start_begging)
-        expect(test_class).not_to have_received(:start_coughing)
-        expect(result).to be_nil
-      end
-    end
-
-    context "with invalid hex activation key" do
+    context "with invalid state" do
       it "calls start_coughing" do
         invalid_key = "not-a-hex-key"
-        allow(test_class).to receive(:check_unpaid_silence).with(invalid_key, "TestNamespace").and_return(false)
         allow(test_class).to receive(:start_coughing).with(invalid_key, namespace, env_var_name)
-
-        test_class.floss_funding_initiate_begging(invalid_key, namespace, env_var_name, gem_name)
-
-        expect(test_class).to have_received(:check_unpaid_silence).with(invalid_key, "TestNamespace")
+        evt = event_for(invalid_key, FlossFunding::STATES[:invalid])
+        test_class.floss_funding_initiate_begging(evt)
         expect(test_class).to have_received(:start_coughing).with(invalid_key, namespace, env_var_name)
       end
     end
 
-    context "with valid hex activation key but invalid after decryption" do
-      it "calls start_begging", :aggregate_failures do
-        valid_hex_key = "a" * 64
-        allow(test_class).to receive(:check_unpaid_silence).with(valid_hex_key, namespace).and_return(false)
-        allow(test_class).to receive(:floss_funding_decrypt).with(valid_hex_key, namespace).and_return("decrypted")
-        allow(test_class).to receive(:check_activation).with("decrypted").and_return(false)
-        allow(test_class).to receive(:start_begging).with(namespace, env_var_name, gem_name)
-
-        test_class.floss_funding_initiate_begging(valid_hex_key, namespace, env_var_name, gem_name)
-
-        expect(test_class).to have_received(:check_unpaid_silence).with(valid_hex_key, namespace)
-        expect(test_class).to have_received(:floss_funding_decrypt).with(valid_hex_key, namespace)
-        expect(test_class).to have_received(:check_activation).with("decrypted")
-        expect(test_class).to have_received(:start_begging).with(namespace, env_var_name, gem_name)
-      end
-    end
-
-    context "with valid hex activation key and valid after decryption" do
-      it "returns nil without begging", :aggregate_failures do
-        # A valid activation key for
-        #   namespace: "Testing::Flavors::Of::Ice::Cream"
-        #   ENV var: "TESTING_FLAVORS_OF_ICE_CREAM"
-        #   Month: 2225-07
-        # is:
-        #   D730AA2603ACF6BD2DC78EE3AF6179087E80A10A42CCA85D6ED06F90F7FE9CF3
-        namespace = "Testing::Flavors::Of::Ice::Cream"
-        env_var_name = "TESTING_FLAVORS_OF_ICE_CREAM"
-        valid_hex_key = "D730AA2603ACF6BD2DC78EE3AF6179087E80A10A42CCA85D6ED06F90F7FE9CF3"
-        result = nil
-
-        back_to_the_future = Time.local(2225, 7, 7, 7, 7, 7)
-        Timecop.freeze(back_to_the_future) do
-          result = test_class.floss_funding_initiate_begging(valid_hex_key, namespace, env_var_name, gem_name)
-        end
-
+    context "with activated state" do
+      it "returns nil without begging or coughing" do
+        allow(test_class).to receive(:start_begging)
+        allow(test_class).to receive(:start_coughing)
+        evt = event_for("whatever", FlossFunding::STATES[:activated])
+        result = test_class.floss_funding_initiate_begging(evt)
         expect(result).to be_nil
+        expect(test_class).not_to have_received(:start_begging)
+        expect(test_class).not_to have_received(:start_coughing)
       end
     end
   end
@@ -195,7 +144,7 @@ RSpec.describe FlossFunding::Check do
       namespace = "TestNamespace"
       env_var_name = "TEST_NAMESPACE"
 
-      allow(FlossFunding::Config).to receive(:silence_requested?).and_return(true)
+      allow(FlossFunding::ContraIndications).to receive(:at_exit_contraindicated?).and_return(true)
 
       output = capture(:stdout) do
         test_class.send(:start_coughing, activation_key, namespace, env_var_name)

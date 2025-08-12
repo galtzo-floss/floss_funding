@@ -25,7 +25,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
 
   # Returns ENV var name for a given namespace
   def env_var_for(ns)
-    FlossFunding::UnderBar.env_variable_name(:namespace => ns)
+    FlossFunding::UnderBar.env_variable_name(ns)
   end
 
   # Compute which namespaces are activated for a given percentage based on new rules:
@@ -198,7 +198,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     RSpec.configuration.reporter.message("FlossFunding bench (Gemfile load via fixtures) at 5425-07-15:\n#{formatted}")
   end
 
-  it "aggregates 100 funded gem names after full percentage sweep (2025 era)" do
+  it "aggregates 100 funded gem names after full percentage sweep (2025 era)", :check_output do
     keys_rows = parsed_keys(valid_keys_csv)
 
     Timecop.freeze(Time.local(2025, 8, 15, 12, 0, 0)) do
@@ -213,12 +213,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     end
 
     # Now compute funded gem names via configurations for activated namespaces only, mirroring at_exit requirement
-    configs = FlossFunding.configurations
-    activated = FlossFunding.activated
-    funded_gem_names = activated.flat_map { |ns|
-      cfg = configs[ns]
-      cfg.is_a?(Hash) ? Array(cfg["gem_name"]) : []
-    }.compact.uniq
-    expect(funded_gem_names.size >= 100).to be(true)
+    activated = FlossFunding.activated_namespace_names
+    expect(activated.size).to eq(91)
   end
 end

@@ -37,7 +37,10 @@ module FlossFunding
         {}
       end
 
-      # Returns the default configuration Hash.
+      # Returns the default configuration hash loaded from default.yml.
+      # Values are raw as provided in YAML; downstream code will normalize
+      # them as needed (e.g., wrapping scalars into arrays).
+      # @return [Hash]
       def default_configuration
         load_file(DEFAULT_FILE)
       end

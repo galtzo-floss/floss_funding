@@ -87,28 +87,28 @@ RSpec.describe FlossFunding::UnderBar do
 
     context "with valid inputs" do
       it "converts a simple class name to an environment variable name" do
-        expect(described_class.env_variable_name(:namespace => TestModule::TestClass.name)).to eq("FLOSS_FUNDING_TEST_MODULE_TEST_CLASS")
+        expect(described_class.env_variable_name(TestModule::TestClass.name)).to eq("FLOSS_FUNDING_TEST_MODULE_TEST_CLASS")
       end
 
       it "handles nested namespaces" do
-        expect(described_class.env_variable_name(:namespace => TestModule::NestedModule::NestedClass.name)).to eq("FLOSS_FUNDING_TEST_MODULE_NESTED_MODULE_NESTED_CLASS")
+        expect(described_class.env_variable_name(TestModule::NestedModule::NestedClass.name)).to eq("FLOSS_FUNDING_TEST_MODULE_NESTED_MODULE_NESTED_CLASS")
       end
 
       it "works with Ruby standard library classes" do
-        expect(described_class.env_variable_name(:namespace => String.name)).to eq("FLOSS_FUNDING_STRING")
+        expect(described_class.env_variable_name(String.name)).to eq("FLOSS_FUNDING_STRING")
       end
 
       it "works with classes that have numbers in their names" do
         stub_const("Test123Class", Class.new)
-        expect(described_class.env_variable_name(:namespace => Test123Class.name)).to eq("FLOSS_FUNDING_TEST123_CLASS")
+        expect(described_class.env_variable_name(Test123Class.name)).to eq("FLOSS_FUNDING_TEST123_CLASS")
       end
 
       it "works when klass is a string from a module" do
-        expect(described_class.env_variable_name(:namespace => TestModule.name)).to eq("FLOSS_FUNDING_TEST_MODULE")
+        expect(described_class.env_variable_name(TestModule.name)).to eq("FLOSS_FUNDING_TEST_MODULE")
       end
 
       it "works when klass a namespace-like string" do
-        expect(described_class.env_variable_name(:namespace => "NotAClass")).to eq("FLOSS_FUNDING_NOT_A_CLASS")
+        expect(described_class.env_variable_name("NotAClass")).to eq("FLOSS_FUNDING_NOT_A_CLASS")
       end
     end
 

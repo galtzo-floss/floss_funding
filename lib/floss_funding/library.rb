@@ -4,6 +4,9 @@ require 'yaml'
 require 'rubygems'
 require 'floss_funding/config_finder'
 require 'floss_funding/file_finder'
+require 'floss_funding/project_root'
+require 'floss_funding/library_root'
+require 'floss_funding/configuration'
 
 module FlossFunding
   # Represents a single Library (a gem/namespace pair) that has included
@@ -12,13 +15,13 @@ module FlossFunding
     # @return [String]
     attr_reader :namespace
     # @return [String]
+    attr_reader :base_name
+    # @return [String]
     attr_reader :gem_name
     # @return [String]
-    attr_reader :env_var_name
-    # @return [String]
-    attr_reader :activation_key
-    # @return [String]
     attr_reader :including_path
+    # @return [String]
+    attr_reader :env_var_name
     # @return [String, nil]
     attr_reader :project_root_path
     # @return [String, nil]
@@ -31,29 +34,31 @@ module FlossFunding
     attr_reader :seen_at
     # @return [Object] may be boolean or callable as provided
     attr_reader :silence
-    # @return [Hash{String=>Array}]
+    # @return [FlossFunding::Configuration]
     attr_reader :config
 
     # Initialize a new Library record.
     #
-    # @param namespace [String]
+    # @param namespace [FlossFunding::Namespace]
+    # @param base_name [String]
     # @param including_path [String]
     # @param options [Hash]
     # @option options [Boolean, #call] :silent (nil)
     # @option options [String] :custom_namespace (nil)
-    def initialize(namespace, including_path, options = {})
-      @namespace = namespace
+    # @option options [String] :env_var_name (nil)
+    def initialize(namespace, base_name, including_path, options = {})
+      @namespace = namespace.name
+      @base_name = base_name
       @including_path = including_path
-      @env_var_name = ::FlossFunding::UnderBar.env_variable_name(namespace)
-      @activation_key = ENV.fetch(@env_var_name, "")
+      @env_var_name = options[:env_var_name] || ::FlossFunding::UnderBar.env_variable_name(namespace)
       @silence = options[:silent]
       custom_namespace = options[:custom_namespace]
       @custom_namespace = custom_namespace if custom_namespace && !custom_namespace.empty?
 
       discover_roots!(including_path)
 
-      @config = load_config
       @gem_name = derive_gem_name
+      @config = load_config
 
       @seen_at = Time.now
       freeze
@@ -67,38 +72,21 @@ module FlossFunding
     def discover_roots!(including_path)
       # Find the library root first,
       #   as it will be the closest ancestor to the FlossFunding activator.
-      start_dir = File.expand_path(File.dirname(including_path))
-      # Find nearest .floss_funding.yml/Gemfile/gems.rb/*.gemspec upwards from including file
-      candidates = [
-        find_last_upwards('Gemfile', start_dir),
-        find_last_upwards('gems.rb', start_dir),
-        find_last_upwards('*.gemspec', start_dir),
-      ].compact
-      @library_root_path = File.dirname(candidates.first) unless candidates.empty?
-      # @project_start_dir = File.dirname(@library_root_path) if @library_root_path
+      # Determine the library root based on the including file
+      @library_root_path = ::FlossFunding::LibraryRoot.discover(including_path)
 
       # Determine the project root, starting with Dir.pwd
-      @project_root_path = ::FlossFunding::ConfigFinder.project_root
+      @project_root_path = ::FlossFunding::ProjectRoot.path
 
-      # config path is found with respect to the project root (consumer)
-      target = @project_root_path || Dir.pwd
-      @config_path = ::FlossFunding::ConfigFinder.find_config_path(target)
+      # Resolve configuration path using ConfigFinder starting from the including file's directory.
+      # This allows tests to stub the finder and ensures the nearest applicable
+      # configuration (or user/global/default) is honored consistently.
+      start_dir = File.dirname(including_path) || @project_root_path || Dir.pwd
+      @config_path = ::FlossFunding::ConfigFinder.find_config_path(start_dir)
     end
 
-    def find_last_upwards(pattern, start_dir)
-      last = nil
-      Pathname.new(start_dir).expand_path.ascend do |dir|
-        file = dir + pattern
-        if file.exist?
-          last = file.to_s
-        end
-        break if ::FlossFunding::FileFinder.root_level?(dir, nil)
-      end
-      last
-    end
 
     def load_config
-      default_cfg = ::FlossFunding::Config::DEFAULT_CONFIG.transform_values { |v| v.dup }
       yaml_cfg = {}
       begin
         if @config_path && File.file?(@config_path)
@@ -107,12 +95,19 @@ module FlossFunding
       rescue StandardError
         yaml_cfg = {}
       end
+      # Load defaults from config/default.yml and normalize values to arrays
+      default_cfg = ::FlossFunding::ConfigLoader.default_configuration
+
       merged = {}
       # ensure all keys present and arrays
       (default_cfg.keys | yaml_cfg.keys).each do |k|
         merged[k] = normalize_to_array(yaml_cfg.key?(k) ? yaml_cfg[k] : default_cfg[k])
       end
-      merged
+      # augment with derived fields
+      merged["gem_name"] = normalize_to_array(@gem_name)
+      merged["silent"] = normalize_to_array(@silence) if defined?(@silence)
+
+      ::FlossFunding::Configuration.new(merged)
     end
 
     def normalize_to_array(value)

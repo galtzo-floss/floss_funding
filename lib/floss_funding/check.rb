@@ -39,39 +39,6 @@ module FlossFunding
         attr_accessor :now_time
       end
 
-      # Decrypts a hex-encoded activation key using a namespace-derived key.
-      #
-      # @param activation_key [String] 64-character hex string for paid activation
-      # @param namespace [String] the namespace used to derive the cipher key
-      # @return [String, false] plaintext activation key (base word) on success; false if empty
-      def floss_funding_decrypt(activation_key, namespace)
-        return false if activation_key.empty?
-
-        cipher = OpenSSL::Cipher.new("aes-256-cbc").decrypt
-        cipher.key = Digest::MD5.hexdigest(namespace)
-        s = [activation_key].pack("H*")
-
-        cipher.update(s) + cipher.final
-      end
-
-      # Returns true for unpaid or opted-out activation_key that
-      # should not emit any console output (silent success).
-      # Otherwise false.
-      #
-      # @param activation_key [String]
-      # @param namespace [String]
-      # @return [Boolean]
-      def check_unpaid_silence(activation_key, namespace)
-        case activation_key
-        when ::FlossFunding::FREE_AS_IN_BEER, ::FlossFunding::BUSINESS_IS_NOT_GOOD_YET, "#{::FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{namespace}"
-          # Configured as unpaid
-          true
-        else
-          # Might be configured as paid
-          false
-        end
-      end
-
       # Returns the list of valid plain text base words for the current month window.
       #
       # @return [Array<String>]
@@ -97,43 +64,28 @@ module FlossFunding
       end
 
       # Entry point for activation key evaluation and output behavior.
+      # Now accepts a precomputed ActivationEvent and emits messages/registrations based on its state.
       #
-      # @param activation_key [String] value from ENV
-      # @param namespace [String] this activation key is valid for a specific namespace; can cover multiple projects / gems
-      # @param env_var_name [String] the ENV variable name checked
+      # @param event [FlossFunding::ActivationEvent]
       # @return [void]
-      def floss_funding_initiate_begging(activation_key, namespace, env_var_name, gem_name)
-        if activation_key.empty?
-          # No activation key provided
-          ::FlossFunding.add_unactivated(namespace)
+      def floss_funding_initiate_begging(event)
+        library = event.library
+        namespace = library.namespace
+        env_var_name = ::FlossFunding::UnderBar.env_variable_name(namespace)
+        gem_name = library.gem_name
+        activation_key = event.activation_key
+
+        case event.state
+        when ::FlossFunding::STATES[:activated]
+          # Already recorded as activated via ActivationEvent; no output necessary.
+          return
+        when ::FlossFunding::STATES[:invalid]
+          # Invalid key format: emit diagnostic output.
+          return start_coughing(activation_key, namespace, env_var_name)
+        else # unactivated
+          # Missing/invalid activation after decryption: emit friendly reminder.
           return start_begging(namespace, env_var_name, gem_name)
         end
-
-        # A silent short circuit for valid unpaid activations
-        if check_unpaid_silence(activation_key, namespace)
-          ::FlossFunding.add_registration(namespace)
-          return
-        end
-
-        valid_activation_hex = !!(activation_key =~ ::FlossFunding::HEX_LICENSE_RULE)
-        unless valid_activation_hex
-          # Invalid activation key format
-          ::FlossFunding.add_unactivated(namespace)
-          return start_coughing(activation_key, namespace, env_var_name)
-        end
-
-        # decrypt the activation key for this namespace
-        plain_text = floss_funding_decrypt(activation_key, namespace)
-
-        # A silent short circuit for valid paid activation keys
-        if check_activation(plain_text)
-          ::FlossFunding.add_registration(namespace)
-          return
-        end
-
-        # No valid activation key found
-        ::FlossFunding.add_unactivated(namespace)
-        start_begging(namespace, env_var_name, gem_name)
       end
 
       private
@@ -160,7 +112,7 @@ module FlossFunding
       # @return [void]
       def start_coughing(activation_key, namespace, env_var_name)
         # Respect global silence setting from any registered library
-        return if ::FlossFunding::Config.silence_requested?
+        return if ::FlossFunding::ContraIndications.at_exit_contraindicated?
         puts <<-COUGHING
 ==============================================================
 COUGH, COUGH.
@@ -190,7 +142,7 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
       # @return [void]
       def start_begging(namespace, env_var_name, gem_name)
         # During load, only emit a single-line note and defer the large blurb to at_exit
-        return if ::FlossFunding::Config.silence_requested?
+        return if ::FlossFunding::ContraIndications.at_exit_contraindicated?
         puts %(FLOSS Funding: Activation key missing for #{gem_name} (#{namespace}). Set ENV["#{env_var_name}"] to your activation key; details will be shown at exit.)
       end
     end

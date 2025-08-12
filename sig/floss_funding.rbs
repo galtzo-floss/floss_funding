@@ -2,6 +2,40 @@ module FlossFunding
   class Error < StandardError
   end
 
+  class ActivationEvent
+    attr_reader silent: untyped
+    attr_reader activation_key: String
+  end
+
+  class Namespace
+    attr_reader name: String
+    attr_reader env_var_name: String
+    attr_reader activation_key: String
+    attr_reader state: String
+    attr_accessor activation_events: Array[ActivationEvent]
+
+    def check_unpaid_silence: (String) -> bool
+    def floss_funding_decrypt: (String) -> (String | false)
+    def merged_config: -> ::FlossFunding::Configuration
+  end
+
+  class Configuration
+    include Enumerable[Array[untyped]]
+
+    def self.merged_config: (Array[::FlossFunding::Configuration]) -> ::FlossFunding::Configuration
+    def initialize: (?Hash[untyped, untyped]) -> void
+    def []: (String | Symbol) -> Array[untyped]
+    def fetch: (String | Symbol, ?untyped) { (String | Symbol) -> untyped } -> Array[untyped]
+    def each: () { (String, Array[untyped]) -> void } -> void
+    def keys: -> Array[String]
+    def key?: (String | Symbol) -> bool
+    def include?: (String | Symbol) -> bool
+    def has_key?: (String | Symbol) -> bool
+    def to_h: -> Hash[String, Array[untyped]]
+    def size: -> Integer
+    def empty?: -> bool
+  end
+
   # Constants
   FREE_AS_IN_BEER: String
   BUSINESS_IS_NOT_GOOD_YET: String
@@ -24,25 +58,23 @@ module FlossFunding
   # Singleton methods on FlossFunding
   def self.mutex: -> Mutex
 
-  def self.activated: -> Array[String]
-  def self.activated=: (Array[String]) -> void
+  def self.namespaces: -> Hash[String, Namespace]
+  def self.namespaces=: (Hash[String, Namespace]) -> void
 
-  def self.unactivated: -> Array[String]
-  def self.unactivated=: (Array[String]) -> void
+  # All namespaces as Namespace objects
+  def self.all_namespaces: -> Array[Namespace]
+  # All namespace names as strings
+  def self.all_namespace_names: -> Array[String]
 
-  def self.add_activated: (String) -> void
-  def self.add_unactivated: (String) -> void
+  # Active/inactive/invalid lookups by name
+  def self.activated_namespace_names: -> Array[String]
+  def self.unactivated_namespace_names: -> Array[String]
+  def self.invalid_namespace_names: -> Array[String]
 
-  def self.configurations: -> Hash[String, Hash[String, Array[untyped]]]
-  def self.configuration: (String) -> (Hash[String, Array[untyped]] | nil)
-  def self.set_configuration: (String, Hash[String, untyped]) -> void
-
-  def self.set_env_var_name: (String, String) -> void
-  def self.env_var_name_for: (String) -> (String | nil)
+  def self.configurations: (?String) -> untyped
   def self.env_var_names: -> Hash[String, String]
 
   def self.activation_occurrences: -> Array[String]
-  def self.add_activation_occurrence: (String) -> void
 
   def self.base_words: (Integer) -> Array[String]
 
@@ -51,21 +83,15 @@ module FlossFunding
     SUBBER_UNDER: Regexp
     INITIAL_UNDERSCORE: Regexp
 
-    def self.env_variable_name: (?{ namespace: String }) -> String
+    def self.env_variable_name: (String | ::FlossFunding::Namespace) -> String
     def self.to_under_bar: (String) -> String
   end
 
   module Config
     CONFIG_FILE_NAME: String
-    DEFAULT_CONFIG: Hash[String, Array[untyped]]
 
-    def self.load_config: (String) -> Hash[String, Array[untyped]]
-    def self.find_config_file: (String) -> (String | nil)
-    def self.find_project_root: (String) -> (String | nil)
-    def self.load_yaml_file: (String) -> Hash[untyped, untyped]
     def self.read_gemspec_data: (String) -> Hash[Symbol, untyped]
     def self.normalize_to_array: (untyped) -> Array[untyped]
-    def self.silence_requested?: () -> bool
   end
 
   module Check
@@ -73,11 +99,9 @@ module FlossFunding
       def self.now_time: -> Time
       def self.now_time=: (Time) -> Time
 
-      def floss_funding_decrypt: (String, String) -> (String | false)
-      def check_unpaid_silence: (String, String) -> bool
       def base_words: -> Array[String]
       def check_activation: (String) -> bool
-      def floss_funding_initiate_begging: (String, String, String) -> void
+      def floss_funding_initiate_begging: (ActivationEvent) -> void
     end
   end
 
@@ -85,5 +109,23 @@ module FlossFunding
     def self.included: (Module) -> void
     def self.new: (String, ?{ namespace: String?, silent: untyped? }) -> Module
     def self.setup_begging: (Module, String?, String, untyped?) -> void
+  end
+
+  class ContraIndications
+    def self.poke_contraindicated?: -> bool
+    def self.at_exit_contraindicated?: -> bool
+  end
+
+  class ConfigNotFoundError < ::FlossFunding::Error
+  end
+
+  class ConfigLoader
+    FLOSS_FUNDING_HOME: String
+    DEFAULT_FILE: String
+
+    def self.clear_options: -> void
+    def self.configuration_file_for: (String) -> (String | nil)
+    def self.load_file: (String, ?{ check: bool }) -> Hash[untyped, untyped]
+    def self.default_configuration: -> untyped
   end
 end

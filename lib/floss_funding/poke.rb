@@ -39,15 +39,21 @@ module FlossFunding
       # @option options [Object, nil] :silent optional silence flag or callable to request global silence
       # @return [Module] a module that can be included into your namespace
       def new(including_path, options = {})
-        # Global silencer: short-circuit and do nothing when globally silenced.
-        return Module.new if ::FlossFunding::Constants::SILENT
+        # Environment-based contraindications (includes global silence, CI, broken Dir.pwd)
+        return Module.new if ::FlossFunding::ContraIndications.poke_contraindicated?
 
         namespace = options[:namespace]
         silent_opt = options[:silent]
         # an anonymous module that will set up an activation key Check when included
         Module.new do
           define_singleton_method(:included) do |base|
-            FlossFunding::Poke.setup_begging(base, namespace, including_path, silent_opt)
+            project = FlossFunding::Project.new(base, namespace, including_path, silent_opt)
+            # Only handle true here, because the :call evaluations should happen as late as possible,
+            # just prior to printing output.
+            return if project.silent == true
+
+            # Now call the begging method after extending
+            base.floss_funding_initiate_begging(project.event)
           end
         end
       end
@@ -63,57 +69,13 @@ module FlossFunding
       # @raise [::FlossFunding::Error] if including_path is not a String
       # @raise [::FlossFunding::Error] if base.name is not a String
       def setup_begging(base, custom_namespace, including_path, silent_opt = nil)
-        # Implementers will hit these errors if they set up FlossFunding incorrectly.
-        # End users of libraries will never see these errors.
-        unless including_path.is_a?(String)
-          raise ::FlossFunding::Error, "including_path must be a String file path (e.g., __FILE__), got #{including_path.class}"
-        end
-        unless base.respond_to?(:name) && base.name && base.name.is_a?(String)
-          raise ::FlossFunding::Error, "base must have a name (e.g., MyGemLibrary), got #{base.inspect}"
-        end
-        unless custom_namespace.nil? || custom_namespace.is_a?(String) && !custom_namespace.empty?
-          raise ::FlossFunding::Error, "custom_namespace must be nil or a non-empty String (e.g., MyGemLibrary), got #{custom_namespace.inspect}"
-        end
-
-        require "floss_funding/check"
-        # Extend the base with the checker module first
-        base.extend(::FlossFunding::Check)
-
-        namespace =
-          if custom_namespace.is_a?(String) && !custom_namespace.empty?
-            custom_namespace
-          else
-            base.name
-          end
-
-        library = ::FlossFunding::Library.new(
-          namespace,
-          including_path,
-          :silent => silent_opt,
-        )
-
-        config = library.config
-        activation_key = library.activation_key
-
-        # Track both the effective base namespace and the custom namespace (if provided)
-        config["namespace"] |= Array(base.name)
-        config["custom_namespaces"] |= Array(custom_namespace) if custom_namespace && !custom_namespace.empty?
-
-        # Apply silent option if provided, storing into configuration under this library
-        unless silent_opt.nil?
-          config["silent"] << silent_opt
-        end
-
-        # Store configuration and ENV var name under the effective namespace
-        ::FlossFunding.set_configuration(namespace, config)
-        ::FlossFunding.set_env_var_name(namespace, library.env_var_name)
-
+        # Backwards-compatible delegator to Project.new
+        project = ::FlossFunding::Project.new(base, custom_namespace, including_path, silent_opt)
         # Only handle true here, because the :call evaluations should happen as late as possible,
         #   just prior to printing output.
-        return if silent_opt == true
-
+        return if project.silent == true
         # Now call the begging method after extending
-        base.floss_funding_initiate_begging(activation_key, namespace, library.env_var_name, library.gem_name)
+        base.floss_funding_initiate_begging(project.event)
       end
     end
   end

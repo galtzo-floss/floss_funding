@@ -36,6 +36,26 @@ module FlossFunding
 
       private
 
+      # Compute a project root starting from a given directory by looking for
+      # common Bundler/gemspec indicators. This mirrors find_project_root but
+      # anchors the search to the provided start_dir instead of Dir.pwd.
+      # @param start_dir [String]
+      # @return [String, nil] directory path of the discovered root
+      def project_root_for(start_dir)
+        root_indicator_file =
+          find_file_upwards('Gemfile', start_dir) ||
+          find_file_upwards('gems.rb', start_dir) ||
+          find_file_upwards('*.gemspec', start_dir)
+        return unless root_indicator_file
+
+        dir = File.dirname(root_indicator_file)
+        # Ignore the gem's own repository root when resolving a project root for
+        # external/embedded consumers (e.g., test fixtures within this repo).
+        return nil if dir == FLOSS_FUNDING_HOME
+
+        dir
+      end
+
       def find_project_root
         pwd = Dir.pwd
         root_indicator_file =
@@ -48,7 +68,13 @@ module FlossFunding
       end
 
       def find_project_dotfile(target_dir)
-        find_file_upwards(DOTFILE, target_dir, project_root)
+        # Determine a project root relative to the target_dir. If none is found,
+        # restrict the search to the starting directory to avoid accidentally
+        # picking up unrelated ancestor configs (e.g., test fixture roots).
+        relative_root = project_root_for(target_dir)
+        # If no project root, allow searching up to the immediate parent directory only.
+        stop_dir = relative_root || File.dirname(target_dir)
+        find_file_upwards(DOTFILE, target_dir, stop_dir)
       end
 
       def find_user_dotfile

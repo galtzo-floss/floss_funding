@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+DEBUGGING = ENV.fetch("DEBUG", "false").casecmp("true").zero?
+
 # External gems
-require "debug" if ENV.fetch("DEBUG", "false").casecmp("true").zero?
+require "debug" if DEBUGGING
 require "silent_stream"
 require "rspec/block_is_expected"
 require "rspec/block_is_expected/matchers/not"
@@ -26,7 +28,7 @@ RSpec.configure do |config|
 
   # Silence STDOUT for examples NOT tagged with :check_output
   config.around do |example|
-    if example.metadata[:check_output]
+    if DEBUGGING || example.metadata[:check_output]
       example.run
     else
       silence_stream($stdout) do

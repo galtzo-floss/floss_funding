@@ -3,23 +3,27 @@
 require "spec_helper"
 
 RSpec.describe FlossFunding do
-  describe ".env_var_name_for and .env_var_names" do
-    it "returns the env var name previously set for a namespace and does not expose internals" do
-      # Set two values
-      described_class.set_env_var_name("Alpha::Lib", "ALPHA_LIB_KEY")
-      described_class.set_env_var_name("Beta::Lib", "BETA_LIB_KEY")
+  describe ".env_var_names (derived)" do
+    it "derives env var names from included namespaces and does not expose internals" do
+      # Create two modules and include Poke to register namespaces
+      stub_const("Alpha", Module.new)
+      stub_const("Beta", Module.new)
+      Alpha.const_set(:Lib, Module.new)
+      Beta.const_set(:Lib, Module.new)
+      Alpha::Lib.send(:include, FlossFunding::Poke.new(__FILE__))
+      Beta::Lib.send(:include, FlossFunding::Poke.new(__FILE__))
 
-      # Direct getter
-      expect(described_class.env_var_name_for("Alpha::Lib")).to eq("ALPHA_LIB_KEY")
-      expect(described_class.env_var_name_for("Beta::Lib")).to eq("BETA_LIB_KEY")
+      # Derived getter
+      expected_alpha = FlossFunding::UnderBar.env_variable_name("Alpha::Lib")
+      expected_beta = FlossFunding::UnderBar.env_variable_name("Beta::Lib")
 
-      # Returns a duplicate copy for safety
-      map_copy = described_class.env_var_names
-      expect(map_copy).to include("Alpha::Lib" => "ALPHA_LIB_KEY", "Beta::Lib" => "BETA_LIB_KEY")
+      map = described_class.env_var_names
+      expect(map).to include("Alpha::Lib" => expected_alpha, "Beta::Lib" => expected_beta)
 
-      # Mutate the returned copy and ensure internals are not changed
-      map_copy["Alpha::Lib"] = "HACKED"
-      expect(described_class.env_var_name_for("Alpha::Lib")).to eq("ALPHA_LIB_KEY")
+      # Mutate the returned copy and ensure a fresh call is unaffected
+      map["Alpha::Lib"] = "HACKED"
+      fresh = described_class.env_var_names
+      expect(fresh["Alpha::Lib"]).to eq(expected_alpha)
     end
   end
 end
