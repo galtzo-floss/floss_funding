@@ -71,6 +71,9 @@ module FlossFunding
         unless base.respond_to?(:name) && base.name && base.name.is_a?(String)
           raise ::FlossFunding::Error, "base must have a name (e.g., MyGemLibrary), got #{base.inspect}"
         end
+        unless custom_namespace.nil? || custom_namespace.is_a?(String) && !custom_namespace.empty?
+          raise ::FlossFunding::Error, "custom_namespace must be nil or a non-empty String (e.g., MyGemLibrary), got #{custom_namespace.inspect}"
+        end
 
         require "floss_funding/check"
         # Extend the base with the checker module first

@@ -24,7 +24,9 @@ module FlossFunding
     # @return [String, nil]
     attr_reader :library_root_path
     # @return [String, nil]
-    attr_reader :config_path
+    attr_reader :library_config_path
+    # @return [String, nil]
+    attr_reader :project_config_path
     # @return [Time]
     attr_reader :seen_at
     # @return [Object] may be boolean or callable as provided
@@ -37,15 +39,19 @@ module FlossFunding
     # @param namespace [String]
     # @param including_path [String]
     # @param options [Hash]
-    # @option options [Object] :silent
+    # @option options [Boolean, #call] :silent (nil)
+    # @option options [String] :custom_namespace (nil)
     def initialize(namespace, including_path, options = {})
       @namespace = namespace
       @including_path = including_path
       @env_var_name = ::FlossFunding::UnderBar.env_variable_name(namespace)
       @activation_key = ENV.fetch(@env_var_name, "")
       @silence = options[:silent]
+      custom_namespace = options[:custom_namespace]
+      @custom_namespace = custom_namespace if custom_namespace && !custom_namespace.empty?
 
       discover_roots!(including_path)
+
       @config = load_config
       @gem_name = derive_gem_name
 
@@ -59,16 +65,20 @@ module FlossFunding
     # - project_root_path: inferred from current working directory via ConfigFinder
     # - library_root_path: walk up from including_path to nearest Gemfile/gems.rb/*.gemspec
     def discover_roots!(including_path)
-      @project_root_path = ::FlossFunding::ConfigFinder.project_root
-
+      # Find the library root first,
+      #   as it will be the closest ancestor to the FlossFunding activator.
       start_dir = File.expand_path(File.dirname(including_path))
-      # Find nearest Gemfile/gems.rb/*.gemspec upwards from including file
+      # Find nearest .floss_funding.yml/Gemfile/gems.rb/*.gemspec upwards from including file
       candidates = [
         find_last_upwards('Gemfile', start_dir),
         find_last_upwards('gems.rb', start_dir),
         find_last_upwards('*.gemspec', start_dir),
       ].compact
       @library_root_path = File.dirname(candidates.first) unless candidates.empty?
+      # @project_start_dir = File.dirname(@library_root_path) if @library_root_path
+
+      # Determine the project root, starting with Dir.pwd
+      @project_root_path = ::FlossFunding::ConfigFinder.project_root
 
       # config path is found with respect to the project root (consumer)
       target = @project_root_path || Dir.pwd

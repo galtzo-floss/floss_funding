@@ -60,20 +60,12 @@ module FlossFunding
 floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺🇸 & 🇮🇩 by Galtzo FLOSS (galtzo.com)
   FOOTER
 
-  # Thread-safe access to activated and unactivated libraries
-  # These track which modules/gems have included the Poke module
-  # and whether they have valid activation keys or not
+  # Thread-safe access to arrays of ActivationEvent records, keyed by namespace
   # rubocop:disable ThreadSafety/MutableClassInstanceVariable
   @mutex = Mutex.new
-  @activated = []   # List of library namespaces with valid activation
-  @unactivated = [] # List of library namespaces without valid activation
-  @configurations = Hash.new do |h1, k1| # Hash to store configurations for each library
-    h1[k1] = Hash.new do |h2, k2|
-      h2[k2] = []
-    end
+  @activations = Hash.new do |h1, k1| # Hash to store an array of activation events for each namespace
+    h1[k1] = []
   end
-  @env_var_names = {} # Map of namespace => ENV var name used during setup
-  @activation_occurrences = [] # Tracks every successful activation occurrence (may include duplicates per namespace)
   # rubocop:enable ThreadSafety/MutableClassInstanceVariable
 
   class << self
@@ -82,108 +74,13 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
 
     # Unique namespaces that have a valid activation key
     # @return [Array<String>]
-    def activated
-      mutex.synchronize { @activated.dup }
+    def activations
+      mutex.synchronize { @activations.dup }
     end
 
     # @param value [Array<String>]
-    def activated=(value)
-      mutex.synchronize { @activated = value }
-    end
-
-    # Unique namespaces that do not have a valid activation key
-    # @return [Array<String>]
-    def unactivated
-      mutex.synchronize { @unactivated.dup }
-    end
-
-    # @param value [Array<String>]
-    def unactivated=(value)
-      mutex.synchronize { @unactivated = value }
-    end
-
-    # Thread-safely adds a namespace to the activated list
-    # Ensures no duplicates are added
-    # @param namespace [String] Namespace of the library to add
-    def add_activated(namespace)
-      mutex.synchronize { @activated << namespace unless @activated.include?(namespace) }
-    end
-
-    # Thread-safely adds a namespace to the unactivated list
-    # Ensures no duplicates are added
-    # @param namespace [String] Namespace of the library to add
-    def add_unactivated(namespace)
-      mutex.synchronize { @unactivated << namespace unless @unactivated.include?(namespace) }
-    end
-
-    # Thread-safe accessor for the configurations hash
-    # Returns a duplicate to prevent external modification
-    # @return [Hash] Hash of library configurations
-    def configurations
-      mutex.synchronize { @configurations.dup }
-    end
-
-    # Thread-safe getter for a specific library's configuration
-    # @param namespace [String] Namespace of the library
-    # @return [Hash] Configuration for the library; always a hash, but might be empty
-    def configuration(namespace)
-      mutex.synchronize { @configurations[namespace].dup }
-    end
-
-    # Thread-safe setter for a namespace's configuration
-    # @param namespace [String] Namespace of the library
-    # @param config [Hash] Configuration for the namespace
-    def set_configuration(namespace, config)
-      mutex.synchronize do
-        existing = @configurations[namespace]
-        # Ensure all known keys are arrays and merged
-        keys = (existing.keys + config.keys).uniq
-        keys.each do |k|
-          existing[k].concat(Array(config[k])) if config.key?(k)
-          existing[k] = existing[k].compact.flatten.uniq
-        end
-      end
-    end
-
-    # Thread-safe setter for ENV var name used by a namespace
-    # @param namespace [String]
-    # @param env_var_name [String]
-    def set_env_var_name(namespace, env_var_name)
-      mutex.synchronize { @env_var_names[namespace] = env_var_name }
-    end
-
-    # Thread-safe getter for ENV var name used by a namespace
-    # @param namespace [String]
-    # @return [String, nil]
-    def env_var_name_for(namespace)
-      mutex.synchronize { @env_var_names[namespace] }
-    end
-
-    # Thread-safe getter for all ENV var names
-    # @return [Hash{String=>String}]
-    def env_var_names
-      mutex.synchronize { @env_var_names.dup }
-    end
-
-    # Thread-safe getter for all activation occurrences (each successful activation event)
-    # @return [Array<String>] list of namespaces for each activation occurrence
-    def activation_occurrences
-      mutex.synchronize { @activation_occurrences.dup }
-    end
-
-    # Record a single activation occurrence (may include duplicates per namespace)
-    # @param namespace [String]
-    def add_activation_occurrence(namespace)
-      mutex.synchronize { @activation_occurrences << namespace }
-    end
-
-    # Registrations when activation is valid
-    # @param namespace [String]
-    def add_registration(namespace)
-      mutex.synchronize do
-        @activation_occurrences << namespace
-        @activated << namespace unless @activated.include?(namespace)
-      end
+    def activations=(value)
+      mutex.synchronize { @activations = value }
     end
 
     # Reads the first N lines from the base words file to validate paid activation keys.

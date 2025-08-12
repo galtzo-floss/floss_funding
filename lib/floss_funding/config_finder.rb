@@ -8,7 +8,7 @@
 #
 # Copyright (c) 2012-23 Bozhidar Batsov
 module FlossFunding
-  # This class has methods related to finding configuration path.
+  # This class has methods related to finding a configuration path.
   # @api private
   class ConfigFinder
     DOTFILE = '.floss_funding.yml'
@@ -19,6 +19,8 @@ module FlossFunding
     class << self
       include FileFinder
 
+      # The project root is global for a process because there can be only one root.
+      # This is in contrast to library root, which is one-per library.
       attr_writer :project_root
 
       def find_config_path(target_dir)
@@ -26,7 +28,7 @@ module FlossFunding
           DEFAULT_FILE
       end
 
-      # Returns the path RuboCop inferred as the root of the project. No file
+      # Returns the path inferred as the root of the project. No file
       # searches will go past this directory.
       def project_root
         @project_root ||= find_project_root
@@ -36,12 +38,13 @@ module FlossFunding
 
       def find_project_root
         pwd = Dir.pwd
-        gems_file = find_last_file_upwards('Gemfile', pwd) ||
-                    find_last_file_upwards('gems.rb', pwd) ||
-                    find_last_file_upwards('*.gemspec', pwd)
-        return unless gems_file
+        root_indicator_file =
+          find_last_file_upwards('Gemfile', pwd) ||
+          find_last_file_upwards('gems.rb', pwd) ||
+          find_last_file_upwards('*.gemspec', pwd)
+        return unless root_indicator_file
 
-        File.dirname(gems_file)
+        File.dirname(root_indicator_file)
       end
 
       def find_project_dotfile(target_dir)

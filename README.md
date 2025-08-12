@@ -325,14 +325,16 @@ See [LICENSE.txt][📄license] for the official [Copyright Notice][📄copyright
 
 <ul>
     <li>
-        Copyright (c) 2018-2020, 2024-2025 Peter H. Boling, of
+        Copyright (c) 2025 Peter H. Boling, of
         <a href="https://discord.gg/3qme4XHNKN">
             Galtzo.com
             <picture>
               <img src="https://logos.galtzo.com/assets/images/galtzo-floss/avatar-128px-blank.svg" alt="Galtzo.com Logo (Wordless) by Aboling0, CC BY-SA 4.0" width="24">
             </picture>
-        </a>, and floss_funding contributors
+        </a>, and floss_funding contributors.
+        Three files, and marked in the header of each, have been graciously stolen from the rubocop gem. Two lightly, and one heavily, edited for purpose. RuboCop is under the same MIT license, but those files are are Copyright (c) 2012-23 Bozhidar Batsov. *1
     </li>
+    <li>*1) If they were extracted into a general purpose `config_finder`, I'd use that instead, and I may do that at some point.</li>
 </ul>
 
 ## 🤑 One more thing

@@ -17,29 +17,6 @@ module FlossFunding
     # @return [String]
     CONFIG_FILE_NAME = ".floss_funding.yml"
 
-    # Default configuration values for FlossFunding prompting.
-    # Also includes slots for gemspec-derived attributes we track per gem.
-    # @return [Hash{String=>Object}]
-    DEFAULT_CONFIG = {
-      "suggested_donation_amount" => [5],
-      "floss_funding_url" => ["https://floss-funding.dev"],
-      # Tracks the including modules' names,
-      #   for every module including FlossFunding::Poke.new.
-      # These inform the ENV variable name,
-      #   except when overridden by custom_namespaces.
-      "namespace" => [],
-      # Tracks the custom namespace passed into FlossFunding::Poke.new as the :namespace option.
-      "custom_namespaces" => [],
-      # Whether to silence all output from the FlossFunding library when included.
-      # Accepts truthy values or callable objects (Proc/lambda) that return truthy.
-      "silent" => [],
-      # Gemspec-derived attributes (nil when unknown)
-      "gem_name" => [],
-      "homepage" => [],
-      "authors" => [],
-      "funding_uri" => [],
-    }.freeze
-
     class << self
       # Determines whether any registered configuration requests silence.
       # Uses ::FlossFunding.configurations internally.

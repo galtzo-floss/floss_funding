@@ -2,6 +2,8 @@
 
 # Lightweight configuration loader facade adapted from RuboCop but trimmed
 # down for FlossFunding's needs. Provides only the minimal API we require.
+#
+# Copyright (c) 2012-23 Bozhidar Batsov
 
 require 'yaml'
 require 'floss_funding/config_finder'
