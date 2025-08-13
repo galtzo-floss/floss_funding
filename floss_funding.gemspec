@@ -130,4 +130,5 @@ Gem::Specification.new do |spec|
 
   # Development tasks
   spec.add_development_dependency("rake", "~> 13.0")                      # ruby >= 2.2
+  spec.add_development_dependency("ruby-progressbar", "~> 1.13")          # ruby >= 0
 end

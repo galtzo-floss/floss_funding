@@ -9,6 +9,8 @@ require "rspec/block_is_expected"
 require "rspec/block_is_expected/matchers/not"
 require "rspec/stubbed_env"
 
+require "gem_mine"
+
 # Config files
 require "config/timecop"
 require "support/bench_gems_generator"
@@ -54,6 +56,9 @@ RSpec.configure do |config|
     end
   end
 end
+
+# Generate the 100 gem fixtures on disk (idempotent)
+FlossFunding::BenchGemsGenerator.generate_all
 
 # Within the test suite, we will consider this gem to be activated
 ENV["FLOSS_FUNDING_FLOSS_FUNDING"] = "Free-as-in-beer"

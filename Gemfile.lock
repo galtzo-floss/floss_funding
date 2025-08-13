@@ -282,6 +282,7 @@ DEPENDENCIES
   rubocop-lts (~> 0.1, >= 0.1.1)
   rubocop-packaging (~> 0.6, >= 0.6.0)
   rubocop-rspec (~> 3.2)
+  ruby-progressbar (~> 1.13)
   silent_stream (~> 1.0, >= 1.0.11)
   standard (>= 1.50)
   stone_checksums (~> 1.0)

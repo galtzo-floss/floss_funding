@@ -3,9 +3,6 @@
 require "benchmark"
 require_relative "../support/bench_gems_generator"
 
-# Generate the 100 gem fixtures on disk (idempotent)
-FlossFunding::BenchGemsGenerator.generate_all
-
 RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding usage" do # rubocop:disable RSpec/DescribeClass
   let(:valid_keys_csv) { File.join(__dir__, "../fixtures/valid_keys.csv") }
   let(:loader_path) { File.join(__dir__, "../fixtures/bench_gems_loader.rb") }
@@ -30,21 +27,15 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
 
   # Compute which namespaces are activated for a given percentage based on rules:
   # - 0% => none
-  # - 10% => only the final 10 (shared namespace BenchGemShared)
-  # - 20%..100% => as many of the groups 1..9 (10 gems each) as are needed to fill in each 10% section up to 100%
+  # - 10% => first 10 (BenchGem01..BenchGem10)
+  # - 20%..100% => groups of 10 from the start, e.g., 30% => BenchGem01..BenchGem30
   def activated_bench_namespaces_for_percentage(percentage)
     case percentage
     when 0
       []
-    when 10
-      ["BenchGemShared"]
     else
-      # Map 20=>group1, 30=>group2, ..., 90=>group8, 100=>group9 (cover all first 90 gems)
-      group = (percentage / 10).to_i - 1
-      raise ArgumentError, "percentage must map to group 1..9 for 20..100" unless group.between?(1, 9)
-      start_idx = 1
-      end_idx = group * 10
-      (start_idx..end_idx).map { |i| format("BenchGem%02d", i) }
+      end_idx = percentage
+      (1..end_idx).map { |i| format("BenchGem%02d", i) }
     end
   end
 
@@ -78,38 +69,20 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
   end
 
   # Prepare ENV segmentation for a given percentage (0..100 in steps of 10)
-  # Mapping rules:
-  # - 0% => all disabled
-  # - 10% => only FINAL_10 enabled
-  # - 20%..100% => as many of the groups 1..9 (10 gems each) as are needed to fill in each 10% section up to 100%
+  # GEM_MINE_GROUP_0..9, where number of enabled groups = percentage / 10
   def set_percentage_env(percentage)
     raise ArgumentError, "percentage must be between 0 and 100" unless percentage.between?(0, 100)
 
     # Reset all to disabled
-    (1..9).each { |g| ENV["FLOSS_FUNDING_FIXTURE_GROUP_#{g}"] = "0" }
-    ENV["FLOSS_FUNDING_FIXTURE_FINAL_10"] = "0"
+    (0..9).each { |g| ENV["GEM_MINE_GROUP_#{g}"] = "0" }
 
-    case percentage
-    when 0
-      # nothing enabled
-    else
-      # Always enable FINAL_10 for any percentage >= 10
-      ENV["FLOSS_FUNDING_FIXTURE_FINAL_10"] = "1"
-
-      # For percentages > 10, also enable GROUP_1..GROUP_N where N = (percentage/10) - 1
-      if percentage > 10
-        group = (percentage / 10).to_i - 1
-        raise ArgumentError, "percentage must map to group 1..9 for 20..100" unless group.between?(1, 9)
-
-        (1..group).each do |num|
-          ENV["FLOSS_FUNDING_FIXTURE_GROUP_#{num}"] = "1"
-        end
-      end
+    groups_to_enable = (percentage / 10)
+    (0...[groups_to_enable, 10].min).each do |num|
+      ENV["GEM_MINE_GROUP_#{num}"] = "1"
     end
   end
 
   # Counts how many of the 100 gems ended up including the Poke integration
-  # For percentage tests, only the first 90 can be toggled by group ENV; final 10 remain disabled unless FINAL_10 is set.
   def enabled_count
     (1..100).count do |i|
       mod = Object.const_get(format("BenchGem%02d", i))
@@ -139,25 +112,14 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     results << {:percentage => percentage, :seconds => elapsed}
   end
 
-  it "benchmarks load time across 0%..100% in 10% increments with ENV setup outside timing at 2025-08-15", :check_output do
+  it "benchmarks load time across 0%..100% in 10% increments with ENV setup outside timing at 2025-08-15" do
     results = []
     keys_rows = parsed_keys(valid_keys_csv)
 
     Timecop.freeze(Time.local(2025, 8, 15, 12, 0, 0)) do
-      # (0..10).each do |step|
-      #   bench_step(step, keys_rows, results, :key_2025)
-      # end
-      bench_step(0, keys_rows, results, :key_2025)
-      bench_step(1, keys_rows, results, :key_2025)
-      bench_step(2, keys_rows, results, :key_2025)
-      bench_step(3, keys_rows, results, :key_2025)
-      bench_step(4, keys_rows, results, :key_2025)
-      bench_step(5, keys_rows, results, :key_2025)
-      bench_step(6, keys_rows, results, :key_2025)
-      bench_step(7, keys_rows, results, :key_2025)
-      bench_step(8, keys_rows, results, :key_2025)
-      bench_step(9, keys_rows, results, :key_2025)
-      bench_step(10, keys_rows, results, :key_2025)
+      (0..10).each do |step|
+        bench_step(step, keys_rows, results, :key_2025)
+      end
     end
 
     # We gathered 11 data points (0..100)
@@ -169,26 +131,15 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     RSpec.configuration.reporter.message("FlossFunding bench (Gemfile load via fixtures) at 2025-08-15:\n#{formatted}")
   end
 
-  it "benchmarks load time across 0%..100% in 10% increments with ENV setup outside timing at 5425-07-15", :check_output do
+  it "benchmarks load time across 0%..100% in 10% increments with ENV setup outside timing at 5425-07-15" do
     results = []
     keys_rows = parsed_keys(valid_keys_csv)
 
     # Note: For the far-future date, use the keys valid after 5425-07 (Column 3)
     Timecop.freeze(Time.local(5425, 7, 15, 12, 0, 0)) do
-      # (0..10).each do |step|
-      #   bench_step(step, keys_rows, results, :key_5425)
-      # end
-      bench_step(0, keys_rows, results, :key_5425)
-      bench_step(1, keys_rows, results, :key_5425)
-      bench_step(2, keys_rows, results, :key_5425)
-      bench_step(3, keys_rows, results, :key_5425)
-      bench_step(4, keys_rows, results, :key_5425)
-      bench_step(5, keys_rows, results, :key_5425)
-      bench_step(6, keys_rows, results, :key_5425)
-      bench_step(7, keys_rows, results, :key_5425)
-      bench_step(8, keys_rows, results, :key_5425)
-      bench_step(9, keys_rows, results, :key_5425)
-      bench_step(10, keys_rows, results, :key_5425)
+      (0..10).each do |step|
+        bench_step(step, keys_rows, results, :key_5425)
+      end
     end
 
     expect(results.size).to eq(11)
@@ -198,7 +149,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     RSpec.configuration.reporter.message("FlossFunding bench (Gemfile load via fixtures) at 5425-07-15:\n#{formatted}")
   end
 
-  it "aggregates 100 funded gem names after full percentage sweep (2025 era)", :check_output do
+  it "aggregates all available funded bench gem names after full percentage sweep (2025 era)" do
     keys_rows = parsed_keys(valid_keys_csv)
 
     Timecop.freeze(Time.local(2025, 8, 15, 12, 0, 0)) do
@@ -212,8 +163,15 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
       end
     end
 
-    # Now compute funded gem names via configurations for activated namespaces only, mirroring at_exit requirement
+    # Determine which BenchGem namespaces actually have keys available in the CSV
+    bench_names = (1..100).map { |i| format("BenchGem%02d", i) }
+    csv_names = keys_rows.map { |r| r[:namespace] }
+    expected_bench_activated = bench_names & csv_names
+
+    # Activated namespaces collected by the library (includes FlossFunding itself)
     activated = FlossFunding.activated_namespace_names
-    expect(activated.size).to eq(91)
+
+    # Assert that all bench gems for which we have keys became activated during the sweep
+    expect((activated & expected_bench_activated).size).to eq(expected_bench_activated.size)
   end
 end

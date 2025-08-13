@@ -45,4 +45,4 @@ Appraisal.*.gemfile.lock
 *~
 
 # Ephemeral fixtures
-/spec/fixtures/bench_gems/*
+/spec/fixtures/gem_mine/*
