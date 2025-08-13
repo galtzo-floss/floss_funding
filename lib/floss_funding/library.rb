@@ -12,6 +12,65 @@ module FlossFunding
   # Represents a single Library (a gem/namespace pair) that has included
   # FlossFunding::Poke. Holds discovery info, configuration, and env details.
   class Library
+    class << self
+      # Simple process-lifetime caches
+      def yaml_config_cache
+        @yaml_config_cache ||= {}
+      end
+
+      def gemspec_name_cache
+        @gemspec_name_cache ||= {}
+      end
+
+      # Lightweight parse for gem name to avoid full Gem::Specification load
+      def parse_gemspec_name(gemspec_path)
+        begin
+          content = File.read(gemspec_path, mode: "r:BINARY", encoding: "UTF-8")
+          # Look for name assignment patterns like:
+          #   spec.name = "my_gem" OR Gem::Specification.new do |spec|; spec.name = 'my_gem'
+          if content =~ /\bname\s*=\s*(["'])([^"']+)\1/
+            return $2
+          end
+        rescue StandardError
+          # fall through
+        end
+        nil
+      end
+
+      def gem_name_for(gemspec_path)
+        abs = File.expand_path(gemspec_path)
+        return gemspec_name_cache[abs] if gemspec_name_cache.key?(abs)
+
+        name = parse_gemspec_name(abs)
+        if name.nil? || name.empty?
+          begin
+            spec = Gem::Specification.load(abs)
+            name = spec&.name
+          rescue StandardError
+            name = nil
+          end
+        end
+        gemspec_name_cache[abs] = name if name
+        name
+      end
+
+      def load_yaml_config(path)
+        abs = File.expand_path(path)
+        cache = yaml_config_cache
+        return cache[abs] if cache.key?(abs)
+        data = YAML.safe_load(File.read(abs)) || {}
+        cache[abs] = data.freeze
+      rescue StandardError
+        cache[abs] = {}.freeze
+      end
+
+      # Testing helper
+      def reset_caches!
+        @yaml_config_cache = {}
+        @gemspec_name_cache = {}
+      end
+    end
+
     # @return [String]
     attr_reader :namespace
     # @return [String]
@@ -86,12 +145,8 @@ module FlossFunding
 
     def load_config
       yaml_cfg = {}
-      begin
-        if @config_path && File.file?(@config_path)
-          yaml_cfg = YAML.safe_load(File.read(@config_path)) || {}
-        end
-      rescue StandardError
-        yaml_cfg = {}
+      if @config_path && File.file?(@config_path)
+        yaml_cfg = self.class.load_yaml_config(@config_path)
       end
       # Load defaults from config/default.yml and normalize values to arrays
       default_cfg = ::FlossFunding::ConfigLoader.default_configuration
@@ -119,12 +174,8 @@ module FlossFunding
       if @library_root_path
         gemspec = Dir.glob(File.join(@library_root_path, "*.gemspec")).first
         if gemspec
-          begin
-            spec = Gem::Specification.load(gemspec)
-            return spec.name if spec && spec.name
-          rescue StandardError
-            # ignore
-          end
+          name = self.class.gem_name_for(gemspec)
+          return name if name && !name.empty?
         end
       end
       # fallbacks

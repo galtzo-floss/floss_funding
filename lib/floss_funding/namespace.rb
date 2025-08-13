@@ -107,7 +107,9 @@ module FlossFunding
       return false if activation_key.empty?
 
       cipher = OpenSSL::Cipher.new("aes-256-cbc").decrypt
-      cipher.key = Digest::MD5.hexdigest(name)
+      # Memoize the MD5 hexdigest for this namespace instance
+      @ff_key_digest ||= Digest::MD5.hexdigest(name)
+      cipher.key = @ff_key_digest
       s = [activation_key].pack("H*")
 
       cipher.update(s) + cipher.final

@@ -232,6 +232,29 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reset_caches!-class_method" title="reset_caches! (class method)">.<strong>reset_caches!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Testing hook to clear internal caches.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -335,7 +358,8 @@
   <div class="discussion">
     <p>Returns the default configuration hash loaded from default.yml.<br />
 Values are raw as provided in YAML; downstream code will normalize<br />
-them as needed (e.g., wrapping scalars into arrays).</p>
+them as needed (e.g., wrapping scalars into arrays).<br />
+Memoized for the lifetime of the process; tests may clear via reset_caches!.</p>
 
 
   </div>
@@ -362,15 +386,15 @@ them as needed (e.g., wrapping scalars into arrays).</p>
       <pre class="lines">
 
 
-44
 45
-46</pre>
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_configuration'>default_configuration</span>
-  <span class='id identifier rubyid_load_file'>load_file</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#DEFAULT_FILE-constant" title="FlossFunding::ConfigLoader::DEFAULT_FILE (constant)">DEFAULT_FILE</a></span></span><span class='rparen'>)</span>
+  <span class='ivar'>@default_configuration</span> <span class='op'>||=</span> <span class='id identifier rubyid_load_file'>load_file</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#DEFAULT_FILE-constant" title="FlossFunding::ConfigLoader::DEFAULT_FILE (constant)">DEFAULT_FILE</a></span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -425,12 +449,52 @@ them as needed (e.g., wrapping scalars into arrays).</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="reset_caches!-class_method">
+  
+    .<strong>reset_caches!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Testing hook to clear internal caches</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 50</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reset_caches!'>reset_caches!</span>
+  <span class='ivar'>@default_configuration</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Wed Aug 13 05:58:02 2025 by
+  Generated on Wed Aug 13 16:21:34 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

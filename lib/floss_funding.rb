@@ -5,6 +5,7 @@ require "erb"
 require "pathname"
 require "yaml"
 require "openssl"
+require "set"
 require "thread" # For Mutex
 
 # external gems
@@ -107,13 +108,12 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     end
 
     def add_or_update_namespace_with_event(namespace, event)
-      ::FlossFunding.namespaces = (
-        ::FlossFunding.namespaces.tap do |spaces|
-          ns_obj = namespace
-          ns_obj.activation_events = ns_obj.activation_events + [event]
-          spaces[namespace.name] = ns_obj
-        end
-      )
+      mutex.synchronize do
+        ns_obj = namespace
+        # Append in place to reduce allocations and avoid extra mutex churn
+        ns_obj.activation_events << event
+        @namespaces[namespace.name] = ns_obj
+      end
     end
 
     # All namespaces that have any activation events recorded
@@ -133,7 +133,11 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @return [Array<String>]
     def activated_namespace_names
       mutex.synchronize do
-        @namespaces.values.select { |nobj| nobj.has_state?(STATES[:activated]) }.map(&:name)
+        names = []
+        @namespaces.each_value do |nobj|
+          names << nobj.name if nobj.has_state?(STATES[:activated])
+        end
+        names
       end
     end
 
@@ -141,7 +145,11 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @return [Array<String>]
     def unactivated_namespace_names
       mutex.synchronize do
-        @namespaces.values.select { |nobj| nobj.has_state?(STATES[:unactivated]) }.map(&:name)
+        names = []
+        @namespaces.each_value do |nobj|
+          names << nobj.name if nobj.has_state?(STATES[:unactivated])
+        end
+        names
       end
     end
 
@@ -149,7 +157,11 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @return [Array<String>]
     def invalid_namespace_names
       mutex.synchronize do
-        @namespaces.values.select { |nobj| nobj.has_state?(STATES[:invalid]) }.map(&:name)
+        names = []
+        @namespaces.each_value do |nobj|
+          names << nobj.name if nobj.has_state?(STATES[:invalid])
+        end
+        names
       end
     end
 
@@ -186,7 +198,12 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @return [Array<String>]
     def activation_occurrences
       mutex.synchronize do
-        @namespaces.flat_map { |ns, nobj| nobj.activation_events.map { ns } }
+        arr = []
+        @namespaces.each do |ns, nobj|
+          count = nobj.activation_events.length
+          count.times { arr << ns } if count > 0
+        end
+        arr
       end
     end
 
@@ -204,15 +221,18 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       n = num_valid_words.nil? ? num_valid_words_for_month : num_valid_words
       return [] if n.nil? || n.zero?
 
-      File.open(::FlossFunding::BASE_WORDS_PATH, "r") do |file|
-        lines = []
-        n.times do
-          line = file.gets
-          break if line.nil?
-          lines << line.chomp
+      # Load all words once
+      all = (@base_words_all ||= begin
+        words = []
+        begin
+          File.foreach(::FlossFunding::BASE_WORDS_PATH) { |line| words << line.chomp }
+        rescue StandardError
+          words = []
         end
-        lines
-      end
+        words.freeze
+      end)
+
+      all[0, n] || []
     end
 
     # Time source for month arithmetic; overridable for tests.
@@ -242,12 +262,16 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @param plain_text [String]
     # @return [Boolean]
     def check_activation(plain_text)
-      words = base_words(::FlossFunding.num_valid_words_for_month)
-      if words.respond_to?(:bsearch)
-        !!words.bsearch { |word| plain_text == word }
-      else
-        words.include?(plain_text)
+      n = ::FlossFunding.num_valid_words_for_month
+      return false if n.nil? || n <= 0
+      # Cache a Set for fast membership per current n
+      sets = (@base_words_set_cache ||= {})
+      set = sets[n]
+      unless set
+        set = Set.new(base_words(n))
+        sets[n] = set
       end
+      set.include?(plain_text)
     end
 
     # Emit a diagnostic message when an activation key is invalid

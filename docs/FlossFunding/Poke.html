@@ -397,7 +397,12 @@
 60
 61
 62
-63</pre>
+63
+64
+65
+66
+67
+68</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/poke.rb', line 41</span>
@@ -411,17 +416,22 @@
     <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_silenced'><span class='object_link'><a href="../FlossFunding.html#silenced-class_method" title="FlossFunding.silenced (method)">silenced</a></span></span> <span class='op'>||=</span> <span class='kw'>true</span>
   <span class='kw'>end</span>
 
-  <span class='comment'># Environment-based contraindications (global silenced flag, CI, broken Dir.pwd)
-</span>  <span class='kw'>return</span> <span class='const'>Module</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ContraIndications.html" title="FlossFunding::ContraIndications (class)">ContraIndications</a></span></span><span class='period'>.</span><span class='id identifier rubyid_poke_contraindicated?'><span class='object_link'><a href="ContraIndications.html#poke_contraindicated%3F-class_method" title="FlossFunding::ContraIndications.poke_contraindicated? (method)">poke_contraindicated?</a></span></span>
+  <span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:namespace</span><span class='rbracket'>]</span>
+
+  <span class='comment'># Environment-based contraindications (global silenced flag, CI, broken Dir.pwd, non-TTY)
+</span>  <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ContraIndications.html" title="FlossFunding::ContraIndications (class)">ContraIndications</a></span></span><span class='period'>.</span><span class='id identifier rubyid_poke_contraindicated?'><span class='object_link'><a href="ContraIndications.html#poke_contraindicated%3F-class_method" title="FlossFunding::ContraIndications.poke_contraindicated? (method)">poke_contraindicated?</a></span></span>
+    <span class='comment'># Return an inert module (no registration) when contraindicated
+</span>    <span class='kw'>return</span> <span class='const'>Module</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='kw'>end</span>
 
   <span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:namespace</span><span class='rbracket'>]</span>
   <span class='comment'># an anonymous module that will set up an activation key Check when included
 </span>  <span class='const'>Module</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_define_singleton_method'>define_singleton_method</span><span class='lparen'>(</span><span class='symbol'>:included</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_base'>base</span><span class='op'>|</span>
-      <span class='id identifier rubyid_inclusion'>inclusion</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inclusion.html" title="FlossFunding::Inclusion (class)">Inclusion</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Inclusion.html#initialize-instance_method" title="FlossFunding::Inclusion#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_including_path'>including_path</span><span class='comma'>,</span> <span class='id identifier rubyid_silent_opt'>silent_opt</span><span class='rparen'>)</span>
+      <span class='comment'># Sync deterministic time source to current time (respects Timecop.freeze)
+</span>      <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_now_time'><span class='object_link'><a href="../FlossFunding.html#now_time-class_method" title="FlossFunding.now_time (method)">now_time</a></span></span>
 
-      <span class='comment'># Now call the begging method after extending
-</span>      <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_floss_funding_initiate_begging'>floss_funding_initiate_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_inclusion'>inclusion</span><span class='period'>.</span><span class='id identifier rubyid_event'>event</span><span class='rparen'>)</span>
+      <span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inclusion.html" title="FlossFunding::Inclusion (class)">Inclusion</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Inclusion.html#initialize-instance_method" title="FlossFunding::Inclusion#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_including_path'>including_path</span><span class='comma'>,</span> <span class='id identifier rubyid_silent_opt'>silent_opt</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -435,7 +445,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Aug 13 05:58:02 2025 by
+  Generated on Wed Aug 13 16:21:33 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

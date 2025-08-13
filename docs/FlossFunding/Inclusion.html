@@ -560,7 +560,10 @@ ActivationEvent generated from an include site.</p>
 71
 72
 73
-74</pre>
+74
+75
+76
+77</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/inclusion.rb', line 35</span>
@@ -572,9 +575,11 @@ ActivationEvent generated from an include site.</p>
 
   <span class='id identifier rubyid_validate_inputs!'>validate_inputs!</span>
 
-  <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>floss_funding/check</span><span class='tstring_end'>&quot;</span></span>
-  <span class='comment'># Extend the base with the checker module first
-</span>  <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Check.html" title="FlossFunding::Check (module)">Check</a></span></span><span class='rparen'>)</span>
+  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_now_time'><span class='object_link'><a href="../FlossFunding.html#now_time-class_method" title="FlossFunding.now_time (method)">now_time</a></span></span> <span class='comment'># Will only set if not already set
+</span>
+  <span class='comment'># Extend the base with the fingerprint module first
+</span>  <span class='comment'># It&#39;s a way to know that FlossFunding is integrated with the target library (base)
+</span>  <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Fingerprint.html" title="FlossFunding::Fingerprint (module)">Fingerprint</a></span></span><span class='rparen'>)</span>
 
   <span class='ivar'>@name</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_custom_namespace'>custom_namespace</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
     <span class='ivar'>@custom_namespace</span> <span class='op'>=</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span>
@@ -604,6 +609,7 @@ ActivationEvent generated from an include site.</p>
   <span class='rparen'>)</span>
 
   <span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_or_update_namespace_with_event'><span class='object_link'><a href="../FlossFunding.html#add_or_update_namespace_with_event-class_method" title="FlossFunding.add_or_update_namespace_with_event (method)">add_or_update_namespace_with_event</a></span></span><span class='lparen'>(</span><span class='ivar'>@namespace</span><span class='comma'>,</span> <span class='ivar'>@event</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_initiate_begging'><span class='object_link'><a href="../FlossFunding.html#initiate_begging-class_method" title="FlossFunding.initiate_begging (method)">initiate_begging</a></span></span><span class='lparen'>(</span><span class='ivar'>@event</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1171,7 +1177,7 @@ ActivationEvent generated from an include site.</p>
 </div>
 
       <div id="footer">
-  Generated on Wed Aug 13 05:58:02 2025 by
+  Generated on Wed Aug 13 16:21:34 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

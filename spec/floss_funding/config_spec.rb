@@ -38,16 +38,18 @@ RSpec.describe FlossFunding::ContraIndications do
       cfg = {
         "Lib::One" => {"silent" => [-> { true }]},
       }
+      configure_contraindications!(at_exit: { stdout_tty: true, global_silenced: false, constants_silent: false })
       allow(FlossFunding).to receive(:configurations).and_return(cfg)
       expect(described_class.at_exit_contraindicated?).to be(true)
     end
 
-    it "returns false when a callable raises an error (rescued)" do
+    it "returns true when a callable raises an error (rescued) due to resulting unknown global state" do
       cfg = {
         "Lib::Two" => {"silent" => [-> { raise "boom" }]},
       }
+      configure_contraindications!(at_exit: { stdout_tty: true, global_silenced: false, constants_silent: false })
       allow(FlossFunding).to receive(:configurations).and_return(cfg)
-      expect(described_class.at_exit_contraindicated?).to be(false)
+      expect(described_class.at_exit_contraindicated?).to be(true)
     end
   end
 end

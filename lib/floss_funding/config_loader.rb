@@ -40,9 +40,15 @@ module FlossFunding
       # Returns the default configuration hash loaded from default.yml.
       # Values are raw as provided in YAML; downstream code will normalize
       # them as needed (e.g., wrapping scalars into arrays).
+      # Memoized for the lifetime of the process; tests may clear via reset_caches!.
       # @return [Hash]
       def default_configuration
-        load_file(DEFAULT_FILE)
+        @default_configuration ||= load_file(DEFAULT_FILE).freeze
+      end
+
+      # Testing hook to clear internal caches
+      def reset_caches!
+        @default_configuration = nil
       end
     end
 

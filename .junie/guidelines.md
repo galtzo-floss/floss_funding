@@ -59,6 +59,7 @@ This document captures project-specific knowledge to streamline setup, testing, 
         end
       end
     - Alternatively, run with DEBUG=true to disable silencing for the entire run.
+  - During a spec run, the presence of output about missing activation keys is often expected, since it is literally what this library is for. It only indicates a failure if the spec expected all activation keys to be present, and not all specs do.
 - Adding new tests (guidelines)
   - Place new specs under spec/ mirroring lib/ structure where possible. NDo not require "spec_helper" at the top of spec files, as it is automatically loaded by .rspec.
   - If your code relies on environment variables that drive activation (see "Activation env vars" below), prefer using rspec-stubbed_env:

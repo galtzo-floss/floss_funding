@@ -47,6 +47,13 @@ module FlossFunding
         return true if ::FlossFunding.silenced
         return true if ::FlossFunding::Constants::SILENT
 
+        # Non-TTY environments: suppress at-exit output
+        begin
+          return true unless STDOUT.tty?
+        rescue StandardError
+          return true
+        end
+
         configurations = ::FlossFunding.configurations
         configurations.any? do |_library, cfgs|
           configs_arr = cfgs.is_a?(Array) ? cfgs : [cfgs]
@@ -63,8 +70,8 @@ module FlossFunding
                 # Only evaluate callables at-exit; ignore non-callable values here
                 v.respond_to?(:call) ? !!v.call : false
               rescue StandardError
-                # If callable raises, treat as not silencing
-                false
+                # If callable raises, treat it as contraindicated to avoid unknown global state
+                true
               end
             end
           end

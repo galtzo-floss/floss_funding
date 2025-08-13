@@ -253,7 +253,14 @@ Returns true if any library requests silence; false otherwise.</p>
 69
 70
 71
-72</pre>
+72
+73
+74
+75
+76
+77
+78
+79</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/contra_indications.rb', line 45</span>
@@ -263,15 +270,22 @@ Returns true if any library requests silence; false otherwise.</p>
 </span>  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_silenced'><span class='object_link'><a href="../FlossFunding.html#silenced-class_method" title="FlossFunding.silenced (method)">silenced</a></span></span>
   <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html" title="FlossFunding::Constants (module)">Constants</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#SILENT-constant" title="FlossFunding::Constants::SILENT (constant)">SILENT</a></span></span>
 
+  <span class='comment'># Non-TTY environments: suppress at-exit output
+</span>  <span class='kw'>begin</span>
+    <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>unless</span> <span class='const'>STDOUT</span><span class='period'>.</span><span class='id identifier rubyid_tty?'>tty?</span>
+  <span class='kw'>rescue</span> <span class='const'>StandardError</span>
+    <span class='kw'>return</span> <span class='kw'>true</span>
+  <span class='kw'>end</span>
+
   <span class='id identifier rubyid_configurations'>configurations</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configurations'><span class='object_link'><a href="../FlossFunding.html#configurations-class_method" title="FlossFunding.configurations (method)">configurations</a></span></span>
   <span class='id identifier rubyid_configurations'>configurations</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid__library'>_library</span><span class='comma'>,</span> <span class='id identifier rubyid_cfgs'>cfgs</span><span class='op'>|</span>
     <span class='id identifier rubyid_configs_arr'>configs_arr</span> <span class='op'>=</span> <span class='id identifier rubyid_cfgs'>cfgs</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_cfgs'>cfgs</span> <span class='op'>:</span> <span class='lbracket'>[</span><span class='id identifier rubyid_cfgs'>cfgs</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_configs_arr'>configs_arr</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_cfg'>cfg</span><span class='op'>|</span>
-      <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_cfg'>cfg</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:[]</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_cfg'>cfg</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:to_h</span><span class='rparen'>)</span>
+        <span class='const'>Array</span><span class='lparen'>(</span><span class='id identifier rubyid_cfg'>cfg</span><span class='period'>.</span><span class='id identifier rubyid_to_h'>to_h</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>silent</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='comment'># preferred when available
+</span>      <span class='kw'>elsif</span> <span class='id identifier rubyid_cfg'>cfg</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
         <span class='const'>Array</span><span class='lparen'>(</span><span class='id identifier rubyid_cfg'>cfg</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>silent</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='comment'># may be nil/array/scalar
-</span>      <span class='kw'>elsif</span> <span class='id identifier rubyid_cfg'>cfg</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:to_h</span><span class='rparen'>)</span>
-        <span class='const'>Array</span><span class='lparen'>(</span><span class='id identifier rubyid_cfg'>cfg</span><span class='period'>.</span><span class='id identifier rubyid_to_h'>to_h</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>silent</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
-      <span class='kw'>else</span>
+</span>      <span class='kw'>else</span>
         <span class='lbracket'>[</span><span class='rbracket'>]</span>
       <span class='kw'>end</span>
       <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
@@ -279,8 +293,8 @@ Returns true if any library requests silence; false otherwise.</p>
           <span class='comment'># Only evaluate callables at-exit; ignore non-callable values here
 </span>          <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span> <span class='op'>:</span> <span class='kw'>false</span>
         <span class='kw'>rescue</span> <span class='const'>StandardError</span>
-          <span class='comment'># If callable raises, treat as not silencing
-</span>          <span class='kw'>false</span>
+          <span class='comment'># If callable raises, treat it as contraindicated to avoid unknown global state
+</span>          <span class='kw'>true</span>
         <span class='kw'>end</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
@@ -389,7 +403,7 @@ Returns true if any library requests silence; false otherwise.</p>
 </div>
 
       <div id="footer">
-  Generated on Wed Aug 13 05:58:02 2025 by
+  Generated on Wed Aug 13 16:21:34 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

@@ -19,15 +19,13 @@ RSpec.describe FlossFunding::Poke do
       expect(TraditionalTest::InnerModule).to respond_to(:floss_funding_fingerprint)
     end
 
-    it "sets up the correct environment variable name based on the module's name" do
-      output = capture(:stdout) do
+    it "sets up the correct environment variable name based on the module's name", :check_output do
+      configure_contraindications!(at_exit: { stdout_tty: true })
+      expect do
         # Re-include to trigger output by stubbing the module again
         stub_const("TraditionalTest::InnerModule", Module.new)
         TraditionalTest::InnerModule.send(:include, described_class.new(__FILE__))
-      end
-
-      # Check that the output contains the correct env var name
-      expect(output).to include("TRADITIONAL_TEST_INNER_MODULE")
+      end.to output(/TRADITIONAL_TEST_INNER_MODULE/).to_stdout
     end
   end
 
@@ -45,15 +43,13 @@ RSpec.describe FlossFunding::Poke do
       expect(CustomTest::InnerModule).to respond_to(:floss_funding_fingerprint)
     end
 
-    it "sets up the correct environment variable name based on the provided namespace" do
-      output = capture(:stdout) do
+    it "sets up the correct environment variable name based on the provided namespace", :check_output do
+      configure_contraindications!(at_exit: { stdout_tty: true })
+      expect do
         # Re-include to trigger output by stubbing the module again
         stub_const("CustomTest::InnerModule", Module.new)
         CustomTest::InnerModule.send(:include, described_class.new(__FILE__, :namespace => "MyNamespace::V4"))
-      end
-
-      # Check that the output contains the correct env var name
-      expect(output).to include("MY_NAMESPACE_V4")
+      end.to output(/MY_NAMESPACE_V4/).to_stdout
     end
   end
 

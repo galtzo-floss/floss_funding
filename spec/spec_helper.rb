@@ -14,6 +14,7 @@ require "gem_mine"
 # Config files
 require "config/timecop"
 require "support/bench_gems_generator"
+require "support/contraindications_helper"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

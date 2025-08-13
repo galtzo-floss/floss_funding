@@ -18,6 +18,15 @@ module FlossFunding
     INITIAL_UNDERSCORE = /^_/
 
     class << self
+      # Internal memoization cache for env var names
+      def _cache
+        @cache ||= {}
+      end
+
+      def reset_cache!
+        @cache = {}
+      end
+
       # Builds an uppercased ENV variable name from a Ruby namespace.
       #
       # @param namespace [FlossFunding::Namespace, String] the Ruby namespace (e.g., "My::Lib")
@@ -28,9 +37,13 @@ module FlossFunding
 
         raise FlossFunding::Error, "namespace must be a String, but is #{namespace.class}" unless namespace.is_a?(String)
 
+        cached = _cache[namespace]
+        return cached if cached
+
         name_parts = namespace.split("::")
         env_name = name_parts.map { |np| to_under_bar(np) }.join("_")
-        "#{::FlossFunding::Constants::DEFAULT_PREFIX}#{env_name}".upcase
+        result = "#{::FlossFunding::Constants::DEFAULT_PREFIX}#{env_name}".upcase
+        _cache[namespace] = result.freeze
       end
 
       # Converts a single namespace segment to an underscored, uppercased string.

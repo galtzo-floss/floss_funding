@@ -24,14 +24,24 @@ module FlossFunding
       attr_writer :project_root
 
       def find_config_path(target_dir)
-        find_project_dotfile(target_dir) || find_user_dotfile || find_user_xdg_config ||
-          DEFAULT_FILE
+        @config_path_cache ||= {}
+        key = File.expand_path(target_dir)
+        return @config_path_cache[key] if @config_path_cache.key?(key)
+        path = find_project_dotfile(key) || find_user_dotfile || find_user_xdg_config || DEFAULT_FILE
+        @config_path_cache[key] = path
       end
 
       # Returns the path inferred as the root of the project. No file
       # searches will go past this directory.
       def project_root
         @project_root ||= find_project_root
+      end
+
+      # Testing helper to clear internal caches
+      def clear_caches!
+        @config_path_cache = {}
+        @project_root_for_cache = {}
+        @project_root = nil
       end
 
       private
@@ -42,18 +52,24 @@ module FlossFunding
       # @param start_dir [String]
       # @return [String, nil] directory path of the discovered root
       def project_root_for(start_dir)
+        @project_root_for_cache ||= {}
+        key = File.expand_path(start_dir)
+        return @project_root_for_cache[key] if @project_root_for_cache.key?(key)
+
         root_indicator_file =
-          find_file_upwards("Gemfile", start_dir) ||
-          find_file_upwards("gems.rb", start_dir) ||
-          find_file_upwards("*.gemspec", start_dir)
-        return unless root_indicator_file
+          find_file_upwards("Gemfile", key) ||
+          find_file_upwards("gems.rb", key) ||
+          find_file_upwards("*.gemspec", key)
+        return (@project_root_for_cache[key] = nil) unless root_indicator_file
 
         dir = File.dirname(root_indicator_file)
         # Ignore the gem's own repository root when resolving a project root for
         # external/embedded consumers (e.g., test fixtures within this repo).
-        return if dir == FLOSS_FUNDING_HOME
-
-        dir
+        if dir == FLOSS_FUNDING_HOME
+          @project_root_for_cache[key] = nil
+        else
+          @project_root_for_cache[key] = dir
+        end
       end
 
       def find_project_root
