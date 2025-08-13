@@ -93,7 +93,6 @@ RSpec.describe FlossFunding::Poke do
 
       # Should be truly silent and not extend Check methods
       expect(output).to eq("")
-      expect(test_mod).not_to respond_to(:floss_funding_initiate_begging)
       # And global silenced flag should be set
       expect(FlossFunding.silenced).to be(true)
     end

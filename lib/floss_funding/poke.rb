@@ -54,10 +54,10 @@ module FlossFunding
         # an anonymous module that will set up an activation key Check when included
         Module.new do
           define_singleton_method(:included) do |base|
-            inclusion = FlossFunding::Inclusion.new(base, namespace, including_path, silent_opt)
+            # Sync deterministic time source to current time (respects Timecop.freeze)
+            ::FlossFunding.now_time
 
-            # Now call the begging method after extending
-            base.floss_funding_initiate_begging(inclusion.event)
+            FlossFunding::Inclusion.new(base, namespace, including_path, silent_opt)
           end
         end
       end

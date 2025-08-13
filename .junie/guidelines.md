@@ -62,8 +62,9 @@ This document captures project-specific knowledge to streamline setup, testing, 
 - Adding new tests (guidelines)
   - Place new specs under spec/ mirroring lib/ structure where possible. NDo not require "spec_helper" at the top of spec files, as it is automatically loaded by .rspec.
   - If your code relies on environment variables that drive activation (see "Activation env vars" below), prefer using rspec-stubbed_env:
-    - include RSpec::StubbedEnv (already available via spec_helper)
     - it does not support stubbing with blocks, but it does automatically clean up after itself.
+    - outside the example:
+      include_context 'with stubbed env'
     - in a before hook, or in an example:
       stub_env("FLOSS_FUNDING_MY_NS" => "Free-as-in-beer")
       # example code continues

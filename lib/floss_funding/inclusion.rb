@@ -39,9 +39,11 @@ module FlossFunding
 
       validate_inputs!
 
-      require "floss_funding/check"
-      # Extend the base with the checker module first
-      base.extend(::FlossFunding::Check)
+      ::FlossFunding.now_time # Will only set if not already set
+
+      # Extend the base with the fingerprint module first
+      # It's a way to know that FlossFunding is integrated with the target library (base)
+      base.extend(::FlossFunding::Fingerprint)
 
       @name = if custom_namespace.is_a?(String) && !custom_namespace.empty?
         @custom_namespace = custom_namespace
@@ -71,6 +73,7 @@ module FlossFunding
       )
 
       FlossFunding.add_or_update_namespace_with_event(@namespace, @event)
+      FlossFunding.initiate_begging(@event)
     end
 
     private

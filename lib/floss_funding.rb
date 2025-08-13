@@ -242,7 +242,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @param plain_text [String]
     # @return [Boolean]
     def check_activation(plain_text)
-      words = base_words
+      words = base_words(::FlossFunding.num_valid_words_for_month)
       if words.respond_to?(:bsearch)
         !!words.bsearch { |word| plain_text == word }
       else
@@ -288,10 +288,28 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
       return if ::FlossFunding::ContraIndications.at_exit_contraindicated?
       puts %(FLOSS Funding: Activation key missing for #{gem_name} (#{namespace}). Set ENV["#{env_var_name}"] to your activation key; details will be shown at exit.)
     end
+
+    def initiate_begging(event)
+      library = event.library
+      ns = library.namespace
+      env_var_name = ::FlossFunding::UnderBar.env_variable_name(ns)
+      gem_name = library.gem_name
+      activation_key = event.activation_key
+
+      case event.state
+      when ::FlossFunding::STATES[:activated]
+        nil
+      when ::FlossFunding::STATES[:invalid]
+        ::FlossFunding.start_coughing(activation_key, ns, env_var_name)
+      else
+        ::FlossFunding.start_begging(ns, env_var_name, gem_name)
+      end
+    end
   end
 end
 
 # Finally, the core of this gem
+require "floss_funding/fingerprint"
 require "floss_funding/under_bar"
 require "floss_funding/config"
 require "floss_funding/file_finder"
@@ -305,7 +323,6 @@ require "floss_funding/activation_event"
 require "floss_funding/contra_indications"
 require "floss_funding/inclusion"
 require "floss_funding/poke"
-# require "floss_funding/check" # Lazy loaded at runtime
 
 # Dog Food
 FlossFunding.send(

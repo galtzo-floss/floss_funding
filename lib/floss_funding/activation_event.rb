@@ -22,9 +22,9 @@ module FlossFunding
     def initialize(library, activation_key, state = DEFAULT_STATE, silent = nil)
       @library = library
       @activation_key = activation_key
-      @state = normalize_state(state)
-      # Always use the deterministic time source from Check
-      @occurred_at = ::FlossFunding::Check::ClassMethods.now_time
+      @state = normalize_state(state.to_s)
+      # Always use the deterministic time source from FlossFunding
+      @occurred_at = ::FlossFunding.now_time
       @silent = silent
     end
 

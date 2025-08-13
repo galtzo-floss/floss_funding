@@ -114,7 +114,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     (1..100).count do |i|
       mod = Object.const_get(format("BenchGem%02d", i))
       core = mod.const_get(:Core)
-      core.respond_to?(:floss_funding_initiate_begging)
+      core.respond_to?(:floss_funding_fingerprint)
     end
   end
 

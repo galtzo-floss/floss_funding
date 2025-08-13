@@ -27,7 +27,7 @@ RSpec.describe "Benchmark fixtures ENV segmentation" do # rubocop:disable RSpec/
     (1..90).count do |i|
       mod = Object.const_get(format("BenchGem%02d", i))
       core = mod.const_get(:Core)
-      core.respond_to?(:floss_funding_initiate_begging)
+      core.respond_to?(:floss_funding_fingerprint)
     end
   end
 

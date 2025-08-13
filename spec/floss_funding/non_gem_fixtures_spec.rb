@@ -56,7 +56,7 @@ RSpec.describe "Non-gem fixtures behavior" do # rubocop:disable RSpec/DescribeCl
     fixtures.select { |f| f[:bundler] }.each do |f|
       mod = Object.const_get(f[:name])
       core = mod.const_get(:Core)
-      expect(core.respond_to?(:floss_funding_initiate_begging)).to be(true)
+      expect(core.respond_to?(:floss_funding_fingerprint)).to be(true)
 
       cfg = FlossFunding.configuration(f[:name])
       expect(cfg).to be_a(FlossFunding::Configuration)
@@ -88,7 +88,7 @@ RSpec.describe "Non-gem fixtures behavior" do # rubocop:disable RSpec/DescribeCl
     fixtures.reject { |f| f[:bundler] }.each do |f|
       mod = Object.const_get(f[:name])
       core = mod.const_get(:Core)
-      expect(core.respond_to?(:floss_funding_initiate_begging)).to be(true)
+      expect(core.respond_to?(:floss_funding_fingerprint)).to be(true)
 
       cfg = FlossFunding.configuration(f[:name])
       expect(cfg).to be_a(FlossFunding::Configuration)
@@ -121,7 +121,7 @@ RSpec.describe "Non-gem fixtures behavior" do # rubocop:disable RSpec/DescribeCl
     # Verify module and Core were defined and Poke included behavior is available
     mod = Object.const_get("NgScriptOnly")
     core = mod.const_get(:Core)
-    expect(core.respond_to?(:floss_funding_initiate_begging)).to be(true)
+    expect(core.respond_to?(:floss_funding_fingerprint)).to be(true)
 
     # Config should honor nearest YAML within one directory up (spec/fixtures/.floss_funding.yml => 10) when no project root is found
     cfg = FlossFunding.configuration("NgScriptOnly")
@@ -148,7 +148,7 @@ RSpec.describe "Non-gem fixtures behavior" do # rubocop:disable RSpec/DescribeCl
     # Verify module and Core were defined and Poke included behavior is available
     mod = Object.const_get("NgScriptNoConfig")
     core = mod.const_get(:Core)
-    expect(core.respond_to?(:floss_funding_initiate_begging)).to be(true)
+    expect(core.respond_to?(:floss_funding_fingerprint)).to be(true)
 
     # Config should honor nearest YAML within one directory up when no project root is found, but there isn't any YAML
     cfg = FlossFunding.configuration("NgScriptNoConfig")
