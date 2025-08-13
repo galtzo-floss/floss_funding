@@ -26,7 +26,8 @@ module FlossFunding
     attr_reader silence: untyped
     attr_reader config: ::FlossFunding::Configuration
 
-    def initialize: (::FlossFunding::Namespace, String, String, String, ?Hash[Symbol, untyped]) -> void
+    # initialize(namespace, custom_namespace, base_name, including_path, env_var_name, options = {})
+    def initialize: (::FlossFunding::Namespace, (String | nil), String, String, String, ?Hash[Symbol, untyped]) -> void
   end
 
   class Namespace
@@ -138,11 +139,10 @@ module FlossFunding
   module Poke
     def self.included: (Module) -> void
     def self.new: (String, ?{ namespace: String?, silent: untyped? }) -> Module
-    def self.setup_begging: (Module, String?, String, untyped?) -> void
   end
 
   class ContraIndications
-    def self.poke_contraindicated?: (untyped?) -> bool
+    def self.poke_contraindicated?: -> bool
     def self.at_exit_contraindicated?: -> bool
   end
 
