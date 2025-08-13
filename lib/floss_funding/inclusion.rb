@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module FlossFunding
-  # Represents the runtime project context for a given inclusion of FlossFunding.
+  # Represents the runtime inclusion context for a given inclusion of FlossFunding.
   # Encapsulates discovery (Namespace, Library), activation state, and the
   # ActivationEvent generated from an include site.
-  class Project
+  class Inclusion
     # @return [Module]
     attr_reader :base
     # @return [String]
@@ -25,8 +25,10 @@ module FlossFunding
     attr_reader :state
     # @return [FlossFunding::ActivationEvent]
     attr_reader :event
+    # return [FlossFunding::Persist]
+    attr_reader :persist
 
-    # Build a Project and register its activation event.
+    # Build an Inclusion and register its activation event.
     #
     # @param base [Module] the including module
     # @param custom_namespace [String, nil]

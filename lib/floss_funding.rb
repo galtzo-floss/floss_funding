@@ -223,7 +223,7 @@ require "floss_funding/library"
 require "floss_funding/namespace"
 require "floss_funding/activation_event"
 require "floss_funding/contra_indications"
-require "floss_funding/project"
+require "floss_funding/inclusion"
 require "floss_funding/poke"
 # require "floss_funding/check" # Lazy loaded at runtime
 
