@@ -25,7 +25,6 @@ module FlossFunding
         ::FlossFunding::ConfigFinder.project_root
       end
 
-
       private
 
       # Reads gemspec data from the first *.gemspec in project_root using

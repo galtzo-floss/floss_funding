@@ -11,8 +11,9 @@ module FlossFunding
       # - If Dir.pwd raises (defensive check for broken runtime env).
       # @return [Boolean]
       def poke_contraindicated?(silent_opt = nil)
-        # Respect explicit early silence when strictly true; do not evaluate callables here.
-        return true if silent_opt == true
+        # Do NOT short-circuit when explicit silent: true is provided.
+        # We still need to register the library so that configuration (including the "silent" flag)
+        # is available to downstream logic like at-exit suppression.
 
         # Global silence switch from constants/env
         return true if ::FlossFunding::Constants::SILENT

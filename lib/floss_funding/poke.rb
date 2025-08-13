@@ -55,26 +55,6 @@ module FlossFunding
           end
         end
       end
-
-      # Performs common setup: extends the base with Check, computes the
-      # namespace and ENV var name, loads configuration, and initiates begging.
-      #
-      # @param base [Module] the module including the returned Poke module
-      # @param custom_namespace [String, nil] custom namespace or nil to use base.name
-      # @param including_path [String] source file path of base (e.g., `__FILE__`)
-      # @param silent_opt [Object, nil] optional silence flag or callable stored under "silent" in config
-      # @return [void]
-      # @raise [::FlossFunding::Error] if including_path is not a String
-      # @raise [::FlossFunding::Error] if base.name is not a String
-      def setup_begging(base, custom_namespace, including_path, silent_opt = nil)
-        # Respect early contraindications (including explicit silent true) before constructing Project
-        return if ::FlossFunding::ContraIndications.poke_contraindicated?(silent_opt)
-
-        # Backwards-compatible delegator to Project.new
-        project = ::FlossFunding::Project.new(base, custom_namespace, including_path, silent_opt)
-        # Now call the begging method after extending
-        base.floss_funding_initiate_begging(project.event)
-      end
     end
   end
 end
