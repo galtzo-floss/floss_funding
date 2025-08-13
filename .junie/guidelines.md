@@ -36,7 +36,7 @@ This document captures project-specific knowledge to streamline setup, testing, 
     - ENV seeding: The suite sets ENV["FLOSS_FUNDING_FLOSS_FUNDING"] = "Free-as-in-beer" so that the library’s own namespace is considered activated (avoids noisy warnings).
     - Coverage: kettle-soup-cover integrates SimpleCov; .simplecov is invoked from spec_helper when enabled by Kettle::Soup::Cover::DO_COV, which is controlled by K_SOUP_COV_DO being set to true / false.
   - Additional test utilities:
-    - rspec-stubbed_env: Use stubbed_env to control ENV safely within examples.
+    - rspec-stubbed_env: Use stub_env to control ENV safely within examples.
     - timecop: Time manipulation available via spec/config/timecop.
     - support/bench_gems_generator: Utilities for benchmarking fixtures.
 - Running tests (verified)

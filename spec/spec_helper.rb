@@ -9,6 +9,15 @@ require "rspec/block_is_expected"
 require "rspec/block_is_expected/matchers/not"
 require "rspec/stubbed_env"
 
+# Start coverage as early as possible so helper/fixture generation is included
+begin
+  require "kettle-soup-cover"
+  require "simplecov" if Kettle::Soup::Cover::DO_COV # `.simplecov` is run here!
+rescue LoadError => error
+  # check the error message and re-raise when unexpected
+  raise error unless error.message.include?("kettle")
+end
+
 require "gem_mine"
 
 # Config files
