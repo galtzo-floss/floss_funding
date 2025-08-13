@@ -25,8 +25,6 @@ module FlossFunding
     attr_reader :state
     # @return [FlossFunding::ActivationEvent]
     attr_reader :event
-    # return [FlossFunding::Persist]
-    attr_reader :persist
 
     # Build an Inclusion and register its activation event.
     #
@@ -37,7 +35,6 @@ module FlossFunding
     def initialize(base, custom_namespace, including_path, silent_opt = nil)
       @base = base
       @including_path = including_path
-      @custom_namespace = custom_namespace
       @silent = silent_opt
 
       validate_inputs!
@@ -47,20 +44,20 @@ module FlossFunding
       base.extend(::FlossFunding::Check)
 
       @name = if custom_namespace.is_a?(String) && !custom_namespace.empty?
-        custom_namespace
+        @custom_namespace = custom_namespace
       else
-        base.name
+        @base_name = base.name
       end
 
       @namespace = FlossFunding::Namespace.new(@name, base)
 
       @library = ::FlossFunding::Library.new(
         @namespace,
-        base.name,
+        @custom_namespace,
+        @base_name,
         including_path,
+        @namespace.env_var_name,
         :silent => silent_opt,
-        :custom_namespace => custom_namespace,
-        :env_var_name => @namespace.env_var_name,
       )
 
       @activation_key = @namespace.activation_key
@@ -70,7 +67,6 @@ module FlossFunding
         @library,
         @activation_key,
         @state,
-        ::FlossFunding::Check::ClassMethods.now_time,
         silent_opt,
       )
 

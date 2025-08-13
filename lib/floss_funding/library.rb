@@ -42,18 +42,17 @@ module FlossFunding
     # @param namespace [FlossFunding::Namespace]
     # @param base_name [String]
     # @param including_path [String]
+    # @param env_var_name [String]
     # @param options [Hash]
     # @option options [Boolean, #call] :silent (nil)
     # @option options [String] :custom_namespace (nil)
-    # @option options [String] :env_var_name (nil)
-    def initialize(namespace, base_name, including_path, options = {})
+    def initialize(namespace, custom_namespace, base_name, including_path, env_var_name, options = {})
       @namespace = namespace.name
       @base_name = base_name
       @including_path = including_path
-      @env_var_name = options[:env_var_name] || ::FlossFunding::UnderBar.env_variable_name(namespace)
+      @env_var_name = env_var_name
       @silence = options[:silent]
-      custom_namespace = options[:custom_namespace]
-      @custom_namespace = custom_namespace if custom_namespace && !custom_namespace.empty?
+      @custom_namespace = custom_namespace
 
       discover_roots!(including_path)
 

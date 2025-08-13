@@ -3,8 +3,30 @@ module FlossFunding
   end
 
   class ActivationEvent
-    attr_reader silent: untyped
+    attr_reader library: ::FlossFunding::Library
     attr_reader activation_key: String
+    attr_accessor state: String
+    attr_reader occurred_at: Time
+    attr_reader silent: (untyped | nil)
+
+    def initialize: (::FlossFunding::Library, String, ?(String | Symbol), ?(untyped | nil)) -> void
+  end
+
+  class Library
+    attr_reader namespace: String
+    attr_reader base_name: String
+    attr_reader gem_name: String
+    attr_reader including_path: String
+    attr_reader env_var_name: String
+    attr_reader project_root_path: (String | nil)
+    attr_reader library_root_path: (String | nil)
+    attr_reader library_config_path: (String | nil)
+    attr_reader project_config_path: (String | nil)
+    attr_reader seen_at: Time
+    attr_reader silence: untyped
+    attr_reader config: ::FlossFunding::Configuration
+
+    def initialize: (::FlossFunding::Namespace, String, String, String, ?Hash[Symbol, untyped]) -> void
   end
 
   class Namespace
@@ -76,7 +98,15 @@ module FlossFunding
 
   def self.activation_occurrences: -> Array[String]
 
-  def self.base_words: (Integer) -> Array[String]
+  def self.base_words: (?Integer) -> Array[String]
+
+  def self.now_time: -> Time
+  def self.now_time=: (Time) -> Time
+  def self.now_month: -> Integer
+  def self.num_valid_words_for_month: -> Integer
+  def self.check_activation: (String) -> bool
+  def self.start_coughing: (String, String, String) -> void
+  def self.start_begging: (String, String, String) -> void
 
   module UnderBar
     SAFE_TO_UNDERSCORE: Regexp

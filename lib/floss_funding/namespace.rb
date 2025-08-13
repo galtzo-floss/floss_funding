@@ -18,8 +18,8 @@ module FlossFunding
 
     # Initialize a Namespace container.
     #
-    # @param name [String, nil] the namespace string this object represents
-    # @param base [Module, nil] the including module that provides check_activation
+    # @param name [String] the namespace string this object represents
+    # @param base [Module] the including module that provides check_activation
     # @param activation_events [Array<FlossFunding::ActivationEvent>] initial events (defaults to empty)
     def initialize(name, base = nil, activation_events = [])
       raise ArgumentError, "name must be a String" unless name.is_a?(String)

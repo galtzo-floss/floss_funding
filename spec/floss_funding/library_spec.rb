@@ -9,7 +9,7 @@ RSpec.describe FlossFunding::Library do
       fixture = File.join(File.dirname(__FILE__), "../fixtures/.floss_funding.yml")
       allow(FlossFunding::ConfigFinder).to receive(:find_config_path).and_return(fixture)
 
-      lib = described_class.new(namespace, "TestModule", including_path)
+      lib = described_class.new(namespace, nil, "TestModule", including_path, namespace.env_var_name)
 
       expect(lib.config.to_h).to include(
         "suggested_donation_amounts" => [10],
@@ -23,7 +23,7 @@ RSpec.describe FlossFunding::Library do
     it "returns defaults when no .floss_funding.yml file exists" do
       allow(FlossFunding::ConfigFinder).to receive(:find_config_path).and_return(nil)
 
-      lib = described_class.new(namespace, "TestModule", including_path)
+      lib = described_class.new(namespace, nil, "TestModule", including_path, namespace.env_var_name)
 
       defaults = FlossFunding::ConfigLoader.default_configuration
       expect(lib.config["suggested_donation_amounts"]).to eq(Array(defaults["suggested_donation_amounts"]))
@@ -38,7 +38,7 @@ RSpec.describe FlossFunding::Library do
       orig_default = FlossFunding::ConfigLoader.default_configuration
       allow(FlossFunding::ConfigLoader).to receive(:default_configuration).and_return(orig_default.merge("test_key" => "test_value"))
 
-      lib = described_class.new(namespace, "TestModule", including_path)
+      lib = described_class.new(namespace, nil, "TestModule", including_path, namespace.env_var_name)
 
       expect(lib.config.to_h).to include(
         "test_key" => ["test_value"],

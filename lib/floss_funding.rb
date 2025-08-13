@@ -195,18 +195,101 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     #
     # @param num_valid_words [Integer] number of words to read from the word list
     # @return [Array<String>] the first N words; empty when N is nil or zero
-    def base_words(num_valid_words)
-      return [] if num_valid_words.nil? || num_valid_words.zero?
+    # Reads base words used to validate paid activation keys.
+    # When called without an argument, uses the current month window to
+    # determine how many words are valid.
+    #
+    # @param num_valid_words [Integer, nil]
+    # @return [Array<String>]
+    def base_words(num_valid_words = nil)
+      n = num_valid_words.nil? ? num_valid_words_for_month : num_valid_words
+      return [] if n.nil? || n.zero?
 
       File.open(::FlossFunding::BASE_WORDS_PATH, "r") do |file|
         lines = []
-        num_valid_words.times do
+        n.times do
           line = file.gets
           break if line.nil?
           lines << line.chomp
         end
         lines
       end
+    end
+
+    # Time source for month arithmetic; overridable for tests.
+    # @return [Time]
+    def now_time
+      @now_time ||= Time.now
+    end
+
+    # Set the deterministic time source (used by specs)
+    # @param value [Time]
+    # @return [Time]
+    def now_time=(value)
+      @now_time = value
+    end
+
+    # Current Month index for time-based key validity
+    # @return [Integer]
+    def now_month
+      Month.new(now_time.year, now_time.month).to_i
+    end
+
+    # Number of valid words based on the current month window
+    # @return [Integer]
+    def num_valid_words_for_month
+      now_month - ::FlossFunding::START_MONTH
+    end
+
+    # Check whether a plaintext activation base word is currently valid
+    # @param plain_text [String]
+    # @return [Boolean]
+    def check_activation(plain_text)
+      words = base_words
+      if words.respond_to?(:bsearch)
+        !!words.bsearch { |word| plain_text == word }
+      else
+        words.include?(plain_text)
+      end
+    end
+
+    # Emit a diagnostic message when an activation key is invalid
+    # @param activation_key [String]
+    # @param namespace [String]
+    # @param env_var_name [String]
+    # @return [void]
+    def start_coughing(activation_key, namespace, env_var_name)
+      return if ::FlossFunding::ContraIndications.at_exit_contraindicated?
+      puts <<-COUGHING
+==============================================================
+COUGH, COUGH.
+Ahem, it appears as though you tried to set an activation key
+for #{namespace}, but it was invalid.
+
+  Current (Invalid) Activation Key: #{activation_key}
+  Namespace: #{namespace}
+  ENV Variable: #{env_var_name}
+
+Paid activation keys are 8 bytes, 64 hex characters, long.
+Unpaid activation keys have varying lengths, depending on type and namespace.
+Yours is #{activation_key.length} characters long, and doesn't match any paid or unpaid keys.
+
+Please unset the current ENV variable #{env_var_name}, since it is invalid.
+
+Then find the correct one, or get a new one @ https://floss-funding.dev and set it.
+
+#{FlossFunding::FOOTER}
+      COUGHING
+    end
+
+    # Emit the standard friendly funding message for unactivated usage
+    # @param namespace [String]
+    # @param env_var_name [String]
+    # @param gem_name [String]
+    # @return [void]
+    def start_begging(namespace, env_var_name, gem_name)
+      return if ::FlossFunding::ContraIndications.at_exit_contraindicated?
+      puts %(FLOSS Funding: Activation key missing for #{gem_name} (#{namespace}). Set ENV["#{env_var_name}"] to your activation key; details will be shown at exit.)
     end
   end
 end

@@ -18,13 +18,13 @@ module FlossFunding
     # @param library [FlossFunding::Library]
     # @param activation_key [String]
     # @param state [Symbol, String] initial state (defaults to :unactivated)
-    # @param occurred_at [Time] timestamp (defaults to Time.now)
     # @param silent [Object, nil] optional silence flag or callable captured at event creation
-    def initialize(library, activation_key, state = DEFAULT_STATE, occurred_at = Time.now, silent = nil)
+    def initialize(library, activation_key, state = DEFAULT_STATE, silent = nil)
       @library = library
       @activation_key = activation_key
       @state = normalize_state(state)
-      @occurred_at = occurred_at
+      # Always use the deterministic time source from Check
+      @occurred_at = ::FlossFunding::Check::ClassMethods.now_time
       @silent = silent
     end
 

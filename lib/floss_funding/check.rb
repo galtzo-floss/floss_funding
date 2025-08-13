@@ -15,6 +15,8 @@ module FlossFunding
     # @return [void]
     def self.included(base, now = Time.now)
       base.extend(ClassMethods)
+      # Set global time source on FlossFunding
+      ::FlossFunding.now_time = now
       ClassMethods.now_time = now
     end
 
@@ -26,6 +28,7 @@ module FlossFunding
     # @return [void]
     def self.extended(base, now = Time.now)
       base.extend(ClassMethods)
+      ::FlossFunding.now_time = now
       ClassMethods.now_time = now
     end
 
@@ -94,14 +97,14 @@ module FlossFunding
       #
       # @return [Integer] number of valid words based on the month offset
       def num_valid_words_for_month
-        now_month - ::FlossFunding::START_MONTH
+        ::FlossFunding.num_valid_words_for_month
       end
 
       # Returns the Month integer for the configured time source.
       #
       # @return [Integer]
       def now_month
-        Month.new(ClassMethods.now_time.year, ClassMethods.now_time.month).to_i
+        ::FlossFunding.now_month
       end
 
       # Emits a diagnostic message for invalid activation key format.
@@ -111,28 +114,7 @@ module FlossFunding
       # @param env_var_name [String]
       # @return [void]
       def start_coughing(activation_key, namespace, env_var_name)
-        # Respect global silence setting from any registered library
-        return if ::FlossFunding::ContraIndications.at_exit_contraindicated?
-        puts <<-COUGHING
-==============================================================
-COUGH, COUGH.
-Ahem, it appears as though you tried to set an activation key
-for #{namespace}, but it was invalid.
-
-  Current (Invalid) Activation Key: #{activation_key}
-  Namespace: #{namespace}
-  ENV Variable: #{env_var_name}
-
-Paid activation keys are 8 bytes, 64 hex characters, long.
-Unpaid activation keys have varying lengths, depending on type and namespace.
-Yours is #{activation_key.length} characters long, and doesn't match any paid or unpaid keys.
-
-Please unset the current ENV variable #{env_var_name}, since it is invalid.
-
-Then find the correct one, or get a new one @ https://floss-funding.dev and set it.
-
-#{FlossFunding::FOOTER}
-        COUGHING
+        ::FlossFunding.start_coughing(activation_key, namespace, env_var_name)
       end
 
       # Emits the standard friendly funding message for unactivated usage.
@@ -141,9 +123,7 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
       # @param env_var_name [String]
       # @return [void]
       def start_begging(namespace, env_var_name, gem_name)
-        # During load, only emit a single-line note and defer the large blurb to at_exit
-        return if ::FlossFunding::ContraIndications.at_exit_contraindicated?
-        puts %(FLOSS Funding: Activation key missing for #{gem_name} (#{namespace}). Set ENV["#{env_var_name}"] to your activation key; details will be shown at exit.)
+        ::FlossFunding.start_begging(namespace, env_var_name, gem_name)
       end
     end
   end

@@ -85,7 +85,7 @@ RSpec.describe FlossFunding::Check do
 
     def event_for(activation_key, state)
       library = instance_double(FlossFunding::Library, :namespace => namespace, :gem_name => gem_name)
-      FlossFunding::ActivationEvent.new(library, activation_key, state, FlossFunding::Check::ClassMethods.now_time, nil)
+      FlossFunding::ActivationEvent.new(library, activation_key, state, nil)
     end
 
     context "with unactivated state (empty key)" do
