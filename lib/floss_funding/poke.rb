@@ -39,18 +39,16 @@ module FlossFunding
       # @option options [Object, nil] :silent optional silence flag or callable to request global silence
       # @return [Module] a module that can be included into your namespace
       def new(including_path, options = {})
-        # Environment-based contraindications (includes global silence, CI, broken Dir.pwd)
-        return Module.new if ::FlossFunding::ContraIndications.poke_contraindicated?
-
         namespace = options[:namespace]
         silent_opt = options[:silent]
+
+        # Environment-based contraindications (includes global silence, CI, broken Dir.pwd, and explicit silent true)
+        return Module.new if ::FlossFunding::ContraIndications.poke_contraindicated?(silent_opt)
+
         # an anonymous module that will set up an activation key Check when included
         Module.new do
           define_singleton_method(:included) do |base|
             project = FlossFunding::Project.new(base, namespace, including_path, silent_opt)
-            # Only handle true here, because the :call evaluations should happen as late as possible,
-            # just prior to printing output.
-            return if project.silent == true
 
             # Now call the begging method after extending
             base.floss_funding_initiate_begging(project.event)
@@ -69,11 +67,11 @@ module FlossFunding
       # @raise [::FlossFunding::Error] if including_path is not a String
       # @raise [::FlossFunding::Error] if base.name is not a String
       def setup_begging(base, custom_namespace, including_path, silent_opt = nil)
+        # Respect early contraindications (including explicit silent true) before constructing Project
+        return if ::FlossFunding::ContraIndications.poke_contraindicated?(silent_opt)
+
         # Backwards-compatible delegator to Project.new
         project = ::FlossFunding::Project.new(base, custom_namespace, including_path, silent_opt)
-        # Only handle true here, because the :call evaluations should happen as late as possible,
-        #   just prior to printing output.
-        return if project.silent == true
         # Now call the begging method after extending
         base.floss_funding_initiate_begging(project.event)
       end

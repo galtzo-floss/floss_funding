@@ -10,7 +10,10 @@ module FlossFunding
       # - In CI: ENV["CI"] case-insensitively equals "true".
       # - If Dir.pwd raises (defensive check for broken runtime env).
       # @return [Boolean]
-      def poke_contraindicated?
+      def poke_contraindicated?(silent_opt = nil)
+        # Respect explicit early silence when strictly true; do not evaluate callables here.
+        return true if silent_opt == true
+
         # Global silence switch from constants/env
         return true if ::FlossFunding::Constants::SILENT
 

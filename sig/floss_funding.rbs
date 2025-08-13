@@ -112,7 +112,7 @@ module FlossFunding
   end
 
   class ContraIndications
-    def self.poke_contraindicated?: -> bool
+    def self.poke_contraindicated?: (untyped?) -> bool
     def self.at_exit_contraindicated?: -> bool
   end
 
