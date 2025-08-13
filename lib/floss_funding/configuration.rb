@@ -79,8 +79,8 @@ module FlossFunding
     def key?(key)
       @data.key?(key.to_s)
     end
-    alias include? key?
-    alias has_key? key?
+    alias_method :include?, :key?
+    alias_method :has_key?, :key?
 
     # @return [Hash{String=>Array}]
     def to_h

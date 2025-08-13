@@ -81,13 +81,13 @@ module FlossFunding
         case event.state
         when ::FlossFunding::STATES[:activated]
           # Already recorded as activated via ActivationEvent; no output necessary.
-          return
+          nil
         when ::FlossFunding::STATES[:invalid]
           # Invalid key format: emit diagnostic output.
-          return start_coughing(activation_key, namespace, env_var_name)
+          start_coughing(activation_key, namespace, env_var_name)
         else # unactivated
           # Missing/invalid activation after decryption: emit friendly reminder.
-          return start_begging(namespace, env_var_name, gem_name)
+          start_begging(namespace, env_var_name, gem_name)
         end
       end
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'floss_funding/config_finder'
+require "floss_funding/config_finder"
 
 module FlossFunding
   # Discovers and caches the single project root for the current process.

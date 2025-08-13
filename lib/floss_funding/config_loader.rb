@@ -5,16 +5,16 @@
 #
 # Copyright (c) 2012-23 Bozhidar Batsov
 
-require 'yaml'
-require 'floss_funding/config_finder'
-require 'floss_funding/file_finder'
+require "yaml"
+require "floss_funding/config_finder"
+require "floss_funding/file_finder"
 
 module FlossFunding
   class ConfigNotFoundError < ::FlossFunding::Error; end
 
   class ConfigLoader
-    FLOSS_FUNDING_HOME = File.realpath(File.join(File.dirname(__FILE__), '..', '..'))
-    DEFAULT_FILE = File.join(FLOSS_FUNDING_HOME, 'config', 'default.yml')
+    FLOSS_FUNDING_HOME = File.realpath(File.join(File.dirname(__FILE__), "..", ".."))
+    DEFAULT_FILE = File.join(FLOSS_FUNDING_HOME, "config", "default.yml")
 
     class << self
       include ::FlossFunding::FileFinder

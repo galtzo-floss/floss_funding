@@ -156,6 +156,7 @@ RSpec.describe FlossFunding::Check do
 
   describe "#start_begging" do
     let(:gem_name) { "mama_bear" }
+
     it "outputs a single-line note deferring details to at_exit", :aggregate_failures do
       namespace = "TestNamespace"
       env_var_name = "TEST_NAMESPACE"

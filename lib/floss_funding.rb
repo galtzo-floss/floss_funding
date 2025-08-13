@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 # std libs
-require 'erb'
-require 'pathname'
-require 'yaml'
+require "erb"
+require "pathname"
+require "yaml"
 require "openssl"
 require "thread" # For Mutex
 
@@ -35,9 +35,9 @@ module FlossFunding
   NOT_FINANCIALLY_SUPPORTING = "Not-financially-supporting"
 
   STATES = {
-    :activated => 'activated',
-    :unactivated => 'unactivated',
-    :invalid => 'invalid',
+    :activated => "activated",
+    :unactivated => "unactivated",
+    :invalid => "invalid",
   }.freeze
 
   # The default state is unknown / unactivated until proven otherwise.
@@ -133,7 +133,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @return [Array<String>]
     def activated_namespace_names
       mutex.synchronize do
-        @namespaces.values.select {|nobj| nobj.has_state?(STATES[:activated]) }.map(&:name)
+        @namespaces.values.select { |nobj| nobj.has_state?(STATES[:activated]) }.map(&:name)
       end
     end
 
@@ -141,16 +141,15 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @return [Array<String>]
     def unactivated_namespace_names
       mutex.synchronize do
-        @namespaces.values.select {|nobj| nobj.has_state?(STATES[:unactivated]) }.map(&:name)
+        @namespaces.values.select { |nobj| nobj.has_state?(STATES[:unactivated]) }.map(&:name)
       end
     end
-
 
     # Invalid namespaces are those that have at least one :invalid event
     # @return [Array<String>]
     def invalid_namespace_names
       mutex.synchronize do
-        @namespaces.values.select {|nobj| nobj.has_state?(STATES[:invalid]) }.map(&:name)
+        @namespaces.values.select { |nobj| nobj.has_state?(STATES[:invalid]) }.map(&:name)
       end
     end
 
@@ -225,9 +224,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # Set the deterministic time source (used by specs)
     # @param value [Time]
     # @return [Time]
-    def now_time=(value)
-      @now_time = value
-    end
+    attr_writer :now_time
 
     # Current Month index for time-based key validity
     # @return [Integer]

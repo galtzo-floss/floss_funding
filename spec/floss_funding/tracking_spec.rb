@@ -10,8 +10,6 @@ RSpec.describe "FlossFunding tracking functionality" do
   include_context "with stubbed env"
 
   # No mutable lists to reset; lists are computed from activation events
-  before do
-  end
 
   describe "tracking libraries" do
     it "tracks activated libraries" do

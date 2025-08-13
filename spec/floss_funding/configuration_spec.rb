@@ -28,7 +28,10 @@ RSpec.describe FlossFunding::Configuration do
 
     it "yields block for missing key" do
       yielded = nil
-      result = cfg.fetch("y") { |k| yielded = k; :block_default }
+      result = cfg.fetch("y") { |k|
+        yielded = k
+        :block_default
+      }
       expect(yielded).to eq("y")
       expect(result).to eq(:block_default)
     end

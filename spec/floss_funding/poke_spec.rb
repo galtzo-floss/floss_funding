@@ -88,7 +88,7 @@ RSpec.describe FlossFunding::Poke do
       test_mod = Module.new
 
       output = capture(:stdout) do
-        test_mod.send(:include, described_class.new(__FILE__, silent: true))
+        test_mod.send(:include, described_class.new(__FILE__, :silent => true))
       end
 
       # Should be truly silent and not extend Check methods

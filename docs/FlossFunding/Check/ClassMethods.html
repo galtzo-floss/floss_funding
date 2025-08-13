@@ -190,53 +190,7 @@ into client libraries when they <code>extend FlossFunding::Check</code>.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#check_unpaid_silence-instance_method" title="#check_unpaid_silence (instance method)">#<strong>check_unpaid_silence</strong>(activation_key, namespace)  &#x21d2; Boolean </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Returns true for unpaid or opted-out activation_key that should not emit any console output (silent success).</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#floss_funding_decrypt-instance_method" title="#floss_funding_decrypt (instance method)">#<strong>floss_funding_decrypt</strong>(activation_key, namespace)  &#x21d2; String, false </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Decrypts a hex-encoded activation key using a namespace-derived key.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#floss_funding_initiate_begging-instance_method" title="#floss_funding_initiate_begging (instance method)">#<strong>floss_funding_initiate_begging</strong>(activation_key, namespace, env_var_name)  &#x21d2; void </a>
+      <a href="#floss_funding_initiate_begging-instance_method" title="#floss_funding_initiate_begging (instance method)">#<strong>floss_funding_initiate_begging</strong>(event)  &#x21d2; void </a>
     
 
     
@@ -303,12 +257,12 @@ into client libraries when they <code>extend FlossFunding::Check</code>.</p>
       <pre class="lines">
 
 
-39
-40
-41</pre>
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_now_time'>now_time</span>
   <span class='ivar'>@now_time</span>
@@ -363,12 +317,12 @@ into client libraries when they <code>extend FlossFunding::Check</code>.</p>
       <pre class="lines">
 
 
-78
-79
-80</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_base_words'>base_words</span>
   <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_base_words'><span class='object_link'><a href="../../FlossFunding.html#base_words-class_method" title="FlossFunding.base_words (method)">base_words</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_num_valid_words_for_month'>num_valid_words_for_month</span><span class='rparen'>)</span>
@@ -431,21 +385,21 @@ into client libraries when they <code>extend FlossFunding::Check</code>.</p>
       <pre class="lines">
 
 
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97</pre>
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_activation'>check_activation</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_words'>words</span> <span class='op'>=</span> <span class='id identifier rubyid_base_words'>base_words</span>
@@ -465,207 +419,9 @@ into client libraries when they <code>extend FlossFunding::Check</code>.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="check_unpaid_silence-instance_method">
-  
-    #<strong>check_unpaid_silence</strong>(activation_key, namespace)  &#x21d2; <tt>Boolean</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Returns true for unpaid or opted-out activation_key that<br />
-should not emit any console output (silent success).<br />
-Otherwise false.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>activation_key</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>namespace</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 64</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_check_unpaid_silence'>check_unpaid_silence</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
-  <span class='kw'>case</span> <span class='id identifier rubyid_activation_key'>activation_key</span>
-  <span class='kw'>when</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html#FREE_AS_IN_BEER-constant" title="FlossFunding::FREE_AS_IN_BEER (constant)">FREE_AS_IN_BEER</a></span></span><span class='comma'>,</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html#BUSINESS_IS_NOT_GOOD_YET-constant" title="FlossFunding::BUSINESS_IS_NOT_GOOD_YET (constant)">BUSINESS_IS_NOT_GOOD_YET</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html#NOT_FINANCIALLY_SUPPORTING-constant" title="FlossFunding::NOT_FINANCIALLY_SUPPORTING (constant)">NOT_FINANCIALLY_SUPPORTING</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>-</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_namespace'>namespace</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-    <span class='comment'># Configured as unpaid
-</span>    <span class='kw'>true</span>
-  <span class='kw'>else</span>
-    <span class='comment'># Might be configured as paid
-</span>    <span class='kw'>false</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="floss_funding_decrypt-instance_method">
-  
-    #<strong>floss_funding_decrypt</strong>(activation_key, namespace)  &#x21d2; <tt>String</tt>, <tt>false</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Decrypts a hex-encoded activation key using a namespace-derived key.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>activation_key</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>64-character hex string for paid activation</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>namespace</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the namespace used to derive the cipher key</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>, <tt>false</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>plaintext activation key (base word) on success; false if empty</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-47
-48
-49
-50
-51
-52
-53
-54
-55</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 47</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_floss_funding_decrypt'>floss_funding_decrypt</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-
-  <span class='id identifier rubyid_cipher'>cipher</span> <span class='op'>=</span> <span class='const'>OpenSSL</span><span class='op'>::</span><span class='const'>Cipher</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>aes-256-cbc</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_decrypt'>decrypt</span>
-  <span class='id identifier rubyid_cipher'>cipher</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>Digest</span><span class='op'>::</span><span class='const'>MD5</span><span class='period'>.</span><span class='id identifier rubyid_hexdigest'>hexdigest</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_s'>s</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>H*</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-
-  <span class='id identifier rubyid_cipher'>cipher</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='id identifier rubyid_s'>s</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='id identifier rubyid_cipher'>cipher</span><span class='period'>.</span><span class='id identifier rubyid_final'>final</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="floss_funding_initiate_begging-instance_method">
   
-    #<strong>floss_funding_initiate_begging</strong>(activation_key, namespace, env_var_name)  &#x21d2; <tt>void</tt> 
+    #<strong>floss_funding_initiate_begging</strong>(event)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -673,7 +429,8 @@ Otherwise false.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>Entry point for activation key evaluation and output behavior.</p>
+    <p class="note returns_void">This method returns an undefined value.</p><p>Entry point for activation key evaluation and output behavior.<br />
+Now accepts a precomputed ActivationEvent and emits messages/registrations based on its state.</p>
 
 
   </div>
@@ -684,46 +441,12 @@ Otherwise false.</p>
   
     <li>
       
-        <span class='name'>activation_key</span>
+        <span class='name'>event</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../ActivationEvent.html" title="FlossFunding::ActivationEvent (class)">FlossFunding::ActivationEvent</a></span></tt>)</span>
       
       
-      
-        &mdash;
-        <div class='inline'><p>value from ENV</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>namespace</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>this activation key is valid for a specific namespace; can cover multiple projects / gems</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>env_var_name</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the ENV variable name checked</p>
-</div>
       
     </li>
   
@@ -736,79 +459,47 @@ Otherwise false.</p>
       <pre class="lines">
 
 
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139</pre>
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 74</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_floss_funding_initiate_begging'>floss_funding_initiate_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-    <span class='comment'># No activation key provided
-</span>    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_unactivated'><span class='object_link'><a href="../../FlossFunding.html#add_unactivated-class_method" title="FlossFunding.add_unactivated (method)">add_unactivated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_start_begging'>start_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_floss_funding_initiate_begging'>floss_funding_initiate_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_event'>event</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_library'>library</span> <span class='op'>=</span> <span class='id identifier rubyid_event'>event</span><span class='period'>.</span><span class='id identifier rubyid_library'>library</span>
+  <span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>=</span> <span class='id identifier rubyid_library'>library</span><span class='period'>.</span><span class='id identifier rubyid_namespace'>namespace</span>
+  <span class='id identifier rubyid_env_var_name'>env_var_name</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnderBar.html" title="FlossFunding::UnderBar (module)">UnderBar</a></span></span><span class='period'>.</span><span class='id identifier rubyid_env_variable_name'><span class='object_link'><a href="../UnderBar.html#env_variable_name-class_method" title="FlossFunding::UnderBar.env_variable_name (method)">env_variable_name</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_gem_name'>gem_name</span> <span class='op'>=</span> <span class='id identifier rubyid_library'>library</span><span class='period'>.</span><span class='id identifier rubyid_gem_name'>gem_name</span>
+  <span class='id identifier rubyid_activation_key'>activation_key</span> <span class='op'>=</span> <span class='id identifier rubyid_event'>event</span><span class='period'>.</span><span class='id identifier rubyid_activation_key'>activation_key</span>
+
+  <span class='kw'>case</span> <span class='id identifier rubyid_event'>event</span><span class='period'>.</span><span class='id identifier rubyid_state'>state</span>
+  <span class='kw'>when</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html#STATES-constant" title="FlossFunding::STATES (constant)">STATES</a></span></span><span class='lbracket'>[</span><span class='symbol'>:activated</span><span class='rbracket'>]</span>
+    <span class='comment'># Already recorded as activated via ActivationEvent; no output necessary.
+</span>    <span class='kw'>nil</span>
+  <span class='kw'>when</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html#STATES-constant" title="FlossFunding::STATES (constant)">STATES</a></span></span><span class='lbracket'>[</span><span class='symbol'>:invalid</span><span class='rbracket'>]</span>
+    <span class='comment'># Invalid key format: emit diagnostic output.
+</span>    <span class='id identifier rubyid_start_coughing'>start_coughing</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
+  <span class='kw'>else</span> <span class='comment'># unactivated
+</span>    <span class='comment'># Missing/invalid activation after decryption: emit friendly reminder.
+</span>    <span class='id identifier rubyid_start_begging'>start_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='comma'>,</span> <span class='id identifier rubyid_gem_name'>gem_name</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
-
-  <span class='comment'># A silent short circuit for valid unpaid activations
-</span>  <span class='kw'>if</span> <span class='id identifier rubyid_check_unpaid_silence'>check_unpaid_silence</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
-    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_activated'><span class='object_link'><a href="../../FlossFunding.html#add_activated-class_method" title="FlossFunding.add_activated (method)">add_activated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
-    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_activation_occurrence'><span class='object_link'><a href="../../FlossFunding.html#add_activation_occurrence-class_method" title="FlossFunding.add_activation_occurrence (method)">add_activation_occurrence</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
-    <span class='kw'>return</span>
-  <span class='kw'>end</span>
-
-  <span class='id identifier rubyid_valid_activation_hex'>valid_activation_hex</span> <span class='op'>=</span> <span class='op'>!</span><span class='op'>!</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span> <span class='op'>=~</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html#HEX_LICENSE_RULE-constant" title="FlossFunding::HEX_LICENSE_RULE (constant)">HEX_LICENSE_RULE</a></span></span><span class='rparen'>)</span>
-  <span class='kw'>unless</span> <span class='id identifier rubyid_valid_activation_hex'>valid_activation_hex</span>
-    <span class='comment'># Invalid activation key format
-</span>    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_unactivated'><span class='object_link'><a href="../../FlossFunding.html#add_unactivated-class_method" title="FlossFunding.add_unactivated (method)">add_unactivated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_start_coughing'>start_coughing</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
-
-  <span class='comment'># decrypt the activation key for this namespace
-</span>  <span class='id identifier rubyid_plain_text'>plain_text</span> <span class='op'>=</span> <span class='id identifier rubyid_floss_funding_decrypt'>floss_funding_decrypt</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
-
-  <span class='comment'># A silent short circuit for valid paid activation keys
-</span>  <span class='kw'>if</span> <span class='id identifier rubyid_check_activation'>check_activation</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
-    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_activated'><span class='object_link'><a href="../../FlossFunding.html#add_activated-class_method" title="FlossFunding.add_activated (method)">add_activated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
-    <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_activation_occurrence'><span class='object_link'><a href="../../FlossFunding.html#add_activation_occurrence-class_method" title="FlossFunding.add_activation_occurrence (method)">add_activation_occurrence</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
-    <span class='kw'>return</span>
-  <span class='kw'>end</span>
-
-  <span class='comment'># No valid activation key found
-</span>  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_unactivated'><span class='object_link'><a href="../../FlossFunding.html#add_unactivated-class_method" title="FlossFunding.add_unactivated (method)">add_unactivated</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_start_begging'>start_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -820,7 +511,7 @@ Otherwise false.</p>
 </div>
 
       <div id="footer">
-  Generated on Mon Aug 11 03:18:29 2025 by
+  Generated on Wed Aug 13 05:58:02 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

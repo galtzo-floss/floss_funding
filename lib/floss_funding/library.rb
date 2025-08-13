@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'yaml'
-require 'rubygems'
-require 'floss_funding/config_finder'
-require 'floss_funding/file_finder'
-require 'floss_funding/project_root'
-require 'floss_funding/library_root'
-require 'floss_funding/configuration'
+require "yaml"
+require "rubygems"
+require "floss_funding/config_finder"
+require "floss_funding/file_finder"
+require "floss_funding/project_root"
+require "floss_funding/library_root"
+require "floss_funding/configuration"
 
 module FlossFunding
   # Represents a single Library (a gem/namespace pair) that has included
@@ -84,7 +84,6 @@ module FlossFunding
       @config_path = ::FlossFunding::ConfigFinder.find_config_path(start_dir)
     end
 
-
     def load_config
       yaml_cfg = {}
       begin
@@ -118,7 +117,7 @@ module FlossFunding
     def derive_gem_name
       # Prefer gemspec from library root
       if @library_root_path
-        gemspec = Dir.glob(File.join(@library_root_path, '*.gemspec')).first
+        gemspec = Dir.glob(File.join(@library_root_path, "*.gemspec")).first
         if gemspec
           begin
             spec = Gem::Specification.load(gemspec)

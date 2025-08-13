@@ -11,10 +11,10 @@ module FlossFunding
   # This class has methods related to finding a configuration path.
   # @api private
   class ConfigFinder
-    DOTFILE = '.floss_funding.yml'
-    XDG_CONFIG = 'config.yml'
-    FLOSS_FUNDING_HOME = File.realpath(File.join(File.dirname(__FILE__), '..', '..'))
-    DEFAULT_FILE = File.join(FLOSS_FUNDING_HOME, 'config', 'default.yml')
+    DOTFILE = ".floss_funding.yml"
+    XDG_CONFIG = "config.yml"
+    FLOSS_FUNDING_HOME = File.realpath(File.join(File.dirname(__FILE__), "..", ".."))
+    DEFAULT_FILE = File.join(FLOSS_FUNDING_HOME, "config", "default.yml")
 
     class << self
       include FileFinder
@@ -43,15 +43,15 @@ module FlossFunding
       # @return [String, nil] directory path of the discovered root
       def project_root_for(start_dir)
         root_indicator_file =
-          find_file_upwards('Gemfile', start_dir) ||
-          find_file_upwards('gems.rb', start_dir) ||
-          find_file_upwards('*.gemspec', start_dir)
+          find_file_upwards("Gemfile", start_dir) ||
+          find_file_upwards("gems.rb", start_dir) ||
+          find_file_upwards("*.gemspec", start_dir)
         return unless root_indicator_file
 
         dir = File.dirname(root_indicator_file)
         # Ignore the gem's own repository root when resolving a project root for
         # external/embedded consumers (e.g., test fixtures within this repo).
-        return nil if dir == FLOSS_FUNDING_HOME
+        return if dir == FLOSS_FUNDING_HOME
 
         dir
       end
@@ -59,9 +59,9 @@ module FlossFunding
       def find_project_root
         pwd = Dir.pwd
         root_indicator_file =
-          find_last_file_upwards('Gemfile', pwd) ||
-          find_last_file_upwards('gems.rb', pwd) ||
-          find_last_file_upwards('*.gemspec', pwd)
+          find_last_file_upwards("Gemfile", pwd) ||
+          find_last_file_upwards("gems.rb", pwd) ||
+          find_last_file_upwards("*.gemspec", pwd)
         return unless root_indicator_file
 
         File.dirname(root_indicator_file)
@@ -78,18 +78,18 @@ module FlossFunding
       end
 
       def find_user_dotfile
-        return unless ENV.key?('HOME')
+        return unless ENV.key?("HOME")
 
         file = File.join(Dir.home, DOTFILE)
 
-        return file if File.exist?(file)
+        file if File.exist?(file)
       end
 
       def find_user_xdg_config
-        xdg_config_home = expand_path(ENV.fetch('XDG_CONFIG_HOME', '~/.config'))
-        xdg_config = File.join(xdg_config_home, 'rubocop', XDG_CONFIG)
+        xdg_config_home = expand_path(ENV.fetch("XDG_CONFIG_HOME", "~/.config"))
+        xdg_config = File.join(xdg_config_home, "rubocop", XDG_CONFIG)
 
-        return xdg_config if File.exist?(xdg_config)
+        xdg_config if File.exist?(xdg_config)
       end
 
       def expand_path(path)

@@ -236,16 +236,18 @@ set the deterministic time source.</p>
       <pre class="lines">
 
 
-27
-28
 29
-30</pre>
+30
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extended'>extended</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='comma'>,</span> <span class='id identifier rubyid_now'>now</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Check/ClassMethods.html" title="FlossFunding::Check::ClassMethods (module)">ClassMethods</a></span></span><span class='rparen'>)</span>
+  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_now_time'><span class='object_link'><a href="../FlossFunding.html#now_time-class_method" title="FlossFunding.now_time (method)">now_time</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_now'>now</span>
   <span class='const'><span class='object_link'><a href="Check/ClassMethods.html" title="FlossFunding::Check::ClassMethods (module)">ClassMethods</a></span></span><span class='period'>.</span><span class='id identifier rubyid_now_time'><span class='object_link'><a href="Check/ClassMethods.html#now_time-class_method" title="FlossFunding::Check::ClassMethods.now_time (method)">now_time</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_now'>now</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -318,13 +320,17 @@ and set the deterministic time source (used in specs via Timecop).</p>
 16
 17
 18
-19</pre>
+19
+20
+21</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/check.rb', line 16</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='comma'>,</span> <span class='id identifier rubyid_now'>now</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Check/ClassMethods.html" title="FlossFunding::Check::ClassMethods (module)">ClassMethods</a></span></span><span class='rparen'>)</span>
+  <span class='comment'># Set global time source on FlossFunding
+</span>  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_now_time'><span class='object_link'><a href="../FlossFunding.html#now_time-class_method" title="FlossFunding.now_time (method)">now_time</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_now'>now</span>
   <span class='const'><span class='object_link'><a href="Check/ClassMethods.html" title="FlossFunding::Check::ClassMethods (module)">ClassMethods</a></span></span><span class='period'>.</span><span class='id identifier rubyid_now_time'><span class='object_link'><a href="Check/ClassMethods.html#now_time-class_method" title="FlossFunding::Check::ClassMethods.now_time (method)">now_time</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_now'>now</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -337,7 +343,7 @@ and set the deterministic time source (used in specs via Timecop).</p>
 </div>
 
       <div id="footer">
-  Generated on Mon Aug 11 03:18:29 2025 by
+  Generated on Wed Aug 13 05:58:02 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'pathname'
-require 'floss_funding/file_finder'
+require "pathname"
+require "floss_funding/file_finder"
 
 module FlossFunding
   # Discovers a library (producer/gem) root given an including file path.
@@ -16,9 +16,9 @@ module FlossFunding
       def discover(including_path)
         start_dir = File.expand_path(File.dirname(including_path))
         candidates = [
-          find_file_upwards('Gemfile', start_dir),
-          find_file_upwards('gems.rb', start_dir),
-          find_file_upwards('*.gemspec', start_dir),
+          find_file_upwards("Gemfile", start_dir),
+          find_file_upwards("gems.rb", start_dir),
+          find_file_upwards("*.gemspec", start_dir),
         ].compact
         File.dirname(candidates.first) unless candidates.empty?
       end
