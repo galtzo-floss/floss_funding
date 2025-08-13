@@ -74,6 +74,8 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
   @mutex = Mutex.new
   # Hash to store a Namespace object per namespace string
   @namespaces = {}
+  # Global silenced switch, defaults to the ENV-controlled constant
+  @silenced = ::FlossFunding::Constants::SILENT
   # rubocop:enable ThreadSafety/MutableClassInstanceVariable
 
   class << self
@@ -89,6 +91,19 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # Replace the namespaces hash (expects Hash[String, Array<::FlossFunding::Namespace>])
     def namespaces=(value)
       mutex.synchronize { @namespaces = value }
+    end
+
+    # Global silenced flag accessor (boolean)
+    # @return [Boolean]
+    def silenced
+      mutex.synchronize { @silenced }
+    end
+
+    # Set the global silenced flag
+    # @param value [Boolean]
+    # @return [void]
+    def silenced=(value)
+      mutex.synchronize { @silenced = !!value }
     end
 
     def add_or_update_namespace_with_event(namespace, event)

@@ -10,13 +10,10 @@ module FlossFunding
       # - In CI: ENV["CI"] case-insensitively equals "true".
       # - If Dir.pwd raises (defensive check for broken runtime env).
       # @return [Boolean]
-      def poke_contraindicated?(silent_opt = nil)
-        # Do NOT short-circuit when explicit silent: true is provided.
-        # We still need to register the library so that configuration (including the "silent" flag)
-        # is available to downstream logic like at-exit suppression.
-
-        # Global silence switch from constants/env
-        return true if ::FlossFunding::Constants::SILENT
+      def poke_contraindicated?
+        # Callable silencers do not apply during load; only at-exit.
+        # For early short-circuiting we honor the global silenced flag only.
+        return true if ::FlossFunding.silenced
 
         begin
           ci_val = ENV.fetch("CI", "")
@@ -46,6 +43,10 @@ module FlossFunding
       #
       # @return [Boolean]
       def at_exit_contraindicated?
+        # Honor global flags first
+        return true if ::FlossFunding.silenced
+        return true if ::FlossFunding::Constants::SILENT
+
         configurations = ::FlossFunding.configurations
         configurations.any? do |_library, cfgs|
           configs_arr = cfgs.is_a?(Array) ? cfgs : [cfgs]
@@ -59,7 +60,8 @@ module FlossFunding
             end
             values.any? do |v|
               begin
-                v.respond_to?(:call) ? !!v.call : !!v
+                # Only evaluate callables at-exit; ignore non-callable values here
+                v.respond_to?(:call) ? !!v.call : false
               rescue StandardError
                 # If callable raises, treat as not silencing
                 false

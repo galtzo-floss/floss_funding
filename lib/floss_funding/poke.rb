@@ -39,12 +39,18 @@ module FlossFunding
       # @option options [Object, nil] :silent optional silence flag or callable to request global silence
       # @return [Module] a module that can be included into your namespace
       def new(including_path, options = {})
-        namespace = options[:namespace]
         silent_opt = options[:silent]
 
-        # Environment-based contraindications (includes global silence, CI, broken Dir.pwd, and explicit silent true)
-        return Module.new if ::FlossFunding::ContraIndications.poke_contraindicated?(silent_opt)
+        # If this library explicitly requests boolean silence, set it so libraries loaded later will be silenced;
+        # callables are deferred to at_exit.
+        if !silent_opt.respond_to?(:call) && silent_opt
+          ::FlossFunding.silenced ||= true
+        end
 
+        # Environment-based contraindications (global silenced flag, CI, broken Dir.pwd)
+        return Module.new if ::FlossFunding::ContraIndications.poke_contraindicated?
+
+        namespace = options[:namespace]
         # an anonymous module that will set up an activation key Check when included
         Module.new do
           define_singleton_method(:included) do |base|
