@@ -60,13 +60,13 @@ RSpec.describe "Non-gem fixtures behavior" do # rubocop:disable RSpec/DescribeCl
 
       cfg = FlossFunding.configuration(f[:name])
       expect(cfg).to be_a(FlossFunding::Configuration)
-      sda = cfg["suggested_donation_amount"]
+      sda = cfg["suggested_donation_amounts"]
       expect(sda).to be_an(Array)
       if f[:has_yaml]
         expect(sda).to include(7)
       else
-        # Only defaults (5) should be present
-        expect(sda).to include(5)
+        # Only defaults (10) should be present
+        expect(sda).to include(10)
       end
     end
   end
@@ -92,13 +92,13 @@ RSpec.describe "Non-gem fixtures behavior" do # rubocop:disable RSpec/DescribeCl
 
       cfg = FlossFunding.configuration(f[:name])
       expect(cfg).to be_a(FlossFunding::Configuration)
-      sda = cfg["suggested_donation_amount"]
+      sda = cfg["suggested_donation_amounts"]
       expect(sda).to be_an(Array)
       # For plain projects, YAML should be loaded directly if present; otherwise defaults apply
       if f[:has_yaml]
         expect(sda).to include(17)
       else
-        expect(sda).to include(5)
+        expect(sda).to include(10)
       end
     end
   end
@@ -126,7 +126,7 @@ RSpec.describe "Non-gem fixtures behavior" do # rubocop:disable RSpec/DescribeCl
     # Config should honor nearest YAML within one directory up (spec/fixtures/.floss_funding.yml => 10) when no project root is found
     cfg = FlossFunding.configuration("NgScriptOnly")
     expect(cfg).to be_a(FlossFunding::Configuration)
-    sda = cfg["suggested_donation_amount"]
+    sda = cfg["suggested_donation_amounts"]
     expect(sda).to include(10)
   end
 
@@ -153,7 +153,7 @@ RSpec.describe "Non-gem fixtures behavior" do # rubocop:disable RSpec/DescribeCl
     # Config should honor nearest YAML within one directory up when no project root is found, but there isn't any YAML
     cfg = FlossFunding.configuration("NgScriptNoConfig")
     expect(cfg).to be_a(FlossFunding::Configuration)
-    sda = cfg["suggested_donation_amount"]
-    expect(sda).to include(5)
+    sda = cfg["suggested_donation_amounts"]
+    expect(sda).to include(10)
   end
 end

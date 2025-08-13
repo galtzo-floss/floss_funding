@@ -26,8 +26,9 @@ RSpec.describe FlossFunding::Library do
       lib = described_class.new(namespace, "TestModule", including_path)
 
       defaults = FlossFunding::ConfigLoader.default_configuration
-      expect(lib.config["suggested_donation_amount"]).to eq([defaults["suggested_donation_amount"]])
-      expect(lib.config["floss_funding_url"]).to eq([defaults["floss_funding_url"]])
+      expect(lib.config["suggested_donation_amounts"]).to eq(Array(defaults["suggested_donation_amounts"]))
+      expect(lib.config["funding_donation_uri"]).to eq(Array(defaults["funding_donation_uri"]))
+      expect(lib.config["funding_subscription_uri"]).to eq(Array(defaults["funding_subscription_uri"]))
     end
 
     it "merges with default values when default_configuration is augmented" do
@@ -41,8 +42,8 @@ RSpec.describe FlossFunding::Library do
 
       expect(lib.config.to_h).to include(
         "test_key" => ["test_value"],
-        "suggested_donation_amount" => [10],
-        "floss_funding_url" => ["https://example.com/fund"],
+        "suggested_donation_amounts" => [10],
+        "funding_donation_uri" => ["https://floss-funding.dev/donate"],
       )
     end
   end
@@ -60,8 +61,8 @@ RSpec.describe FlossFunding::Library do
 
       config = FlossFunding.configurations("TestModule")
       expect(config.to_h).to include(
-        "suggested_donation_amount" => [10],
-        "floss_funding_url" => ["https://example.com/fund"],
+        "suggested_donation_amounts" => [10],
+        "funding_donation_uri" => ["https://floss-funding.dev/donate"],
       )
     end
   end

@@ -26,13 +26,30 @@ RSpec.configure do |config|
 
   config.include(SilentStream)
 
-  # Silence STDOUT for examples NOT tagged with :check_output
+  # Reset global FlossFunding state around each example to avoid cross-test pollution
   config.around do |example|
-    if DEBUGGING || example.metadata[:check_output]
-      example.run
-    else
-      silence_stream($stdout) do
+    begin
+      # Snapshot state
+      saved_namespaces = nil
+      saved_silenced = nil
+      if defined?(FlossFunding)
+        saved_namespaces = FlossFunding.namespaces
+        saved_silenced = FlossFunding.silenced
+      end
+
+      # Silence STDOUT for examples NOT tagged with :check_output
+      if DEBUGGING || example.metadata[:check_output]
         example.run
+      else
+        silence_stream($stdout) do
+          example.run
+        end
+      end
+    ensure
+      # Restore state
+      if defined?(FlossFunding)
+        FlossFunding.namespaces = saved_namespaces || {}
+        FlossFunding.silenced = saved_silenced
       end
     end
   end

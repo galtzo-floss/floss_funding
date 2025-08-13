@@ -17,15 +17,18 @@ RSpec.describe "FlossFunding::Silent integration" do
       expect(output).to eq("")
     end
 
-    it "registers a silent=true preference in configuration" do
-      # Load once if not already loaded
-      require "floss_funding/silent" unless Object.const_defined?(:FlossFunding) && FlossFunding.const_defined?(:Silent)
+    it "sets the global silenced flag (no per-library configuration is registered)" do
+      # Ensure the constant is not already loaded from a previous example
+      if Object.const_defined?(:FlossFunding) && FlossFunding.const_defined?(:Silent)
+        FlossFunding.send(:remove_const, :Silent)
+      end
 
+      load("floss_funding/silent.rb")
+
+      # Since silencing is global/early, no configuration should be registered for the helper module
       config = FlossFunding.configuration("FlossFunding::Silent")
-      # It should exist and include a truthy silent flag we passed via Poke.new
-      expect(config).to be_a(FlossFunding::Configuration)
-      expect(Array(config["silent"]).any?).to be(true)
-      expect(Array(config["silent"]).first).to be(true)
+      expect(config).to be_nil
+      expect(FlossFunding.silenced).to be(true)
     end
   end
 end

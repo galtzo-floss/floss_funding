@@ -80,94 +80,22 @@ RSpec.describe FlossFunding::Poke do
       end.to raise_error(FlossFunding::Error, /Do not include FlossFunding::Poke directly/)
     end
   end
-
-  describe ".setup_begging (error path)" do
-    it "raises if including_path is not a String" do
-      mod = Module.new
-      expect do
-        described_class.setup_begging(mod, nil, 123)
-      end.to raise_error(FlossFunding::Error, /including_path must be a String/)
-    end
-
-    it "raises if base does not respond to :name" do
-      base = Object.new # does not have .name
-      expect do
-        described_class.setup_begging(base, nil, __FILE__)
-      end.to raise_error(FlossFunding::Error, /base must have a name/)
-    end
-
-    it "raises if base responds to :name, but name returns nil (custom object)" do
-      base = Object.new
-      def base.name
-        nil
-      end
-      expect do
-        described_class.setup_begging(base, nil, __FILE__)
-      end.to raise_error(FlossFunding::Error, /base must have a name/)
-    end
-
-    it "raises if base responds to :name, but name returns nil (anonymous Module)" do
-      base = Module.new # responds to .name but returns nil until assigned to a constant
-      expect(base.respond_to?(:name)).to be true
-      expect(base.name).to be_nil
-      expect do
-        described_class.setup_begging(base, nil, __FILE__)
-      end.to raise_error(FlossFunding::Error, /base must have a name/)
-    end
-
-    it "raises if base responds to :name, but name returns an Integer" do
-      base = Object.new
-      def base.name
-        123
-      end
-      expect do
-        described_class.setup_begging(base, nil, __FILE__)
-      end.to raise_error(FlossFunding::Error, /base must have a name/)
-    end
-  end
 end
 
 RSpec.describe FlossFunding::Poke do
   describe ".new (global SILENT path)" do
-    it "returns an inert module when FlossFunding::Constants::SILENT is true and does not set up begging" do
-      original = ENV["FLOSS_FUNDING_SILENT"]
-      begin
-        # 1. unload Constants
-        if Object.const_defined?(:FlossFunding) && FlossFunding.const_defined?(:Constants)
-          FlossFunding.send(:remove_const, :Constants)
-        end
+    it "returns an inert module when :silent => true is provided and does not set up begging" do
+      test_mod = Module.new
 
-        # 2. set the ENV variable that controls SILENT
-        ENV["FLOSS_FUNDING_SILENT"] = "CATHEDRAL_OR_BAZAAR"
-
-        # 3. reload Constants
-        load File.expand_path("../../lib/floss_funding/constants.rb", __dir__)
-
-        # Sanity check
-        expect(FlossFunding::Constants::SILENT).to be(true)
-
-        # 4. run the test to capture the other side of the branch
-        test_mod = Module.new
-
-        output = capture(:stdout) do
-          test_mod.send(:include, described_class.new(__FILE__))
-        end
-
-        # Should be truly silent and not extend Check methods
-        expect(output).to eq("")
-        expect(test_mod).not_to respond_to(:floss_funding_initiate_begging)
-      ensure
-        # Cleanup: restore ENV and reload original Constants
-        if Object.const_defined?(:FlossFunding) && FlossFunding.const_defined?(:Constants)
-          FlossFunding.send(:remove_const, :Constants)
-        end
-        if original.nil?
-          ENV.delete("FLOSS_FUNDING_SILENT")
-        else
-          ENV["FLOSS_FUNDING_SILENT"] = original
-        end
-        load File.expand_path("../../lib/floss_funding/constants.rb", __dir__)
+      output = capture(:stdout) do
+        test_mod.send(:include, described_class.new(__FILE__, silent: true))
       end
+
+      # Should be truly silent and not extend Check methods
+      expect(output).to eq("")
+      expect(test_mod).not_to respond_to(:floss_funding_initiate_begging)
+      # And global silenced flag should be set
+      expect(FlossFunding.silenced).to be(true)
     end
   end
 end
