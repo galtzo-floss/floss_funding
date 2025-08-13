@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe FlossFunding::ContraIndications do
-  include_context 'with stubbed env'
+  include_context "with stubbed env"
 
   describe ".poke_contraindicated? additional branches" do
     before do

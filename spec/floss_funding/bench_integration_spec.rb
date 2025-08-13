@@ -28,7 +28,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     FlossFunding::UnderBar.env_variable_name(ns)
   end
 
-  # Compute which namespaces are activated for a given percentage based on new rules:
+  # Compute which namespaces are activated for a given percentage based on rules:
   # - 0% => none
   # - 10% => only the final 10 (shared namespace BenchGemShared)
   # - 20%..100% => as many of the groups 1..9 (10 gems each) as are needed to fill in each 10% section up to 100%

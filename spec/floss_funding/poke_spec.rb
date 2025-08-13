@@ -15,8 +15,8 @@ RSpec.describe FlossFunding::Poke do
 
     it "uses the module's name as namespace" do
       # We can't directly test the namespace used, but we can check that the module
-      # has been extended with the Check module's methods
-      expect(TraditionalTest::InnerModule).to respond_to(:floss_funding_initiate_begging)
+      # has been extended with FlossFunding::Fingerprint methods
+      expect(TraditionalTest::InnerModule).to respond_to(:floss_funding_fingerprint)
     end
 
     it "sets up the correct environment variable name based on the module's name" do
@@ -41,8 +41,8 @@ RSpec.describe FlossFunding::Poke do
 
     it "uses the provided namespace" do
       # We can't directly test the namespace used, but we can check that the module
-      # has been extended with the Check module's methods
-      expect(CustomTest::InnerModule).to respond_to(:floss_funding_initiate_begging)
+      # has been extended with FlossFunding::Fingerprint methods
+      expect(CustomTest::InnerModule).to respond_to(:floss_funding_fingerprint)
     end
 
     it "sets up the correct environment variable name based on the provided namespace" do

@@ -13,8 +13,8 @@ RSpec.describe "FlossFunding tracking functionality" do
 
   describe "tracking libraries" do
     it "tracks activated libraries" do
-      # Set up a valid activation key
-      valid_key = "161A84A3F7383B5BEA81BA1A0B71EA558D987012BE0A07087961F96AC72CF777"
+      # Use an unpaid activation key for silent activation
+      valid_key = FlossFunding::FREE_AS_IN_BEER
 
       stub_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => valid_key)
       # Freeze time to August 2125
@@ -59,8 +59,8 @@ RSpec.describe "FlossFunding tracking functionality" do
 
   describe "multithreaded tracking" do
     it "correctly tracks libraries when included from multiple threads and covers all mutex branches" do
-      # Set up a valid activation key for the first module
-      valid_key = "161A84A3F7383B5BEA81BA1A0B71EA558D987012BE0A07087961F96AC72CF777"
+      # Use an unpaid activation key for silent activation
+      valid_key = FlossFunding::FREE_AS_IN_BEER
 
       stub_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => valid_key)
       # Freeze time to August 2125

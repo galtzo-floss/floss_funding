@@ -38,7 +38,7 @@ module FlossFunding
           ::FlossFunding::STATES[:invalid]
         else
           plain_text = floss_funding_decrypt(@activation_key)
-          if base && base.respond_to?(:check_activation) && base.check_activation(plain_text)
+          if ::FlossFunding.check_activation(plain_text)
             ::FlossFunding::STATES[:activated]
           else
             ::FlossFunding::DEFAULT_STATE

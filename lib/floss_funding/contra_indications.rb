@@ -51,10 +51,10 @@ module FlossFunding
         configurations.any? do |_library, cfgs|
           configs_arr = cfgs.is_a?(Array) ? cfgs : [cfgs]
           configs_arr.any? do |cfg|
-            values = if cfg.respond_to?(:[])
+            values = if cfg.respond_to?(:to_h)
+              Array(cfg.to_h["silent"]) # preferred when available
+            elsif cfg.is_a?(Hash)
               Array(cfg["silent"]) # may be nil/array/scalar
-            elsif cfg.respond_to?(:to_h)
-              Array(cfg.to_h["silent"])
             else
               []
             end
