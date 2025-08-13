@@ -12,8 +12,9 @@ RSpec.describe FlossFunding::Library do
       lib = described_class.new(namespace, "TestModule", including_path)
 
       expect(lib.config.to_h).to include(
-        "suggested_donation_amount" => [10],
-        "floss_funding_url" => ["https://example.com/fund"],
+        "suggested_donation_amounts" => [10],
+        "funding_donation_uri" => ["https://floss-funding.dev/donate"],
+        "funding_subscription_uri" => ["https://floss-funding.dev/subscribe"],
         "gem_name" => ["floss_funding"],
         "silent" => [],
       )

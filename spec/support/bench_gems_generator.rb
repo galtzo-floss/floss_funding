@@ -65,7 +65,7 @@ end
       unless File.exist?(cfgfile)
         File.write(cfgfile, <<-YAML)
 # Minimal config for fixture gem #{num}
-suggested_donation_amount: #{i}
+suggested_donation_amounts: #{i}
         YAML
       end
 

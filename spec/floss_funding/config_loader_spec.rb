@@ -18,7 +18,7 @@ RSpec.describe FlossFunding::ConfigLoader do
     it "loads defaults as a Hash" do
       cfg = described_class.default_configuration
       expect(cfg).to be_a(Hash)
-      expect(cfg).to include("suggested_donation_amount", "floss_funding_url")
+      expect(cfg).to include("funding_subscription_uri", "suggested_subscription_amounts", "funding_donation_uri", "suggested_donation_amounts")
     end
   end
 end

@@ -1,2 +1,4 @@
-suggested_donation_amount: 5
-floss_funding_url: "https://floss-funding.dev"
+funding_subscription_uri: "https://floss-funding.dev/subscribe"
+suggested_subscription_amounts: [5]
+funding_donation_uri: "https://floss-funding.dev/donate"
+suggested_donation_amounts: [10]
