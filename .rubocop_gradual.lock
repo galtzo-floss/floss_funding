@@ -32,7 +32,7 @@
     [34, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
     [59, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
   ],
-  "lib/floss_funding/file_finder.rb:910238205": [
+  "lib/floss_funding/file_finder.rb:3058164481": [
     [14, 5, 61, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2617869649],
     [15, 7, 11, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 4095679882],
     [18, 5, 89, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2506383290],
@@ -56,8 +56,8 @@
     [23, 9, 6, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2752972489],
     [27, 9, 6, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2752972489]
   ],
-  "lib/floss_funding/wedge.rb:3434147968": [
-    [183, 14, 10, "Lint/NoReturnInBeginEndBlocks: Do not `return` in `begin..end` blocks in assignment contexts.", 1900003172]
+  "lib/floss_funding/wedge.rb:4172046939": [
+    [186, 14, 10, "Lint/NoReturnInBeginEndBlocks: Do not `return` in `begin..end` blocks in assignment contexts.", 1900003172]
   ],
   "lib/gem_mine.rb:3127632421": [
     [15, 3, 67, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2396624473]
@@ -715,7 +715,7 @@
     [25, 5, 29, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 952238068],
     [31, 5, 57, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 868725129]
   ],
-  "spec/floss_funding/config_spec.rb:983946085": [
+  "spec/floss_funding/config_spec.rb:204777350": [
     [3, 1, 35, "RSpec/MultipleDescribes: Do not use multiple top-level example groups - try to nest them.", 1329725959],
     [67, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
     [73, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
@@ -931,7 +931,7 @@
     [77, 3, 90, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 376524520],
     [89, 3, 80, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 74870830]
   ],
-  "spec/floss_funding/wedge_spec.rb:1845387725": [
+  "spec/floss_funding/wedge_spec.rb:528665737": [
     [16, 3, 6, "Lint/Syntax: unexpected token kRESCUE\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 2123792210]
   ],
   "spec/support/contraindications_helper.rb:488282364": [

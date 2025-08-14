@@ -37,7 +37,8 @@ module FlossFunding
     def traverse_files_upwards(filename, start_dir, stop_dir)
       Pathname.new(start_dir).expand_path.ascend do |dir|
         file = dir + filename
-        yield(file.to_s) if file.exist?
+        # Only consider regular files, not directories or other filesystem entries.
+        yield(file.to_s) if file.file?
 
         break if FileFinder.root_level?(dir, stop_dir)
       end
