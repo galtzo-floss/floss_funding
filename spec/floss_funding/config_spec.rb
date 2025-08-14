@@ -32,6 +32,23 @@ RSpec.describe FlossFunding::Config do
         :funding_uri => "https://fund.me",
       )
     end
+
+    it "extracts fields and supports funding_uri from metadata string key" do
+      fake_spec = Struct.new(:name, :homepage, :authors, :email, :metadata).new(
+        "gemz", "https://example.org", ["Linus"], ["linus@example.org"], {"funding_uri" => "https://fund.str"}
+      )
+      allow(Dir).to receive(:glob).and_return(["/tmp/fake2.gemspec"]) # ensure path discovered
+      allow(Gem::Specification).to receive(:load).and_return(fake_spec)
+
+      result = described_class.send(:read_gemspec_data, "/tmp")
+      expect(result).to eq(
+        :library_name => "gemz",
+        :homepage => "https://example.org",
+        :authors => ["Linus"],
+        :email => ["linus@example.org"],
+        :funding_uri => "https://fund.str",
+      )
+    end
   end
 
   describe ".find_project_root delegation" do

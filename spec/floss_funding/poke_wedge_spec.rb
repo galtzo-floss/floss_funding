@@ -5,9 +5,7 @@ RSpec.describe FlossFunding::Poke do
 
   it "when :wedge => true only injects Fingerprint and does not raise" do
     mod = Module.new
-    expect {
-      mod.send(:include, described_class.new(including_path, :wedge => true))
-    }.not_to raise_error
+    mod.send(:include, described_class.new(including_path, :wedge => true))
     expect(mod).to respond_to(:floss_funding_fingerprint)
   end
 

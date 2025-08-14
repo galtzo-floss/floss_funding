@@ -6,7 +6,7 @@ require "fileutils"
 namespace :floss_funding do
   desc "Install a default .floss_funding.yml by merging gemspec data with defaults"
   task :install, [:force] do |_, args|
-    args = args || {}
+    args ||= {}
     force = !!(args[:force] && args[:force].to_s == "true") || ENV["FORCE"] == "true"
 
     # Determine project root, fall back to Dir.pwd

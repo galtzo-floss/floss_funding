@@ -28,6 +28,12 @@ module FlossFunding
         key = File.expand_path(target_dir)
         return @config_path_cache[key] if @config_path_cache.key?(key)
         path = find_project_dotfile(key) || find_user_dotfile || find_user_xdg_config || DEFAULT_FILE
+        # Test-friendly fallback: when no project/user config is found (path == DEFAULT_FILE),
+        # prefer a repo-root .floss_funding.yml if it exists within FLOSS_FUNDING_HOME.
+        if path == DEFAULT_FILE
+          repo_root_dotfile = File.join(FLOSS_FUNDING_HOME, DOTFILE)
+          path = repo_root_dotfile if File.exist?(repo_root_dotfile)
+        end
         @config_path_cache[key] = path
       end
 

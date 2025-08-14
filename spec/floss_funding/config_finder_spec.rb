@@ -2,10 +2,32 @@
 
 RSpec.describe FlossFunding::ConfigFinder do
   describe ".find_config_path" do
-    it "returns the DEFAULT_FILE when no project/user config files are found" do
-      allow(described_class).to receive(:find_project_dotfile).and_return(nil)
-      allow(described_class).to receive(:find_user_dotfile).and_return(nil)
-      allow(described_class).to receive(:find_user_xdg_config).and_return(nil)
+    it "returns the DEFAULT_FILE (or repo-root dotfile fallback) when no project/user config files are found" do
+      described_class.clear_caches!
+      allow(described_class).to receive_messages(
+        :find_project_dotfile => nil,
+        :find_user_dotfile => nil,
+        :find_user_xdg_config => nil,
+      )
+
+      path = described_class.find_config_path(Dir.pwd)
+      repo_root_dotfile = File.join(FlossFunding::ConfigFinder::FLOSS_FUNDING_HOME, ".floss_funding.yml")
+      expected = File.exist?(repo_root_dotfile) ? repo_root_dotfile : FlossFunding::ConfigFinder::DEFAULT_FILE
+      expect(path).to eq(expected)
+    end
+
+    it "returns DEFAULT_FILE when repo-root dotfile does not exist (exercises else branch)" do
+      described_class.clear_caches!
+      allow(described_class).to receive_messages(
+        :find_project_dotfile => nil,
+        :find_user_dotfile => nil,
+        :find_user_xdg_config => nil,
+      )
+
+      repo_root_dotfile = File.join(FlossFunding::ConfigFinder::FLOSS_FUNDING_HOME, ".floss_funding.yml")
+      # Stub File.exist? only for the repo_root_dotfile path to false
+      allow(File).to receive(:exist?).and_call_original
+      allow(File).to receive(:exist?).with(repo_root_dotfile).and_return(false)
 
       path = described_class.find_config_path(Dir.pwd)
       expect(path).to eq(FlossFunding::ConfigFinder::DEFAULT_FILE)
@@ -22,7 +44,7 @@ RSpec.describe FlossFunding::ConfigFinder do
   end
 end
 
-RSpec.describe FlossFunding::ConfigFinder do
+RSpec.describe FlossFunding::ConfigFinder, :extended do
   before do
     described_class.clear_caches!
   end

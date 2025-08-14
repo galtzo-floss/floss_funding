@@ -1,2 +1,4 @@
+library_name: fixture
+funding_uri: https://example.test
 suggested_donation_amounts: 10
 namespace: Config::Namespace
