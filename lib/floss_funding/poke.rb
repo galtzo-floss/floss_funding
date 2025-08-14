@@ -17,7 +17,19 @@ module FlossFunding
   #       include FlossFunding::Poke.new(__FILE__, namespace: "Custom::Namespace::V4")
   #     end
   #
-  # In all cases, the first parameter must be a String file path (e.g., `__FILE__`).
+  # 3. Explicitly disable config discovery (including gem_name) by passing nil:
+  #
+  #     module MyGemLibrary
+  #       include FlossFunding::Poke.new(nil)
+  #     end
+  #
+  # 4. Provide an explicit config path (bypasses directory-walk search):
+  #
+  #     module MyGemLibrary
+  #       include FlossFunding::Poke.new(__FILE__, config_path: "/path/to/.floss_funding.yml")
+  #     end
+  #
+  # In all cases, the first parameter should be a String file path (e.g., `__FILE__`) or nil to disable discovery.
   module Poke
     # Use class << self for defining class methods
     class << self
@@ -33,10 +45,11 @@ module FlossFunding
 
       # Builds a module suitable for inclusion which sets up FlossFunding.
       #
-      # @param including_path [String] the including file path (e.g., `__FILE__`)
+      # @param including_path [String, nil] the including file path (e.g., `__FILE__`) or nil to disable discovery
       # @param options [Hash] options hash for configuration
       # @option options [String, nil] :namespace optional custom namespace for activation key
       # @option options [Object, nil] :silent optional silence flag or callable to request global silence
+      # @option options [String, nil] :config_path explicit path to a config file; bypasses directory-walk search when provided
       # @return [Module] a module that can be included into your namespace
       def new(including_path, options = {})
         silent_opt = options[:silent]
@@ -60,7 +73,7 @@ module FlossFunding
             # Sync deterministic time source to current time (respects Timecop.freeze)
             ::FlossFunding.now_time
 
-            FlossFunding::Inclusion.new(base, namespace, including_path, silent_opt)
+            FlossFunding::Inclusion.new(base, namespace, including_path, silent_opt, options)
           end
         end
       end

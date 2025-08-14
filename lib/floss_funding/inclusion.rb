@@ -30,12 +30,14 @@ module FlossFunding
     #
     # @param base [Module] the including module
     # @param custom_namespace [String, nil]
-    # @param including_path [String]
+    # @param including_path [String, nil]
     # @param silent_opt [Object, nil]
-    def initialize(base, custom_namespace, including_path, silent_opt = nil)
+    # @param options [Hash] additional options (e.g., :config_path)
+    def initialize(base, custom_namespace, including_path, silent_opt = nil, options = {})
       @base = base
       @including_path = including_path
       @silent = silent_opt
+      @options = options
       # Assign early so validation sees the actual provided value
       @custom_namespace = custom_namespace
 
@@ -62,6 +64,7 @@ module FlossFunding
         including_path,
         @namespace.env_var_name,
         :silent => silent_opt,
+        :config_path => @options[:config_path],
       )
 
       @activation_key = @namespace.activation_key
@@ -81,7 +84,8 @@ module FlossFunding
     private
 
     def validate_inputs!
-      unless @including_path.is_a?(String)
+      unless @including_path.is_a?(String) || @including_path.nil?
+        # Preserve legacy error wording so existing specs continue to match
         raise ::FlossFunding::Error, "including_path must be a String file path (e.g., __FILE__), got #{@including_path.class}"
       end
       unless @base.respond_to?(:name) && @base.name && @base.name.is_a?(String)

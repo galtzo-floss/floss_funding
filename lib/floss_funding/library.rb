@@ -103,11 +103,12 @@ module FlossFunding
     #
     # @param namespace [FlossFunding::Namespace]
     # @param base_name [String]
-    # @param including_path [String]
+    # @param including_path [String, nil]
     # @param env_var_name [String]
     # @param options [Hash]
     # @option options [Boolean, #call] :silent (nil)
     # @option options [String] :custom_namespace (nil)
+    # @option options [String, nil] :config_path explicit config path; bypasses directory-walk search
     def initialize(namespace, custom_namespace, base_name, including_path, env_var_name, options = {})
       @namespace = namespace.name
       @base_name = base_name
@@ -116,7 +117,7 @@ module FlossFunding
       @silence = options[:silent]
       @custom_namespace = custom_namespace
 
-      discover_roots!(including_path)
+      discover_roots_and_config!(including_path, options)
 
       @gem_name = derive_gem_name
       @config = load_config
@@ -130,20 +131,30 @@ module FlossFunding
     # Determine the project (consumer) root and the library (producer) root.
     # - project_root_path: inferred from current working directory via ConfigFinder
     # - library_root_path: walk up from including_path to nearest Gemfile/gems.rb/*.gemspec
-    def discover_roots!(including_path)
-      # Find the library root first,
-      #   as it will be the closest ancestor to the FlossFunding activator.
-      # Determine the library root based on the including file
-      @library_root_path = ::FlossFunding::LibraryRoot.discover(including_path)
+    def discover_roots_and_config!(including_path, options)
+      explicit_cfg = options[:config_path]
 
       # Determine the project root, starting with Dir.pwd
       @project_root_path = ::FlossFunding::ProjectRoot.path
 
-      # Resolve configuration path using ConfigFinder starting from the including file's directory.
-      # This allows tests to stub the finder and ensures the nearest applicable
-      # configuration (or user/global/default) is honored consistently.
-      start_dir = File.dirname(including_path) || @project_root_path || Dir.pwd
-      @config_path = ::FlossFunding::ConfigFinder.find_config_path(start_dir)
+      if including_path.nil?
+        # When including_path is nil, do not attempt to discover the library root
+        # and bypass directory-walk searching for configs.
+        @library_root_path = nil
+        @config_path = explicit_cfg # may be nil; when nil, defaults will be used
+        return
+      end
+
+      # Find the library root first (closest ancestor to activator)
+      @library_root_path = ::FlossFunding::LibraryRoot.discover(including_path)
+
+      # Resolve configuration path
+      if explicit_cfg
+        @config_path = explicit_cfg
+      else
+        start_dir = File.dirname(including_path) || @project_root_path || Dir.pwd
+        @config_path = ::FlossFunding::ConfigFinder.find_config_path(start_dir)
+      end
     end
 
     def load_config
