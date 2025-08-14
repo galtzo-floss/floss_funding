@@ -35,6 +35,10 @@ This document captures project-specific knowledge to streamline setup, testing, 
     - DEBUG toggle: Set DEBUG=true to require 'debug' and avoid silencing output during your run.
     - ENV seeding: The suite sets ENV["FLOSS_FUNDING_FLOSS_FUNDING"] = "Free-as-in-beer" so that the library’s own namespace is considered activated (avoids noisy warnings).
     - Coverage: kettle-soup-cover integrates SimpleCov; .simplecov is invoked from spec_helper when enabled by Kettle::Soup::Cover::DO_COV, which is controlled by K_SOUP_COV_DO being set to true / false.
+    - RSpec.describe usage:
+      - Use `describe "#<method_name>"` to contain a block of specs that test instance method behavior.
+      - Use `describe "::<method_name>"` to contain a block of specs that test class method behavior.
+      - Do not use `describe ".<method_name>"` because the dot is ambiguous w.r.t instance vs. class methods. 
   - Additional test utilities:
     - rspec-stubbed_env: Use stub_env to control ENV safely within examples.
     - timecop: Time manipulation available via spec/config/timecop.
@@ -61,7 +65,8 @@ This document captures project-specific knowledge to streamline setup, testing, 
     - Alternatively, run with DEBUG=true to disable silencing for the entire run.
   - During a spec run, the presence of output about missing activation keys is often expected, since it is literally what this library is for. It only indicates a failure if the spec expected all activation keys to be present, and not all specs do.
 - Adding new tests (guidelines)
-  - Place new specs under spec/ mirroring lib/ structure where possible. NDo not require "spec_helper" at the top of spec files, as it is automatically loaded by .rspec.
+  - Organize specs by class/module. Do not create per-task umbrella spec files; add examples to the existing spec for the class/module under test, or create a new spec file for that class/module if one does not exist. Only create a standalone scenario spec when it intentionally spans multiple classes for an integration/benchmark scenario (e.g., bench_integration_spec), and name it accordingly.
+  - Place new specs under spec/ mirroring lib/ structure where possible. Do not require "spec_helper" at the top of spec files, as it is automatically loaded by .rspec.
   - If your code relies on environment variables that drive activation (see "Activation env vars" below), prefer using rspec-stubbed_env:
     - it does not support stubbing with blocks, but it does automatically clean up after itself.
     - outside the example:

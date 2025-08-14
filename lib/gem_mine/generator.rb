@@ -241,7 +241,11 @@ module GemMine
       body = []
       body << "# frozen_string_literal: true"
       body << "Gem::Specification.new do |s|"
-      body << "  s.name        = #{gem_name.inspect}"
+      if extras[:name_literal]
+        body << "  s.name        = #{extras[:name_literal]}"
+      else
+        body << "  s.name        = #{gem_name.inspect}"
+      end
       body << "  s.version     = #{version.inspect}"
       summary = extras[:summary] || "Generated gem #{gem_name}"
       body << "  s.summary     = #{summary.inspect}"

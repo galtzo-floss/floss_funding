@@ -36,6 +36,8 @@ module FlossFunding
       @base = base
       @including_path = including_path
       @silent = silent_opt
+      # Assign early so validation sees the actual provided value
+      @custom_namespace = custom_namespace
 
       validate_inputs!
 

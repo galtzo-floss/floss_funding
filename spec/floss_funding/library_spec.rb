@@ -1,8 +1,145 @@
 # frozen_string_literal: true
+require "securerandom"
 
 RSpec.describe FlossFunding::Library do
+  before do
+    described_class.reset_caches!
+  end
   let(:including_path) { __FILE__ }
   let(:namespace) { FlossFunding::Namespace.new("TestModule") }
+
+  describe "::parse_gemspec_name" do
+    it "returns nil for constant-assigned name and matches for literal-assigned name" do
+      Dir.mktmpdir do |tmp|
+        # Case 1: name does not match regex (uses constant)
+        const_dir = File.join(tmp, "const_gem")
+        result = GemMine::Generator.new(
+          :root_dir => const_dir,
+          :count => 1,
+          :group_size => 1,
+          :gem_name_prefix => "const_gem_",
+          :gemspec_extras => { :name_literal => "GEM_NAME" },
+          :overwrite => true,
+          :cleanup => true
+        ).run
+        gemspec1 = result[:gems].first[:gemspec_path]
+        File.open(gemspec1, "a") { |f| f << "\nGEM_NAME = 'constant_name'\n" }
+        expect(described_class.parse_gemspec_name(gemspec1)).to be_nil
+
+        # Case 2: generate a default gem via GemMine, then normalize line to 'name = ...' to satisfy regex
+        lit_dir = File.join(tmp, "literal_gem")
+        result2 = GemMine::Generator.new(
+          :root_dir => lit_dir,
+          :count => 1,
+          :group_size => 1,
+          :gem_name_prefix => "literal_gem_",
+          :overwrite => true,
+          :cleanup => true
+        ).run
+        gemspec2 = result2[:gems].first[:gemspec_path]
+        expected_name = result2[:gems].first[:gem_name]
+        content = File.read(gemspec2)
+        File.write(gemspec2, content.sub(/s\.name\s*=\s*(["'])([^"']+)\1/, "name = '#{expected_name}'"))
+        expect(described_class.parse_gemspec_name(gemspec2)).to eq(expected_name)
+      end
+    end
+  end
+
+  describe "::gem_name_for" do
+    it "uses lightweight parse when possible and does not load Gem::Specification" do
+      Dir.mktmpdir do |tmp|
+        dir = File.join(tmp, "light_parse")
+        result = GemMine::Generator.new(
+          :root_dir => dir,
+          :count => 1,
+          :group_size => 1,
+          :gem_name_prefix => "light_parse_",
+          :overwrite => true,
+          :cleanup => true
+        ).run
+        gemspec = result[:gems].first[:gemspec_path]
+        expected = result[:gems].first[:gem_name]
+        # Ensure the gemspec has a direct name assignment that our regex can read quickly
+        content = File.read(gemspec)
+        File.write(gemspec, content.sub(/s\.name\s*=\s*(["'])([^"']+)\1/, "name = '#{expected}'"))
+
+        allow(Gem::Specification).to receive(:load).and_raise("should not be called")
+
+        got = described_class.gem_name_for(gemspec)
+        expect(got).to eq(expected)
+      end
+    end
+
+    it "falls back to Gem::Specification.load when parse returns nil" do
+      Dir.mktmpdir do |tmp|
+        dir = File.join(tmp, "const_name")
+        result = GemMine::Generator.new(
+          :root_dir => dir,
+          :count => 1,
+          :group_size => 1,
+          :gem_name_prefix => "const_name_",
+          :gemspec_extras => { :name_literal => "GEM_NAME" },
+          :overwrite => true,
+          :cleanup => true
+        ).run
+        gemspec = result[:gems].first[:gemspec_path]
+        const_val = "constant_name_#{SecureRandom.hex(2)}"
+        content = File.read(gemspec)
+        File.write(gemspec, "GEM_NAME = '#{const_val}'\n" + content)
+
+        # Sanity: lightweight parse should not find a direct literal
+        expect(described_class.parse_gemspec_name(gemspec)).to be_nil
+
+        # Now gem_name_for should load the gemspec to evaluate the constant
+        got = described_class.gem_name_for(gemspec)
+        expect(got).to eq(const_val)
+      end
+    end
+
+    it "returns nil and does not cache when gemspec cannot be parsed or loaded" do
+      Dir.mktmpdir do |tmp|
+        gemspec = File.join(tmp, "broken.gemspec")
+        File.write(gemspec, "this is not valid ruby")
+
+        allow(Gem::Specification).to receive(:load).and_return(nil)
+
+        got = described_class.gem_name_for(gemspec)
+        expect(got).to be_nil
+
+        abs = File.expand_path(gemspec)
+        cache = described_class.gemspec_name_cache
+        expect(cache).not_to have_key(abs)
+      end
+    end
+
+    it "caches successful lookups keyed by absolute path" do
+      Dir.mktmpdir do |tmp|
+        dir = File.join(tmp, "cache_demo")
+        result = GemMine::Generator.new(
+          :root_dir => dir,
+          :count => 1,
+          :group_size => 1,
+          :gem_name_prefix => "cache_demo_",
+          :overwrite => true,
+          :cleanup => true
+        ).run
+        gemspec = result[:gems].first[:gemspec_path]
+        expected = result[:gems].first[:gem_name]
+        content = File.read(gemspec)
+        File.write(gemspec, content.sub(/s\.name\s*=\s*(["'])([^"']+)\1/, "name = '#{expected}'"))
+
+        first = described_class.gem_name_for(gemspec)
+        expect(first).to eq(expected)
+
+        # Change the file to a different name to ensure cache is used
+        File.write(gemspec, content.sub(/s\.name\s*=\s*(["'])([^"']+)\1/, "name = 'different'"))
+        allow(Gem::Specification).to receive(:load).and_raise("should use cache")
+
+        second = described_class.gem_name_for(gemspec)
+        expect(second).to eq(expected)
+      end
+    end
+  end
 
   describe "#load_config via YAML + defaults" do
     it "loads the configuration from the file and normalizes to arrays" do

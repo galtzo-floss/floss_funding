@@ -32,9 +32,8 @@ module FlossFunding
 
     def normalize_state(value)
       return value if STATES.value?(value)
-      if value.is_a?(Symbol) && STATES.key?(value)
-        return STATES[value]
-      end
+      return STATES[value] if STATES.key?(value)
+
       DEFAULT_STATE
     end
   end

@@ -20,5 +20,19 @@ RSpec.describe FlossFunding::ConfigLoader do
       expect(cfg).to be_a(Hash)
       expect(cfg).to include("funding_subscription_uri", "suggested_subscription_amounts", "funding_donation_uri", "suggested_donation_amounts")
     end
+
+    it "memoizes across calls until reset_caches! is invoked" do
+      first = described_class.default_configuration
+      second = described_class.default_configuration
+      expect(first.object_id).to eq(second.object_id)
+      expect(first).to be_frozen
+
+      described_class.reset_caches!
+
+      third = described_class.default_configuration
+      expect(third).to be_a(Hash)
+      expect(third.object_id).not_to eq(first.object_id)
+      expect(third).to be_frozen
+    end
   end
 end

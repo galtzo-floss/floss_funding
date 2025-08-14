@@ -110,6 +110,28 @@ RSpec.describe FlossFunding::UnderBar do
       it "works when klass a namespace-like string" do
         expect(described_class.env_variable_name("NotAClass")).to eq("FLOSS_FUNDING_NOT_A_CLASS")
       end
+
+      it "accepts a Namespace object and uses its env_var_name" do
+        ns = FlossFunding::Namespace.new("Alpha")
+        expect(described_class.env_variable_name(ns)).to eq(ns.env_var_name)
+      end
+
+      it "reset_cache! clears memoized names so prefix changes are reflected" do
+        described_class.reset_cache!
+        stub_const("FlossFunding::Constants::DEFAULT_PREFIX", "FUNDING_")
+        name1 = described_class.env_variable_name("FooBar")
+        expect(name1).to eq("FUNDING_FOO_BAR")
+
+        # Change the prefix; without reset it should still return cached value
+        stub_const("FlossFunding::Constants::DEFAULT_PREFIX", "DIFF_")
+        name2 = described_class.env_variable_name("FooBar")
+        expect(name2).to eq("FUNDING_FOO_BAR")
+
+        # After reset, recomputation should use the new prefix
+        described_class.reset_cache!
+        name3 = described_class.env_variable_name("FooBar")
+        expect(name3).to eq("DIFF_FOO_BAR")
+      end
     end
 
     context "with invalid inputs" do

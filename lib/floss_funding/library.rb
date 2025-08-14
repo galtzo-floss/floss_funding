@@ -25,7 +25,7 @@ module FlossFunding
       # Lightweight parse for gem name to avoid full Gem::Specification load
       def parse_gemspec_name(gemspec_path)
         begin
-          content = File.read(gemspec_path, mode: "r:BINARY", encoding: "UTF-8")
+          content = File.read(gemspec_path)
           # Look for name assignment patterns like:
           #   spec.name = "my_gem" OR Gem::Specification.new do |spec|; spec.name = 'my_gem'
           if content =~ /\bname\s*=\s*(["'])([^"']+)\1/

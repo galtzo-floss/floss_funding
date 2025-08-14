@@ -69,4 +69,18 @@ RSpec.describe FlossFunding::Configuration do
       expect(cfg.empty?).to be(false)
     end
   end
+
+  describe "#keys" do
+    it "returns stringified keys" do
+      cfg = described_class.new({:a => 1, "b" => [2]})
+      expect(cfg.keys.sort).to eq(["a", "b"])
+    end
+  end
+
+  describe "#[] normalization when value is nil" do
+    it "normalizes nil values to empty arrays via the public API" do
+      cfg = described_class.new({:a => nil})
+      expect(cfg["a"]).to eq([])
+    end
+  end
 end
