@@ -66,15 +66,15 @@ module FlossFunding
           configs_arr = cfgs.is_a?(Array) ? cfgs : [cfgs]
           configs_arr.any? do |cfg|
             values = if cfg.respond_to?(:to_h)
-              Array(cfg.to_h["silent"]) # preferred when available
+              Array(cfg.to_h["silent_callables"]) # preferred when available
             elsif cfg.is_a?(Hash)
-              Array(cfg["silent"]) # may be nil/array/scalar
+              Array(cfg["silent_callables"]) # may be nil/array/scalar
             else
               []
             end
+
             values.any? do |v|
               begin
-                # Only evaluate callables at-exit; ignore non-callable values here
                 v.respond_to?(:call) ? !!v.call : false
               rescue StandardError
                 # If callable raises, treat it as contraindicated to avoid unknown global state

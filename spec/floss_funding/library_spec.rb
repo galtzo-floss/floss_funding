@@ -152,10 +152,11 @@ RSpec.describe FlossFunding::Library do
 
       expect(lib.config.to_h).to include(
         "suggested_donation_amounts" => [10],
+        "suggested_subscription_amounts" => [5],
         "funding_donation_uri" => ["https://floss-funding.dev/donate"],
         "funding_subscription_uri" => ["https://floss-funding.dev/subscribe"],
         "gem_name" => ["floss_funding"],
-        "silent" => [],
+        # "silent_callables" => [], # Not present because a callable object can't be set as a value in a yaml file.
       )
     end
 
@@ -166,6 +167,7 @@ RSpec.describe FlossFunding::Library do
 
       defaults = FlossFunding::ConfigLoader.default_configuration
       expect(lib.config["suggested_donation_amounts"]).to eq(Array(defaults["suggested_donation_amounts"]))
+      expect(lib.config["suggested_subscription_amounts"]).to eq(Array(defaults["suggested_subscription_amounts"]))
       expect(lib.config["funding_donation_uri"]).to eq(Array(defaults["funding_donation_uri"]))
       expect(lib.config["funding_subscription_uri"]).to eq(Array(defaults["funding_subscription_uri"]))
     end
@@ -263,6 +265,41 @@ RSpec.describe FlossFunding::Library do
         cache = described_class.yaml_config_cache
         expect(cache[abs]).to eq({})
       end
+    end
+  end
+
+  # New tests for issue: callable silent -> silent_callables, and nil-required-arg behavior
+  describe "silent handling and nil-arg behaviors" do
+    it "sets silent_callables when :silent is a callable" do
+      allow(FlossFunding::ConfigFinder).to receive(:find_config_path).and_return(nil)
+      FlossFunding.silenced = nil
+      callable = -> { true }
+
+      lib = described_class.new(namespace, nil, "TestModule", including_path, namespace.env_var_name, :silent => callable)
+
+      expect(lib.config.to_h["silent_callables"]).to include(callable)
+    end
+
+    it "does not set global silenced when :silent is a callable" do
+      allow(FlossFunding::ConfigFinder).to receive(:find_config_path).and_return(nil)
+      FlossFunding.silenced = nil
+      callable = -> { true }
+
+      described_class.new(namespace, nil, "TestModule", including_path, namespace.env_var_name, :silent => callable)
+
+      expect(FlossFunding.silenced).not_to be(true)
+    end
+
+    it "::parse_gemspec_name returns nil when given nil" do
+      expect(described_class.parse_gemspec_name(nil)).to be_nil
+    end
+
+    it "::gem_name_for raises TypeError when given nil for path" do
+      expect { described_class.gem_name_for(nil) }.to raise_error(TypeError)
+    end
+
+    it "::load_yaml_config raises when given nil for path" do
+      expect { described_class.load_yaml_config(nil) }.to raise_error(StandardError)
     end
   end
 end

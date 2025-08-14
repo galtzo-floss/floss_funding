@@ -94,7 +94,7 @@ RSpec.describe FlossFunding::ContraIndications do
   describe ".at_exit_contraindicated? variants" do
     it "returns true when any library provides a truthy callable value" do
       cfg = {
-        "Lib::One" => {"silent" => [-> { true }]},
+        "Lib::One" => {"silent_callables" => [-> { true }]},
       }
       configure_contraindications!(:at_exit => {:stdout_tty => true, :global_silenced => false, :constants_silent => false})
       allow(FlossFunding).to receive(:configurations).and_return(cfg)
@@ -123,7 +123,7 @@ RSpec.describe FlossFunding::ContraIndications do
         end
       end
       cfg = {
-        "Lib::One" => [dummy_with_to_h.new({"silent" => [-> { false }]}), Object.new],
+        "Lib::One" => [dummy_with_to_h.new({"silent_callables" => [-> { false }]}), Object.new],
       }
       configure_contraindications!(:at_exit => {:stdout_tty => true, :global_silenced => false, :constants_silent => false})
       allow(FlossFunding).to receive(:configurations).and_return(cfg)
@@ -142,7 +142,7 @@ RSpec.describe FlossFunding::ContraIndications do
 
     it "handles Hash configs with non-truthy callables by returning false" do
       cfg = {
-        "Lib::Hash" => {"silent" => [-> { false }]},
+        "Lib::Hash" => {"silent_callables" => [-> { false }]},
       }
       configure_contraindications!(:at_exit => {:stdout_tty => true, :global_silenced => false, :constants_silent => false})
       allow(STDOUT).to receive(:tty?).and_return(true)
@@ -157,7 +157,7 @@ RSpec.describe FlossFunding::ContraIndications do
           super
         end
       end
-      cfg = {"Lib::Weird" => weird["silent" => [-> { false }]]}
+      cfg = {"Lib::Weird" => weird["silent_callables" => [-> { false }]]}
       configure_contraindications!(:at_exit => {:stdout_tty => true, :global_silenced => false, :constants_silent => false})
       allow(STDOUT).to receive(:tty?).and_return(true)
       allow(FlossFunding).to receive(:configurations).and_return(cfg)
@@ -166,7 +166,7 @@ RSpec.describe FlossFunding::ContraIndications do
 
     it "returns true when a callable raises an error (rescued) due to resulting unknown global state" do
       cfg = {
-        "Lib::Two" => {"silent" => [-> { raise "boom" }]},
+        "Lib::Two" => {"silent_callables" => [-> { raise "boom" }]},
       }
       configure_contraindications!(:at_exit => {:stdout_tty => true, :global_silenced => false, :constants_silent => false})
       allow(FlossFunding).to receive(:configurations).and_return(cfg)

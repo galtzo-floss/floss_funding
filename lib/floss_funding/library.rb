@@ -172,7 +172,15 @@ module FlossFunding
       end
       # augment with derived fields
       merged["gem_name"] = normalize_to_array(@gem_name)
-      merged["silent"] = normalize_to_array(@silence) if defined?(@silence)
+
+      # Special handling for silence:
+      # - Boolean: set global silenced immediately, no per-library config entry
+      # - Callable: store under "silent_callables" as an array to be evaluated at-exit
+      if @silence.respond_to?(:call)
+        merged["silent_callables"] = normalize_to_array(@silence)
+      elsif @silence
+        ::FlossFunding.silenced ||= true
+      end
 
       ::FlossFunding::Configuration.new(merged)
     end

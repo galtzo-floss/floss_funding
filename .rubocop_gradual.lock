@@ -28,7 +28,7 @@
   "lib/floss_funding/configuration.rb:2047479747": [
     [23, 5, 393, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 642745473]
   ],
-  "lib/floss_funding/contra_indications.rb:219962130": [
+  "lib/floss_funding/contra_indications.rb:3996846326": [
     [34, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
     [59, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
   ],
@@ -41,7 +41,7 @@
   "lib/floss_funding/inclusion.rb:2281527261": [
     [94, 7, 248, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 3139421737]
   ],
-  "lib/floss_funding/library.rb:37356880": [
+  "lib/floss_funding/library.rb:685289467": [
     [50, 24, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765]
   ],
   "lib/floss_funding/library_root.rb:1015710693": [
@@ -715,7 +715,7 @@
     [25, 5, 29, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 952238068],
     [31, 5, 57, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 868725129]
   ],
-  "spec/floss_funding/config_spec.rb:204777350": [
+  "spec/floss_funding/config_spec.rb:1420889346": [
     [3, 1, 35, "RSpec/MultipleDescribes: Do not use multiple top-level example groups - try to nest them.", 1329725959],
     [67, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
     [73, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
@@ -848,7 +848,7 @@
   "spec/floss_funding/library_root_spec.rb:3653733346": [
     [7, 5, 41, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2387805926]
   ],
-  "spec/floss_funding/library_spec.rb:908492777": [
+  "spec/floss_funding/library_spec.rb:1812102898": [
     [14, 5, 81, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3366808401],
     [75, 5, 65, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2664008501],
     [101, 5, 75, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1049914638],
