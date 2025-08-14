@@ -23,6 +23,10 @@ module FlossFunding
   # Debug toggle controlled by ENV; set true when ENV['FLOSS_FUNDING_DEBUG'] case-insensitively equals "true".
   DEBUG = ENV.fetch("FLOSS_FUNDING_DEBUG", "").casecmp("true") == 0
 
+  # Minimum required keys for a valid .floss_funding.yml file
+  # Used to validate presence when integrating without :wedge mode
+  REQUIRED_YAML_KEYS = %w[library_name funding_uri].freeze
+
   # Base error class for all FlossFunding-specific failures.
   class Error < StandardError; end
 
@@ -380,6 +384,7 @@ FlossFunding.send(
     __FILE__,
     :namespace => "FlossFunding",
     :silent => false,
+    :wedge => true,
   ),
 )
 

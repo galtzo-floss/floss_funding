@@ -17,17 +17,18 @@ RSpec.describe FlossFunding::Config do
     end
 
     it "extracts fields and supports funding_uri from metadata symbol key" do
-      fake_spec = Struct.new(:name, :homepage, :authors, :metadata).new(
-        "gemy", "https://example.test", ["Ada"], {:funding_uri => "https://fund.me"}
+      fake_spec = Struct.new(:name, :homepage, :authors, :email, :metadata).new(
+        "gemy", "https://example.test", ["Ada"], ["ada@example.test"], {:funding_uri => "https://fund.me"}
       )
       allow(Dir).to receive(:glob).and_return(["/tmp/fake.gemspec"]) # ensure path discovered
       allow(Gem::Specification).to receive(:load).and_return(fake_spec)
 
       result = described_class.send(:read_gemspec_data, "/tmp")
       expect(result).to eq(
-        :name => "gemy",
+        :library_name => "gemy",
         :homepage => "https://example.test",
         :authors => ["Ada"],
+        :email => ["ada@example.test"],
         :funding_uri => "https://fund.me",
       )
     end

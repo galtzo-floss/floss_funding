@@ -67,11 +67,43 @@ module FlossFunding
         end
 
         namespace = options[:namespace]
+        wedge = options[:wedge]
+        config_path_opt = options[:config_path]
+
         # an anonymous module that will set up an activation key Check when included
         Module.new do
           define_singleton_method(:included) do |base|
             # Sync deterministic time source to current time (respects Timecop.freeze)
             ::FlossFunding.now_time
+
+            if wedge
+              # Only inject the Fingerprint, no configuration/discovery
+              base.extend(::FlossFunding::Fingerprint)
+              next
+            end
+
+            # Validate presence of a .floss_funding.yml with required keys before proceeding
+            # Determine config path
+            cfg_path = config_path_opt
+            if cfg_path.nil? && including_path
+              start_dir = File.dirname(including_path)
+              cfg_path = ::FlossFunding::ConfigFinder.find_config_path(start_dir)
+            end
+
+            unless cfg_path && File.file?(cfg_path) && File.basename(cfg_path) == ".floss_funding.yml"
+              raise ::FlossFunding::Error, "Missing required .floss_funding.yml file; run `rake floss_funding:install` to create one."
+            end
+
+            begin
+              data = YAML.safe_load(File.read(cfg_path)) || {}
+            rescue StandardError
+              data = {}
+            end
+
+            missing = ::FlossFunding::REQUIRED_YAML_KEYS.reject { |k| data.key?(k) && data[k] && data[k].to_s.strip != "" }
+            unless missing.empty?
+              raise ::FlossFunding::Error, ".floss_funding.yml missing required keys: #{missing.join(", ")}"
+            end
 
             FlossFunding::Inclusion.new(base, namespace, including_path, silent_opt, options)
           end
