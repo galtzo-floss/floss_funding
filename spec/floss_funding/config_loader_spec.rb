@@ -14,6 +14,13 @@ RSpec.describe FlossFunding::ConfigLoader do
     end
   end
 
+  describe ".configuration_file_for" do
+    it "delegates to ConfigFinder.find_config_path" do
+      allow(FlossFunding::ConfigFinder).to receive(:find_config_path).with("/tmp/dir").and_return("/x.yml")
+      expect(described_class.configuration_file_for("/tmp/dir")).to eq("/x.yml")
+    end
+  end
+
   describe ".default_configuration" do
     it "loads defaults as a Hash" do
       cfg = described_class.default_configuration

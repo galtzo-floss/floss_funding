@@ -348,6 +348,7 @@ require "floss_funding/contra_indications"
 require "floss_funding/inclusion"
 require "floss_funding/poke"
 require "floss_funding/final_summary"
+require "floss_funding/wedge"
 
 # Dog Food
 FlossFunding.send(
