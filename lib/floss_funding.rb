@@ -20,6 +20,9 @@ require "floss_funding/constants"
 
 # Now declare some constants
 module FlossFunding
+  # Debug toggle controlled by ENV; set true when ENV['FLOSS_FUNDING_DEBUG'] case-insensitively equals "true".
+  DEBUG = ENV.fetch("FLOSS_FUNDING_DEBUG", "").casecmp("true") == 0
+
   # Base error class for all FlossFunding-specific failures.
   class Error < StandardError; end
 

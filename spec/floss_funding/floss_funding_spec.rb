@@ -173,4 +173,32 @@ RSpec.describe FlossFunding do
       }.to output(/COUGH, COUGH\.|Current \(Invalid\) Activation Key: deadbeef/).to_stdout
     end
   end
+
+  describe "::DEBUG" do
+    it "defaults to false when FLOSS_FUNDING_DEBUG is not set" do
+      expect(FlossFunding::DEBUG).to be(false)
+    end
+
+    it "is true when FLOSS_FUNDING_DEBUG is case-insensitively 'true' at load time" do
+      require "open3"
+      require "rbconfig"
+      ruby = RbConfig.ruby
+      lib_dir = File.expand_path("../../lib", __dir__)
+      code = 'require "floss_funding"; puts FlossFunding::DEBUG'
+      env = {"FLOSS_FUNDING_DEBUG" => "TrUe"}
+      stdout, _stderr, _status = Open3.capture3(env, ruby, "-I", lib_dir, "-e", code)
+      expect(stdout.strip).to eq("true")
+    end
+
+    it "is false when FLOSS_FUNDING_DEBUG is a non-matching value at load time" do
+      require "open3"
+      require "rbconfig"
+      ruby = RbConfig.ruby
+      lib_dir = File.expand_path("../../lib", __dir__)
+      code = 'require "floss_funding"; puts FlossFunding::DEBUG'
+      env = {"FLOSS_FUNDING_DEBUG" => "FALSE"}
+      stdout, _stderr, _status = Open3.capture3(env, ruby, "-I", lib_dir, "-e", code)
+      expect(stdout.strip).to eq("false")
+    end
+  end
 end

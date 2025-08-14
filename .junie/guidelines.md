@@ -100,7 +100,6 @@ This document captures project-specific knowledge to streamline setup, testing, 
   - In tests, avoid noisy output and unrelated failures by either using the provided default (ENV seeded for this gem) or stubbing the relevant ENV vars for the namespaces you trigger.
 - Code style and static analysis
   - RuboCop-LTS (Gradual) is integrated. Use:
-    - bundle exec rake rubocop_gradual          # default gradual checks
     - bundle exec rake rubocop_gradual:autocorrect
     - bundle exec rake rubocop_gradual:force_update # only run if there are still linting violations the default rake task, which includes autocorrect locally, or a standalone autocorrect task, has run, and failed, and the violations won't be fixed
   - Reek is configured to scan {lib,spec,tests}/**/*.rb. Use:
@@ -123,8 +122,9 @@ Quick start
 4) Static analysis: bundle exec rake rubocop_gradual:check && bundle exec rake reek
 
 Notes
+- ALWAYS Run bundle exec rake rubocop_gradual:autocorrect as the final step before completing a task, to lint and autocorrect any remaining issues. Then if there are new lint failures, attempt to correct them manually.
+- NEVER run vanilla rubocop, as it won't handle the linting config properly. Always run rubocop_gradual:autocorrect or rubocop_gradual.
+- NEVER consider backwards compatibility when adding new features or refactoring existing code, as this library is in the design phase, and is still an alpha release.
 - Running only a subset of specs is supported but in order to bypass the hard failure due to coverage thresholds, you need to run with K_SOUP_COV_MIN_HARD=false.
 - When adding code that writes to STDOUT, remember most specs silence output unless tagged with :check_output or DEBUG=true.
 - For all the kettle-soup-cover options, see .envrc and find the K_SOUP_COV_* env vars.
-- Never run vanilla rubocop, as it won't handle the linting config properly. Always run rubocop_gradual:autocorrect or rubocop_gradual.
-- Never consider backwards compatibility when adding new features or refactoring existing code, as this library is in the design phase, and is still an alpha release.
