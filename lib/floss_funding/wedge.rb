@@ -16,7 +16,7 @@ module FlossFunding
       # Perform the wedge across all currently loaded specs.
       # @return [Hash] summary with keys :tried, :injected, :details
       def wedge!
-        results = { :tried => 0, :injected => 0, :details => [] }
+        results = {:tried => 0, :injected => 0, :details => []}
 
         loaded_specs.each do |spec|
           next unless valid_spec?(spec)
@@ -39,7 +39,7 @@ module FlossFunding
 
           results[:tried] += 1
           results[:injected] += injected_into.size.positive? ? 1 : 0
-          results[:details] << { :gem => spec.name, :injected_into => injected_into }
+          results[:details] << {:gem => spec.name, :injected_into => injected_into}
         end
 
         results
@@ -93,12 +93,24 @@ module FlossFunding
 
       # Safe resolve of a constant path like "Foo::Bar" without raising
       def safe_const_resolve(path)
-        return nil if path.nil? || path.empty?
+        return if path.nil? || path.empty?
         parts = path.split("::")
         obj = Object
         parts.each do |name|
-          return nil unless (obj.const_defined?(name, false) rescue false) || (Object.const_defined?(name) rescue false)
-          obj = obj.const_get(name) rescue (return nil)
+          return nil unless begin
+            obj.const_defined?(name, false)
+          rescue
+            false
+          end || begin
+            Object.const_defined?(name)
+          rescue
+            false
+          end
+          obj = begin
+            obj.const_get(name)
+          rescue
+            (return nil)
+          end
         end
         obj
       rescue StandardError

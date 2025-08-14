@@ -47,8 +47,6 @@ module FlossFunding
           ::FlossFunding.silenced ||= true
         end
 
-        namespace = options[:namespace]
-
         # Environment-based contraindications (global silenced flag, CI, broken Dir.pwd, non-TTY)
         if ::FlossFunding::ContraIndications.poke_contraindicated?
           # Return an inert module (no registration) when contraindicated

@@ -3,7 +3,7 @@
 require "benchmark"
 require_relative "../support/bench_gems_generator"
 
-RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding usage" do # rubocop:disable RSpec/DescribeClass
+RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding usage", :skip_ci do # rubocop:disable RSpec/DescribeClass
   let(:valid_keys_csv) { File.join(__dir__, "../fixtures/valid_keys.csv") }
   let(:loader_path) { File.join(__dir__, "../fixtures/bench_gems_loader.rb") }
 

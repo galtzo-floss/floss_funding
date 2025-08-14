@@ -22,7 +22,6 @@ RSpec.describe FlossFunding::ConfigFinder do
   end
 end
 
-
 RSpec.describe FlossFunding::ConfigFinder do
   before do
     described_class.clear_caches!

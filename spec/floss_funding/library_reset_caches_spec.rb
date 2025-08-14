@@ -6,7 +6,7 @@ RSpec.describe FlossFunding::Library do
       Dir.mktmpdir do |tmp|
         # Prepare a YAML file to populate yaml_config_cache
         yaml_path = File.join(tmp, ".floss_funding.yml")
-        File.write(yaml_path, { "funding_donation_uri" => "https://example.test/donate" }.to_yaml)
+        File.write(yaml_path, {"funding_donation_uri" => "https://example.test/donate"}.to_yaml)
 
         # Populate yaml cache
         abs_yaml = File.expand_path(yaml_path)
@@ -36,7 +36,7 @@ RSpec.describe FlossFunding::Library do
         described_class.reset_caches!
 
         yaml_path = File.join(tmp, ".floss_funding.yml")
-        File.write(yaml_path, { "funding_subscription_uri" => "https://example.test/subscribe" }.to_yaml)
+        File.write(yaml_path, {"funding_subscription_uri" => "https://example.test/subscribe"}.to_yaml)
 
         _ = described_class.load_yaml_config(yaml_path)
         expect(described_class.yaml_config_cache).to have_key(File.expand_path(yaml_path))

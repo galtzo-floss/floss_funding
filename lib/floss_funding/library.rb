@@ -12,6 +12,8 @@ module FlossFunding
   # Represents a single Library (a gem/namespace pair) that has included
   # FlossFunding::Poke. Holds discovery info, configuration, and env details.
   class Library
+    NAME_ASSIGNMENT_REGEX = /\bname\s*=\s*(["'])([^"']+)\1/.freeze
+
     class << self
       # Simple process-lifetime caches
       def yaml_config_cache
@@ -28,7 +30,7 @@ module FlossFunding
           content = File.read(gemspec_path)
           # Look for name assignment patterns like:
           #   spec.name = "my_gem" OR Gem::Specification.new do |spec|; spec.name = 'my_gem'
-          if content =~ /\bname\s*=\s*(["'])([^"']+)\1/
+          if content =~ NAME_ASSIGNMENT_REGEX
             return $2
           end
         rescue StandardError

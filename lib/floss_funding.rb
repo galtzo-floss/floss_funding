@@ -366,10 +366,10 @@ at_exit do
   begin
     # 1. Preserve exit status by ensuring no exceptions bubble out of this block.
     # 2. Respect silence signal and short-circuit when contraindicated.
-    next if ::FlossFunding::ContraIndications.at_exit_contraindicated?
+    next if FlossFunding::ContraIndications.at_exit_contraindicated?
 
     # 2B. Not silent: build and render the final summary.
-    ::FlossFunding::FinalSummary.new
+    FlossFunding::FinalSummary.new
   rescue StandardError
     # 1. Never allow our errors to flip a successful exit into a failure.
     # Swallow all exceptions here.

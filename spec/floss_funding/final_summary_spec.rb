@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe FlossFunding::FinalSummary do
-  include_context 'with stubbed env'
+  include_context "with stubbed env"
 
   before do
     # Ensure clean global state for every example
@@ -29,8 +29,8 @@ RSpec.describe FlossFunding::FinalSummary do
     FlossFunding::ActivationEvent.new(lib, "", state)
   end
 
-  describe 'rendering basics (no namespaces)', :check_output do
-    it 'prints summary with zero counts and no invalid line or spotlight' do
+  describe "rendering basics (no namespaces)", :check_output do
+    it "prints summary with zero counts and no invalid line or spotlight" do
       fake_pb = instance_double("PB", :increment => nil)
       expect(ProgressBar).to receive(:create).with(:title => "Activated Libraries", :total => 0).and_return(fake_pb)
 
@@ -41,7 +41,7 @@ RSpec.describe FlossFunding::FinalSummary do
     end
   end
 
-  describe 'rendering with activated and unactivated and invalid', :check_output do
+  describe "rendering with activated and unactivated and invalid", :check_output do
     before do
       # Build three namespaces: A(activated), U(unactivated), I(invalid)
       a1 = make_event("NsA", :activated, :gem_name => "gem_a")
@@ -71,10 +71,10 @@ RSpec.describe FlossFunding::FinalSummary do
       @fake_pb = instance_double("PB", :increment => nil)
       expect(ProgressBar).to receive(:create).with(:title => "Activated Libraries", :total => 3).and_return(@fake_pb)
       # Expect it to increment exactly for activated libraries (1 time)
-      expect(@fake_pb).to receive(:increment).exactly(1).times
+      expect(@fake_pb).to receive(:increment).once
     end
 
-    it 'prints spotlight for chosen ns and shows counts including invalid' do
+    it "prints spotlight for chosen ns and shows counts including invalid" do
       output = capture_stdout { described_class.new }
 
       # spotlight section for @ns_u
@@ -97,12 +97,12 @@ RSpec.describe FlossFunding::FinalSummary do
     end
   end
 
-  describe 'invalid line suppression (no invalid events)', :check_output do
-    it 'omits invalid line when there are zero invalid namespaces and libraries' do
+  describe "invalid line suppression (no invalid events)", :check_output do
+    it "omits invalid line when there are zero invalid namespaces and libraries" do
       u1 = make_event("OnlyU", :unactivated, :gem_name => "gem_u")
       register_ns("OnlyU", [u1])
 
-      allow(FlossFunding).to receive(:configurations).and_return({ "OnlyU" => [FlossFunding::Configuration.new({})] })
+      allow(FlossFunding).to receive(:configurations).and_return({"OnlyU" => [FlossFunding::Configuration.new({})]})
 
       fake_pb = instance_double("PB", :increment => nil)
       expect(ProgressBar).to receive(:create).with(:title => "Activated Libraries", :total => 1).and_return(fake_pb)
@@ -113,13 +113,13 @@ RSpec.describe FlossFunding::FinalSummary do
     end
   end
 
-  describe 'uses defaults when configuration missing or non-hashlike', :check_output do
-    it 'falls back to default URL and amount and omits empty libraries line' do
+  describe "uses defaults when configuration missing or non-hashlike", :check_output do
+    it "falls back to default URL and amount and omits empty libraries line" do
       ev = make_event("CfgLess", :unactivated, :gem_name => nil)
       ns = register_ns("CfgLess", [ev])
 
       # Return a weird configuration object that causes rescue to [] in details lookup
-      allow(FlossFunding).to receive(:configurations).and_return({ "CfgLess" => [Object.new] })
+      allow(FlossFunding).to receive(:configurations).and_return({"CfgLess" => [Object.new]})
 
       # Deterministic spotlight pick to see details
       allow_any_instance_of(described_class).to receive(:random_unpaid_or_invalid_namespace).and_return(ns)
@@ -135,8 +135,8 @@ RSpec.describe FlossFunding::FinalSummary do
     end
   end
 
-  describe 'exception safety' do
-    it 'swallows unexpected errors during render' do
+  describe "exception safety" do
+    it "swallows unexpected errors during render" do
       # Having something explode, e.g., the progressbar creation
       allow(ProgressBar).to receive(:create).and_raise(StandardError.new("boom"))
       expect { described_class.new }.not_to raise_error

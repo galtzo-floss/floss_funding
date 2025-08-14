@@ -1,19 +1,36 @@
 {
-  "lib/floss_funding.rb:1771538309": [
-    [221, 7, 9, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3939614105],
-    [227, 5, 21, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 2274136032]
+  "lib/floss_funding.rb:3051090749": [
+    [225, 14, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
+    [241, 7, 9, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3939614105],
+    [247, 5, 21, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 2274136032],
+    [268, 15, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844]
   ],
-  "lib/floss_funding/check.rb:1886474499": [
-    [16, 5, 196, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2041737053],
-    [29, 5, 149, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 1088319096],
-    [42, 9, 23, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 2670016150]
-  ],
-  "lib/floss_funding/config_finder.rb:1688829467": [
+  "lib/floss_funding/config_finder.rb:540964249": [
     [24, 7, 25, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 397451408],
-    [34, 9, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3487917929]
+    [27, 9, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
+    [29, 16, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
+    [29, 43, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
+    [31, 9, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
+    [37, 9, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3487917929],
+    [42, 9, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
+    [43, 9, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
+    [44, 9, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3487917929],
+    [55, 9, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
+    [57, 16, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
+    [57, 48, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
+    [63, 17, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
+    [68, 9, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790]
+  ],
+  "lib/floss_funding/config_loader.rb:1424487669": [
+    [46, 9, 22, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2323500225],
+    [52, 9, 22, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2323500225]
   ],
   "lib/floss_funding/configuration.rb:2047479747": [
     [23, 5, 393, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 642745473]
+  ],
+  "lib/floss_funding/contra_indications.rb:219962130": [
+    [34, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
+    [59, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
   ],
   "lib/floss_funding/file_finder.rb:910238205": [
     [14, 5, 61, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2617869649],
@@ -21,33 +38,684 @@
     [18, 5, 89, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2506383290],
     [19, 8, 11, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 4095679882]
   ],
-  "lib/floss_funding/inclusion.rb:2535642618": [
-    [85, 7, 248, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 3139421737]
+  "lib/floss_funding/inclusion.rb:411842372": [
+    [90, 7, 248, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 3139421737]
+  ],
+  "lib/floss_funding/library.rb:3461289793": [
+    [50, 24, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765]
+  ],
+  "lib/floss_funding/library_root.rb:1015710693": [
+    [13, 9, 6, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2752972489],
+    [17, 9, 6, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2752972489]
   ],
   "lib/floss_funding/project_root.rb:2114950391": [
     [13, 9, 5, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 214175848],
     [25, 9, 5, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 214175848]
   ],
-  "spec/floss_funding/bench_integration_spec.rb:2486229548": [
-    [142, 3, 118, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 64765617],
-    [172, 3, 118, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1152239485]
+  "lib/floss_funding/under_bar.rb:3001673689": [
+    [23, 9, 6, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2752972489],
+    [27, 9, 6, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2752972489]
   ],
-  "spec/floss_funding/check_spec.rb:435077402": [
-    [51, 5, 67, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 921869339],
-    [111, 7, 44, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 799947402]
+  "lib/floss_funding/wedge.rb:2366406207": [
+    [53, 11, 12, "Style/IdenticalConditionalBranches: Move `Array(specs)` out of the conditional.", 79217931],
+    [57, 11, 12, "Style/IdenticalConditionalBranches: Move `Array(specs)` out of the conditional.", 79217931],
+    [112, 14, 10, "Lint/NoReturnInBeginEndBlocks: Do not `return` in `begin..end` blocks in assignment contexts.", 1900003172]
   ],
-  "spec/floss_funding/config_finder_spec.rb:2469263277": [
+  "lib/gem_mine.rb:3127632421": [
+    [15, 3, 67, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2396624473]
+  ],
+  "lib/gem_mine/generator.rb:3030291052": [
+    [144, 12, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765],
+    [147, 10, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765],
+    [181, 7, 2, "Lint/Syntax: unexpected token tLSHFT\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5859461],
+    [184, 16, 1, "Lint/Syntax: unexpected token tLT\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 177561],
+    [188, 27, 13, "Lint/Syntax: unexpected token tIDENTIFIER\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 1237866946],
+    [189, 11, 1, "Lint/Syntax: unexpected token tLT\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 177561]
+  ],
+  "lib/gem_mine/helpers.rb:3535174730": [
+    [16, 7, 2, "Lint/Syntax: unexpected token tLSHFT\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5859461]
+  ],
+  "spec/fixtures/at_exit_hook_script.rb:1330386870": [
+    [8, 10, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_001/bench_gem_001.gemspec:3078454110": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_002/bench_gem_002.gemspec:3832943805": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_003/bench_gem_003.gemspec:2477776668": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_004/bench_gem_004.gemspec:239736699": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_005/bench_gem_005.gemspec:1691640538": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_006/bench_gem_006.gemspec:2446130233": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_007/bench_gem_007.gemspec:1090963096": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_008/bench_gem_008.gemspec:3487075575": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_009/bench_gem_009.gemspec:644012118": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_01/bench_gem_01.gemspec:3577815294": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_010/bench_gem_010.gemspec:1715003374": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_011/bench_gem_011.gemspec:3725845935": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_012/bench_gem_012.gemspec:2883083244": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_013/bench_gem_013.gemspec:3977527469": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_014/bench_gem_014.gemspec:160134890": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_015/bench_gem_015.gemspec:2170977451": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_016/bench_gem_016.gemspec:1328214760": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_017/bench_gem_017.gemspec:2422658985": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_018/bench_gem_018.gemspec:26140134": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_019/bench_gem_019.gemspec:2036982695": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_02/bench_gem_02.gemspec:2980828637": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_020/bench_gem_020.gemspec:3456730573": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_021/bench_gem_021.gemspec:1672325068": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_022/bench_gem_022.gemspec:970766415": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_023/bench_gem_023.gemspec:33733198": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_024/bench_gem_024.gemspec:1901862089": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_025/bench_gem_025.gemspec:117456584": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_026/bench_gem_026.gemspec:3710865227": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_027/bench_gem_027.gemspec:2773832010": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_028/bench_gem_028.gemspec:1767867333": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_029/bench_gem_029.gemspec:4278429124": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_03/bench_gem_03.gemspec:2120730300": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_030/bench_gem_030.gemspec:2963487660": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_031/bench_gem_031.gemspec:3613655917": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_032/bench_gem_032.gemspec:4195889454": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_033/bench_gem_033.gemspec:1685410799": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_034/bench_gem_034.gemspec:1408619176": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_035/bench_gem_035.gemspec:2058787433": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_036/bench_gem_036.gemspec:2641020970": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_037/bench_gem_037.gemspec:130542315": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_038/bench_gem_038.gemspec:1274624420": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_039/bench_gem_039.gemspec:1924792677": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_04/bench_gem_04.gemspec:3085481371": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_040/bench_gem_040.gemspec:3510066059": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_041/bench_gem_041.gemspec:2798461322": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_042/bench_gem_042.gemspec:1877399689": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_043/bench_gem_043.gemspec:1095547528": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_044/bench_gem_044.gemspec:2626724751": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_045/bench_gem_045.gemspec:1915120014": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_046/bench_gem_046.gemspec:994058381": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_047/bench_gem_047.gemspec:212206220": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_048/bench_gem_048.gemspec:1821202819": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_049/bench_gem_049.gemspec:1109598082": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_05/bench_gem_05.gemspec:3786033274": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_050/bench_gem_050.gemspec:2266412650": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_051/bench_gem_051.gemspec:4277255211": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_052/bench_gem_052.gemspec:3434492520": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_053/bench_gem_053.gemspec:233969449": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_054/bench_gem_054.gemspec:1383071342": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_055/bench_gem_055.gemspec:3393913903": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_056/bench_gem_056.gemspec:2551151212": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_057/bench_gem_057.gemspec:3645595437": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_058/bench_gem_058.gemspec:577549410": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_059/bench_gem_059.gemspec:2588391971": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_06/bench_gem_06.gemspec:3189046617": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_060/bench_gem_060.gemspec:4008139849": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_061/bench_gem_061.gemspec:2223734344": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_062/bench_gem_062.gemspec:1522175691": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_063/bench_gem_063.gemspec:585142474": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_064/bench_gem_064.gemspec:3124798541": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_065/bench_gem_065.gemspec:1340393036": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_066/bench_gem_066.gemspec:638834383": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_067/bench_gem_067.gemspec:3996768462": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_068/bench_gem_068.gemspec:2319276609": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_069/bench_gem_069.gemspec:534871104": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_07/bench_gem_07.gemspec:2328948280": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_070/bench_gem_070.gemspec:3514896936": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_071/bench_gem_071.gemspec:4165065193": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_072/bench_gem_072.gemspec:452331434": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_073/bench_gem_073.gemspec:2236820075": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_074/bench_gem_074.gemspec:2631555628": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_075/bench_gem_075.gemspec:3281723885": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_076/bench_gem_076.gemspec:3863957422": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_077/bench_gem_077.gemspec:1353478767": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_078/bench_gem_078.gemspec:1826033696": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_079/bench_gem_079.gemspec:2476201953": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_08/bench_gem_08.gemspec:2966973207": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_080/bench_gem_080.gemspec:980140551": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_081/bench_gem_081.gemspec:268535814": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_082/bench_gem_082.gemspec:3642441477": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_083/bench_gem_083.gemspec:2860589316": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_084/bench_gem_084.gemspec:3720239363": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_085/bench_gem_085.gemspec:3008634626": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_086/bench_gem_086.gemspec:2087572993": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_087/bench_gem_087.gemspec:1305720832": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_088/bench_gem_088.gemspec:3250456079": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_089/bench_gem_089.gemspec:2538851342": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_09/bench_gem_09.gemspec:3667525110": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_090/bench_gem_090.gemspec:4031454438": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_091/bench_gem_091.gemspec:1747329703": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_092/bench_gem_092.gemspec:904567012": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_093/bench_gem_093.gemspec:1999011237": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_094/bench_gem_094.gemspec:2476585954": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_095/bench_gem_095.gemspec:192461219": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_096/bench_gem_096.gemspec:3644665824": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_097/bench_gem_097.gemspec:444142753": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_098/bench_gem_098.gemspec:2006802670": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_099/bench_gem_099.gemspec:4017645231": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_10/bench_gem_10.gemspec:4099159886": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_100/bench_gem_100.gemspec:1179939422": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_11/bench_gem_11.gemspec:735699535": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_12/bench_gem_12.gemspec:3811643212": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_13/bench_gem_13.gemspec:1864046157": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_14/bench_gem_14.gemspec:1178672714": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_15/bench_gem_15.gemspec:2110179659": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_16/bench_gem_16.gemspec:891156040": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_17/bench_gem_17.gemspec:3238526281": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_18/bench_gem_18.gemspec:437097798": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_19/bench_gem_19.gemspec:1368604743": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_20/bench_gem_20.gemspec:2905062765": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_21/bench_gem_21.gemspec:2631955244": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_22/bench_gem_22.gemspec:1942053871": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_23/bench_gem_23.gemspec:1379229358": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_24/bench_gem_24.gemspec:4279542889": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_25/bench_gem_25.gemspec:4006435368": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_26/bench_gem_26.gemspec:3316533995": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_27/bench_gem_27.gemspec:2753709482": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_28/bench_gem_28.gemspec:3537967973": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_29/bench_gem_29.gemspec:3264860452": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_30/bench_gem_30.gemspec:1636797196": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_31/bench_gem_31.gemspec:4013937165": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_32/bench_gem_32.gemspec:2460612750": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_33/bench_gem_33.gemspec:4199014287": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_34/bench_gem_34.gemspec:3011277320": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_35/bench_gem_35.gemspec:1093449993": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_36/bench_gem_36.gemspec:3835092874": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_37/bench_gem_37.gemspec:1278527115": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_38/bench_gem_38.gemspec:2269702404": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_39/bench_gem_39.gemspec:351875077": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_40/bench_gem_40.gemspec:1893411883": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_41/bench_gem_41.gemspec:2025939946": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_42/bench_gem_42.gemspec:3531292969": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_43/bench_gem_43.gemspec:3956849128": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_44/bench_gem_44.gemspec:1746551855": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_45/bench_gem_45.gemspec:1879079918": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_46/bench_gem_46.gemspec:3384432941": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_47/bench_gem_47.gemspec:3809989100": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_48/bench_gem_48.gemspec:2526317091": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_49/bench_gem_49.gemspec:2658845154": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_50/bench_gem_50.gemspec:1933204938": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_51/bench_gem_51.gemspec:2864711883": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_52/bench_gem_52.gemspec:1645688264": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_53/bench_gem_53.gemspec:3993058505": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_54/bench_gem_54.gemspec:1786344910": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_55/bench_gem_55.gemspec:2717851855": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_56/bench_gem_56.gemspec:1498828236": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_57/bench_gem_57.gemspec:3846198477": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_58/bench_gem_58.gemspec:2566110146": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_59/bench_gem_59.gemspec:3497617091": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_60/bench_gem_60.gemspec:739107817": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_61/bench_gem_61.gemspec:466000296": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_62/bench_gem_62.gemspec:4071066219": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_63/bench_gem_63.gemspec:3508241706": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_64/bench_gem_64.gemspec:592247789": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_65/bench_gem_65.gemspec:319140268": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_66/bench_gem_66.gemspec:3924206191": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_67/bench_gem_67.gemspec:3361381678": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_68/bench_gem_68.gemspec:1372013025": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_69/bench_gem_69.gemspec:1098905504": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_70/bench_gem_70.gemspec:3765809544": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_71/bench_gem_71.gemspec:1847982217": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_72/bench_gem_72.gemspec:294657802": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_73/bench_gem_73.gemspec:2033059339": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_74/bench_gem_74.gemspec:3618949516": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_75/bench_gem_75.gemspec:1701122189": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_76/bench_gem_76.gemspec:147797774": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_77/bench_gem_77.gemspec:1886199311": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_78/bench_gem_78.gemspec:103747456": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_79/bench_gem_79.gemspec:2480887425": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_80/bench_gem_80.gemspec:2811142823": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_81/bench_gem_81.gemspec:2943670886": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_82/bench_gem_82.gemspec:154056613": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_83/bench_gem_83.gemspec:579612772": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_84/bench_gem_84.gemspec:4185622947": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_85/bench_gem_85.gemspec:23183714": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_86/bench_gem_86.gemspec:1528536737": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_87/bench_gem_87.gemspec:1954092896": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_88/bench_gem_88.gemspec:4017964719": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_89/bench_gem_89.gemspec:4150492782": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_90/bench_gem_90.gemspec:2850935878": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_91/bench_gem_91.gemspec:3782442823": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_92/bench_gem_92.gemspec:2563419204": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_93/bench_gem_93.gemspec:615822149": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_94/bench_gem_94.gemspec:4225416002": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_95/bench_gem_95.gemspec:861955651": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_96/bench_gem_96.gemspec:3937899328": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_97/bench_gem_97.gemspec:1990302273": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_98/bench_gem_98.gemspec:4057757774": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/fixtures/gem_mine/bench_gem_99/bench_gem_99.gemspec:694297423": [
+    [10, 3, 32, "Gemspec/DependencyVersion: Dependency version specification is required.", 1131092746]
+  ],
+  "spec/floss_funding/activation_event_spec.rb:3568594230": [
+    [5, 33, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
+    [16, 5, 53, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 3243140526]
+  ],
+  "spec/floss_funding/at_exit_hook_spec.rb:3115806388": [
+    [8, 16, 23, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3202457120],
+    [9, 3, 80, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 114688600]
+  ],
+  "spec/floss_funding/bench_integration_spec.rb:1989277515": [
+    [115, 3, 103, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 462375521],
+    [134, 3, 103, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 577489069]
+  ],
+  "spec/floss_funding/config_finder_spec.rb:3054778926": [
+    [3, 1, 41, "RSpec/MultipleDescribes: Do not use multiple top-level example groups - try to nest them.", 2736237141],
+    [3, 1, 875, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [25]", 2560609714],
     [6, 7, 72, "RSpec/ReceiveMessages: Use `receive_messages` instead of multiple stubs on lines [7, 8].", 3755011091],
     [7, 7, 69, "RSpec/ReceiveMessages: Use `receive_messages` instead of multiple stubs on lines [6, 8].", 574274551],
-    [8, 7, 72, "RSpec/ReceiveMessages: Use `receive_messages` instead of multiple stubs on lines [6, 7].", 4278717920]
+    [8, 7, 72, "RSpec/ReceiveMessages: Use `receive_messages` instead of multiple stubs on lines [6, 7].", 4278717920],
+    [25, 1, 3830, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [3]", 1965517347],
+    [31, 5, 38, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3762634766],
+    [54, 5, 60, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1913492188],
+    [71, 5, 56, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1070732281]
   ],
-  "spec/floss_funding/config_loader_spec.rb:3350117891": [
-    [18, 5, 29, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 952238068]
+  "spec/floss_funding/config_loader_spec.rb:727349556": [
+    [25, 5, 29, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 952238068],
+    [31, 5, 57, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 868725129]
   ],
-  "spec/floss_funding/config_spec.rb:83600865": [
-    [3, 1, 35, "RSpec/MultipleDescribes: Do not use multiple top-level example groups - try to nest them.", 1329725959]
+  "spec/floss_funding/config_spec.rb:983946085": [
+    [3, 1, 35, "RSpec/MultipleDescribes: Do not use multiple top-level example groups - try to nest them.", 1329725959],
+    [67, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
+    [73, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
+    [78, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
+    [83, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
+    [89, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
+    [110, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
+    [115, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
+    [138, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
+    [148, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
+    [162, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
   ],
-  "spec/floss_funding/configuration_spec.rb:395079367": [
+  "spec/floss_funding/configuration_spec.rb:156064947": [
     [5, 5, 55, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 4119019360],
     [12, 5, 68, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 906880967],
     [29, 5, 33, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 184355479],
@@ -55,33 +723,156 @@
     [54, 5, 28, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 1498992953],
     [63, 5, 56, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 3901699287]
   ],
+  "spec/floss_funding/contra_indications_spec.rb:744895099": [
+    [25, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
+  ],
   "spec/floss_funding/default_prefix_spec.rb:3572341231": [
     [5, 1, 38, "RSpec/SpecFilePathFormat: Spec path should end with `floss_funding/constants*_spec.rb`.", 1065269856]
   ],
-  "spec/floss_funding/floss_funding_spec.rb:3684480692": [
-    [7, 5, 81, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3955704627]
+  "spec/floss_funding/final_summary_spec.rb:510393312": [
+    [28, 27, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
+    [33, 5, 69, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 3323035432],
+    [34, 33, 4, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 2085345239],
+    [35, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
+    [35, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [56, 7, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
+    [56, 105, 5, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 213697586],
+    [71, 34, 4, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 2085345239],
+    [72, 7, 6, "RSpec/ExpectInHook: Do not use `expect` in `before` hook", 1179768986],
+    [72, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
+    [72, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [72, 109, 8, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 2094546817],
+    [74, 7, 6, "RSpec/ExpectInHook: Do not use `expect` in `before` hook", 1179768986],
+    [74, 14, 8, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 2094546817],
+    [74, 27, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `@fake_pb` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [77, 5, 70, "RSpec/MultipleExpectations: Example has too many expectations [11/1].", 3473323205],
+    [101, 5, 76, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2639291062],
+    [107, 33, 4, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 2085345239],
+    [108, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
+    [108, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [117, 5, 72, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 358575326],
+    [125, 7, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
+    [127, 33, 4, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 2085345239],
+    [128, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
+    [128, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950]
   ],
-  "spec/floss_funding/library_spec.rb:568759884": [
-    [23, 5, 60, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 4105108977],
-    [55, 7, 29, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 47319566]
+  "spec/floss_funding/floss_funding_more_spec.rb:3518972565": [
+    [13, 5, 58, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1689661349],
+    [47, 5, 41, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3909376796],
+    [48, 29, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
+    [50, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [50, 35, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [51, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [51, 35, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [56, 29, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
+    [58, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [58, 31, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [70, 112, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146]
+  ],
+  "spec/floss_funding/floss_funding_spec.rb:3058569596": [
+    [8, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [11, 5, 84, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2224445335],
+    [12, 30, 6, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 3184967347],
+    [13, 30, 6, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 3184967312],
+    [25, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [26, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [28, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [29, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [30, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [34, 19, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [35, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [38, 16, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [40, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [45, 29, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
+    [48, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [48, 31, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [54, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [58, 3, 1739, "RSpec/RepeatedExampleGroupBody: Repeated describe block body on line(s) [127]", 1683387880],
+    [60, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [61, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [65, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [66, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [67, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [72, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [73, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [76, 5, 46, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 177228285],
+    [77, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [78, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [79, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [82, 5, 53, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3803870697],
+    [83, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [84, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [85, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [91, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [98, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [104, 5, 81, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3955704627],
+    [127, 3, 2117, "RSpec/RepeatedExampleGroupBody: Repeated context block body on line(s) [58]", 1812812532],
+    [130, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [131, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [135, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [136, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [137, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [142, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [145, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [148, 5, 46, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 177228285],
+    [150, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [151, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [152, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [155, 5, 53, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3803870697],
+    [156, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [157, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [158, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [165, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [172, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865]
+  ],
+  "spec/floss_funding/inclusion_spec.rb:3313681626": [
+    [32, 5, 67, "RSpec/MultipleExpectations: Example has too many expectations [6/1].", 2026600398]
+  ],
+  "spec/floss_funding/library_reset_caches_spec.rb:944308348": [
+    [5, 5, 52, "RSpec/MultipleExpectations: Example has too many expectations [6/1].", 313328999],
+    [34, 5, 44, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1301760086]
+  ],
+  "spec/floss_funding/library_root_spec.rb:3653733346": [
+    [7, 5, 41, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2387805926]
+  ],
+  "spec/floss_funding/library_spec.rb:3649482381": [
+    [14, 5, 81, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3366808401],
+    [75, 5, 65, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2664008501],
+    [101, 5, 75, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1049914638],
+    [117, 5, 53, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2285889085],
+    [162, 5, 60, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 4105108977],
+    [194, 7, 29, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 47319566]
+  ],
+  "spec/floss_funding/namespace_spec.rb:4244217618": [
+    [50, 9, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
+    [58, 9, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
+    [73, 5, 52, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3216001308],
+    [74, 29, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
+    [87, 29, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
+    [115, 5, 36, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 1460145178],
+    [127, 30, 6, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 3184967347],
+    [128, 30, 6, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 3184967312]
   ],
   "spec/floss_funding/namespaces_spec.rb:2663769633": [
     [5, 16, 34, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3834489862],
     [6, 3, 66, "RSpec/MultipleExpectations: Example has too many expectations [6/1].", 2667324670]
   ],
-  "spec/floss_funding/non_gem_fixtures_spec.rb:3100005040": [
+  "spec/floss_funding/non_gem_fixtures_spec.rb:4064566000": [
     [41, 3, 77, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 1197196695],
     [74, 3, 89, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 1963461978],
     [106, 3, 100, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 686813999],
     [133, 3, 75, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 1167268030]
   ],
-  "spec/floss_funding/poke_spec.rb:3587207287": [
+  "spec/floss_funding/poke_spec.rb:1206093210": [
     [7, 1, 33, "RSpec/MultipleDescribes: Do not use multiple top-level example groups - try to nest them.", 3101784828],
-    [7, 1, 2646, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [73, 85]", 2985515678],
-    [73, 1, 345, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [7, 85]", 2324754422],
-    [77, 9, 73, "RSpec/LeakyConstantDeclaration: Stub module constant instead of declaring explicitly.", 3748187113],
-    [85, 1, 608, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [7, 73]", 2656800319],
-    [87, 5, 89, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 1549567724]
+    [7, 1, 2628, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [69, 81]", 2985515678],
+    [69, 1, 345, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [7, 81]", 2324754422],
+    [73, 9, 73, "RSpec/LeakyConstantDeclaration: Stub module constant instead of declaring explicitly.", 3748187113],
+    [81, 1, 534, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [7, 69]", 2656800319],
+    [83, 5, 89, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1549567724]
+  ],
+  "spec/floss_funding/project_root_spec.rb:1467495166": [
+    [5, 5, 29, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 1980743944]
   ],
   "spec/floss_funding/project_spec.rb:1190394389": [
     [5, 1, 38, "RSpec/SpecFilePathFormat: Spec path should end with `floss_funding/inclusion*_spec.rb`.", 1002342667],
@@ -95,13 +886,23 @@
     [20, 5, 79, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 4120667167],
     [23, 9, 41, "RSpec/RemoveConst: Do not use remove_const in specs. Consider using e.g. `stub_const`.", 457098195]
   ],
-  "spec/floss_funding/tracking_spec.rb:375922608": [
+  "spec/floss_funding/tracking_spec.rb:3198763537": [
     [9, 16, 37, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3603826461],
     [15, 5, 31, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2300487680],
-    [32, 5, 33, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 871784187],
-    [47, 5, 57, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 248228467],
-    [61, 5, 97, "RSpec/MultipleExpectations: Example has too many expectations [7/1].", 4166943142],
-    [74, 19, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361],
-    [79, 19, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361]
+    [32, 5, 48, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 772087403],
+    [45, 5, 57, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 248228467],
+    [59, 5, 97, "RSpec/MultipleExpectations: Example has too many expectations [7/1].", 4166943142],
+    [72, 19, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361],
+    [77, 19, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361]
+  ],
+  "spec/floss_funding/under_bar_spec.rb:3147601663": [
+    [119, 7, 71, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3379891608]
+  ],
+  "spec/floss_funding/wedge_spec.rb:3026672404": [
+    [11, 3, 6, "Lint/Syntax: unexpected token kRESCUE\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 2123792210]
+  ],
+  "spec/support/contraindications_helper.rb:488282364": [
+    [68, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
+    [81, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
   ]
 }

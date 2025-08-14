@@ -2,7 +2,7 @@
 
 require_relative "../support/bench_gems_generator"
 
-RSpec.describe "Benchmark fixtures ENV segmentation" do # rubocop:disable RSpec/DescribeClass
+RSpec.describe "Benchmark fixtures ENV segmentation", :skip_ci do # rubocop:disable RSpec/DescribeClass
   def remove_bench_constants
     (1..100).each do |i|
       mod_name = format("BenchGem%02d", i)

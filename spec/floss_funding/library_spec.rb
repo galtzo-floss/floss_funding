@@ -1,10 +1,12 @@
 # frozen_string_literal: true
+
 require "securerandom"
 
 RSpec.describe FlossFunding::Library do
   before do
     described_class.reset_caches!
   end
+
   let(:including_path) { __FILE__ }
   let(:namespace) { FlossFunding::Namespace.new("TestModule") }
 
@@ -18,9 +20,9 @@ RSpec.describe FlossFunding::Library do
           :count => 1,
           :group_size => 1,
           :gem_name_prefix => "const_gem_",
-          :gemspec_extras => { :name_literal => "GEM_NAME" },
+          :gemspec_extras => {:name_literal => "GEM_NAME"},
           :overwrite => true,
-          :cleanup => true
+          :cleanup => true,
         ).run
         gemspec1 = result[:gems].first[:gemspec_path]
         File.open(gemspec1, "a") { |f| f << "\nGEM_NAME = 'constant_name'\n" }
@@ -34,7 +36,7 @@ RSpec.describe FlossFunding::Library do
           :group_size => 1,
           :gem_name_prefix => "literal_gem_",
           :overwrite => true,
-          :cleanup => true
+          :cleanup => true,
         ).run
         gemspec2 = result2[:gems].first[:gemspec_path]
         expected_name = result2[:gems].first[:gem_name]
@@ -55,7 +57,7 @@ RSpec.describe FlossFunding::Library do
           :group_size => 1,
           :gem_name_prefix => "light_parse_",
           :overwrite => true,
-          :cleanup => true
+          :cleanup => true,
         ).run
         gemspec = result[:gems].first[:gemspec_path]
         expected = result[:gems].first[:gem_name]
@@ -78,9 +80,9 @@ RSpec.describe FlossFunding::Library do
           :count => 1,
           :group_size => 1,
           :gem_name_prefix => "const_name_",
-          :gemspec_extras => { :name_literal => "GEM_NAME" },
+          :gemspec_extras => {:name_literal => "GEM_NAME"},
           :overwrite => true,
-          :cleanup => true
+          :cleanup => true,
         ).run
         gemspec = result[:gems].first[:gemspec_path]
         const_val = "constant_name_#{SecureRandom.hex(2)}"
@@ -121,7 +123,7 @@ RSpec.describe FlossFunding::Library do
           :group_size => 1,
           :gem_name_prefix => "cache_demo_",
           :overwrite => true,
-          :cleanup => true
+          :cleanup => true,
         ).run
         gemspec = result[:gems].first[:gemspec_path]
         expected = result[:gems].first[:gem_name]

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe FlossFunding::Namespace do
-  include_context 'with stubbed env'
+  include_context "with stubbed env"
 
   describe "#initialize state derivation" do
     before do

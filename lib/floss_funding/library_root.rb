@@ -29,8 +29,8 @@ module FlossFunding
         Pathname.new(start_dir).expand_path.ascend do |dir|
           dir_s = dir.to_s
           if File.exist?(File.join(dir_s, "Gemfile")) ||
-             File.exist?(File.join(dir_s, "gems.rb")) ||
-             !Dir.glob(File.join(dir_s, "*.gemspec")).empty?
+              File.exist?(File.join(dir_s, "gems.rb")) ||
+              !Dir.glob(File.join(dir_s, "*.gemspec")).empty?
             root = dir_s
             break
           end

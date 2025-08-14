@@ -10,7 +10,7 @@ require "floss_funding"
 ITER = (ENV["ITER"] || "5000").to_i
 
 all_words = begin
-  File.readlines(::FlossFunding::BASE_WORDS_PATH, :chomp => true)
+  File.readlines(FlossFunding::BASE_WORDS_PATH, :chomp => true)
 rescue StandardError
   []
 end

@@ -54,7 +54,7 @@ Options (defaults in parentheses)
 - authors: Array<String> or Proc(ctx)->Array<String> ([])
 - version_strategy: Proc(ctx)->String ("0.0.#{index}")
 - gemspec_extras: Hash or Proc(ctx)->Hash ({})
-  - Common keys: summary, description, metadata, licenses, files_glob (default "lib/**/*.rb"), require_paths (default ["lib"]) 
+  - Common keys: summary, description, metadata, licenses, files_glob (default "lib/**/*.rb"), require_paths (default ["lib"])
 - yaml_templates: Hash or Proc(ctx)->Hash ({})
   - Keys match /(.*)(_ya?ml)/ or end with .yml/.yaml, value is ERB text; output becomes <basename>.yml or .yaml
 - file_contents: Hash or Proc(ctx)->Hash (nil => generate a minimal default lib file)

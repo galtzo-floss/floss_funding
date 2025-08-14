@@ -25,6 +25,8 @@ require "config/timecop"
 require "support/bench_gems_generator"
 require "support/contraindications_helper"
 
+IS_CI = ENV.fetch("CI", "false").casecmp("true") == 0
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
@@ -37,6 +39,12 @@ RSpec.configure do |config|
   end
 
   config.include(SilentStream)
+
+  # Exclude examples/groups tagged with :skip_ci when running on CI
+  # Usage: add `:skip_ci` to any example or group you want to skip on CI
+  if IS_CI
+    config.filter_run_excluding :skip_ci => true
+  end
 
   # Reset global FlossFunding state around each example to avoid cross-test pollution
   config.around do |example|

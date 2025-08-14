@@ -18,7 +18,7 @@ RSpec.describe FlossFunding::Config do
 
     it "extracts fields and supports funding_uri from metadata symbol key" do
       fake_spec = Struct.new(:name, :homepage, :authors, :metadata).new(
-        "gemy", "https://example.test", ["Ada"], { :funding_uri => "https://fund.me" }
+        "gemy", "https://example.test", ["Ada"], {:funding_uri => "https://fund.me"}
       )
       allow(Dir).to receive(:glob).and_return(["/tmp/fake.gemspec"]) # ensure path discovered
       allow(Gem::Specification).to receive(:load).and_return(fake_spec)
@@ -96,7 +96,7 @@ RSpec.describe FlossFunding::ContraIndications do
       cfg = {
         "Lib::One" => {"silent" => [-> { true }]},
       }
-      configure_contraindications!(at_exit: { stdout_tty: true, global_silenced: false, constants_silent: false })
+      configure_contraindications!(:at_exit => {:stdout_tty => true, :global_silenced => false, :constants_silent => false})
       allow(FlossFunding).to receive(:configurations).and_return(cfg)
       expect(described_class.at_exit_contraindicated?).to be(true)
     end
@@ -118,12 +118,14 @@ RSpec.describe FlossFunding::ContraIndications do
 
     it "returns false when configs are empty or silent values are non-callable/false" do
       dummy_with_to_h = Struct.new(:h) do
-        def to_h; h; end
+        def to_h
+          h
+        end
       end
       cfg = {
         "Lib::One" => [dummy_with_to_h.new({"silent" => [-> { false }]}), Object.new],
       }
-      configure_contraindications!(at_exit: { stdout_tty: true, global_silenced: false, constants_silent: false })
+      configure_contraindications!(:at_exit => {:stdout_tty => true, :global_silenced => false, :constants_silent => false})
       allow(FlossFunding).to receive(:configurations).and_return(cfg)
       expect(described_class.at_exit_contraindicated?).to be(false)
     end
@@ -132,7 +134,7 @@ RSpec.describe FlossFunding::ContraIndications do
       cfg = {
         "Lib::X" => Object.new,
       }
-      configure_contraindications!(at_exit: { stdout_tty: true, global_silenced: false, constants_silent: false })
+      configure_contraindications!(:at_exit => {:stdout_tty => true, :global_silenced => false, :constants_silent => false})
       allow(STDOUT).to receive(:tty?).and_return(true)
       allow(FlossFunding).to receive(:configurations).and_return(cfg)
       expect(described_class.at_exit_contraindicated?).to be(false)
@@ -142,7 +144,7 @@ RSpec.describe FlossFunding::ContraIndications do
       cfg = {
         "Lib::Hash" => {"silent" => [-> { false }]},
       }
-      configure_contraindications!(at_exit: { stdout_tty: true, global_silenced: false, constants_silent: false })
+      configure_contraindications!(:at_exit => {:stdout_tty => true, :global_silenced => false, :constants_silent => false})
       allow(STDOUT).to receive(:tty?).and_return(true)
       allow(FlossFunding).to receive(:configurations).and_return(cfg)
       expect(described_class.at_exit_contraindicated?).to be(false)
@@ -155,8 +157,8 @@ RSpec.describe FlossFunding::ContraIndications do
           super
         end
       end
-      cfg = { "Lib::Weird" => weird["silent" => [-> { false }]] }
-      configure_contraindications!(at_exit: { stdout_tty: true, global_silenced: false, constants_silent: false })
+      cfg = {"Lib::Weird" => weird["silent" => [-> { false }]]}
+      configure_contraindications!(:at_exit => {:stdout_tty => true, :global_silenced => false, :constants_silent => false})
       allow(STDOUT).to receive(:tty?).and_return(true)
       allow(FlossFunding).to receive(:configurations).and_return(cfg)
       expect(described_class.at_exit_contraindicated?).to be(false)
@@ -166,7 +168,7 @@ RSpec.describe FlossFunding::ContraIndications do
       cfg = {
         "Lib::Two" => {"silent" => [-> { raise "boom" }]},
       }
-      configure_contraindications!(at_exit: { stdout_tty: true, global_silenced: false, constants_silent: false })
+      configure_contraindications!(:at_exit => {:stdout_tty => true, :global_silenced => false, :constants_silent => false})
       allow(FlossFunding).to receive(:configurations).and_return(cfg)
       expect(described_class.at_exit_contraindicated?).to be(true)
     end

@@ -20,7 +20,7 @@ RSpec.describe FlossFunding::Poke do
     end
 
     it "sets up the correct environment variable name based on the module's name", :check_output do
-      configure_contraindications!(at_exit: { stdout_tty: true })
+      configure_contraindications!(:at_exit => {:stdout_tty => true})
       expect do
         # Re-include to trigger output by stubbing the module again
         stub_const("TraditionalTest::InnerModule", Module.new)
@@ -44,7 +44,7 @@ RSpec.describe FlossFunding::Poke do
     end
 
     it "sets up the correct environment variable name based on the provided namespace", :check_output do
-      configure_contraindications!(at_exit: { stdout_tty: true })
+      configure_contraindications!(:at_exit => {:stdout_tty => true})
       expect do
         # Re-include to trigger output by stubbing the module again
         stub_const("CustomTest::InnerModule", Module.new)

@@ -2,7 +2,7 @@
 
 The benchmarks in this directory are the "show-me" explanation for why specific patterns
 were chosen over other, equally effective, but perhaps not as performant, ones.
- 
+
 - List available scripts:
     - rake bench:list
 - Run all scripts (skips automatically on CI):

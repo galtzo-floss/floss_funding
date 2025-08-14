@@ -15,7 +15,7 @@ module FlossFunding
         :group_size => 10,
         :include_floss_funding => true,
         :dependencies => [{:name => "floss_funding", :path => "../../../.."}],
-        :progress_bar => { title: "GemMine", format: "%t: |%B| %c/%C", autofinish: true },
+        :progress_bar => {:title => "GemMine", :format => "%t: |%B| %c/%C", :autofinish => true},
       }
       GemMine.factory(defaults.merge(options))
     end

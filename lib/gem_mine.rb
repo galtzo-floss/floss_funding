@@ -7,7 +7,7 @@
 #
 module GemMine
   autoload :Generator, "gem_mine/generator"
-  autoload :Helpers,   "gem_mine/helpers"
+  autoload :Helpers, "gem_mine/helpers"
 
   # Factory entry point to generate a collection of gem scaffolds.
   # Options may be provided as static values or callables (Proc/Lambda) that

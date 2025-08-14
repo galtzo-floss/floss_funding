@@ -28,6 +28,10 @@ module GemMine
       :progress_bar => nil,
     }.freeze
 
+    YAML_KEY_SUFFIX = /(.*)_ya?ml\z/.freeze
+    YML_EXT_REGEX = /\.yml\z/.freeze
+    YAML_EXT_REGEX = /\.yaml\z/.freeze
+
     def initialize(options = {})
       @options = DEFAULTS.merge(options || {})
     end
@@ -292,12 +296,12 @@ module GemMine
 
     def yaml_key_to_filename_and_ext(key)
       str = key.to_s
-      if (m = /(.*)_ya?ml\z/.match(str))
+      if (m = YAML_KEY_SUFFIX.match(str))
         [m[1], (str.end_with?("yaml") ? "yaml" : "yml")]
       elsif str.end_with?(".yml")
-        [str.sub(/\.yml\z/, ""), "yml"]
+        [str.sub(YML_EXT_REGEX, ""), "yml"]
       elsif str.end_with?(".yaml")
-        [str.sub(/\.yaml\z/, ""), "yaml"]
+        [str.sub(YAML_EXT_REGEX, ""), "yaml"]
       else
         # default to .yml
         [str, "yml"]

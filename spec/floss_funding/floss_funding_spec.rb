@@ -25,8 +25,8 @@ RSpec.describe FlossFunding do
       FlossFunding.add_or_update_namespace_with_event(ns1, ev1)
       FlossFunding.add_or_update_namespace_with_event(ns2, ev3)
 
-      expect(FlossFunding.all_namespaces.map(&:name).sort).to eq(["Ns1", "Ns2"]) 
-      expect(FlossFunding.all_namespace_names.sort).to eq(["Ns1", "Ns2"]) 
+      expect(FlossFunding.all_namespaces.map(&:name).sort).to eq(["Ns1", "Ns2"])
+      expect(FlossFunding.all_namespace_names.sort).to eq(["Ns1", "Ns2"])
       expect(FlossFunding.invalid_namespace_names).to contain_exactly("Ns2")
     end
 
@@ -48,7 +48,7 @@ RSpec.describe FlossFunding do
       expect(FlossFunding).to receive(:start_coughing).with(
         "deadbeef",
         "NsZ",
-        FlossFunding::UnderBar.env_variable_name("NsZ")
+        FlossFunding::UnderBar.env_variable_name("NsZ"),
       )
 
       FlossFunding.initiate_begging(event)
@@ -63,13 +63,13 @@ RSpec.describe FlossFunding do
 
     after do
       FlossFunding.namespaces = {}
-      FlossFunding.silenced = ::FlossFunding::Constants::SILENT
+      FlossFunding.silenced = FlossFunding::Constants::SILENT
       FlossFunding.now_time = nil
     end
 
     it "covers activation_occurrences false path when a namespace has zero events" do
       ns = FlossFunding::Namespace.new("NoEventsNS", nil, [])
-      FlossFunding.namespaces = { ns.name => ns }
+      FlossFunding.namespaces = {ns.name => ns}
       expect(FlossFunding.activation_occurrences).to eq([])
     end
 
@@ -99,6 +99,7 @@ RSpec.describe FlossFunding do
       }.to output(/COUGH, COUGH\.|Current \(Invalid\) Activation Key: deadbeef/).to_stdout
     end
   end
+
   describe ".env_var_names (derived)" do
     it "derives env var names from included namespaces and does not expose internals" do
       # Create two modules and include Poke to register namespaces
@@ -132,13 +133,13 @@ RSpec.describe FlossFunding do
 
     after do
       FlossFunding.namespaces = {}
-      FlossFunding.silenced = ::FlossFunding::Constants::SILENT
+      FlossFunding.silenced = FlossFunding::Constants::SILENT
       FlossFunding.now_time = nil
     end
 
     it "covers activation_occurrences false path when a namespace has zero events" do
       ns = FlossFunding::Namespace.new("NoEventsNS", nil, [])
-      FlossFunding.namespaces = { ns.name => ns }
+      FlossFunding.namespaces = {ns.name => ns}
 
       # count == 0 so the modifier-if should not append; SimpleCov records the false branch as the 'else' path
       expect(FlossFunding.activation_occurrences).to eq([])
@@ -150,7 +151,6 @@ RSpec.describe FlossFunding do
       expect(FlossFunding.num_valid_words_for_month).to eq(0)
       expect(FlossFunding.base_words).to eq([])
     end
-
 
     it "covers check_activation early return when n <= 0" do
       FlossFunding.now_time = Time.new(2025, 7, 1, 0, 0, 0, "+00:00")

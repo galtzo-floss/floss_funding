@@ -75,7 +75,7 @@ module FlossFunding
     def counts_line(label, namespaces_count, libraries_count)
       "#{label}: namespaces=#{namespaces_count} / libraries=#{libraries_count}"
     end
-    
+
     def namespace_details_block(ns)
       name = ns.name
       env_name = ns.env_var_name
@@ -115,7 +115,7 @@ module FlossFunding
       pool = @namespaces.select do |ns|
         ns.has_state?(::FlossFunding::STATES[:unactivated]) || ns.has_state?(::FlossFunding::STATES[:invalid])
       end
-      return nil if pool.empty?
+      return if pool.empty?
       pool[rand(pool.size)]
     end
   end

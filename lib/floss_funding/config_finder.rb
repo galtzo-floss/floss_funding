@@ -65,10 +65,10 @@ module FlossFunding
         dir = File.dirname(root_indicator_file)
         # Ignore the gem's own repository root when resolving a project root for
         # external/embedded consumers (e.g., test fixtures within this repo).
-        if dir == FLOSS_FUNDING_HOME
-          @project_root_for_cache[key] = nil
+        @project_root_for_cache[key] = if dir == FLOSS_FUNDING_HOME
+          nil
         else
-          @project_root_for_cache[key] = dir
+          dir
         end
       end
 
@@ -83,7 +83,7 @@ module FlossFunding
         dir = File.dirname(root_indicator_file)
         # Ignore the gem's own repository root when resolving a project root for
         # the current process (mirrors project_root_for behavior).
-        return nil if dir == FLOSS_FUNDING_HOME
+        return if dir == FLOSS_FUNDING_HOME
 
         dir
       end

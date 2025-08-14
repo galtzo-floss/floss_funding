@@ -2,6 +2,10 @@
 
 module GemMine
   module Helpers
+    SPLIT_UNDERSCORE_OR_SPACE = /[_\s]+/.freeze
+    UPPERCASE_GROUPS = /([A-Z]+)([A-Z][a-z])/.freeze
+    LOWER_UPPER_GROUPS = /([a-z\d])([A-Z])/.freeze
+
     module_function
 
     # Returns Ruby code string that, when evaluated inside a gem's lib file,
@@ -23,14 +27,14 @@ module GemMine
 
     # Simple camelize for typical gem_name strings like "bench_gem_01" -> "BenchGem01"
     def camelize(str)
-      str.to_s.split(/[_\s]+/).map { |s| s[0] ? s[0].upcase + s[1..-1].to_s : s }.join
+      str.to_s.split(SPLIT_UNDERSCORE_OR_SPACE).map { |s| s[0] ? s[0].upcase + s[1..-1].to_s : s }.join
     end
 
     # Simple underscore for ModuleName -> module_name
     def underscore(str)
       s = str.to_s.gsub("::", "/")
-      s = s.gsub(/([A-Z]+)([A-Z][a-z])/, '\\1_\\2')
-      s = s.gsub(/([a-z\d])([A-Z])/, '\\1_\\2')
+      s = s.gsub(UPPERCASE_GROUPS, '\\1_\\2')
+      s = s.gsub(LOWER_UPPER_GROUPS, '\\1_\\2')
       s.tr("-", "_").downcase
     end
   end
