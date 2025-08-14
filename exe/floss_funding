@@ -1,0 +1,347 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# floss_funding CLI
+# - Always run from a project root (expects Gemfile or gems.rb)
+# - Uses Bundler to load the app's dependencies
+# - Uses FlossFunding to classify namespaces and libraries by activation state
+# - Provides OptionParser-based commands for listing and simple interactive menus
+
+require "optparse"
+require "io/console"
+
+# Verify Bundler project root presence
+PROJECT_ROOT = Dir.pwd
+GEMFILE = File.join(PROJECT_ROOT, "Gemfile")
+GEMFILE_ALT = File.join(PROJECT_ROOT, "gems.rb")
+
+unless File.file?(GEMFILE) || File.file?(GEMFILE_ALT)
+  warn "Error: This command must be run from a Bundler project root (Gemfile or gems.rb not found)."
+  exit(2)
+end
+
+# Load bundler and the app's default group
+begin
+  require "bundler/setup"
+rescue LoadError => e
+  warn("Error: bundler is required to run this command (#{e.class}: #{e.message}).")
+  exit(2)
+end
+
+begin
+  # Load default group; avoid test/development auto-require
+  Bundler.require(:default)
+rescue StandardError
+  # Some projects have no :default group or prefer manual requires; ignore
+end
+
+# Load floss_funding and attempt to wedge into loaded gems
+begin
+  require "floss_funding/wedge"
+rescue LoadError
+  begin
+    require "floss_funding"
+  rescue LoadError => e
+    warn("Error: could not load floss_funding library (#{e.message}).")
+    exit(2)
+  end
+end
+
+# After requiring, wedge to collect any loaded modules
+if defined?(FlossFunding::Wedge)
+  begin
+    FlossFunding::Wedge.wedge!
+  rescue StandardError
+    # Best-effort
+  end
+end
+
+# Helpers to extract data from FlossFunding global state
+module FFCLI
+  module_function
+
+  def namespaces_by_state
+    ns_map = ::FlossFunding.namespaces
+    activated = []
+    unactivated = []
+    invalid = []
+    ns_map.each_value do |ns|
+      activated << ns.name if ns.has_state?(::FlossFunding::STATES[:activated])
+      unactivated << ns.name if ns.has_state?(::FlossFunding::STATES[:unactivated])
+      invalid << ns.name if ns.has_state?(::FlossFunding::STATES[:invalid])
+    end
+    {
+      :activated => activated.uniq.sort,
+      :unactivated => unactivated.uniq.sort,
+      :invalid => invalid.uniq.sort,
+    }
+  end
+
+  def libraries_by_state
+    ns_map = ::FlossFunding.namespaces
+    activated = []
+    unactivated = []
+    invalid = []
+
+    ns_map.each_value do |ns|
+      ns.activation_events.each do |ev|
+        lib = ev.library
+        next unless lib
+        entry = {
+          :gem_name => lib.gem_name,
+          :namespace => lib.namespace,
+          :env_var => lib.env_var_name,
+          :config => lib.config,
+        }
+        case ev.state
+        when ::FlossFunding::STATES[:activated]
+          activated << entry
+        when ::FlossFunding::STATES[:invalid]
+          invalid << entry
+        else
+          unactivated << entry
+        end
+      end
+    end
+
+    # uniq by gem_name + namespace
+    uniq_by = ->(arr) { arr.uniq { |h| [h[:gem_name], h[:namespace]] } }
+
+    {
+      :activated => uniq_by.call(activated).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] },
+      :unactivated => uniq_by.call(unactivated).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] },
+      :invalid => uniq_by.call(invalid).sort_by { |h| [h[:gem_name].to_s, h[:namespace].to_s] },
+    }
+  end
+
+  def print_list(title, items)
+    puts title
+    if items.empty?
+      puts "  (none)"
+    else
+      items.each { |i| puts "  - #{i}" }
+    end
+  end
+
+  def print_libraries(title, libs)
+    puts title
+    if libs.empty?
+      puts "  (none)"
+    else
+      libs.each do |h|
+        puts "  - #{h[:gem_name]} [#{h[:namespace]}] (ENV: #{h[:env_var]})"
+      end
+    end
+  end
+
+  def show_library_details(lib)
+    cfg = lib[:config]
+    puts "Gem:        #{lib[:gem_name]}"
+    puts "Namespace:  #{lib[:namespace]}"
+    puts "ENV var:    #{lib[:env_var]}"
+    if cfg.respond_to?(:to_h)
+      h = cfg.to_h
+      h.each do |k, v|
+        vv = v.is_a?(Array) ? v.join(", ") : v
+        puts sprintf("  %-14s %s", "#{k}:", vv)
+      end
+    end
+  end
+
+  def interactive_menu(title, libs)
+    return puts("#{title}\n  (none)") if libs.empty?
+
+    loop do
+      puts title
+      libs.each_with_index do |lib, idx|
+        puts sprintf("%2d) %-30s [%s]", idx + 1, lib[:gem_name], lib[:namespace])
+      end
+      puts " q) Quit"
+      print("Choose a library for details: ")
+      line = $stdin.gets
+      choice = line ? line.strip : nil
+      break if choice.nil? || choice.downcase == "q"
+      idx = choice.to_i - 1
+      if idx >= 0 && idx < libs.size
+        puts
+        show_library_details(libs[idx])
+        puts
+        puts "Press Enter to return to menu..."
+        $stdin.gets
+      else
+        puts "Invalid selection."
+      end
+    end
+  end
+
+  def progress_bar(activated_count, total_count)
+    require "ruby-progressbar"
+    total = [total_count, 0].max
+    activated = [[activated_count, 0].max, total].min
+    bar = ProgressBar.create(:title => "Funding", :total => total, :format => "%t: |%B| %p%% (%c/%C)")
+    bar.progress = activated
+    bar.finish
+  rescue LoadError
+    puts "Funding: #{activated_count}/#{total_count}"
+  end
+
+  def table_libraries(libs)
+    begin
+      require "rainbow"
+    rescue LoadError
+      # proceed without colors
+    end
+
+    begin
+      require "terminal-table"
+    rescue LoadError
+      warn("terminal-table gem is required for table output. Please add it to your Gemfile.")
+      return
+    end
+
+    # Prepare left pane (Needs Funding: Unactivated + Invalid) and right pane (Activated)
+    left_items = []
+    libs[:unactivated].each do |h|
+      label = "#{h[:gem_name]} [#{h[:namespace]}]"
+      left_items << [:unactivated, label]
+    end
+    libs[:invalid].each do |h|
+      label = "#{h[:gem_name]} [#{h[:namespace]}]"
+      left_items << [:invalid, label]
+    end
+    left_items.sort_by! { |(_, label)| label }
+    left = left_items.map do |state, label|
+      if defined?(Rainbow)
+        (state == :unactivated) ? Rainbow(label).orange.to_s : Rainbow(label).yellow.to_s
+      else
+        label
+      end
+    end
+
+    right = libs[:activated].map { |h| "#{h[:gem_name]} [#{h[:namespace]}]" }.sort
+    if defined?(Rainbow)
+      right = right.map { |label| Rainbow(label).green.to_s }
+    end
+
+    # Determine terminal width if available to help terminal-table size itself
+    begin
+      cols = IO.console.winsize[1]
+    rescue StandardError
+      cols = nil
+    end
+
+    headings = ["Needs Funding (Unactivated + Invalid)", "Funded by You (Activated)"]
+
+    max_rows = [left.length, right.length].max
+    rows = Array.new(max_rows) do |i|
+      [left[i] || "", right[i] || ""]
+    end
+
+    table = Terminal::Table.new(:headings => headings, :rows => rows)
+    # Let terminal-table compute widths, but hint total width if we know it
+    table.style = {:width => cols} if cols && cols > 0
+
+    puts table
+  end
+end
+
+options = {}
+# Map multi-letter short options (initials of long options) to their long forms to avoid
+# OptionParser ambiguity with clustered short switches.
+SHORT_ALIAS_MAP = {
+  "-lan" => "--list-activated-namespaces",
+  "-lal" => "--list-activated-libraries",
+  "-lun" => "--list-unactivated-namespaces",
+  "-lul" => "--list-unactivated-libraries",
+  "-lin" => "--list-invalid-namespaces",
+  "-lil" => "--list-invalid-libraries",
+  "-rnf" => "--random-needing-funding",
+  "-anf" => "--all-needing-funding",
+  "-mnf" => "--menu-needing-funding",
+  "-mf" => "--menu-funded",
+}.freeze
+
+# Rewrite ARGV in-place so OptionParser can unambiguously handle them.
+ARGV.map! { |a| SHORT_ALIAS_MAP.fetch(a, a) }
+
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: floss_funding [options]"
+  opts.separator("")
+  opts.separator("Actions:")
+  opts.on("--list-activated-namespaces", "List Activated Namespaces") { options[:action] = :list_activated_ns }
+  opts.on("--list-activated-libraries", "List Activated Libraries") { options[:action] = :list_activated_libs }
+  opts.on("--list-unactivated-namespaces", "List Unactivated Namespaces") { options[:action] = :list_unactivated_ns }
+  opts.on("--list-unactivated-libraries", "List Unactivated Libraries") { options[:action] = :list_unactivated_libs }
+  opts.on("--list-invalid-namespaces", "List Invalid Namespaces") { options[:action] = :list_invalid_ns }
+  opts.on("--list-invalid-libraries", "List Invalid Libraries") { options[:action] = :list_invalid_libs }
+  opts.on("--random-needing-funding", "Show random library needing funding (Unactivated)") { options[:action] = :random_unactivated }
+  opts.on("--all-needing-funding", "Show all libraries needing funding (Unactivated)") { options[:action] = :all_unactivated }
+  opts.on("--menu-needing-funding", "Menu of libraries needing funding (interactive)") { options[:action] = :menu_unactivated }
+  opts.on("--menu-funded", "Menu of libraries that are funded (interactive)") { options[:action] = :menu_activated }
+  opts.on("-p", "--progress", "Show progress bar of Activated vs Activated+Unactivated libraries") { options[:action] = :progress }
+  opts.on("-t", "--table", "Show two-pane table of libraries by activation state") { options[:action] = :table }
+
+  opts.separator("")
+  opts.on("-v", "--version", "Show version") do
+    require "floss_funding/version"
+    puts FlossFunding::Version::VERSION
+    exit(0)
+  end
+  opts.on("-h", "--help", "Show help") do
+    puts opts
+    exit(0)
+  end
+end
+
+begin
+  parser.parse!(ARGV)
+rescue OptionParser::InvalidOption => e
+  warn(e.message)
+  warn(parser)
+  exit(1)
+end
+
+if options[:action].nil?
+  puts parser
+  exit(0)
+end
+
+ns = FFCLI.namespaces_by_state
+libs = FFCLI.libraries_by_state
+
+case options[:action]
+when :list_activated_ns
+  FFCLI.print_list("Activated Namespaces:", ns[:activated])
+when :list_unactivated_ns
+  FFCLI.print_list("Unactivated Namespaces:", ns[:unactivated])
+when :list_invalid_ns
+  FFCLI.print_list("Invalid Namespaces:", ns[:invalid])
+when :list_activated_libs
+  FFCLI.print_libraries("Activated Libraries:", libs[:activated])
+when :list_unactivated_libs
+  FFCLI.print_libraries("Unactivated Libraries:", libs[:unactivated])
+when :list_invalid_libs
+  FFCLI.print_libraries("Invalid Libraries:", libs[:invalid])
+when :random_unactivated
+  if libs[:unactivated].empty?
+    puts "No libraries needing funding found."
+  else
+    lib = libs[:unactivated].sample
+    puts "Random library needing funding:"
+    FFCLI.show_library_details(lib)
+  end
+when :all_unactivated
+  FFCLI.print_libraries("Libraries needing funding:", libs[:unactivated])
+when :menu_unactivated
+  FFCLI.interactive_menu("Libraries needing funding:", libs[:unactivated])
+when :menu_activated
+  FFCLI.interactive_menu("Libraries that are funded:", libs[:activated])
+when :progress
+  activated_count = libs[:activated].size
+  total_count = activated_count + libs[:unactivated].size
+  FFCLI.progress_bar(activated_count, total_count)
+when :table
+  FFCLI.table_libraries(libs)
+else
+  puts parser
+end

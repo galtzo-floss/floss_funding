@@ -460,7 +460,14 @@ Memoized for the lifetime of the process; tests may clear via reset_caches!.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Testing hook to clear internal caches</p>
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'><p>Test shim: used by specs/benchmarks; no internal usage as of 2025-08-13.</p>
+</div>
+  </div>
+
+<p>Testing hook to clear internal caches</p>
 
 
   </div>
@@ -474,12 +481,12 @@ Memoized for the lifetime of the process; tests may clear via reset_caches!.</p>
       <pre class="lines">
 
 
-50
 51
-52</pre>
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reset_caches!'>reset_caches!</span>
   <span class='ivar'>@default_configuration</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -494,7 +501,7 @@ Memoized for the lifetime of the process; tests may clear via reset_caches!.</p>
 </div>
 
       <div id="footer">
-  Generated on Wed Aug 13 16:21:34 2025 by
+  Generated on Thu Aug 14 01:12:51 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

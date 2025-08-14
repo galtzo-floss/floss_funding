@@ -83,7 +83,21 @@
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>A tiny marker module mixed into libraries that include FlossFunding.</p>
 
+<p>Exposes a single no-op method so specs (and external diagnostics) can<br />
+detect that a library has integrated FlossFunding by checking<br />
+<code>respond_to?(:floss_funding_fingerprint)</code>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
 
 
@@ -101,7 +115,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#floss_funding_fingerprint-instance_method" title="#floss_funding_fingerprint (instance method)">#<strong>floss_funding_fingerprint</strong>  &#x21d2; Object </a>
+      <a href="#floss_funding_fingerprint-instance_method" title="#floss_funding_fingerprint (instance method)">#<strong>floss_funding_fingerprint</strong>  &#x21d2; nil </a>
     
 
     
@@ -115,7 +129,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Returns nil; presence of this method is the signal.</p>
 </div></span>
   
 </li>
@@ -133,24 +147,54 @@
       <div class="method_details first">
   <h3 class="signature first" id="floss_funding_fingerprint-instance_method">
   
-    #<strong>floss_funding_fingerprint</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>floss_funding_fingerprint</strong>  &#x21d2; <tt>nil</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'><p>Test shim: used by specs; no internal usage as of 2025-08-13.</p>
+</div>
+  </div>
+
+<p>Returns nil; presence of this method is the signal.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-3
-4
-5</pre>
+12
+13
+14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/fingerprint.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/fingerprint.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_floss_funding_fingerprint'>floss_funding_fingerprint</span>
   <span class='kw'>nil</span>
@@ -165,7 +209,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Aug 13 16:21:33 2025 by
+  Generated on Thu Aug 14 01:12:51 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

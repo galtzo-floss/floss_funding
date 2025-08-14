@@ -153,6 +153,21 @@
   <span class='symbol'>:progress_bar</span> <span class='op'>=&gt;</span> <span class='kw'>nil</span><span class='comma'>,</span>
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
+        <dt id="YAML_KEY_SUFFIX-constant" class="">YAML_KEY_SUFFIX =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>(.*)_ya?ml\z</span><span class='regexp_end'>/</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="YML_EXT_REGEX-constant" class="">YML_EXT_REGEX =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\.yml\z</span><span class='regexp_end'>/</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="YAML_EXT_REGEX-constant" class="">YAML_EXT_REGEX =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\.yaml\z</span><span class='regexp_end'>/</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
     </dl>
   
 
@@ -249,12 +264,12 @@
       <pre class="lines">
 
 
-31
-32
-33</pre>
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/gem_mine/generator.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/gem_mine/generator.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@options</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULTS-constant" title="GemMine::Generator::DEFAULTS (constant)">DEFAULTS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
@@ -286,10 +301,6 @@
       <pre class="lines">
 
 
-35
-36
-37
-38
 39
 40
 41
@@ -401,10 +412,14 @@
 147
 148
 149
-150</pre>
+150
+151
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/gem_mine/generator.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/gem_mine/generator.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run'>run</span>
   <span class='id identifier rubyid_validate!'>validate!</span>
@@ -532,7 +547,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Aug 13 16:21:33 2025 by
+  Generated on Thu Aug 14 01:12:51 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

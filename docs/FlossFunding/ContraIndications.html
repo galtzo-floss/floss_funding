@@ -226,13 +226,6 @@ Returns true if any library requests silence; false otherwise.</p>
       <pre class="lines">
 
 
-45
-46
-47
-48
-49
-50
-51
 52
 53
 54
@@ -260,10 +253,17 @@ Returns true if any library requests silence; false otherwise.</p>
 76
 77
 78
-79</pre>
+79
+80
+81
+82
+83
+84
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/contra_indications.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/contra_indications.rb', line 52</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_at_exit_contraindicated?'>at_exit_contraindicated?</span>
   <span class='comment'># Honor global flags first
@@ -367,7 +367,14 @@ Returns true if any library requests silence; false otherwise.</p>
 30
 31
 32
-33</pre>
+33
+34
+35
+36
+37
+38
+39
+40</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/contra_indications.rb', line 13</span>
@@ -391,6 +398,13 @@ Returns true if any library requests silence; false otherwise.</p>
     <span class='kw'>return</span> <span class='kw'>true</span>
   <span class='kw'>end</span>
 
+  <span class='comment'># Non-TTY environments: suppress poke/setup side effects (mirror at-exit logic)
+</span>  <span class='kw'>begin</span>
+    <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>unless</span> <span class='const'>STDOUT</span><span class='period'>.</span><span class='id identifier rubyid_tty?'>tty?</span>
+  <span class='kw'>rescue</span> <span class='const'>StandardError</span>
+    <span class='kw'>return</span> <span class='kw'>true</span>
+  <span class='kw'>end</span>
+
   <span class='kw'>false</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -403,7 +417,7 @@ Returns true if any library requests silence; false otherwise.</p>
 </div>
 
       <div id="footer">
-  Generated on Wed Aug 13 16:21:34 2025 by
+  Generated on Thu Aug 14 01:12:51 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

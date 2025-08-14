@@ -414,7 +414,7 @@ ActivationEvent generated from an include site.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(base, custom_namespace, including_path, silent_opt = nil)  &#x21d2; Inclusion </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(base, custom_namespace, including_path, silent_opt = nil, options = {})  &#x21d2; Inclusion </a>
     
 
     
@@ -445,7 +445,7 @@ ActivationEvent generated from an include site.</p>
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(base, custom_namespace, including_path, silent_opt = nil)  &#x21d2; <tt><span class='object_link'><a href="" title="FlossFunding::Inclusion (class)">Inclusion</a></span></tt> 
+    #<strong>initialize</strong>(base, custom_namespace, including_path, silent_opt = nil, options = {})  &#x21d2; <tt><span class='object_link'><a href="" title="FlossFunding::Inclusion (class)">Inclusion</a></span></tt> 
   
 
   
@@ -493,7 +493,7 @@ ActivationEvent generated from an include site.</p>
         <span class='name'>including_path</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
       
       
       
@@ -512,6 +512,23 @@ ActivationEvent generated from an include site.</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>additional options (e.g., :config_path)</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -521,7 +538,6 @@ ActivationEvent generated from an include site.</p>
       <pre class="lines">
 
 
-35
 36
 37
 38
@@ -563,15 +579,23 @@ ActivationEvent generated from an include site.</p>
 74
 75
 76
-77</pre>
+77
+78
+79
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/inclusion.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/inclusion.rb', line 36</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='comma'>,</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_including_path'>including_path</span><span class='comma'>,</span> <span class='id identifier rubyid_silent_opt'>silent_opt</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='comma'>,</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_including_path'>including_path</span><span class='comma'>,</span> <span class='id identifier rubyid_silent_opt'>silent_opt</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@base</span> <span class='op'>=</span> <span class='id identifier rubyid_base'>base</span>
   <span class='ivar'>@including_path</span> <span class='op'>=</span> <span class='id identifier rubyid_including_path'>including_path</span>
   <span class='ivar'>@silent</span> <span class='op'>=</span> <span class='id identifier rubyid_silent_opt'>silent_opt</span>
+  <span class='ivar'>@options</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span>
+  <span class='comment'># Assign early so validation sees the actual provided value
+</span>  <span class='ivar'>@custom_namespace</span> <span class='op'>=</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span>
 
   <span class='id identifier rubyid_validate_inputs!'>validate_inputs!</span>
 
@@ -596,6 +620,7 @@ ActivationEvent generated from an include site.</p>
     <span class='id identifier rubyid_including_path'>including_path</span><span class='comma'>,</span>
     <span class='ivar'>@namespace</span><span class='period'>.</span><span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='comma'>,</span>
     <span class='symbol'>:silent</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_silent_opt'>silent_opt</span><span class='comma'>,</span>
+    <span class='symbol'>:config_path</span> <span class='op'>=&gt;</span> <span class='ivar'>@options</span><span class='lbracket'>[</span><span class='symbol'>:config_path</span><span class='rbracket'>]</span><span class='comma'>,</span>
   <span class='rparen'>)</span>
 
   <span class='ivar'>@activation_key</span> <span class='op'>=</span> <span class='ivar'>@namespace</span><span class='period'>.</span><span class='id identifier rubyid_activation_key'>activation_key</span>
@@ -1177,7 +1202,7 @@ ActivationEvent generated from an include site.</p>
 </div>
 
       <div id="footer">
-  Generated on Wed Aug 13 16:21:34 2025 by
+  Generated on Thu Aug 14 01:12:51 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

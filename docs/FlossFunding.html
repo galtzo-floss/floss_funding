@@ -78,8 +78,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/floss_funding/silent.rb<span class="defines">,<br />
-  lib/floss_funding/poke.rb,<br /> lib/floss_funding/config.rb,<br /> lib/floss_funding/library.rb,<br /> lib/floss_funding/version.rb,<br /> lib/floss_funding/constants.rb,<br /> lib/floss_funding/inclusion.rb,<br /> lib/floss_funding/namespace.rb,<br /> lib/floss_funding/under_bar.rb,<br /> lib/floss_funding/file_finder.rb,<br /> lib/floss_funding/fingerprint.rb,<br /> lib/floss_funding/library_root.rb,<br /> lib/floss_funding/project_root.rb,<br /> lib/floss_funding/config_finder.rb,<br /> lib/floss_funding/config_loader.rb,<br /> lib/floss_funding/configuration.rb,<br /> lib/floss_funding/activation_event.rb,<br /> lib/floss_funding/contra_indications.rb,<br /> lib/floss_funding.rb</span>
+    <dd>lib/floss_funding/wedge.rb<span class="defines">,<br />
+  lib/floss_funding/poke.rb,<br /> lib/floss_funding/config.rb,<br /> lib/floss_funding/silent.rb,<br /> lib/floss_funding/library.rb,<br /> lib/floss_funding/version.rb,<br /> lib/floss_funding/constants.rb,<br /> lib/floss_funding/inclusion.rb,<br /> lib/floss_funding/namespace.rb,<br /> lib/floss_funding/under_bar.rb,<br /> lib/floss_funding/file_finder.rb,<br /> lib/floss_funding/fingerprint.rb,<br /> lib/floss_funding/library_root.rb,<br /> lib/floss_funding/project_root.rb,<br /> lib/floss_funding/config_finder.rb,<br /> lib/floss_funding/config_loader.rb,<br /> lib/floss_funding/configuration.rb,<br /> lib/floss_funding/final_summary.rb,<br /> lib/floss_funding/activation_event.rb,<br /> lib/floss_funding/contra_indications.rb,<br /> lib/floss_funding.rb</span>
 </dd>
   </dl>
   
@@ -103,7 +103,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="FlossFunding/ActivationEvent.html" title="FlossFunding::ActivationEvent (class)">ActivationEvent</a></span>, <span class='object_link'><a href="FlossFunding/ConfigFinder.html" title="FlossFunding::ConfigFinder (class)">ConfigFinder</a></span>, <span class='object_link'><a href="FlossFunding/ConfigLoader.html" title="FlossFunding::ConfigLoader (class)">ConfigLoader</a></span>, <span class='object_link'><a href="FlossFunding/ConfigNotFoundError.html" title="FlossFunding::ConfigNotFoundError (class)">ConfigNotFoundError</a></span>, <span class='object_link'><a href="FlossFunding/Configuration.html" title="FlossFunding::Configuration (class)">Configuration</a></span>, <span class='object_link'><a href="FlossFunding/ContraIndications.html" title="FlossFunding::ContraIndications (class)">ContraIndications</a></span>, <span class='object_link'><a href="FlossFunding/Error.html" title="FlossFunding::Error (class)">Error</a></span>, <span class='object_link'><a href="FlossFunding/Inclusion.html" title="FlossFunding::Inclusion (class)">Inclusion</a></span>, <span class='object_link'><a href="FlossFunding/Library.html" title="FlossFunding::Library (class)">Library</a></span>, <span class='object_link'><a href="FlossFunding/LibraryRoot.html" title="FlossFunding::LibraryRoot (class)">LibraryRoot</a></span>, <span class='object_link'><a href="FlossFunding/Namespace.html" title="FlossFunding::Namespace (class)">Namespace</a></span>, <span class='object_link'><a href="FlossFunding/ProjectRoot.html" title="FlossFunding::ProjectRoot (class)">ProjectRoot</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="FlossFunding/ActivationEvent.html" title="FlossFunding::ActivationEvent (class)">ActivationEvent</a></span>, <span class='object_link'><a href="FlossFunding/ConfigFinder.html" title="FlossFunding::ConfigFinder (class)">ConfigFinder</a></span>, <span class='object_link'><a href="FlossFunding/ConfigLoader.html" title="FlossFunding::ConfigLoader (class)">ConfigLoader</a></span>, <span class='object_link'><a href="FlossFunding/ConfigNotFoundError.html" title="FlossFunding::ConfigNotFoundError (class)">ConfigNotFoundError</a></span>, <span class='object_link'><a href="FlossFunding/Configuration.html" title="FlossFunding::Configuration (class)">Configuration</a></span>, <span class='object_link'><a href="FlossFunding/ContraIndications.html" title="FlossFunding::ContraIndications (class)">ContraIndications</a></span>, <span class='object_link'><a href="FlossFunding/Error.html" title="FlossFunding::Error (class)">Error</a></span>, <span class='object_link'><a href="FlossFunding/FinalSummary.html" title="FlossFunding::FinalSummary (class)">FinalSummary</a></span>, <span class='object_link'><a href="FlossFunding/Inclusion.html" title="FlossFunding::Inclusion (class)">Inclusion</a></span>, <span class='object_link'><a href="FlossFunding/Library.html" title="FlossFunding::Library (class)">Library</a></span>, <span class='object_link'><a href="FlossFunding/LibraryRoot.html" title="FlossFunding::LibraryRoot (class)">LibraryRoot</a></span>, <span class='object_link'><a href="FlossFunding/Namespace.html" title="FlossFunding::Namespace (class)">Namespace</a></span>, <span class='object_link'><a href="FlossFunding/ProjectRoot.html" title="FlossFunding::ProjectRoot (class)">ProjectRoot</a></span>, <span class='object_link'><a href="FlossFunding/Wedge.html" title="FlossFunding::Wedge (class)">Wedge</a></span>
     
   
 </p>
@@ -115,6 +115,21 @@
     </h2>
 
     <dl class="constants">
+      
+        <dt id="DEBUG-constant" class="">DEBUG =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Debug toggle controlled by ENV; set true when ENV[‘FLOSS_FUNDING_DEBUG’] case-insensitively equals “true”.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FLOSS_FUNDING_DEBUG</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_casecmp'>casecmp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>0</span></pre></dd>
       
         <dt id="FREE_AS_IN_BEER-constant" class="">FREE_AS_IN_BEER =
           <div class="docstring">
@@ -963,12 +978,12 @@ floss_funding v</span><span class='embexpr_beg'>#{</span><span class='op'>::</sp
       <pre class="lines">
 
 
-84
-85
-86</pre>
+87
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mutex'>mutex</span>
   <span class='ivar'>@mutex</span>
@@ -1018,12 +1033,12 @@ floss_funding v</span><span class='embexpr_beg'>#{</span><span class='op'>::</sp
       <pre class="lines">
 
 
-240
-241
-242</pre>
+243
+244
+245</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 240</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 243</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_now_time'>now_time</span>
   <span class='ivar'>@now_time</span> <span class='op'>||=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -1078,18 +1093,18 @@ floss_funding v</span><span class='embexpr_beg'>#{</span><span class='op'>::</sp
       <pre class="lines">
 
 
-134
-135
-136
 137
 138
 139
 140
 141
-142</pre>
+142
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 137</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_activated_namespace_names'>activated_namespace_names</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
@@ -1144,19 +1159,19 @@ e.g., [“Ns1”, “Ns1”, “Ns2”] if Ns1 had 2 events and Ns2 had 1</p>
       <pre class="lines">
 
 
-199
-200
-201
 202
 203
 204
 205
 206
 207
-208</pre>
+208
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 199</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 202</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_activation_occurrences'>activation_occurrences</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
@@ -1188,17 +1203,17 @@ e.g., [“Ns1”, “Ns1”, “Ns2”] if Ns1 had 2 events and Ns2 had 1</p>
       <pre class="lines">
 
 
-110
-111
-112
 113
 114
 115
 116
-117</pre>
+117
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 113</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_or_update_namespace_with_event'>add_or_update_namespace_with_event</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_event'>event</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
@@ -1251,12 +1266,12 @@ e.g., [“Ns1”, “Ns1”, “Ns2”] if Ns1 had 2 events and Ns2 had 1</p>
       <pre class="lines">
 
 
-128
-129
-130</pre>
+131
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 131</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_all_namespace_names'>all_namespace_names</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@namespaces</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
@@ -1305,12 +1320,12 @@ Returns array of Namespace objects</p>
       <pre class="lines">
 
 
-122
-123
-124</pre>
+125
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_all_namespaces'>all_namespaces</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@namespaces</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
@@ -1409,9 +1424,6 @@ determine how many words are valid.</p>
       <pre class="lines">
 
 
-220
-221
-222
 223
 224
 225
@@ -1425,10 +1437,13 @@ determine how many words are valid.</p>
 233
 234
 235
-236</pre>
+236
+237
+238
+239</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 223</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_base_words'>base_words</span><span class='lparen'>(</span><span class='id identifier rubyid_num_valid_words'>num_valid_words</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_n'>n</span> <span class='op'>=</span> <span class='id identifier rubyid_num_valid_words'>num_valid_words</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='id identifier rubyid_num_valid_words_for_month'>num_valid_words_for_month</span> <span class='op'>:</span> <span class='id identifier rubyid_num_valid_words'>num_valid_words</span>
@@ -1505,9 +1520,6 @@ determine how many words are valid.</p>
       <pre class="lines">
 
 
-264
-265
-266
 267
 268
 269
@@ -1516,10 +1528,13 @@ determine how many words are valid.</p>
 272
 273
 274
-275</pre>
+275
+276
+277
+278</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 264</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 267</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_activation'>check_activation</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_n'>n</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_num_valid_words_for_month'><span class='object_link'><a href="#num_valid_words_for_month-class_method" title="FlossFunding.num_valid_words_for_month (method)">num_valid_words_for_month</a></span></span>
@@ -1553,12 +1568,12 @@ determine how many words are valid.</p>
       <pre class="lines">
 
 
-184
-185
-186</pre>
+187
+188
+189</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 184</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 187</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_configuration'>configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_configurations'>configurations</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='rparen'>)</span>
@@ -1595,9 +1610,6 @@ When namespace is provided, returns FlossFunding::Configuration for that namespa
       <pre class="lines">
 
 
-171
-172
-173
 174
 175
 176
@@ -1606,10 +1618,13 @@ When namespace is provided, returns FlossFunding::Configuration for that namespa
 179
 180
 181
-182</pre>
+182
+183
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 171</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_configurations'>configurations</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
@@ -1654,14 +1669,14 @@ Returns a Hash mapping namespace String =&gt; ENV variable name String</p>
       <pre class="lines">
 
 
-190
-191
-192
 193
-194</pre>
+194
+195
+196
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 190</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 193</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_env_var_names'>env_var_names</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
@@ -1688,9 +1703,6 @@ Returns a Hash mapping namespace String =&gt; ENV variable name String</p>
       <pre class="lines">
 
 
-316
-317
-318
 319
 320
 321
@@ -1703,10 +1715,13 @@ Returns a Hash mapping namespace String =&gt; ENV variable name String</p>
 328
 329
 330
-331</pre>
+331
+332
+333
+334</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 316</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 319</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initiate_begging'>initiate_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_event'>event</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_library'>library</span> <span class='op'>=</span> <span class='id identifier rubyid_event'>event</span><span class='period'>.</span><span class='id identifier rubyid_library'>library</span>
@@ -1767,18 +1782,18 @@ Returns a Hash mapping namespace String =&gt; ENV variable name String</p>
       <pre class="lines">
 
 
-158
-159
-160
 161
 162
 163
 164
 165
-166</pre>
+166
+167
+168
+169</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 161</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_invalid_namespace_names'>invalid_namespace_names</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
@@ -1832,12 +1847,12 @@ Returns a Hash mapping namespace String =&gt; ENV variable name String</p>
       <pre class="lines">
 
 
-88
-89
-90</pre>
+91
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 91</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_namespaces'>namespaces</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@namespaces</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='rbrace'>}</span>
@@ -1872,12 +1887,12 @@ Returns a Hash mapping namespace String =&gt; ENV variable name String</p>
       <pre class="lines">
 
 
-93
-94
-95</pre>
+96
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_namespaces='>namespaces=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@namespaces</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span> <span class='rbrace'>}</span>
@@ -1925,12 +1940,12 @@ Returns a Hash mapping namespace String =&gt; ENV variable name String</p>
       <pre class="lines">
 
 
-251
-252
-253</pre>
+254
+255
+256</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 251</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 254</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_now_month'>now_month</span>
   <span class='const'>Month</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_now_time'>now_time</span><span class='period'>.</span><span class='id identifier rubyid_year'>year</span><span class='comma'>,</span> <span class='id identifier rubyid_now_time'>now_time</span><span class='period'>.</span><span class='id identifier rubyid_month'>month</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
@@ -1978,12 +1993,12 @@ Returns a Hash mapping namespace String =&gt; ENV variable name String</p>
       <pre class="lines">
 
 
-257
-258
-259</pre>
+260
+261
+262</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 257</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 260</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_num_valid_words_for_month'>num_valid_words_for_month</span>
   <span class='id identifier rubyid_now_month'>now_month</span> <span class='op'>-</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="#START_MONTH-constant" title="FlossFunding::START_MONTH (constant)">START_MONTH</a></span></span>
@@ -2031,12 +2046,12 @@ Returns a Hash mapping namespace String =&gt; ENV variable name String</p>
       <pre class="lines">
 
 
-99
-100
-101</pre>
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_silenced'>silenced</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@silenced</span> <span class='rbrace'>}</span>
@@ -2086,12 +2101,12 @@ Returns a Hash mapping namespace String =&gt; ENV variable name String</p>
       <pre class="lines">
 
 
-106
-107
-108</pre>
+109
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 109</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_silenced='>silenced=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='ivar'>@silenced</span> <span class='op'>=</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_value'>value</span> <span class='rbrace'>}</span>
@@ -2163,13 +2178,13 @@ Returns a Hash mapping namespace String =&gt; ENV variable name String</p>
       <pre class="lines">
 
 
-311
-312
-313
-314</pre>
+314
+315
+316
+317</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 311</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 314</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_start_begging'>start_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='comma'>,</span> <span class='id identifier rubyid_gem_name'>gem_name</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FlossFunding/ContraIndications.html" title="FlossFunding::ContraIndications (class)">ContraIndications</a></span></span><span class='period'>.</span><span class='id identifier rubyid_at_exit_contraindicated?'><span class='object_link'><a href="FlossFunding/ContraIndications.html#at_exit_contraindicated%3F-class_method" title="FlossFunding::ContraIndications.at_exit_contraindicated? (method)">at_exit_contraindicated?</a></span></span>
@@ -2242,9 +2257,6 @@ Returns a Hash mapping namespace String =&gt; ENV variable name String</p>
       <pre class="lines">
 
 
-282
-283
-284
 285
 286
 287
@@ -2264,10 +2276,13 @@ Returns a Hash mapping namespace String =&gt; ENV variable name String</p>
 301
 302
 303
-304</pre>
+304
+305
+306
+307</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 282</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 285</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_start_coughing'>start_coughing</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FlossFunding/ContraIndications.html" title="FlossFunding::ContraIndications (class)">ContraIndications</a></span></span><span class='period'>.</span><span class='id identifier rubyid_at_exit_contraindicated?'><span class='object_link'><a href="FlossFunding/ContraIndications.html#at_exit_contraindicated%3F-class_method" title="FlossFunding::ContraIndications.at_exit_contraindicated? (method)">at_exit_contraindicated?</a></span></span>
@@ -2335,18 +2350,18 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
       <pre class="lines">
 
 
-146
-147
-148
 149
 150
 151
 152
 153
-154</pre>
+154
+155
+156
+157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 146</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 149</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unactivated_namespace_names'>unactivated_namespace_names</span>
   <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
@@ -2367,7 +2382,7 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
 </div>
 
       <div id="footer">
-  Generated on Wed Aug 13 16:21:33 2025 by
+  Generated on Thu Aug 14 01:12:51 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
