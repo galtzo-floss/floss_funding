@@ -121,7 +121,7 @@ module FlossFunding
   module Config
     CONFIG_FILE_NAME: String
 
-    def self.read_gemspec_data: (String) -> Hash[Symbol, untyped]
+    # def self.read_gemspec_data: (String) -> Hash[Symbol, untyped]
     def self.normalize_to_array: (untyped) -> Array[untyped]
   end
 
