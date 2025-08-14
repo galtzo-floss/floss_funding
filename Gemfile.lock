@@ -16,6 +16,7 @@ PATH
     floss_funding (1.0.0.pre.alpha.2)
       month-serializer (~> 1.0, = 1.0.1)
       rainbow (>= 1.99.2, < 4.0, != 3.1.0, != 2.2.1, != 2.2.0)
+      ruby-progressbar (~> 1.13)
 
 GEM
   remote: https://rubygems.org/
@@ -282,7 +283,6 @@ DEPENDENCIES
   rubocop-lts (~> 0.1, >= 0.1.1)
   rubocop-packaging (~> 0.6, >= 0.6.0)
   rubocop-rspec (~> 3.2)
-  ruby-progressbar (~> 1.13)
   silent_stream (~> 1.0, >= 1.0.11)
   standard (>= 1.50)
   stone_checksums (~> 1.0)

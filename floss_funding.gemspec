@@ -98,9 +98,10 @@ Gem::Specification.new do |spec|
   # files listed are relative paths from bindir above.
   spec.executables = []
 
-  spec.add_dependency("month-serializer", "~> 1.0", "1.0.1")
+  spec.add_dependency("month-serializer", "~> 1.0", "1.0.1")                                # ruby >= 1.9.2
   # Exclude broken rainbow releases: https://github.com/ku1ik/rainbow/blob/master/Changelog.md
-  spec.add_dependency("rainbow", ">= 1.99.2", "!= 2.2.0", "!= 2.2.1", "!= 3.1.0", "< 4.0")
+  spec.add_dependency("rainbow", ">= 1.99.2", "!= 2.2.0", "!= 2.2.1", "!= 3.1.0", "< 4.0")  # ruby > 0
+  spec.add_dependency("ruby-progressbar", "~> 1.13")                                        # ruby > 0
 
   # NOTE: It is preferable to list development dependencies in the gemspec due to increased
   #       visibility and discoverability on RubyGems.org.
@@ -121,7 +122,7 @@ Gem::Specification.new do |spec|
 
   ### Testing
   spec.add_development_dependency("appraisal2", "~> 3.0")                 # ruby >= 1.8.7
-  spec.add_development_dependency("rspec", "~> 3.13")                     # ruby >= 0
+  spec.add_development_dependency("rspec", "~> 3.13")                     # ruby > 0
   spec.add_development_dependency("rspec-block_is_expected", "~> 1.0")    # ruby >= 1.8.7
   spec.add_development_dependency("rspec_junit_formatter", "~> 0.6")      # ruby >= 2.3.0, for GitLab Test Result Parsing
   spec.add_development_dependency("rspec-stubbed_env", "~> 1.0")          # ruby >= 2.3.0 (helper for stubbing ENV in specs)
@@ -130,5 +131,4 @@ Gem::Specification.new do |spec|
 
   # Development tasks
   spec.add_development_dependency("rake", "~> 13.0")                      # ruby >= 2.2
-  spec.add_development_dependency("ruby-progressbar", "~> 1.13")          # ruby >= 0
 end
