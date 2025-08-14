@@ -580,11 +580,7 @@ ActivationEvent generated from an include site.</p>
 75
 76
 77
-78
-79
-80
-81
-82</pre>
+78</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/inclusion.rb', line 36</span>
@@ -599,12 +595,8 @@ ActivationEvent generated from an include site.</p>
 
   <span class='id identifier rubyid_validate_inputs!'>validate_inputs!</span>
 
-  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_now_time'><span class='object_link'><a href="../FlossFunding.html#now_time-class_method" title="FlossFunding.now_time (method)">now_time</a></span></span> <span class='comment'># Will only set if not already set
+  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_loaded_at'><span class='object_link'><a href="../FlossFunding.html#loaded_at-class_method" title="FlossFunding.loaded_at (method)">loaded_at</a></span></span> <span class='comment'># Will only set if not already set
 </span>
-  <span class='comment'># Extend the base with the fingerprint module first
-</span>  <span class='comment'># It&#39;s a way to know that FlossFunding is integrated with the target library (base)
-</span>  <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Fingerprint.html" title="FlossFunding::Fingerprint (module)">Fingerprint</a></span></span><span class='rparen'>)</span>
-
   <span class='ivar'>@name</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_custom_namespace'>custom_namespace</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
     <span class='ivar'>@custom_namespace</span> <span class='op'>=</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span>
   <span class='kw'>else</span>
@@ -1202,7 +1194,7 @@ ActivationEvent generated from an include site.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 14 07:08:38 2025 by
+  Generated on Thu Aug 14 16:45:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

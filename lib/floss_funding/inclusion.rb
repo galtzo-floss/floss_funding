@@ -43,11 +43,7 @@ module FlossFunding
 
       validate_inputs!
 
-      ::FlossFunding.now_time # Will only set if not already set
-
-      # Extend the base with the fingerprint module first
-      # It's a way to know that FlossFunding is integrated with the target library (base)
-      base.extend(::FlossFunding::Fingerprint)
+      ::FlossFunding.loaded_at # Will only set if not already set
 
       @name = if custom_namespace.is_a?(String) && !custom_namespace.empty?
         @custom_namespace = custom_namespace

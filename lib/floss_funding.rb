@@ -86,9 +86,54 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
   @silenced = ::FlossFunding::Constants::SILENT
   # rubocop:enable ThreadSafety/MutableClassInstanceVariable
 
+  # How Time Affects Activation Keys
+  #
+  # It doesn't matter if the class / module gets reloaded,
+  # because activation keys are valid into the future, effectively forever.
+  # If the system time somehow gets set into the past, the key will be invalid.
+  # Since invalid keys are inert, nothing breaks.
+  # A warning would be printed about the invalid key,
+  # which may be a gentle way to discover that your system time is broken.
+  #
+  # Time source for month arithmetic; overridable for tests.
+  # @return [Time]
+  @loaded_at = Time.now.freeze
+
+  # Current Month index for time-based key validity
+  # @return [Integer]
+  @loaded_month = Month.new(@loaded_at.year, @loaded_at.month).to_i
+
+  # Number of valid words based on the current month window
+  # @return [Integer]
+  @num_valid_words_for_month = @loaded_month - ::FlossFunding::START_MONTH
+
   class << self
     # Provides access to the mutex for thread synchronization
     attr_reader :mutex
+
+    # Read the deterministic time source
+    #
+    # @see @loaded_at
+    #
+    # @param value [Time]
+    # @return [Time]
+    attr_reader :loaded_at
+
+    # Read the serialized month (Integer) in which the runtime was loaded
+    #
+    # @see @loaded_at
+    #
+    # @param value [Integer]
+    # @return [Integer]
+    attr_reader :loaded_month
+
+    # Read the number of valid words for the month in which the runtime was loaded
+    #
+    # @see @loaded_at
+    #
+    # @param value [Integer]
+    # @return [Integer]
+    attr_reader :num_valid_words_for_month
 
     # Debug logging helper. Only outputs when FlossFunding::DEBUG is true.
     # Accepts either a message (or multiple args joined by space) or a block
@@ -260,29 +305,6 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       end)
 
       all[0, n] || []
-    end
-
-    # Time source for month arithmetic; overridable for tests.
-    # @return [Time]
-    def now_time
-      @now_time ||= Time.now
-    end
-
-    # Set the deterministic time source (used by specs)
-    # @param value [Time]
-    # @return [Time]
-    attr_writer :now_time
-
-    # Current Month index for time-based key validity
-    # @return [Integer]
-    def now_month
-      Month.new(now_time.year, now_time.month).to_i
-    end
-
-    # Number of valid words based on the current month window
-    # @return [Integer]
-    def num_valid_words_for_month
-      now_month - ::FlossFunding::START_MONTH
     end
 
     # Check whether a plaintext activation base word is currently valid

@@ -347,12 +347,12 @@ searches will go past this directory.</p>
       <pre class="lines">
 
 
-36
-37
-38</pre>
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_finder.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_finder.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_project_root'>project_root</span>
   <span class='ivar'>@project_root</span> <span class='op'>||=</span> <span class='id identifier rubyid_find_project_root'>find_project_root</span>
@@ -398,14 +398,14 @@ searches will go past this directory.</p>
       <pre class="lines">
 
 
-41
-42
-43
-44
-45</pre>
+47
+48
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_finder.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_finder.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_clear_caches!'>clear_caches!</span>
   <span class='ivar'>@config_path_cache</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -452,7 +452,13 @@ searches will go past this directory.</p>
 29
 30
 31
-32</pre>
+32
+33
+34
+35
+36
+37
+38</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/config_finder.rb', line 26</span>
@@ -462,6 +468,12 @@ searches will go past this directory.</p>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_target_dir'>target_dir</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='ivar'>@config_path_cache</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='ivar'>@config_path_cache</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='id identifier rubyid_find_project_dotfile'>find_project_dotfile</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_find_user_dotfile'>find_user_dotfile</span> <span class='op'>||</span> <span class='id identifier rubyid_find_user_xdg_config'>find_user_xdg_config</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="#DEFAULT_FILE-constant" title="FlossFunding::ConfigFinder::DEFAULT_FILE (constant)">DEFAULT_FILE</a></span></span>
+  <span class='comment'># Test-friendly fallback: when no project/user config is found (path == DEFAULT_FILE),
+</span>  <span class='comment'># prefer a repo-root .floss_funding.yml if it exists within FLOSS_FUNDING_HOME.
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_path'>path</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#DEFAULT_FILE-constant" title="FlossFunding::ConfigFinder::DEFAULT_FILE (constant)">DEFAULT_FILE</a></span></span>
+    <span class='id identifier rubyid_repo_root_dotfile'>repo_root_dotfile</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#FLOSS_FUNDING_HOME-constant" title="FlossFunding::ConfigFinder::FLOSS_FUNDING_HOME (constant)">FLOSS_FUNDING_HOME</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#DOTFILE-constant" title="FlossFunding::ConfigFinder::DOTFILE (constant)">DOTFILE</a></span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='id identifier rubyid_repo_root_dotfile'>repo_root_dotfile</span> <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_repo_root_dotfile'>repo_root_dotfile</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
   <span class='ivar'>@config_path_cache</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_path'>path</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -474,7 +486,7 @@ searches will go past this directory.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 14 07:08:38 2025 by
+  Generated on Thu Aug 14 16:45:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

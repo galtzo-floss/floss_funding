@@ -25,6 +25,7 @@ require "gem_mine"
 require "config/timecop"
 require "support/bench_gems_generator"
 require "support/contraindications_helper"
+require "support/spec_only_writers"
 
 IS_CI = ENV.fetch("CI", "false").casecmp("true") == 0
 

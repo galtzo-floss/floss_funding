@@ -6,14 +6,14 @@ RSpec.describe FlossFunding::ActivationEvent do
 
     before do
       # Deterministic time source
-      FlossFunding.now_time = Time.utc(2025, 1, 1, 0, 0, 0)
+      FlossFunding.loaded_at = Time.utc(2025, 1, 1, 0, 0, 0)
     end
 
     after do
-      FlossFunding.now_time = nil
+      FlossFunding.loaded_at = nil
     end
 
-    it "stores attributes and uses FlossFunding.now_time" do
+    it "stores attributes and uses FlossFunding.loaded_at" do
       ev = described_class.new(lib, "", :unactivated, :silent_flag)
       expect(ev.library).to eq(lib)
       expect(ev.activation_key).to eq("")

@@ -64,7 +64,7 @@ RSpec.describe FlossFunding do
     after do
       FlossFunding.namespaces = {}
       FlossFunding.silenced = FlossFunding::Constants::SILENT
-      FlossFunding.now_time = nil
+      FlossFunding.loaded_at = nil
     end
 
     it "covers activation_occurrences false path when a namespace has zero events" do
@@ -74,13 +74,17 @@ RSpec.describe FlossFunding do
     end
 
     it "covers base_words early return for n == 0" do
-      FlossFunding.now_time = Time.new(2025, 7, 1, 0, 0, 0, "+00:00")
+      FlossFunding.loaded_at = Time.new(2025, 7, 1, 0, 0, 0, "+00:00")
+      FlossFunding.loaded_month = FlossFunding::START_MONTH
+      FlossFunding.num_valid_words_for_month = 0
       expect(FlossFunding.num_valid_words_for_month).to eq(0)
       expect(FlossFunding.base_words).to eq([])
     end
 
     it "covers check_activation early return when n <= 0" do
-      FlossFunding.now_time = Time.new(2025, 7, 1, 0, 0, 0, "+00:00")
+      FlossFunding.loaded_at = Time.new(2025, 7, 1, 0, 0, 0, "+00:00")
+      FlossFunding.loaded_month = FlossFunding::START_MONTH
+      FlossFunding.num_valid_words_for_month = 0
       expect(FlossFunding.num_valid_words_for_month).to eq(0)
       expect(FlossFunding.check_activation("anything")).to be(false)
     end
@@ -134,7 +138,7 @@ RSpec.describe FlossFunding do
     after do
       FlossFunding.namespaces = {}
       FlossFunding.silenced = FlossFunding::Constants::SILENT
-      FlossFunding.now_time = nil
+      FlossFunding.loaded_at = nil
     end
 
     it "covers activation_occurrences false path when a namespace has zero events" do
@@ -147,13 +151,17 @@ RSpec.describe FlossFunding do
 
     it "covers base_words early return for n == 0" do
       # Make current month equal to START_MONTH, resulting in n == 0
-      FlossFunding.now_time = Time.new(2025, 7, 1, 0, 0, 0, "+00:00")
+      FlossFunding.loaded_at = Time.new(2025, 7, 1, 0, 0, 0, "+00:00")
+      FlossFunding.loaded_month = FlossFunding::START_MONTH
+      FlossFunding.num_valid_words_for_month = 0
       expect(FlossFunding.num_valid_words_for_month).to eq(0)
       expect(FlossFunding.base_words).to eq([])
     end
 
     it "covers check_activation early return when n <= 0" do
-      FlossFunding.now_time = Time.new(2025, 7, 1, 0, 0, 0, "+00:00")
+      FlossFunding.loaded_at = Time.new(2025, 7, 1, 0, 0, 0, "+00:00")
+      FlossFunding.loaded_month = FlossFunding::START_MONTH
+      FlossFunding.num_valid_words_for_month = 0
       expect(FlossFunding.num_valid_words_for_month).to eq(0)
       expect(FlossFunding.check_activation("anything")).to be(false)
     end

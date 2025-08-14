@@ -3,20 +3,20 @@
 RSpec.describe FlossFunding do
   describe "time helpers and activation checking" do
     before do
-      described_class.now_time = Time.utc(2025, 8, 1, 0, 0, 0)
+      described_class.loaded_at = Time.utc(2025, 8, 1, 0, 0, 0)
     end
 
     after do
-      described_class.now_time = nil
+      described_class.loaded_at = nil
     end
 
-    it "returns deterministic now_time and computes now_month" do
-      expect(described_class.now_time).to eq(Time.utc(2025, 8, 1, 0, 0, 0))
-      expect(described_class.now_month).to be_a(Integer)
+    it "returns deterministic loaded_at and computes loaded_month" do
+      expect(described_class.loaded_at).to eq(Time.utc(2025, 8, 1, 0, 0, 0))
+      expect(described_class.loaded_month).to be_a(Integer)
     end
 
     it "computes num_valid_words_for_month as difference from START_MONTH" do
-      expect(described_class.num_valid_words_for_month).to eq(described_class.now_month - FlossFunding::START_MONTH)
+      expect(described_class.num_valid_words_for_month).to eq(described_class.loaded_month - FlossFunding::START_MONTH)
     end
 
     it "check_activation returns true when base word is in the current set" do

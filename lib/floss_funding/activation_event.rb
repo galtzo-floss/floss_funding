@@ -24,7 +24,7 @@ module FlossFunding
       @activation_key = activation_key
       @state = normalize_state(state.to_s)
       # Always use the deterministic time source from FlossFunding
-      @occurred_at = ::FlossFunding.now_time
+      @occurred_at = ::FlossFunding.loaded_at
       @silent = silent
     end
 

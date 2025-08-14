@@ -1,9 +1,7 @@
 {
-  "lib/floss_funding.rb:1513346726": [
-    [252, 14, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
-    [268, 7, 9, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3939614105],
-    [274, 5, 21, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 2274136032],
-    [295, 15, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844]
+  "lib/floss_funding.rb:827116108": [
+    [297, 14, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
+    [317, 15, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844]
   ],
   "lib/floss_funding/config_finder.rb:2031992862": [
     [24, 7, 25, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 397451408],
@@ -38,8 +36,8 @@
     [18, 5, 89, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2506383290],
     [19, 8, 11, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 4095679882]
   ],
-  "lib/floss_funding/inclusion.rb:2281527261": [
-    [94, 7, 248, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 3139421737]
+  "lib/floss_funding/inclusion.rb:388815781": [
+    [90, 7, 248, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 3139421737]
   ],
   "lib/floss_funding/library.rb:685289467": [
     [50, 24, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765]
@@ -87,9 +85,9 @@
   "spec/fixtures/at_exit_hook_script.rb:1330386870": [
     [8, 10, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
   ],
-  "spec/floss_funding/activation_event_spec.rb:3568594230": [
+  "spec/floss_funding/activation_event_spec.rb:1086432359": [
     [5, 33, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
-    [16, 5, 53, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 3243140526]
+    [16, 5, 54, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 713747135]
   ],
   "spec/floss_funding/at_exit_hook_spec.rb:3115806388": [
     [8, 16, 23, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3202457120],
@@ -167,8 +165,8 @@
     [128, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
     [128, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950]
   ],
-  "spec/floss_funding/floss_funding_more_spec.rb:3518972565": [
-    [13, 5, 58, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1689661349],
+  "spec/floss_funding/floss_funding_more_spec.rb:3560812836": [
+    [13, 5, 62, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2540439717],
     [47, 5, 41, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3909376796],
     [48, 29, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
     [50, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
@@ -180,7 +178,7 @@
     [58, 31, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
     [70, 112, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146]
   ],
-  "spec/floss_funding/floss_funding_spec.rb:4233893368": [
+  "spec/floss_funding/floss_funding_spec.rb:897135352": [
     [8, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
     [11, 5, 84, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2224445335],
     [12, 30, 6, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 3184967347],
@@ -198,7 +196,7 @@
     [48, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
     [48, 31, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
     [54, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [58, 3, 1739, "RSpec/RepeatedExampleGroupBody: Repeated describe block body on line(s) [127]", 1683387880],
+    [58, 3, 1960, "RSpec/RepeatedExampleGroupBody: Repeated describe block body on line(s) [131]", 4234380787],
     [60, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
     [61, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
     [65, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
@@ -208,33 +206,41 @@
     [73, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
     [76, 5, 46, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 177228285],
     [77, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [78, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [79, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [82, 5, 53, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3803870697],
-    [83, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [84, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [85, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [91, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [98, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [104, 5, 81, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3955704627],
-    [127, 3, 2117, "RSpec/RepeatedExampleGroupBody: Repeated context block body on line(s) [58]", 1812812532],
-    [130, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [131, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [78, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [79, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [80, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [81, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [84, 5, 53, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3803870697],
+    [85, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [86, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [87, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [88, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [89, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [95, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [102, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [108, 5, 81, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3955704627],
+    [131, 3, 2338, "RSpec/RepeatedExampleGroupBody: Repeated context block body on line(s) [58]", 1139070575],
+    [134, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
     [135, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [136, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [137, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [142, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [145, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [148, 5, 46, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 177228285],
-    [150, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [151, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [152, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [155, 5, 53, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3803870697],
+    [139, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [140, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [141, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [146, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [149, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [152, 5, 46, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 177228285],
+    [154, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [155, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
     [156, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
     [157, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
     [158, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [165, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [172, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865]
+    [161, 5, 53, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3803870697],
+    [162, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [163, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [164, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [165, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [166, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [173, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [180, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865]
   ],
   "spec/floss_funding/inclusion_spec.rb:3313681626": [
     [32, 5, 67, "RSpec/MultipleExpectations: Example has too many expectations [6/1].", 2026600398]

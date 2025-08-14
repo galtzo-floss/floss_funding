@@ -426,7 +426,49 @@
 76
 77
 78
-79</pre>
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/poke.rb', line 54</span>
@@ -440,18 +482,60 @@
     <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_silenced'><span class='object_link'><a href="../FlossFunding.html#silenced-class_method" title="FlossFunding.silenced (method)">silenced</a></span></span> <span class='op'>||=</span> <span class='kw'>true</span>
   <span class='kw'>end</span>
 
-  <span class='comment'># Environment-based contraindications (global silenced flag, CI, broken Dir.pwd, non-TTY)
-</span>  <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ContraIndications.html" title="FlossFunding::ContraIndications (class)">ContraIndications</a></span></span><span class='period'>.</span><span class='id identifier rubyid_poke_contraindicated?'><span class='object_link'><a href="ContraIndications.html#poke_contraindicated%3F-class_method" title="FlossFunding::ContraIndications.poke_contraindicated? (method)">poke_contraindicated?</a></span></span>
-    <span class='comment'># Return an inert module (no registration) when contraindicated
-</span>    <span class='kw'>return</span> <span class='const'>Module</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-  <span class='kw'>end</span>
-
   <span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:namespace</span><span class='rbracket'>]</span>
-  <span class='comment'># an anonymous module that will set up an activation key Check when included
+  <span class='id identifier rubyid_wedge'>wedge</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:wedge</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_config_path_opt'>config_path_opt</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:config_path</span><span class='rbracket'>]</span>
+
+  <span class='comment'># an anonymous module that will set up an activation key check when included
 </span>  <span class='const'>Module</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_define_singleton_method'>define_singleton_method</span><span class='lparen'>(</span><span class='symbol'>:included</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_base'>base</span><span class='op'>|</span>
+      <span class='comment'># Always extend Fingerprint first, before any validations or short-circuits
+</span>      <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Fingerprint.html" title="FlossFunding::Fingerprint (module)">Fingerprint</a></span></span><span class='rparen'>)</span>
+
       <span class='comment'># Sync deterministic time source to current time (respects Timecop.freeze)
-</span>      <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_now_time'><span class='object_link'><a href="../FlossFunding.html#now_time-class_method" title="FlossFunding.now_time (method)">now_time</a></span></span>
+</span>      <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_loaded_at'><span class='object_link'><a href="../FlossFunding.html#loaded_at-class_method" title="FlossFunding.loaded_at (method)">loaded_at</a></span></span>
+
+      <span class='comment'># After fingerprinting, handle short-circuits
+</span>      <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ContraIndications.html" title="FlossFunding::ContraIndications (class)">ContraIndications</a></span></span><span class='period'>.</span><span class='id identifier rubyid_poke_contraindicated?'><span class='object_link'><a href="ContraIndications.html#poke_contraindicated%3F-class_method" title="FlossFunding::ContraIndications.poke_contraindicated? (method)">poke_contraindicated?</a></span></span>
+        <span class='comment'># Do not proceed with registration/config when contraindicated
+</span>        <span class='kw'>next</span>
+      <span class='kw'>end</span>
+
+      <span class='kw'>if</span> <span class='id identifier rubyid_wedge'>wedge</span>
+        <span class='comment'># Fingerprint already injected above; skip configuration/discovery
+</span>        <span class='kw'>next</span>
+      <span class='kw'>end</span>
+
+      <span class='comment'># Library config handling:
+</span>      <span class='comment'># - Only use an explicit :config_path if provided (absolute or relative to including_path)
+</span>      <span class='comment'># - Do not perform any directory-walk or project-level discovery here
+</span>      <span class='id identifier rubyid_cfg_path'>cfg_path</span> <span class='op'>=</span> <span class='kw'>nil</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_config_path_opt'>config_path_opt</span>
+        <span class='comment'># Treat as absolute if it expands to the same path when rooted at &#39;/&#39;
+</span>        <span class='kw'>if</span> <span class='id identifier rubyid_config_path_opt'>config_path_opt</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span><span class='lparen'>(</span><span class='const'>File</span><span class='op'>::</span><span class='const'>SEPARATOR</span><span class='rparen'>)</span>
+          <span class='id identifier rubyid_cfg_path'>cfg_path</span> <span class='op'>=</span> <span class='id identifier rubyid_config_path_opt'>config_path_opt</span>
+        <span class='kw'>else</span>
+          <span class='kw'>unless</span> <span class='id identifier rubyid_including_path'>including_path</span>
+            <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Error.html" title="FlossFunding::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Relative config_path requires including_path; provide an absolute :config_path or pass a valid including_path (e.g., __FILE__).</span><span class='tstring_end'>&quot;</span></span>
+          <span class='kw'>end</span>
+          <span class='id identifier rubyid_cfg_path'>cfg_path</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_config_path_opt'>config_path_opt</span><span class='comma'>,</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_including_path'>including_path</span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
+
+        <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_file?'>file?</span><span class='lparen'>(</span><span class='id identifier rubyid_cfg_path'>cfg_path</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_cfg_path'>cfg_path</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.floss_funding.yml</span><span class='tstring_end'>&quot;</span></span>
+          <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Error.html" title="FlossFunding::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Missing required .floss_funding.yml at </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_cfg_path'>cfg_path</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>; run `rake floss_funding:install` to create one.</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>end</span>
+
+        <span class='kw'>begin</span>
+          <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>YAML</span><span class='period'>.</span><span class='id identifier rubyid_safe_load'>safe_load</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_cfg_path'>cfg_path</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+        <span class='kw'>rescue</span> <span class='const'>StandardError</span>
+          <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+
+        <span class='id identifier rubyid_missing'>missing</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html#REQUIRED_YAML_KEYS-constant" title="FlossFunding::REQUIRED_YAML_KEYS (constant)">REQUIRED_YAML_KEYS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='op'>|</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_strip'>strip</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+        <span class='kw'>unless</span> <span class='id identifier rubyid_missing'>missing</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+          <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Error.html" title="FlossFunding::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.floss_funding.yml missing required keys: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_missing'>missing</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
 
       <span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inclusion.html" title="FlossFunding::Inclusion (class)">Inclusion</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Inclusion.html#initialize-instance_method" title="FlossFunding::Inclusion#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_including_path'>including_path</span><span class='comma'>,</span> <span class='id identifier rubyid_silent_opt'>silent_opt</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
@@ -467,7 +551,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 14 07:08:38 2025 by
+  Generated on Thu Aug 14 16:45:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

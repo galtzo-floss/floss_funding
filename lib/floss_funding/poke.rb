@@ -60,25 +60,27 @@ module FlossFunding
           ::FlossFunding.silenced ||= true
         end
 
-        # Environment-based contraindications (global silenced flag, CI, broken Dir.pwd, non-TTY)
-        if ::FlossFunding::ContraIndications.poke_contraindicated?
-          # Return an inert module (no registration) when contraindicated
-          return Module.new
-        end
-
         namespace = options[:namespace]
         wedge = options[:wedge]
         config_path_opt = options[:config_path]
 
-        # an anonymous module that will set up an activation key Check when included
+        # an anonymous module that will set up an activation key check when included
         Module.new do
           define_singleton_method(:included) do |base|
+            # Always extend Fingerprint first, before any validations or short-circuits
+            base.extend(::FlossFunding::Fingerprint)
+
             # Sync deterministic time source to current time (respects Timecop.freeze)
-            ::FlossFunding.now_time
+            ::FlossFunding.loaded_at
+
+            # After fingerprinting, handle short-circuits
+            if ::FlossFunding::ContraIndications.poke_contraindicated?
+              # Do not proceed with registration/config when contraindicated
+              next
+            end
 
             if wedge
-              # Only inject the Fingerprint, no configuration/discovery
-              base.extend(::FlossFunding::Fingerprint)
+              # Fingerprint already injected above; skip configuration/discovery
               next
             end
 

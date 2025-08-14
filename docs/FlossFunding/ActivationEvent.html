@@ -401,7 +401,7 @@ Tracks mutable state across: “activated”, “unactivated”, and “invalid�
   <span class='ivar'>@activation_key</span> <span class='op'>=</span> <span class='id identifier rubyid_activation_key'>activation_key</span>
   <span class='ivar'>@state</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_state'>normalize_state</span><span class='lparen'>(</span><span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
   <span class='comment'># Always use the deterministic time source from FlossFunding
-</span>  <span class='ivar'>@occurred_at</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_now_time'><span class='object_link'><a href="../FlossFunding.html#now_time-class_method" title="FlossFunding.now_time (method)">now_time</a></span></span>
+</span>  <span class='ivar'>@occurred_at</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_loaded_at'><span class='object_link'><a href="../FlossFunding.html#loaded_at-class_method" title="FlossFunding.loaded_at (method)">loaded_at</a></span></span>
   <span class='ivar'>@silent</span> <span class='op'>=</span> <span class='id identifier rubyid_silent'>silent</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -703,7 +703,7 @@ Tracks mutable state across: “activated”, “unactivated”, and “invalid�
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 14 07:08:38 2025 by
+  Generated on Thu Aug 14 16:45:47 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

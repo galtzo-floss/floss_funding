@@ -101,9 +101,8 @@ module FlossFunding
 
   def self.base_words: (?Integer) -> Array[String]
 
-  def self.now_time: -> Time
-  def self.now_time=: (Time) -> Time
-  def self.now_month: -> Integer
+  def self.loaded_at: -> Time
+  def self.loaded_month: -> Integer
   def self.num_valid_words_for_month: -> Integer
   def self.check_activation: (String) -> bool
   def self.start_coughing: (String, String, String) -> void
@@ -127,8 +126,7 @@ module FlossFunding
 
   module Check
     module ClassMethods
-      def self.now_time: -> Time
-      def self.now_time=: (Time) -> Time
+      def self.loaded_at: -> Time
 
       def base_words: -> Array[String]
       def check_activation: (String) -> bool
