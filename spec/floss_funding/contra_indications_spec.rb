@@ -18,6 +18,23 @@ RSpec.describe FlossFunding::ContraIndications do
       configure_contraindications!(poke: { pwd_raises: true })
       expect(described_class.poke_contraindicated?).to be(true)
     end
+
+    it "returns true when STDOUT.tty? is false (non-TTY)" do
+      configure_contraindications!(poke: { stdout_tty: false, ci: false })
+      # Ensure our stub is the last one applied for this example
+      allow(STDOUT).to receive(:tty?).and_return(false)
+      expect(described_class.poke_contraindicated?).to be(true)
+    end
+
+    it "returns false when environment is favorable (TTY, not CI, Dir.pwd ok, not silenced)" do
+      configure_contraindications!(poke: { stdout_tty: true, ci: false })
+      expect(described_class.poke_contraindicated?).to be(false)
+    end
+
+    it "returns true when global FlossFunding.silenced is true (early short-circuit)" do
+      configure_contraindications!(poke: { global_silenced: true })
+      expect(described_class.poke_contraindicated?).to be(true)
+    end
   end
 
   describe ".at_exit_contraindicated? additional branches" do

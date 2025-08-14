@@ -22,6 +22,7 @@ module ContraIndicationsSpecHelper
     :poke => {
       :ci => false,
       :pwd_raises => false,
+      :stdout_tty => true,
     },
     :at_exit => {
       :stdout_tty => true,
@@ -60,6 +61,11 @@ module ContraIndicationsSpecHelper
     # Dir.pwd raised?
     if cfg[:poke][:pwd_raises]
       allow(Dir).to receive(:pwd).and_raise(StandardError)
+    end
+
+    # STDOUT tty? for poke path
+    if cfg[:poke].key?(:stdout_tty)
+      allow(STDOUT).to receive(:tty?).and_return(!!cfg[:poke][:stdout_tty])
     end
 
     # At-exit contraindications

@@ -47,6 +47,7 @@ module FlossFunding
       end
 
       # Testing hook to clear internal caches
+      # @note Test shim: used by specs/benchmarks; no internal usage as of 2025-08-13.
       def reset_caches!
         @default_configuration = nil
       end

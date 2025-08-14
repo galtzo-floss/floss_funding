@@ -347,6 +347,7 @@ require "floss_funding/activation_event"
 require "floss_funding/contra_indications"
 require "floss_funding/inclusion"
 require "floss_funding/poke"
+require "floss_funding/final_summary"
 
 # Dog Food
 FlossFunding.send(
@@ -359,117 +360,18 @@ FlossFunding.send(
 )
 
 # :nocov:
-# Add END hook to display a summary and a consolidated blurb for usage without activation key
-# This hook runs when the Ruby process terminates
-# at_exit {
-#   # Unique namespaces that have a valid activation key
-#   activated = FlossFunding.activated_namespace_names
-#   # Unique namespaces that do not have a valid activation key
-#   unactivated = FlossFunding.unactivated_namespace_names
-#   activated_count = activated.size
-#   unactivated_count = unactivated.size
-#   occurrences_count = FlossFunding.activation_occurrences.size
-#
-#   # Compute how many distinct gem names are covered by funding.
-#   # Only consider namespaces that ended up ACTIVATED; unactivated are excluded by design.
-#   # Shared namespaces (e.g., final 10) will still contribute all gem names because configs merge per-namespace.
-#   configs = FlossFunding.configurations
-#   observed_namespaces = activated.uniq
-#   # These are the gem names that are covered by funding, regardless of whether they are ACTIVATED or not.
-#   funded_gem_names = observed_namespaces.flat_map { |ns|
-#     configs[ns]["gem_name"]
-#   }.compact.uniq
-#   funded_gem_count = funded_gem_names.size
-#
-#   has_activated = activated_count > 0
-#   has_unactivated = unactivated_count > 0
-#   # Summary section
-#   if has_activated
-#     # # When there at least one activated namespace, show a progress bar and a summary.
-#     # print_progress_bar = -> (current, total, bar_length) {
-#     #   percentage = (current.to_f / total) * 100
-#     #   filled_length = (bar_length * percentage / 100).round
-#     #   bar = "=" * filled_length + "-" * (bar_length - filled_length)
-#     #   printf("\rProgress: [%s] %.1f%%", bar, percentage)
-#     #   STDOUT.flush # Ensure the output is immediately written to the terminal
-#     # }
-#     #
-#     # # Example usage:
-#     # total_items = 100
-#     # bar_length = 50
-#     # (0..total_items).each do |i|
-#     #   print_progress_bar.call(i, total_items, bar_length)
-#     #   sleep(0.05) # Simulate work being done
-#     # end
-#     # puts # Move to the next line after the progress bar is complete
-#
-#     stars = ("⭐️" * activated_count)
-#     mimes = ("🫥" * unactivated_count)
-#     summary_lines = []
-#     summary_lines << "\nFLOSS Funding Summary:"
-#     summary_lines << "Activated libraries (#{activated_count}): #{stars}" if activated_count > 0
-#     # Also show total successful inclusions (aka per-gem activations), which may exceed unique namespaces
-#     summary_lines << "Number of pokes (#{occurrences_count})" if occurrences_count > 0
-#     # Show how many distinct gem names are covered by funding
-#     summary_lines << "Gems covered by funding (#{funded_gem_count}): #{funded_gem_names.join(", ")}" if funded_gem_count > 0
-#     summary_lines << "Unactivated libraries (#{unactivated_count}): #{mimes}" if unactivated_count > 0
-#     summary = summary_lines.join("\n") + "\n\n"
-#     puts summary
-#   elsif has_unactivated
-#     # Emit a single, consolidated blurb showcasing a random unactivated namespace
-#     # Gather data needed for each namespace
-#     configs = FlossFunding.configurations
-#     env_map = FlossFunding.env_var_names
-#
-#     details = +""
-#     details << <<-HEADER
-# ==============================================================
-# Unremunerated use of the following namespaces was detected:
-#     HEADER
-#
-#     unactivated.each do |ns|
-#       config = configs[ns]
-#       funding_url = Array(config["floss_funding_url"]).first || "https://floss-funding.dev"
-#       suggested_amount = Array(config["suggested_donation_amount"]).first || 5
-#       env_name = env_map[ns] || "#{FlossFunding::Constants::DEFAULT_PREFIX}#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
-#       opt_out = "#{FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{ns}"
-#       details << <<-NS
-#   - Namespace: #{ns}
-#     ENV Variable: #{env_name}
-#     Suggested donation amount: $#{suggested_amount}
-#     Funding URL: #{funding_url}
-#     Opt-out key: "#{opt_out}"
-#
-#       NS
-#     end
-#
-#     details << <<-BODY
-# FLOSS Funding relies on empathy, respect, honor, and annoyance of the most extreme mildness.
-# 👉️ No network calls. 👉️ No tracking. 👉️ No oversight. 👉️ Minimal crypto hashing.
-#
-# Options:
-#   1. 🌐  Donate or sponsor at the funding URLs above, and affirm on your honor your donor or sponsor status.
-#      a. Receive ethically-sourced, buy-once, activation key for each namespace.
-#      b. Suggested donation amounts are listed above.
-#
-#   2. 🪄  If open source, or not-for-profit, continue to use for free, with activation key: "#{FlossFunding::FREE_AS_IN_BEER}".
-#
-#   3. 🏦  If commercial, continue to use for free, & feel a bit naughty, with activation key: "#{FlossFunding::BUSINESS_IS_NOT_GOOD_YET}".
-#
-#   4. ✖️  Disable activation key checks using the per-namespace opt-out keys listed above.
-#
-# Then, before loading the gems, set the ENV variables listed above to your chosen key.
-# Or in shell / dotenv / direnv, e.g.:
-#     BODY
-#
-#     unactivated.each do |ns|
-#       env_name = env_map[ns] || "#{FlossFunding::Constants::DEFAULT_PREFIX}#{ns.gsub(/[^A-Za-z0-9]+/, "_").upcase}"
-#       details << "  export #{env_name}=\"<your key>\"\n"
-#     end
-#
-#     details << FlossFunding::FOOTER
-#
-#     puts details
-#   end
-# }
+# Add END hook to display a final summary. This hook runs when the Ruby process terminates.
+at_exit do
+  begin
+    # 1. Preserve exit status by ensuring no exceptions bubble out of this block.
+    # 2. Respect silence signal and short-circuit when contraindicated.
+    next if ::FlossFunding::ContraIndications.at_exit_contraindicated?
+
+    # 2B. Not silent: build and render the final summary.
+    ::FlossFunding::FinalSummary.new
+  rescue StandardError
+    # 1. Never allow our errors to flip a successful exit into a failure.
+    # Swallow all exceptions here.
+  end
+end
 # :nocov:

@@ -29,15 +29,13 @@ RSpec.describe "FlossFunding tracking functionality" do
       end
     end
 
-    it "tracks unactivated libraries" do
+    it "tracks unactivated libraries", :check_output do
       # No activation key set
       stub_env("FLOSS_FUNDING_TRADITIONAL_TEST_INNER_MODULE" => nil)
-      # Capture stdout to prevent output during tests
-      capture(:stdout) do
-        # Include the Poke module
-        stub_const("TraditionalTest::InnerModule", Module.new)
-        TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
-      end
+
+      # Include the Poke module
+      stub_const("TraditionalTest::InnerModule", Module.new)
+      TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
 
       # Check that the module was added to the unactivated list
       expect(FlossFunding.unactivated_namespace_names).to include("TraditionalTest::InnerModule")
@@ -104,23 +102,4 @@ RSpec.describe "FlossFunding tracking functionality" do
       end
     end
   end
-
-  # describe "END hook" do
-  #   it "outputs the correct emoji for activated and unactivated libraries via real process", :check_output do
-  #     ruby = RbConfig.ruby
-  #     lib_dir = File.expand_path("../../lib", __dir__) # project/lib
-  #
-  #     script = File.expand_path("../fixtures/end_hook_script.rb", __dir__)
-  #
-  #     stdout, stderr, status = Open3.capture3(ruby, "-I", lib_dir, script, lib_dir)
-  #
-  #     # Ensure the child process ran successfully
-  #     expect(status.exitstatus).to eq(0), "Child process failed: #{stderr}\nSTDOUT: #{stdout}"
-  #
-  #     # Validate actual at_exit output from the child process
-  #     expect(stdout).to include("FLOSS Funding Summary:")
-  #     expect(stdout).to include("Activated libraries (2): ⭐️⭐️") # One of them is FlossFunding!
-  #     expect(stdout).to include("Unactivated libraries (1): 🫥")
-  #   end
-  # end
 end

@@ -65,6 +65,7 @@ module FlossFunding
       end
 
       # Testing helper
+      # @note Test shim: used by specs; no internal usage as of 2025-08-13.
       def reset_caches!
         @yaml_config_cache = {}
         @gemspec_name_cache = {}

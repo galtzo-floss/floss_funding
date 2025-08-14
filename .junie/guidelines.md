@@ -39,6 +39,7 @@ This document captures project-specific knowledge to streamline setup, testing, 
       - Use `describe "#<method_name>"` to contain a block of specs that test instance method behavior.
       - Use `describe "::<method_name>"` to contain a block of specs that test class method behavior.
       - Do not use `describe ".<method_name>"` because the dot is ambiguous w.r.t instance vs. class methods. 
+    - When adding new code or modifying existing code always add tests to cover the updated behavior, including branches, and different types of expected and unexpected inputs.
   - Additional test utilities:
     - rspec-stubbed_env: Use stub_env to control ENV safely within examples.
     - timecop: Time manipulation available via spec/config/timecop.

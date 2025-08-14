@@ -29,6 +29,13 @@ module FlossFunding
           return true
         end
 
+        # Non-TTY environments: suppress poke/setup side effects (mirror at-exit logic)
+        begin
+          return true unless STDOUT.tty?
+        rescue StandardError
+          return true
+        end
+
         false
       end
 
