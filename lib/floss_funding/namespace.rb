@@ -104,7 +104,7 @@ module FlossFunding
     # @param namespace [FlossFunding::Namespace, String] the namespace used to derive the cipher key
     # @return [String, false] plaintext activation key (base word) on success; false if empty
     def floss_funding_decrypt(activation_key)
-      return false if activation_key.empty?
+      return false if activation_key.nil? || activation_key.empty?
 
       cipher = OpenSSL::Cipher.new("aes-256-cbc").decrypt
       # Memoize the MD5 hexdigest for this namespace instance

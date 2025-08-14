@@ -3,6 +3,12 @@
 RSpec.describe FlossFunding::Namespace do
   include_context "with stubbed env"
 
+  describe "::.new" do
+    it "raises ArgumentError when name is nil" do
+      expect { described_class.new(nil) }.to raise_error(ArgumentError, /name must be a String/)
+    end
+  end
+
   describe "#initialize state derivation" do
     before do
       # Ensure global calls do not output
@@ -129,6 +135,18 @@ RSpec.describe FlossFunding::Namespace do
       ns.activation_events = [FlossFunding::ActivationEvent.new(lib1, "", :unactivated), FlossFunding::ActivationEvent.new(lib2, "", :unactivated)]
       merged = ns.merged_config
       expect(merged["a"]).to eq([1, 2])
+    end
+  end
+
+  describe "#floss_funding_decrypt" do
+    let(:ns) { described_class.new("Mu") }
+
+    it "returns false when activation_key is empty string" do
+      expect(ns.floss_funding_decrypt("")).to be(false)
+    end
+
+    it "returns false when activation_key is nil" do
+      expect(ns.floss_funding_decrypt(nil)).to be(false)
     end
   end
 end

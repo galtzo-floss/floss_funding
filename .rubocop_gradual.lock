@@ -856,15 +856,15 @@
     [162, 5, 60, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 4105108977],
     [194, 7, 29, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 47319566]
   ],
-  "spec/floss_funding/namespace_spec.rb:4244217618": [
-    [50, 9, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
-    [58, 9, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
-    [73, 5, 52, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3216001308],
-    [74, 29, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
-    [87, 29, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
-    [115, 5, 36, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 1460145178],
-    [127, 30, 6, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 3184967347],
-    [128, 30, 6, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 3184967312]
+  "spec/floss_funding/namespace_spec.rb:4082064505": [
+    [56, 9, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
+    [64, 9, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
+    [79, 5, 52, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3216001308],
+    [80, 29, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
+    [93, 29, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
+    [121, 5, 36, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 1460145178],
+    [133, 30, 6, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 3184967347],
+    [134, 30, 6, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 3184967312]
   ],
   "spec/floss_funding/namespaces_spec.rb:2663769633": [
     [5, 16, 34, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3834489862],
