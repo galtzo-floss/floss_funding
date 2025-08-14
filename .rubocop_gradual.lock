@@ -1,9 +1,9 @@
 {
-  "lib/floss_funding.rb:2563109063": [
-    [228, 14, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
-    [244, 7, 9, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3939614105],
-    [250, 5, 21, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 2274136032],
-    [271, 15, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844]
+  "lib/floss_funding.rb:2206812998": [
+    [248, 14, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
+    [264, 7, 9, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3939614105],
+    [270, 5, 21, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 2274136032],
+    [291, 15, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844]
   ],
   "lib/floss_funding/config_finder.rb:540964249": [
     [24, 7, 25, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 397451408],
@@ -56,24 +56,33 @@
     [23, 9, 6, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2752972489],
     [27, 9, 6, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2752972489]
   ],
-  "lib/floss_funding/wedge.rb:1032264034": [
-    [56, 11, 12, "Style/IdenticalConditionalBranches: Move `Array(specs)` out of the conditional.", 79217931],
-    [60, 11, 12, "Style/IdenticalConditionalBranches: Move `Array(specs)` out of the conditional.", 79217931],
-    [115, 14, 10, "Lint/NoReturnInBeginEndBlocks: Do not `return` in `begin..end` blocks in assignment contexts.", 1900003172]
+  "lib/floss_funding/wedge.rb:3434147968": [
+    [183, 14, 10, "Lint/NoReturnInBeginEndBlocks: Do not `return` in `begin..end` blocks in assignment contexts.", 1900003172]
   ],
   "lib/gem_mine.rb:3127632421": [
     [15, 3, 67, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2396624473]
   ],
-  "lib/gem_mine/generator.rb:3030291052": [
+  "lib/gem_mine/generator.rb:883162448": [
     [144, 12, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765],
     [147, 10, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765],
-    [181, 7, 2, "Lint/Syntax: unexpected token tLSHFT\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5859461],
-    [184, 16, 1, "Lint/Syntax: unexpected token tLT\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 177561],
-    [188, 27, 13, "Lint/Syntax: unexpected token tIDENTIFIER\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 1237866946],
-    [189, 11, 1, "Lint/Syntax: unexpected token tLT\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 177561]
+    [186, 7, 2, "Lint/Syntax: unexpected token tLSHFT\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5859461],
+    [189, 16, 1, "Lint/Syntax: unexpected token tLT\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 177561],
+    [193, 27, 13, "Lint/Syntax: unexpected token tIDENTIFIER\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 1237866946],
+    [194, 11, 1, "Lint/Syntax: unexpected token tLT\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 177561]
   ],
   "lib/gem_mine/helpers.rb:3535174730": [
     [16, 7, 2, "Lint/Syntax: unexpected token tLSHFT\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5859461]
+  ],
+  "spec/exe/floss_funding_spec.rb:1277215581": [
+    [5, 16, 19, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3242720625],
+    [19, 5, 29, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3805722071],
+    [28, 5, 31, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2061216584],
+    [39, 5, 29, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3805722071],
+    [48, 5, 49, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 1338122328],
+    [58, 5, 59, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2479229978],
+    [65, 5, 40, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3470347803],
+    [75, 5, 40, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 489636086],
+    [85, 5, 44, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 556236934]
   ],
   "spec/fixtures/at_exit_hook_script.rb:1330386870": [
     [8, 10, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
@@ -683,7 +692,11 @@
     [8, 16, 23, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3202457120],
     [9, 3, 80, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 114688600]
   ],
-  "spec/floss_funding/bench_integration_spec.rb:1989277515": [
+  "spec/floss_funding/bench_fixtures_spec.rb:2567497232": [
+    [9, 7, 36, "RSpec/RemoveConst: Do not use remove_const in specs. Consider using e.g. `stub_const`.", 998002199]
+  ],
+  "spec/floss_funding/bench_integration_spec.rb:1753094571": [
+    [67, 7, 36, "RSpec/RemoveConst: Do not use remove_const in specs. Consider using e.g. `stub_const`.", 998002199],
     [115, 3, 103, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 462375521],
     [134, 3, 103, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 577489069]
   ],
@@ -769,7 +782,7 @@
     [58, 31, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
     [70, 112, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146]
   ],
-  "spec/floss_funding/floss_funding_spec.rb:3173584235": [
+  "spec/floss_funding/floss_funding_spec.rb:4233893368": [
     [8, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
     [11, 5, 84, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2224445335],
     [12, 30, 6, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 3184967347],
@@ -835,7 +848,7 @@
   "spec/floss_funding/library_root_spec.rb:3653733346": [
     [7, 5, 41, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2387805926]
   ],
-  "spec/floss_funding/library_spec.rb:3649482381": [
+  "spec/floss_funding/library_spec.rb:908492777": [
     [14, 5, 81, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3366808401],
     [75, 5, 65, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2664008501],
     [101, 5, 75, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1049914638],
@@ -857,7 +870,8 @@
     [5, 16, 34, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3834489862],
     [6, 3, 66, "RSpec/MultipleExpectations: Example has too many expectations [6/1].", 2667324670]
   ],
-  "spec/floss_funding/non_gem_fixtures_spec.rb:4064566000": [
+  "spec/floss_funding/non_gem_fixtures_spec.rb:455513552": [
+    [30, 7, 37, "RSpec/RemoveConst: Do not use remove_const in specs. Consider using e.g. `stub_const`.", 1833599084],
     [41, 3, 77, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 1197196695],
     [74, 3, 89, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 1963461978],
     [106, 3, 100, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 686813999],
@@ -907,8 +921,18 @@
   "spec/floss_funding/under_bar_spec.rb:3147601663": [
     [119, 7, 71, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3379891608]
   ],
-  "spec/floss_funding/wedge_spec.rb:1576284708": [
-    [14, 3, 6, "Lint/Syntax: unexpected token kRESCUE\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 2123792210]
+  "spec/floss_funding/wedge_scenarios_spec.rb:857449618": [
+    [5, 16, 25, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 1506215789],
+    [6, 3, 60, "RSpec/LeakyConstantDeclaration: Stub constant instead of declaring explicitly.", 778610380],
+    [20, 9, 33, "RSpec/RemoveConst: Do not use remove_const in specs. Consider using e.g. `stub_const`.", 3986037036],
+    [29, 3, 62, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 476818824],
+    [44, 3, 87, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3150767071],
+    [65, 3, 81, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1537890998],
+    [77, 3, 90, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 376524520],
+    [89, 3, 80, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 74870830]
+  ],
+  "spec/floss_funding/wedge_spec.rb:1845387725": [
+    [16, 3, 6, "Lint/Syntax: unexpected token kRESCUE\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 2123792210]
   ],
   "spec/support/contraindications_helper.rb:488282364": [
     [68, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],

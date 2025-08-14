@@ -205,4 +205,64 @@ RSpec.describe FlossFunding::Library do
       )
     end
   end
+
+  describe "::gem_name_for rescue path" do
+    it "returns nil when Gem::Specification.load raises" do
+      Dir.mktmpdir do |tmp|
+        gemspec = File.join(tmp, "raise.gemspec")
+        File.write(gemspec, "this is not valid ruby")
+
+        allow(described_class).to receive(:parse_gemspec_name).with(File.expand_path(gemspec)).and_return(nil)
+        allow(Gem::Specification).to receive(:load).and_raise(StandardError.new("boom"))
+
+        got = described_class.gem_name_for(gemspec)
+        expect(got).to be_nil
+      end
+    end
+
+    it "does not cache on error" do
+      Dir.mktmpdir do |tmp|
+        gemspec = File.join(tmp, "raise.gemspec")
+        File.write(gemspec, "this is not valid ruby")
+
+        allow(described_class).to receive(:parse_gemspec_name).with(File.expand_path(gemspec)).and_return(nil)
+        allow(Gem::Specification).to receive(:load).and_raise(StandardError.new("boom"))
+
+        described_class.gem_name_for(gemspec)
+
+        abs = File.expand_path(gemspec)
+        cache = described_class.gemspec_name_cache
+        expect(cache).not_to have_key(abs)
+      end
+    end
+  end
+
+  describe "::load_yaml_config rescue path" do
+    it "returns an empty hash when YAML.safe_load raises" do
+      described_class.reset_caches!
+      Dir.mktmpdir do |tmp|
+        cfg = File.join(tmp, ".floss_funding.yml")
+        File.write(cfg, "key: value")
+
+        allow(YAML).to receive(:safe_load).and_raise(StandardError.new("parse error"))
+        result1 = described_class.load_yaml_config(cfg)
+        expect(result1).to eq({})
+      end
+    end
+
+    it "caches the empty result on error" do
+      described_class.reset_caches!
+      Dir.mktmpdir do |tmp|
+        cfg = File.join(tmp, ".floss_funding.yml")
+        File.write(cfg, "key: value")
+        abs = File.expand_path(cfg)
+
+        allow(YAML).to receive(:safe_load).and_raise(StandardError.new("parse error"))
+        described_class.load_yaml_config(cfg)
+
+        cache = described_class.yaml_config_cache
+        expect(cache[abs]).to eq({})
+      end
+    end
+  end
 end

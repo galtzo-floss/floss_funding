@@ -69,6 +69,17 @@ bundle exec rake rubocop_gradual:autocorrect
 
 For more detailed information about using RuboCop in this project, please see the [RUBOCOP.md](RUBOCOP.md) guide. This project uses `rubocop_gradual` instead of vanilla RuboCop, which requires specific commands for checking violations.
 
+### Important: Do not add inline RuboCop disables
+
+Never add `# rubocop:disable ...` / `# rubocop:enable ...` comments to code or specs (except when following the few existing `rubocop:disable` patterns for a rule already being disabled elsewhere in the code). Instead:
+
+- Prefer configuration-based exclusions when a rule should not apply to certain paths or files (e.g., via `.rubocop.yml`).
+- When a violation is temporary and you plan to fix it later, record it in `.rubocop_gradual.lock` using the gradual workflow:
+  - `bundle exec rake rubocop_gradual:autocorrect` (preferred)
+  - `bundle exec rake rubocop_gradual:force_update` (only when you cannot fix the violations immediately)
+
+As a general rule, fix style issues rather than ignoring them. For example, our specs should follow RSpec conventions like using `described_class` for the class under test.
+
 ## Contributors
 
 Your picture could be here!

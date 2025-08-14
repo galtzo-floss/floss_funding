@@ -47,15 +47,6 @@ rescue LoadError
   end
 end
 
-# After requiring, wedge to collect any loaded modules
-if defined?(FlossFunding::Wedge)
-  begin
-    FlossFunding::Wedge.wedge!
-  rescue StandardError
-    # Best-effort
-  end
-end
-
 # Helpers to extract data from FlossFunding global state
 module FFCLI
   module_function
@@ -259,6 +250,7 @@ SHORT_ALIAS_MAP = {
   "-anf" => "--all-needing-funding",
   "-mnf" => "--menu-needing-funding",
   "-mf" => "--menu-funded",
+  "-w" => "--wedge",
 }.freeze
 
 # Rewrite ARGV in-place so OptionParser can unambiguously handle them.
@@ -268,6 +260,7 @@ parser = OptionParser.new do |opts|
   opts.banner = "Usage: floss_funding [options]"
   opts.separator("")
   opts.separator("Actions:")
+  opts.on("--wedge", "Attempt to inject FlossFunding::Poke into loaded gems (diagnostic)") { options[:action] = :wedge }
   opts.on("--list-activated-namespaces", "List Activated Namespaces") { options[:action] = :list_activated_ns }
   opts.on("--list-activated-libraries", "List Activated Libraries") { options[:action] = :list_activated_libs }
   opts.on("--list-unactivated-namespaces", "List Unactivated Namespaces") { options[:action] = :list_unactivated_ns }
@@ -342,6 +335,17 @@ when :progress
   FFCLI.progress_bar(activated_count, total_count)
 when :table
   FFCLI.table_libraries(libs)
+when :wedge
+  if defined?(FlossFunding::Wedge)
+    begin
+      result = FlossFunding::Wedge.wedge!
+      puts "Wedge summary: tried=#{result[:tried]} gems, injected=#{result[:injected]}"
+    rescue StandardError => e
+      warn("Wedge failed: #{e.class}: #{e.message}")
+    end
+  else
+    warn("FlossFunding::Wedge is not available")
+  end
 else
   puts parser
 end

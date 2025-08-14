@@ -52,6 +52,17 @@ The `.rubocop_gradual.lock` file tracks all current RuboCop violations in the pr
    - Run `bundle exec rake rubocop_gradual:force_update` to update the lock file (only for violations you can't fix immediately)
 3. Commit the updated `.rubocop_gradual.lock` file along with your changes
 
+## Never add inline RuboCop disables
+
+Do not add inline `rubocop:disable` / `rubocop:enable` comments anywhere in the codebase (including specs, except when following the few existing `rubocop:disable` patterns for a rule already being disabled elsewhere in the code). We handle exceptions in two supported ways:
+
+- Permanent/structural exceptions: prefer adjusting the RuboCop configuration (e.g., in `.rubocop.yml`) to exclude a rule for a path or file pattern when it makes sense project-wide.
+- Temporary exceptions while improving code: record the current violations in `.rubocop_gradual.lock` via the gradual workflow:
+  - `bundle exec rake rubocop_gradual:autocorrect` (preferred; will autocorrect what it can and update the lock only if no new violations were introduced)
+  - If needed, `bundle exec rake rubocop_gradual:force_update` (as a last resort when you cannot fix the newly reported violations immediately)
+
+In general, treat the rules as guidance to follow; fix violations rather than ignore them. For example, RSpec conventions in this project expect `described_class` to be used in specs that target a specific class under test.
+
 ## Benefits of rubocop_gradual
 
 - Allows incremental adoption of code style rules

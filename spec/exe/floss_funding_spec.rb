@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable RSpec/DescribeClass, RSpec/MultipleExpectations
-
 require "open3"
 
 RSpec.describe "exe/floss_funding" do
@@ -82,5 +80,13 @@ RSpec.describe "exe/floss_funding" do
       expect(stdout).to include("Funded by You (Activated)")
     end
   end
+
+  describe "--wedge" do
+    it "attempts to inject and prints a summary" do
+      stdout, stderr, status = run_cli("--wedge")
+      expect([0, 2]).to include(status.exitstatus), "stderr: #{stderr}\nstdout: #{stdout}"
+      expect(stderr).to eq("")
+      expect(stdout).to match(/Wedge summary: tried=\d+ gems, injected=\d+/)
+    end
+  end
 end
-# rubocop:enable RSpec/DescribeClass, RSpec/MultipleExpectations

@@ -30,9 +30,10 @@ module FlossFunding
 
     private
 
+    # @param value [String]
+    # @return [String]
     def normalize_state(value)
       return value if STATES.value?(value)
-      return STATES[value] if STATES.key?(value)
 
       DEFAULT_STATE
     end

@@ -125,6 +125,24 @@ bundle exec rake rubocop_gradual:autocorrect
 
 <p>For more detailed information about using RuboCop in this project, please see the <a href="file.RUBOCOP.html" title="RUBOCOP.md">RUBOCOP.md</a> guide. This project uses <code>rubocop_gradual</code> instead of vanilla RuboCop, which requires specific commands for checking violations.</p>
 
+<h3 id="important-do-not-add-inline-rubocop-disables">Important: Do not add inline RuboCop disables</h3>
+
+<p>Never add <code># rubocop:disable ...</code> / <code># rubocop:enable ...</code> comments to code or specs (except when following the few existing <code>rubocop:disable</code> patterns for a rule already being disabled elsewhere in the code). Instead:</p>
+
+<ul>
+  <li>Prefer configuration-based exclusions when a rule should not apply to certain paths or files (e.g., via <code>.rubocop.yml</code>).</li>
+  <li>When a violation is temporary and you plan to fix it later, record it in <code>.rubocop_gradual.lock</code> using the gradual workflow:
+    <ul>
+      <li>
+<code>bundle exec rake rubocop_gradual:autocorrect</code> (preferred)</li>
+      <li>
+<code>bundle exec rake rubocop_gradual:force_update</code> (only when you cannot fix the violations immediately)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>As a general rule, fix style issues rather than ignoring them. For example, our specs should follow RSpec conventions like using <code>described_class</code> for the class under test.</p>
+
 <h2 id="contributors">Contributors</h2>
 
 <p>Your picture could be here!</p>
@@ -192,7 +210,7 @@ push git commits and tags, and push the <code>.gem</code> file to <a href="https
 </div></div>
 
       <div id="footer">
-  Generated on Thu Aug 14 01:12:51 2025 by
+  Generated on Thu Aug 14 06:06:15 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

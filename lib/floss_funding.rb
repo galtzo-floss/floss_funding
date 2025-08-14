@@ -86,6 +86,26 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # Provides access to the mutex for thread synchronization
     attr_reader :mutex
 
+    # Debug logging helper. Only outputs when FlossFunding::DEBUG is true.
+    # Accepts either a message (or multiple args joined by space) or a block
+    # for lazy construction of the message.
+    # @param args [Array<Object>] message parts to join with space
+    # @yieldreturn [String] optional block returning the message
+    # @return [void]
+    def log(*args)
+      return unless ::FlossFunding::DEBUG
+      msg = if block_given?
+        yield
+      else
+        args.map(&:to_s).join(" ")
+      end
+      # Ensure a string and a newline
+      puts(msg)
+    rescue StandardError
+      # Never fail the caller due to logging issues
+      nil
+    end
+
     # Accessor for namespaces hash: keys are namespace strings, values are Namespace objects
     # @return [Hash[String, Array<::FlossFunding::Namespace>]]
     def namespaces

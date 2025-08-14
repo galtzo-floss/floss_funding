@@ -201,4 +201,64 @@ RSpec.describe FlossFunding do
       expect(stdout.strip).to eq("false")
     end
   end
+
+  describe "::log", :check_output do
+    context "when DEBUG is false" do
+      before { stub_const("FlossFunding::DEBUG", false) }
+
+      it "returns nil when called with args" do
+        expect(described_class.log("hello", "world")).to be_nil
+      end
+
+      it "does not output when called with args" do
+        expect { described_class.log("hello", "world") }
+          .not_to output.to_stdout
+      end
+
+      it "does not evaluate the block when called with a block" do
+        executed = false
+        described_class.log {
+          executed = true
+          "should not print"
+        }
+        expect(executed).to be false
+      end
+
+      it "does not output when called with a block" do
+        expect { described_class.log { "should not print" } }
+          .not_to output.to_stdout
+      end
+    end
+
+    context "when DEBUG is true" do
+      before { stub_const("FlossFunding::DEBUG", true) }
+
+      it "returns nil when called with args" do
+        expect(described_class.log("hello", :world, 123)).to be_nil
+      end
+
+      it "prints joined args separated by spaces" do
+        expect { described_class.log("hello", :world, 123) }
+          .to output("hello world 123\n").to_stdout
+      end
+
+      it "returns nil when called with a block" do
+        expect(described_class.log("ignored") { "from block" }).to be_nil
+      end
+
+      it "yields to the block and prints its return value" do
+        expect { described_class.log("ignored") { "from block" } }
+          .to output("from block\n").to_stdout
+      end
+
+      it "returns nil even if the block raises" do
+        expect(described_class.log { raise "boom" }).to be_nil
+      end
+
+      it "does not print when the block raises" do
+        expect { described_class.log { raise "boom" } }
+          .not_to output.to_stdout
+      end
+    end
+  end
 end

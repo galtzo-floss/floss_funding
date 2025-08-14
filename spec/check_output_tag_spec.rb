@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 # This spec tests RSpec configuration behavior, not a specific class
-# rubocop:disable RSpec/DescribeClass
-RSpec.describe "check_output tag" do
+RSpec.describe "check_output tag" do # rubocop:disable RSpec/DescribeClass
   context "with :check_output tag" do
     it "does not silence STDOUT", :check_output do |example|
       # This output should be visible
@@ -19,4 +18,3 @@ RSpec.describe "check_output tag" do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass

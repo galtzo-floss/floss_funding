@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "floss_funding/wedge" # this requires the full floss_funding gem internally, but the reverse is not true
+
+FlossFunding::Wedge.wedge!

@@ -172,7 +172,12 @@ module GemMine
     end
 
     def format_name(prefix, index, count)
-      width = [count.to_s.size, 2].max
+      # Width should reflect the specific index being formatted, not the total count.
+      # This yields:
+      #   1..9   => 01..09
+      #   10..99 => 10..99
+      #   100    => 100
+      width = [index.to_s.size, 2].max
       num = format("%0#{width}d", index)
       "#{prefix}#{num}"
     end

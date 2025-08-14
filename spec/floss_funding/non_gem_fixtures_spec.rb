@@ -27,7 +27,7 @@ RSpec.describe "Non-gem fixtures behavior" do # rubocop:disable RSpec/DescribeCl
 
   def remove_fixture_constants
     fixtures.each do |fx|
-      Object.send(:remove_const, fx[:name]) if Object.const_defined?(fx[:name]) # rubocop:disable RSpec/RemoveConst
+      Object.send(:remove_const, fx[:name]) if Object.const_defined?(fx[:name])
     end
   end
 

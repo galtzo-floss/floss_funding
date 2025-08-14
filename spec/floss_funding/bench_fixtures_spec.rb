@@ -6,7 +6,7 @@ RSpec.describe "Benchmark fixtures ENV segmentation", :skip_ci do # rubocop:disa
   def remove_bench_constants
     (1..100).each do |i|
       mod_name = format("BenchGem%02d", i)
-      Object.send(:remove_const, mod_name) if Object.const_defined?(mod_name) # rubocop:disable RSpec/RemoveConst
+      Object.send(:remove_const, mod_name) if Object.const_defined?(mod_name)
     end
   end
 

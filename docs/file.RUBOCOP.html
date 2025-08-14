@@ -133,6 +133,23 @@ a. or just the default <code>bundle exec rake</code>, as autocorrection is a pre
   <li>Commit the updated <code>.rubocop_gradual.lock</code> file along with your changes</li>
 </ol>
 
+<h2 id="never-add-inline-rubocop-disables">Never add inline RuboCop disables</h2>
+
+<p>Do not add inline <code>rubocop:disable</code> / <code>rubocop:enable</code> comments anywhere in the codebase (including specs, except when following the few existing <code>rubocop:disable</code> patterns for a rule already being disabled elsewhere in the code). We handle exceptions in two supported ways:</p>
+
+<ul>
+  <li>Permanent/structural exceptions: prefer adjusting the RuboCop configuration (e.g., in <code>.rubocop.yml</code>) to exclude a rule for a path or file pattern when it makes sense project-wide.</li>
+  <li>Temporary exceptions while improving code: record the current violations in <code>.rubocop_gradual.lock</code> via the gradual workflow:
+    <ul>
+      <li>
+<code>bundle exec rake rubocop_gradual:autocorrect</code> (preferred; will autocorrect what it can and update the lock only if no new violations were introduced)</li>
+      <li>If needed, <code>bundle exec rake rubocop_gradual:force_update</code> (as a last resort when you cannot fix the newly reported violations immediately)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>In general, treat the rules as guidance to follow; fix violations rather than ignore them. For example, RSpec conventions in this project expect <code>described_class</code> to be used in specs that target a specific class under test.</p>
+
 <h2 id="benefits-of-rubocop_gradual">Benefits of rubocop_gradual</h2>
 
 <ul>
@@ -144,7 +161,7 @@ a. or just the default <code>bundle exec rake</code>, as autocorrection is a pre
 </div></div>
 
       <div id="footer">
-  Generated on Thu Aug 14 01:12:51 2025 by
+  Generated on Thu Aug 14 06:06:15 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
