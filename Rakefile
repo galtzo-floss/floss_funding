@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Galtzo FLOSS Rakefile v1.0.2 - 2025-08-12
+# Galtzo FLOSS Rakefile v1.0.3 - 2025-08-14
 #
 # MIT License (see License.txt)
 #
@@ -10,6 +10,9 @@
 #
 # Sets up tasks for rspec, minitest, rubocop, reek, yard, and stone_checksums.
 #
+# rake bench                            # Run all benchmarks (alias for bench:run)
+# rake bench:list                       # List available benchmark scripts
+# rake bench:run                        # Run all benchmark scripts (skips on CI)
 # rake build                            # Build my_gem-1.0.0.gem into the pkg directory
 # rake build:checksum                   # Generate SHA512 checksum of my_gem-1.0.0.gem into the checksums directory
 # rake build:generate_checksums         # Generate both SHA256 & SHA512 checksums into the checksums directory, and git commit them
@@ -30,7 +33,7 @@
 # rake rubocop_gradual:check            # Run RuboCop Gradual to check the lock file
 # rake rubocop_gradual:force_update     # Run RuboCop Gradual to force update the lock file
 # rake spec                             # Run RSpec code examples
-# rake test                             # Run tests / run spec task with test task
+# rake test                             # Run tests
 # rake yard                             # Generate YARD Documentation
 
 require "bundler/gem_tasks"
