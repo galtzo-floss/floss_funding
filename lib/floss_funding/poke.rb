@@ -82,27 +82,35 @@ module FlossFunding
               next
             end
 
-            # Validate presence of a .floss_funding.yml with required keys before proceeding
-            # Determine config path
-            cfg_path = config_path_opt
-            if cfg_path.nil? && including_path
-              start_dir = File.dirname(including_path)
-              cfg_path = ::FlossFunding::ConfigFinder.find_config_path(start_dir)
-            end
+            # Library config handling:
+            # - Only use an explicit :config_path if provided (absolute or relative to including_path)
+            # - Do not perform any directory-walk or project-level discovery here
+            cfg_path = nil
+            if config_path_opt
+              # Treat as absolute if it expands to the same path when rooted at '/'
+              if config_path_opt.start_with?(File::SEPARATOR)
+                cfg_path = config_path_opt
+              else
+                unless including_path
+                  raise ::FlossFunding::Error, "Relative config_path requires including_path; provide an absolute :config_path or pass a valid including_path (e.g., __FILE__)."
+                end
+                cfg_path = File.expand_path(config_path_opt, File.dirname(including_path))
+              end
 
-            unless cfg_path && File.file?(cfg_path) && File.basename(cfg_path) == ".floss_funding.yml"
-              raise ::FlossFunding::Error, "Missing required .floss_funding.yml file; run `rake floss_funding:install` to create one."
-            end
+              unless File.file?(cfg_path) && File.basename(cfg_path) == ".floss_funding.yml"
+                raise ::FlossFunding::Error, "Missing required .floss_funding.yml at #{cfg_path.inspect}; run `rake floss_funding:install` to create one."
+              end
 
-            begin
-              data = YAML.safe_load(File.read(cfg_path)) || {}
-            rescue StandardError
-              data = {}
-            end
+              begin
+                data = YAML.safe_load(File.read(cfg_path)) || {}
+              rescue StandardError
+                data = {}
+              end
 
-            missing = ::FlossFunding::REQUIRED_YAML_KEYS.reject { |k| data.key?(k) && data[k] && data[k].to_s.strip != "" }
-            unless missing.empty?
-              raise ::FlossFunding::Error, ".floss_funding.yml missing required keys: #{missing.join(", ")}"
+              missing = ::FlossFunding::REQUIRED_YAML_KEYS.reject { |k| data.key?(k) && data[k] && data[k].to_s.strip != "" }
+              unless missing.empty?
+                raise ::FlossFunding::Error, ".floss_funding.yml missing required keys: #{missing.join(", ")}"
+              end
             end
 
             FlossFunding::Inclusion.new(base, namespace, including_path, silent_opt, options)
