@@ -27,28 +27,29 @@ module FlossFunding
 
       private
 
-      # # Reads gemspec data from the first *.gemspec in project_root using
-      # # RubyGems API, and extracts fields of interest.
-      # # @param project_root [String]
-      # # @return [Hash] keys: :name, :homepage, :authors, :funding_uri
-      # def read_gemspec_data(project_root)
-      #   gemspec_path = Dir.glob(File.join(project_root, "*.gemspec")).first
-      #   return {} unless gemspec_path
-      #   begin
-      #     spec = Gem::Specification.load(gemspec_path)
-      #     return {} unless spec
-      #     metadata = spec.metadata || {}
-      #     funding_uri = metadata["funding_uri"] || metadata[:funding_uri]
-      #     {
-      #       :name => spec.name,
-      #       :homepage => spec.homepage,
-      #       :authors => spec.authors,
-      #       :funding_uri => funding_uri,
-      #     }
-      #   rescue StandardError
-      #     {}
-      #   end
-      # end
+      # Reads gemspec data from the first *.gemspec in project_root using
+      # RubyGems API, and extracts fields of interest.
+      # @param project_root [String]
+      # @return [Hash] keys: :name, :homepage, :authors, :funding_uri
+      def read_gemspec_data(project_root)
+        gemspec_path = Dir.glob(File.join(project_root, "*.gemspec")).first
+        return {} unless gemspec_path
+        begin
+          spec = Gem::Specification.load(gemspec_path)
+          return {} unless spec
+          metadata = spec.metadata || {}
+          funding_uri = metadata["funding_uri"] || metadata[:funding_uri]
+          {
+            :library_name => spec.name,
+            :homepage => spec.homepage,
+            :authors => spec.authors,
+            :email => spec.email,
+            :funding_uri => funding_uri,
+          }
+        rescue StandardError
+          {}
+        end
+      end
 
       # Normalize a value from YAML or gemspec to an array.
       # - nil => []

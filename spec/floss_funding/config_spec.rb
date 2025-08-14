@@ -1,37 +1,37 @@
 # frozen_string_literal: true
 
 RSpec.describe FlossFunding::Config do
-  # describe "rescue and branch paths for read_gemspec_data" do
-  #   it "returns {} when gemspec is found but Gem::Specification.load returns nil" do
-  #     allow(Dir).to receive(:glob).and_return(["/tmp/fake.gemspec"]) # ensure path discovered
-  #     allow(Gem::Specification).to receive(:load).and_return(nil)
-  #     result = described_class.send(:read_gemspec_data, "/tmp")
-  #     expect(result).to eq({})
-  #   end
-  #
-  #   it "returns {} when Gem::Specification.load raises (rescued)" do
-  #     allow(Dir).to receive(:glob).and_return(["/tmp/fake.gemspec"]) # ensure path discovered
-  #     allow(Gem::Specification).to receive(:load).and_raise(StandardError)
-  #     result = described_class.send(:read_gemspec_data, "/tmp")
-  #     expect(result).to eq({})
-  #   end
-  #
-  #   it "extracts fields and supports funding_uri from metadata symbol key" do
-  #     fake_spec = Struct.new(:name, :homepage, :authors, :metadata).new(
-  #       "gemy", "https://example.test", ["Ada"], {:funding_uri => "https://fund.me"}
-  #     )
-  #     allow(Dir).to receive(:glob).and_return(["/tmp/fake.gemspec"]) # ensure path discovered
-  #     allow(Gem::Specification).to receive(:load).and_return(fake_spec)
-  #
-  #     result = described_class.send(:read_gemspec_data, "/tmp")
-  #     expect(result).to eq(
-  #       :name => "gemy",
-  #       :homepage => "https://example.test",
-  #       :authors => ["Ada"],
-  #       :funding_uri => "https://fund.me",
-  #     )
-  #   end
-  # end
+  describe "rescue and branch paths for read_gemspec_data" do
+    it "returns {} when gemspec is found but Gem::Specification.load returns nil" do
+      allow(Dir).to receive(:glob).and_return(["/tmp/fake.gemspec"]) # ensure path discovered
+      allow(Gem::Specification).to receive(:load).and_return(nil)
+      result = described_class.send(:read_gemspec_data, "/tmp")
+      expect(result).to eq({})
+    end
+
+    it "returns {} when Gem::Specification.load raises (rescued)" do
+      allow(Dir).to receive(:glob).and_return(["/tmp/fake.gemspec"]) # ensure path discovered
+      allow(Gem::Specification).to receive(:load).and_raise(StandardError)
+      result = described_class.send(:read_gemspec_data, "/tmp")
+      expect(result).to eq({})
+    end
+
+    it "extracts fields and supports funding_uri from metadata symbol key" do
+      fake_spec = Struct.new(:name, :homepage, :authors, :metadata).new(
+        "gemy", "https://example.test", ["Ada"], {:funding_uri => "https://fund.me"}
+      )
+      allow(Dir).to receive(:glob).and_return(["/tmp/fake.gemspec"]) # ensure path discovered
+      allow(Gem::Specification).to receive(:load).and_return(fake_spec)
+
+      result = described_class.send(:read_gemspec_data, "/tmp")
+      expect(result).to eq(
+        :name => "gemy",
+        :homepage => "https://example.test",
+        :authors => ["Ada"],
+        :funding_uri => "https://fund.me",
+      )
+    end
+  end
 
   describe ".find_project_root delegation" do
     it "delegates to ConfigFinder.project_root" do
