@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Wedge is not loaded by default, so we need to require it explicitly
+require "floss_funding/wedge"
+
 RSpec.describe FlossFunding::Wedge do
   # Build a minimal spec-like struct for stubbing
   SpecStruct = Struct.new(:name, :loaded_from, :full_gem_path)

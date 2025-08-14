@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# this gem
+require "floss_funding"
+
 # Bulk injector: tries to include FlossFunding::Poke into many loaded gems.
 #
 # Usage (intended for diagnostics/bench testing in large apps):
@@ -140,3 +143,5 @@ module FlossFunding
     end
   end
 end
+
+FlossFunding::Wedge.wedge!
