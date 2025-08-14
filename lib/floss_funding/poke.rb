@@ -70,9 +70,6 @@ module FlossFunding
             # Always extend Fingerprint first, before any validations or short-circuits
             base.extend(::FlossFunding::Fingerprint)
 
-            # Sync deterministic time source to current time (respects Timecop.freeze)
-            ::FlossFunding.loaded_at
-
             # After fingerprinting, handle short-circuits
             if ::FlossFunding::ContraIndications.poke_contraindicated?
               # Do not proceed with registration/config when contraindicated

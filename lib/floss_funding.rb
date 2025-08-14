@@ -265,20 +265,6 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       end
     end
 
-    # Return an array of namespace strings for each activation event occurrence (pokes)
-    # e.g., ["Ns1", "Ns1", "Ns2"] if Ns1 had 2 events and Ns2 had 1
-    # @return [Array<String>]
-    def activation_occurrences
-      mutex.synchronize do
-        arr = []
-        @namespaces.each do |ns, nobj|
-          count = nobj.activation_events.length
-          count.times { arr << ns } if count > 0
-        end
-        arr
-      end
-    end
-
     # Reads the first N lines from the base words file to validate paid activation keys.
     #
     # @param num_valid_words [Integer] number of words to read from the word list

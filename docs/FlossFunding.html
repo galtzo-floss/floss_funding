@@ -561,29 +561,6 @@ floss_funding v</span><span class='embexpr_beg'>#{</span><span class='op'>::</sp
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#activation_occurrences-class_method" title="activation_occurrences (class method)">.<strong>activation_occurrences</strong>  &#x21d2; Array&lt;String&gt; </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Return an array of namespace strings for each activation event occurrence (pokes) e.g., [“Ns1”, “Ns1”, “Ns2”] if Ns1 had 2 events and Ns2 had 1.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#add_or_update_namespace_with_event-class_method" title="add_or_update_namespace_with_event (class method)">.<strong>add_or_update_namespace_with_event</strong>(namespace, event)  &#x21d2; Object </a>
     
 
@@ -1348,74 +1325,6 @@ floss_funding v</span><span class='embexpr_beg'>#{</span><span class='op'>::</sp
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="activation_occurrences-class_method">
-  
-    .<strong>activation_occurrences</strong>  &#x21d2; <tt>Array&lt;String&gt;</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Return an array of namespace strings for each activation event occurrence (pokes)<br />
-e.g., [“Ns1”, “Ns1”, “Ns2”] if Ns1 had 2 events and Ns2 had 1</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-271
-272
-273
-274
-275
-276
-277
-278
-279
-280</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 271</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_activation_occurrences'>activation_occurrences</span>
-  <span class='id identifier rubyid_mutex'>mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
-    <span class='id identifier rubyid_arr'>arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-    <span class='ivar'>@namespaces</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_ns'>ns</span><span class='comma'>,</span> <span class='id identifier rubyid_nobj'>nobj</span><span class='op'>|</span>
-      <span class='id identifier rubyid_count'>count</span> <span class='op'>=</span> <span class='id identifier rubyid_nobj'>nobj</span><span class='period'>.</span><span class='id identifier rubyid_activation_events'>activation_events</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
-      <span class='id identifier rubyid_count'>count</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_arr'>arr</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_ns'>ns</span> <span class='rbrace'>}</span> <span class='kw'>if</span> <span class='id identifier rubyid_count'>count</span> <span class='op'>&gt;</span> <span class='int'>0</span>
-    <span class='kw'>end</span>
-    <span class='id identifier rubyid_arr'>arr</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="add_or_update_namespace_with_event-class_method">
   
     .<strong>add_or_update_namespace_with_event</strong>(namespace, event)  &#x21d2; <tt>Object</tt> 
@@ -1651,26 +1560,26 @@ determine how many words are valid.</p>
       <pre class="lines">
 
 
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
 292
 293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308</pre>
+294</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 292</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 278</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_base_words'>base_words</span><span class='lparen'>(</span><span class='id identifier rubyid_num_valid_words'>num_valid_words</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_n'>n</span> <span class='op'>=</span> <span class='id identifier rubyid_num_valid_words'>num_valid_words</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='id identifier rubyid_num_valid_words_for_month'>num_valid_words_for_month</span> <span class='op'>:</span> <span class='id identifier rubyid_num_valid_words'>num_valid_words</span>
@@ -1747,21 +1656,21 @@ determine how many words are valid.</p>
       <pre class="lines">
 
 
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
-324</pre>
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 313</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 299</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_activation'>check_activation</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_n'>n</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_num_valid_words_for_month'><span class='object_link'><a href="#num_valid_words_for_month-class_method" title="FlossFunding.num_valid_words_for_month (method)">num_valid_words_for_month</a></span></span>
@@ -1930,25 +1839,25 @@ Returns a Hash mapping namespace String =&gt; ENV variable name String</p>
       <pre class="lines">
 
 
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
 365
-366
-367
-368
-369
-370
-371
-372
-373
-374
-375
-376
-377
-378
-379
-380</pre>
+366</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 365</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 351</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initiate_begging'>initiate_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_event'>event</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_library'>library</span> <span class='op'>=</span> <span class='id identifier rubyid_event'>event</span><span class='period'>.</span><span class='id identifier rubyid_library'>library</span>
@@ -2397,13 +2306,13 @@ for lazy construction of the message.</p>
       <pre class="lines">
 
 
-360
-361
-362
-363</pre>
+346
+347
+348
+349</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 360</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 346</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_start_begging'>start_begging</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='comma'>,</span> <span class='id identifier rubyid_gem_name'>gem_name</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FlossFunding/ContraIndications.html" title="FlossFunding::ContraIndications (class)">ContraIndications</a></span></span><span class='period'>.</span><span class='id identifier rubyid_at_exit_contraindicated?'><span class='object_link'><a href="FlossFunding/ContraIndications.html#at_exit_contraindicated%3F-class_method" title="FlossFunding::ContraIndications.at_exit_contraindicated? (method)">at_exit_contraindicated?</a></span></span>
@@ -2476,6 +2385,20 @@ for lazy construction of the message.</p>
       <pre class="lines">
 
 
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
 331
 332
 333
@@ -2484,24 +2407,10 @@ for lazy construction of the message.</p>
 336
 337
 338
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353</pre>
+339</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 331</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding.rb', line 317</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_start_coughing'>start_coughing</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FlossFunding/ContraIndications.html" title="FlossFunding::ContraIndications (class)">ContraIndications</a></span></span><span class='period'>.</span><span class='id identifier rubyid_at_exit_contraindicated?'><span class='object_link'><a href="FlossFunding/ContraIndications.html#at_exit_contraindicated%3F-class_method" title="FlossFunding::ContraIndications.at_exit_contraindicated? (method)">at_exit_contraindicated?</a></span></span>
@@ -2601,7 +2510,7 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 14 16:45:47 2025 by
+  Generated on Thu Aug 14 17:04:04 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

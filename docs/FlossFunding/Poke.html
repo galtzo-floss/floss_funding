@@ -465,10 +465,7 @@
 115
 116
 117
-118
-119
-120
-121</pre>
+118</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/poke.rb', line 54</span>
@@ -491,9 +488,6 @@
     <span class='id identifier rubyid_define_singleton_method'>define_singleton_method</span><span class='lparen'>(</span><span class='symbol'>:included</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_base'>base</span><span class='op'>|</span>
       <span class='comment'># Always extend Fingerprint first, before any validations or short-circuits
 </span>      <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Fingerprint.html" title="FlossFunding::Fingerprint (module)">Fingerprint</a></span></span><span class='rparen'>)</span>
-
-      <span class='comment'># Sync deterministic time source to current time (respects Timecop.freeze)
-</span>      <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_loaded_at'><span class='object_link'><a href="../FlossFunding.html#loaded_at-class_method" title="FlossFunding.loaded_at (method)">loaded_at</a></span></span>
 
       <span class='comment'># After fingerprinting, handle short-circuits
 </span>      <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ContraIndications.html" title="FlossFunding::ContraIndications (class)">ContraIndications</a></span></span><span class='period'>.</span><span class='id identifier rubyid_poke_contraindicated?'><span class='object_link'><a href="ContraIndications.html#poke_contraindicated%3F-class_method" title="FlossFunding::ContraIndications.poke_contraindicated? (method)">poke_contraindicated?</a></span></span>
@@ -551,7 +545,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 14 16:45:47 2025 by
+  Generated on Thu Aug 14 17:04:04 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

@@ -8,6 +8,8 @@ require "benchmark"
 require "floss_funding"
 require "floss_funding/activation_event"
 require "floss_funding/namespace"
+# Provide activation_occurrences helper (moved to spec/support)
+require_relative "../spec/support/activation_occurrences_helper"
 
 NAMESPACES = (ENV["NAMES"] || "200").to_i
 EVENTS_PER_NS = (ENV["EVENTS"] || "5").to_i

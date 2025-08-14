@@ -97,8 +97,6 @@ module FlossFunding
   def self.configurations: (?String) -> untyped
   def self.env_var_names: -> Hash[String, String]
 
-  def self.activation_occurrences: -> Array[String]
-
   def self.base_words: (?Integer) -> Array[String]
 
   def self.loaded_at: -> Time

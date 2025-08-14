@@ -43,8 +43,6 @@ module FlossFunding
 
       validate_inputs!
 
-      ::FlossFunding.loaded_at # Will only set if not already set
-
       @name = if custom_namespace.is_a?(String) && !custom_namespace.empty?
         @custom_namespace = custom_namespace
       else

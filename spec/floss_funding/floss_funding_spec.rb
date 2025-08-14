@@ -67,12 +67,6 @@ RSpec.describe FlossFunding do
       FlossFunding.loaded_at = nil
     end
 
-    it "covers activation_occurrences false path when a namespace has zero events" do
-      ns = FlossFunding::Namespace.new("NoEventsNS", nil, [])
-      FlossFunding.namespaces = {ns.name => ns}
-      expect(FlossFunding.activation_occurrences).to eq([])
-    end
-
     it "covers base_words early return for n == 0" do
       FlossFunding.loaded_at = Time.new(2025, 7, 1, 0, 0, 0, "+00:00")
       FlossFunding.loaded_month = FlossFunding::START_MONTH
