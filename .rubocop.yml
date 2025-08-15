@@ -1,6 +1,13 @@
 inherit_gem:
   rubocop-lts: config/rubygem_rspec.yml
 
+AllCops:
+  Exclude:
+    - 'spec/fixtures/gem_mine/**/*'
+    - 'spec/fixtures/gemspecs/**/*'
+    - 'spec/fixtures/non_gems/**/*'
+    - 'spec/fixtures/scenario_gems/**/*'
+
 RSpec/ExampleLength:
   Enabled: false
 
