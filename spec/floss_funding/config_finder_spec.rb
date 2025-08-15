@@ -134,7 +134,7 @@ RSpec.describe FlossFunding::ConfigFinder, :extended do
   describe ".find_user_xdg_config variants" do
     it "returns path when XDG config exists" do
       Dir.mktmpdir do |xdg|
-        file = File.join(xdg, "rubocop", "config.yml")
+        file = File.join(xdg, described_class::XDG_DIRNAME, "config.yml")
         FileUtils.mkdir_p(File.dirname(file))
         File.write(file, "---\n")
         allow(ENV).to receive(:fetch).with("XDG_CONFIG_HOME", "~/.config").and_return(xdg)

@@ -13,6 +13,7 @@ module FlossFunding
   class ConfigFinder
     DOTFILE = ".floss_funding.yml"
     XDG_CONFIG = "config.yml"
+    XDG_DIRNAME = "floss_funding"
     DEFAULT_FILE = File.join(FLOSS_FUNDING_HOME, "config", "default.yml")
 
     class << self
@@ -113,7 +114,7 @@ module FlossFunding
 
       def find_user_xdg_config
         xdg_config_home = expand_path(ENV.fetch("XDG_CONFIG_HOME", "~/.config"))
-        xdg_config = File.join(xdg_config_home, "rubocop", XDG_CONFIG)
+        xdg_config = File.join(xdg_config_home, XDG_DIRNAME, XDG_CONFIG)
 
         xdg_config if File.exist?(xdg_config)
       end

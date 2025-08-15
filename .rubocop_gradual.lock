@@ -14,21 +14,21 @@
     [275, 85, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3931648013],
     [277, 14, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227]
   ],
-  "lib/floss_funding/config_finder.rb:2845080056": [
-    [23, 7, 25, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 397451408],
-    [26, 9, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
-    [28, 16, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
-    [28, 43, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
-    [36, 9, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
-    [42, 9, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3487917929],
-    [47, 9, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
-    [48, 9, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
-    [49, 9, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3487917929],
-    [60, 9, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
-    [62, 16, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
-    [62, 48, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
-    [68, 17, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
-    [73, 9, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790]
+  "lib/floss_funding/config_finder.rb:2857557530": [
+    [24, 7, 25, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 397451408],
+    [27, 9, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
+    [29, 16, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
+    [29, 43, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
+    [37, 9, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
+    [43, 9, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3487917929],
+    [48, 9, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
+    [49, 9, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
+    [50, 9, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3487917929],
+    [61, 9, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
+    [63, 16, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
+    [63, 48, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
+    [69, 17, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
+    [74, 9, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790]
   ],
   "lib/floss_funding/config_loader.rb:465503781": [
     [73, 9, 22, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2323500225],
@@ -107,7 +107,7 @@
     [8, 16, 23, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3202457120],
     [9, 3, 80, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 114688600]
   ],
-  "spec/floss_funding/config_finder_spec.rb:2211922470": [
+  "spec/floss_funding/config_finder_spec.rb:236378484": [
     [3, 1, 41, "RSpec/MultipleDescribes: Do not use multiple top-level example groups - try to nest them.", 2736237141],
     [53, 5, 38, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3762634766],
     [76, 5, 60, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1913492188],
