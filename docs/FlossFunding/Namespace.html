@@ -935,17 +935,6 @@ Otherwise false.</p>
       
     </li>
   
-    <li>
-      
-        <span class='name'>namespace</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-    </li>
-  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -968,6 +957,7 @@ Otherwise false.</p>
       <pre class="lines">
 
 
+87
 88
 89
 90
@@ -978,11 +968,10 @@ Otherwise false.</p>
 95
 96
 97
-98
-99</pre>
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/namespace.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/namespace.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_unpaid_silence'>check_unpaid_silence</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -1089,21 +1078,6 @@ Otherwise false.</p>
       
     </li>
   
-    <li>
-      
-        <span class='name'>namespace</span>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="" title="FlossFunding::Namespace (class)">FlossFunding::Namespace</a></span></tt>, <tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the namespace used to derive the cipher key</p>
-</div>
-      
-    </li>
-  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -1130,6 +1104,8 @@ Otherwise false.</p>
       <pre class="lines">
 
 
+104
+105
 106
 107
 108
@@ -1138,12 +1114,10 @@ Otherwise false.</p>
 111
 112
 113
-114
-115
-116</pre>
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/namespace.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/namespace.rb', line 104</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_floss_funding_decrypt'>floss_funding_decrypt</span><span class='lparen'>(</span><span class='id identifier rubyid_activation_key'>activation_key</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -1253,12 +1227,12 @@ Concatenates array values for identical keys across configs.</p>
       <pre class="lines">
 
 
-121
-122
-123</pre>
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/namespace.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/namespace.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_merged_config'>merged_config</span>
   <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Configuration.html" title="FlossFunding::Configuration (class)">Configuration</a></span></span><span class='period'>.</span><span class='id identifier rubyid_merged_config'><span class='object_link'><a href="Configuration.html#merged_config-class_method" title="FlossFunding::Configuration.merged_config (method)">merged_config</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_configs'>configs</span><span class='rparen'>)</span>
@@ -1333,7 +1307,7 @@ Concatenates array values for identical keys across configs.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 14 17:04:04 2025 by
+  Generated on Fri Aug 15 14:04:24 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

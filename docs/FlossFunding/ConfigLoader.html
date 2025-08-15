@@ -104,7 +104,20 @@
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Lightweight configuration loader facade adapted from RuboCop but trimmed<br />
+down for FlossFunding’s needs. Provides only the minimal API we require<br />
+to locate and load YAML configuration files for libraries using the<br />
+FlossFunding integration.</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
   
     <h2>
       Constant Summary
@@ -114,12 +127,58 @@
     <dl class="constants">
       
         <dt id="FLOSS_FUNDING_HOME-constant" class="">FLOSS_FUNDING_HOME =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>Absolute path to the root of the floss_funding project (the gem itself).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_realpath'>realpath</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>..</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>..</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span></pre></dd>
       
         <dt id="DEFAULT_FILE-constant" class="">DEFAULT_FILE =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>Absolute path to the built-in default configuration YAML file.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#FLOSS_FUNDING_HOME-constant" title="FlossFunding::ConfigLoader::FLOSS_FUNDING_HOME (constant)">FLOSS_FUNDING_HOME</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>config</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>default.yml</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span></pre></dd>
       
@@ -143,7 +202,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#clear_options-class_method" title="clear_options (class method)">.<strong>clear_options</strong>  &#x21d2; Object </a>
+      <a href="#clear_options-class_method" title="clear_options (class method)">.<strong>clear_options</strong>  &#x21d2; void </a>
     
 
     
@@ -157,7 +216,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Clear any memoized or process-level options in FileFinder that may affect config discovery between runs (primarily a testing helper).</p>
 </div></span>
   
 </li>
@@ -166,7 +225,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#configuration_file_for-class_method" title="configuration_file_for (class method)">.<strong>configuration_file_for</strong>(target_dir)  &#x21d2; Object </a>
+      <a href="#configuration_file_for-class_method" title="configuration_file_for (class method)">.<strong>configuration_file_for</strong>(target_dir)  &#x21d2; String<sup>?</sup> </a>
     
 
     
@@ -212,7 +271,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#load_file-class_method" title="load_file (class method)">.<strong>load_file</strong>(file, check: true)  &#x21d2; Object </a>
+      <a href="#load_file-class_method" title="load_file (class method)">.<strong>load_file</strong>(file, check: true)  &#x21d2; Hash </a>
     
 
     
@@ -226,7 +285,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Loads a YAML file and returns a Hash (empty if unreadable).</p>
+    <span class="summary_desc"><div class='inline'><p>Loads a YAML file and returns a Hash.</p>
 </div></span>
   
 </li>
@@ -235,7 +294,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#reset_caches!-class_method" title="reset_caches! (class method)">.<strong>reset_caches!</strong>  &#x21d2; Object </a>
+      <a href="#reset_caches!-class_method" title="reset_caches! (class method)">.<strong>reset_caches!</strong>  &#x21d2; void </a>
     
 
     
@@ -278,37 +337,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="clear_options-class_method">
   
-    .<strong>clear_options</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-22
-23
-24</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 22</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_clear_options'>clear_options</span>
-  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FileFinder.html" title="FlossFunding::FileFinder (module)">FileFinder</a></span></span><span class='period'>.</span><span class='id identifier rubyid_root_level'>root_level</span> <span class='op'>=</span> <span class='kw'>nil</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="configuration_file_for-class_method">
-  
-    .<strong>configuration_file_for</strong>(target_dir)  &#x21d2; <tt>Object</tt> 
+    .<strong>clear_options</strong>  &#x21d2; <tt>void</tt> 
   
 
   
@@ -316,7 +345,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns the path to the applicable config file for target_dir.</p>
+    <p class="note returns_void">This method returns an undefined value.</p><p>Clear any memoized or process-level options in FileFinder that may<br />
+affect config discovery between runs (primarily a testing helper).</p>
 
 
   </div>
@@ -330,12 +360,89 @@
       <pre class="lines">
 
 
-27
-28
-29</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 38</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_clear_options'>clear_options</span>
+  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FileFinder.html" title="FlossFunding::FileFinder (module)">FileFinder</a></span></span><span class='period'>.</span><span class='id identifier rubyid_root_level'>root_level</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="configuration_file_for-class_method">
+  
+    .<strong>configuration_file_for</strong>(target_dir)  &#x21d2; <tt>String</tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the path to the applicable config file for target_dir.<br />
+Delegates to ConfigFinder which performs the upward search.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>target_dir</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>directory to anchor the search from</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>absolute path to a .floss_funding.yml or nil if none found</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_configuration_file_for'>configuration_file_for</span><span class='lparen'>(</span><span class='id identifier rubyid_target_dir'>target_dir</span><span class='rparen'>)</span>
   <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ConfigFinder.html" title="FlossFunding::ConfigFinder (class)">ConfigFinder</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find_config_path'><span class='object_link'><a href="ConfigFinder.html#find_config_path-class_method" title="FlossFunding::ConfigFinder.find_config_path (method)">find_config_path</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_target_dir'>target_dir</span><span class='rparen'>)</span>
@@ -386,12 +493,12 @@ Memoized for the lifetime of the process; tests may clear via reset_caches!.</p>
       <pre class="lines">
 
 
-45
-46
-47</pre>
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_configuration'>default_configuration</span>
   <span class='ivar'>@default_configuration</span> <span class='op'>||=</span> <span class='id identifier rubyid_load_file'>load_file</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#DEFAULT_FILE-constant" title="FlossFunding::ConfigLoader::DEFAULT_FILE (constant)">DEFAULT_FILE</a></span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
@@ -404,7 +511,7 @@ Memoized for the lifetime of the process; tests may clear via reset_caches!.</p>
       <div class="method_details ">
   <h3 class="signature " id="load_file-class_method">
   
-    .<strong>load_file</strong>(file, check: true)  &#x21d2; <tt>Object</tt> 
+    .<strong>load_file</strong>(file, check: true)  &#x21d2; <tt>Hash</tt> 
   
 
   
@@ -412,13 +519,81 @@ Memoized for the lifetime of the process; tests may clear via reset_caches!.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Loads a YAML file and returns a Hash (empty if unreadable).</p>
+    <p>Loads a YAML file and returns a Hash. When the file is unreadable or<br />
+contains invalid YAML, returns an empty Hash. When the file is missing,<br />
+raises ConfigNotFoundError.</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>file</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>absolute path to a YAML file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>check</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>reserved for future validations (currently unused)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="ConfigNotFoundError.html" title="FlossFunding::ConfigNotFoundError (class)">FlossFunding::ConfigNotFoundError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>when the file does not exist</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -426,16 +601,16 @@ Memoized for the lifetime of the process; tests may clear via reset_caches!.</p>
       <pre class="lines">
 
 
-32
-33
-34
-35
-36
-37
-38</pre>
+59
+60
+61
+62
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_file'>load_file</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='label'>check:</span> <span class='kw'>true</span><span class='rparen'>)</span>
   <span class='const'>YAML</span><span class='period'>.</span><span class='id identifier rubyid_safe_load'>safe_load</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -452,7 +627,7 @@ Memoized for the lifetime of the process; tests may clear via reset_caches!.</p>
       <div class="method_details ">
   <h3 class="signature " id="reset_caches!-class_method">
   
-    .<strong>reset_caches!</strong>  &#x21d2; <tt>Object</tt> 
+    .<strong>reset_caches!</strong>  &#x21d2; <tt>void</tt> 
   
 
   
@@ -467,7 +642,7 @@ Memoized for the lifetime of the process; tests may clear via reset_caches!.</p>
 </div>
   </div>
 
-<p>Testing hook to clear internal caches</p>
+<p class="note returns_void">This method returns an undefined value.</p><p>Testing hook to clear internal caches</p>
 
 
   </div>
@@ -481,12 +656,12 @@ Memoized for the lifetime of the process; tests may clear via reset_caches!.</p>
       <pre class="lines">
 
 
-51
-52
-53</pre>
+79
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_loader.rb', line 79</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reset_caches!'>reset_caches!</span>
   <span class='ivar'>@default_configuration</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -501,7 +676,7 @@ Memoized for the lifetime of the process; tests may clear via reset_caches!.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 14 17:04:04 2025 by
+  Generated on Fri Aug 15 14:04:24 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

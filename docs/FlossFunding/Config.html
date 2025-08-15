@@ -101,45 +101,6 @@ back to defaults.</p>
   
 
 </div>
-  
-    <h2>
-      Constant Summary
-      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
-    </h2>
-
-    <dl class="constants">
-      
-        <dt id="CONFIG_FILE_NAME-constant" class="">CONFIG_FILE_NAME =
-          <div class="docstring">
-  <div class="discussion">
-    <p>The file name to look for in the project root.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div>
-        </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.floss_funding.yml</span><span class='tstring_end'>&quot;</span></span></pre></dd>
-      
-    </dl>
-  
-
 
 
 
@@ -172,6 +133,29 @@ back to defaults.</p>
 
   
     <span class="summary_desc"><div class='inline'><p>Expose project root discovery to allow tests and callers to stub or override it.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#normalize_to_array-class_method" title="normalize_to_array (class method)">.<strong>normalize_to_array</strong>(value)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Normalize a value from YAML or gemspec to an array.</p>
 </div></span>
   
 </li>
@@ -225,15 +209,64 @@ override it. Delegates to ConfigFinder.</p>
       <pre class="lines">
 
 
-24
-25
-26</pre>
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_project_root'>find_project_root</span>
   <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ConfigFinder.html" title="FlossFunding::ConfigFinder (class)">ConfigFinder</a></span></span><span class='period'>.</span><span class='id identifier rubyid_project_root'><span class='object_link'><a href="ConfigFinder.html#project_root-class_method" title="FlossFunding::ConfigFinder.project_root (method)">project_root</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="normalize_to_array-class_method">
+  
+    .<strong>normalize_to_array</strong>(value)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Normalize a value from YAML or gemspec to an array.</p>
+<ul>
+  <li>nil =&gt; []</li>
+  <li>array =&gt; same array</li>
+  <li>scalar =&gt; [scalar]</li>
+</ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30
+31
+32</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config.rb', line 28</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_normalize_to_array'>normalize_to_array</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span> <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -245,7 +278,7 @@ override it. Delegates to ConfigFinder.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 14 17:04:04 2025 by
+  Generated on Fri Aug 15 14:04:24 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

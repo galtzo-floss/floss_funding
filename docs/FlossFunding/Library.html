@@ -87,6 +87,11 @@
   
   
   
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="FileFinder.html" title="FlossFunding::FileFinder (module)">FileFinder</a></span></dd>
+  </dl>
+  
   
 
   
@@ -111,22 +116,6 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
   
 
 </div>
-  
-    <h2>
-      Constant Summary
-      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
-    </h2>
-
-    <dl class="constants">
-      
-        <dt id="NAME_ASSIGNMENT_REGEX-constant" class="">NAME_ASSIGNMENT_REGEX =
-          
-        </dt>
-        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\bname\s*=\s*([&quot;&#39;])([^&quot;&#39;]+)\1</span><span class='regexp_end'>/</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
-      
-    </dl>
-  
-
 
 
 
@@ -155,7 +144,7 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>including module’s actual name.</p>
 </div></span>
   
 </li>
@@ -220,34 +209,6 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#gem_name-instance_method" title="#gem_name (instance method)">#<strong>gem_name</strong>  &#x21d2; String </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#including_path-instance_method" title="#including_path (instance method)">#<strong>including_path</strong>  &#x21d2; String </a>
     
 
@@ -276,7 +237,7 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#library_config_path-instance_method" title="#library_config_path (instance method)">#<strong>library_config_path</strong>  &#x21d2; String<sup>?</sup> </a>
+      <a href="#library_config_path-instance_method" title="#library_config_path (instance method)">#<strong>library_config_path</strong>  &#x21d2; String </a>
     
 
     
@@ -304,7 +265,35 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#library_root_path-instance_method" title="#library_root_path (instance method)">#<strong>library_root_path</strong>  &#x21d2; String<sup>?</sup> </a>
+      <a href="#library_name-instance_method" title="#library_name (instance method)">#<strong>library_name</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#library_root_path-instance_method" title="#library_root_path (instance method)">#<strong>library_root_path</strong>  &#x21d2; String </a>
     
 
     
@@ -351,63 +340,7 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#project_config_path-instance_method" title="#project_config_path (instance method)">#<strong>project_config_path</strong>  &#x21d2; String<sup>?</sup> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#project_root_path-instance_method" title="#project_root_path (instance method)">#<strong>project_root_path</strong>  &#x21d2; String<sup>?</sup> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Namespace computed from base_name (including module’s actual name), and custom_namespace.</p>
 </div></span>
   
 </li>
@@ -476,153 +409,6 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
 
   
     <h2>
-      Class Method Summary
-      <small><a href="#" class="summary_toggle">collapse</a></small>
-    </h2>
-
-    <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#gem_name_for-class_method" title="gem_name_for (class method)">.<strong>gem_name_for</strong>(gemspec_path)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#gemspec_name_cache-class_method" title="gemspec_name_cache (class method)">.<strong>gemspec_name_cache</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#load_yaml_config-class_method" title="load_yaml_config (class method)">.<strong>load_yaml_config</strong>(path)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#parse_gemspec_name-class_method" title="parse_gemspec_name (class method)">.<strong>parse_gemspec_name</strong>(gemspec_path)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Lightweight parse for gem name to avoid full Gem::Specification load.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#reset_caches!-class_method" title="reset_caches! (class method)">.<strong>reset_caches!</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Testing helper.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#yaml_config_cache-class_method" title="yaml_config_cache (class method)">.<strong>yaml_config_cache</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Simple process-lifetime caches.</p>
-</div></span>
-  
-</li>
-
-      
-    </ul>
-  
-    <h2>
       Instance Method Summary
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
@@ -632,7 +418,7 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(namespace, custom_namespace, base_name, including_path, env_var_name, options = {})  &#x21d2; Library </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(library_name, ns, custom_ns, base_name, including_path, root_path, config_path, env_var_name, config, silent)  &#x21d2; Library </a>
     
 
     
@@ -657,13 +443,24 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
     </ul>
   
 
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="FileFinder.html" title="FlossFunding::FileFinder (module)">FileFinder</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="FileFinder.html#find_file_upwards-instance_method" title="FlossFunding::FileFinder#find_file_upwards (method)">#find_file_upwards</a></span>, <span class='object_link'><a href="FileFinder.html#find_last_file_upwards-instance_method" title="FlossFunding::FileFinder#find_last_file_upwards (method)">#find_last_file_upwards</a></span>, <span class='object_link'><a href="FileFinder.html#root_level=-class_method" title="FlossFunding::FileFinder.root_level= (method)">root_level=</a></span>, <span class='object_link'><a href="FileFinder.html#root_level%3F-class_method" title="FlossFunding::FileFinder.root_level? (method)">root_level?</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(namespace, custom_namespace, base_name, including_path, env_var_name, options = {})  &#x21d2; <tt><span class='object_link'><a href="" title="FlossFunding::Library (class)">Library</a></span></tt> 
+    #<strong>initialize</strong>(library_name, ns, custom_ns, base_name, including_path, root_path, config_path, env_var_name, config, silent)  &#x21d2; <tt><span class='object_link'><a href="" title="FlossFunding::Library (class)">Library</a></span></tt> 
   
 
   
@@ -682,10 +479,32 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
   
     <li>
       
-        <span class='name'>namespace</span>
+        <span class='name'>library_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ns</span>
       
       
         <span class='type'>(<tt><span class='object_link'><a href="Namespace.html" title="FlossFunding::Namespace (class)">FlossFunding::Namespace</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>custom_ns</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
       
       
       
@@ -707,7 +526,29 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
         <span class='name'>including_path</span>
       
       
-        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>root_path</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>config_path</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
       
       
       
@@ -726,73 +567,27 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
   
     <li>
       
-        <span class='name'>options</span>
+        <span class='name'>config</span>
       
       
-        <span class='type'>(<tt>Hash</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Configuration.html" title="FlossFunding::Configuration (class)">FlossFunding::Configuration</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>silent</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>, <tt>#call</tt>)</span>
+      
       
       
     </li>
   
 </ul>
-
-  
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <p class="tag_title">Options Hash (<tt>options</tt>):</p>
-    <ul class="option">
-      
-        <li>
-          <span class="name">:silent</span>
-          <span class="type">(<tt>Boolean</tt>, <tt>#call</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>nil</tt>
-            
-          </span>
-          
-        </li>
-      
-        <li>
-          <span class="name">:custom_namespace</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>nil</tt>
-            
-          </span>
-          
-        </li>
-      
-        <li>
-          <span class="name">:config_path</span>
-          <span class="type">(<tt>String</tt>, <tt>nil</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'><p>explicit config path; bypasses directory-walk search</p>
-</div>
-          
-        </li>
-      
-    </ul>
-  
 
 
 </div><table class="source_code">
@@ -801,40 +596,44 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
       <pre class="lines">
 
 
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127</pre>
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 52</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span><span class='comma'>,</span> <span class='id identifier rubyid_base_name'>base_name</span><span class='comma'>,</span> <span class='id identifier rubyid_including_path'>including_path</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='ivar'>@namespace</span> <span class='op'>=</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_library_name'>library_name</span><span class='comma'>,</span> <span class='id identifier rubyid_ns'>ns</span><span class='comma'>,</span> <span class='id identifier rubyid_custom_ns'>custom_ns</span><span class='comma'>,</span> <span class='id identifier rubyid_base_name'>base_name</span><span class='comma'>,</span> <span class='id identifier rubyid_including_path'>including_path</span><span class='comma'>,</span> <span class='id identifier rubyid_root_path'>root_path</span><span class='comma'>,</span> <span class='id identifier rubyid_config_path'>config_path</span><span class='comma'>,</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span><span class='comma'>,</span> <span class='id identifier rubyid_config'>config</span><span class='comma'>,</span> <span class='id identifier rubyid_silent'>silent</span><span class='rparen'>)</span>
+  <span class='ivar'>@library_name</span> <span class='op'>=</span> <span class='id identifier rubyid_library_name'>library_name</span>
+  <span class='ivar'>@namespace</span> <span class='op'>=</span> <span class='id identifier rubyid_ns'>ns</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
   <span class='ivar'>@base_name</span> <span class='op'>=</span> <span class='id identifier rubyid_base_name'>base_name</span>
   <span class='ivar'>@including_path</span> <span class='op'>=</span> <span class='id identifier rubyid_including_path'>including_path</span>
   <span class='ivar'>@env_var_name</span> <span class='op'>=</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span>
-  <span class='ivar'>@silence</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:silent</span><span class='rbracket'>]</span>
-  <span class='ivar'>@custom_namespace</span> <span class='op'>=</span> <span class='id identifier rubyid_custom_namespace'>custom_namespace</span>
+  <span class='ivar'>@silence</span> <span class='op'>=</span> <span class='id identifier rubyid_silent'>silent</span>
+  <span class='ivar'>@custom_ns</span> <span class='op'>=</span> <span class='id identifier rubyid_custom_ns'>custom_ns</span>
+  <span class='ivar'>@library_root_path</span> <span class='op'>=</span> <span class='id identifier rubyid_root_path'>root_path</span>
+  <span class='ivar'>@library_config_path</span> <span class='op'>=</span> <span class='id identifier rubyid_config_path'>config_path</span>
 
-  <span class='id identifier rubyid_discover_roots_and_config!'>discover_roots_and_config!</span><span class='lparen'>(</span><span class='id identifier rubyid_including_path'>including_path</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='ivar'>@config</span> <span class='op'>=</span> <span class='id identifier rubyid_config'>config</span>
 
-  <span class='ivar'>@gem_name</span> <span class='op'>=</span> <span class='id identifier rubyid_derive_gem_name'>derive_gem_name</span>
-  <span class='ivar'>@config</span> <span class='op'>=</span> <span class='id identifier rubyid_load_config'>load_config</span>
-
-  <span class='ivar'>@seen_at</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+  <span class='comment'># In normal runtime we don&#39;t care about the @seen_at value, as this isn&#39;t an interactive library.
+</span>  <span class='comment'># @seen_at is only useful for debugging; e.g., could be used to order libraries by time of discovery
+</span>  <span class='ivar'>@seen_at</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../FlossFunding.html#DEBUG-constant" title="FlossFunding::DEBUG (constant)">DEBUG</a></span></span> <span class='op'>?</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_loaded_at'><span class='object_link'><a href="../FlossFunding.html#loaded_at-class_method" title="FlossFunding.loaded_at (method)">loaded_at</a></span></span>
   <span class='id identifier rubyid_freeze'>freeze</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -860,7 +659,7 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p>including module’s actual name</p>
 
 
   </div>
@@ -887,12 +686,12 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
       <pre class="lines">
 
 
-80
-81
-82</pre>
+21
+22
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_base_name'>base_name</span>
   <span class='ivar'>@base_name</span>
@@ -942,12 +741,12 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
       <pre class="lines">
 
 
-100
-101
-102</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_config'>config</span>
   <span class='ivar'>@config</span>
@@ -997,70 +796,15 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
       <pre class="lines">
 
 
-86
-87
-88</pre>
+28
+29
+30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_env_var_name'>env_var_name</span>
   <span class='ivar'>@env_var_name</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
-      <span id=""></span>
-      <div class="method_details ">
-  <h3 class="signature " id="gem_name-instance_method">
-  
-    #<strong>gem_name</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-82
-83
-84</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 82</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_gem_name'>gem_name</span>
-  <span class='ivar'>@gem_name</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1107,12 +851,12 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
       <pre class="lines">
 
 
-84
-85
-86</pre>
+26
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_including_path'>including_path</span>
   <span class='ivar'>@including_path</span>
@@ -1127,117 +871,7 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
       <div class="method_details ">
   <h3 class="signature " id="library_config_path-instance_method">
   
-    #<strong>library_config_path</strong>  &#x21d2; <tt>String</tt><sup>?</sup>  <span class="extras">(readonly)</span>
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-92
-93
-94</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 92</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_library_config_path'>library_config_path</span>
-  <span class='ivar'>@library_config_path</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
-      <span id=""></span>
-      <div class="method_details ">
-  <h3 class="signature " id="library_root_path-instance_method">
-  
-    #<strong>library_root_path</strong>  &#x21d2; <tt>String</tt><sup>?</sup>  <span class="extras">(readonly)</span>
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-90
-91
-92</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 90</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_library_root_path'>library_root_path</span>
-  <span class='ivar'>@library_root_path</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
-      <span id=""></span>
-      <div class="method_details ">
-  <h3 class="signature " id="namespace-instance_method">
-  
-    #<strong>namespace</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+    #<strong>library_config_path</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
   
 
   
@@ -1272,125 +906,180 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
       <pre class="lines">
 
 
-78
-79
-80</pre>
+32
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 32</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_library_config_path'>library_config_path</span>
+  <span class='ivar'>@library_config_path</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="library_name-instance_method">
+  
+    #<strong>library_name</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_library_name'>library_name</span>
+  <span class='ivar'>@library_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="library_root_path-instance_method">
+  
+    #<strong>library_root_path</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+30
+31
+32</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 30</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_library_root_path'>library_root_path</span>
+  <span class='ivar'>@library_root_path</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="namespace-instance_method">
+  
+    #<strong>namespace</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Namespace computed from base_name (including module’s actual name), and custom_namespace</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_namespace'>namespace</span>
   <span class='ivar'>@namespace</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
-      <span id=""></span>
-      <div class="method_details ">
-  <h3 class="signature " id="project_config_path-instance_method">
-  
-    #<strong>project_config_path</strong>  &#x21d2; <tt>String</tt><sup>?</sup>  <span class="extras">(readonly)</span>
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-94
-95
-96</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 94</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_project_config_path'>project_config_path</span>
-  <span class='ivar'>@project_config_path</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
-      <span id=""></span>
-      <div class="method_details ">
-  <h3 class="signature " id="project_root_path-instance_method">
-  
-    #<strong>project_root_path</strong>  &#x21d2; <tt>String</tt><sup>?</sup>  <span class="extras">(readonly)</span>
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-88
-89
-90</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 88</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_project_root_path'>project_root_path</span>
-  <span class='ivar'>@project_root_path</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1437,12 +1126,12 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
       <pre class="lines">
 
 
-96
-97
-98</pre>
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_seen_at'>seen_at</span>
   <span class='ivar'>@seen_at</span>
@@ -1496,12 +1185,12 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
       <pre class="lines">
 
 
-98
-99
-100</pre>
+36
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_silence'>silence</span>
   <span class='ivar'>@silence</span>
@@ -1514,293 +1203,10 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
   </div>
 
 
-  <div id="class_method_details" class="method_details_list">
-    <h2>Class Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="gem_name_for-class_method">
-  
-    .<strong>gem_name_for</strong>(gemspec_path)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 42</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_gem_name_for'>gem_name_for</span><span class='lparen'>(</span><span class='id identifier rubyid_gemspec_path'>gemspec_path</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_abs'>abs</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_gemspec_path'>gemspec_path</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='id identifier rubyid_gemspec_name_cache'>gemspec_name_cache</span><span class='lbracket'>[</span><span class='id identifier rubyid_abs'>abs</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_gemspec_name_cache'>gemspec_name_cache</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_abs'>abs</span><span class='rparen'>)</span>
-
-  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_gemspec_name'>parse_gemspec_name</span><span class='lparen'>(</span><span class='id identifier rubyid_abs'>abs</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-    <span class='kw'>begin</span>
-      <span class='id identifier rubyid_spec'>spec</span> <span class='op'>=</span> <span class='const'>Gem</span><span class='op'>::</span><span class='const'>Specification</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_abs'>abs</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_spec'>spec</span><span class='op'>&amp;.</span><span class='id identifier rubyid_name'>name</span>
-    <span class='kw'>rescue</span> <span class='const'>StandardError</span>
-      <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='kw'>nil</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='id identifier rubyid_gemspec_name_cache'>gemspec_name_cache</span><span class='lbracket'>[</span><span class='id identifier rubyid_abs'>abs</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span> <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span>
-  <span class='id identifier rubyid_name'>name</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="gemspec_name_cache-class_method">
-  
-    .<strong>gemspec_name_cache</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-23
-24
-25</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 23</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_gemspec_name_cache'>gemspec_name_cache</span>
-  <span class='ivar'>@gemspec_name_cache</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="load_yaml_config-class_method">
-  
-    .<strong>load_yaml_config</strong>(path)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-59
-60
-61
-62
-63
-64
-65
-66
-67</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 59</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_load_yaml_config'>load_yaml_config</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_abs'>abs</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_cache'>cache</span> <span class='op'>=</span> <span class='id identifier rubyid_yaml_config_cache'>yaml_config_cache</span>
-  <span class='kw'>return</span> <span class='id identifier rubyid_cache'>cache</span><span class='lbracket'>[</span><span class='id identifier rubyid_abs'>abs</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_cache'>cache</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_abs'>abs</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>YAML</span><span class='period'>.</span><span class='id identifier rubyid_safe_load'>safe_load</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_abs'>abs</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-  <span class='id identifier rubyid_cache'>cache</span><span class='lbracket'>[</span><span class='id identifier rubyid_abs'>abs</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
-<span class='kw'>rescue</span> <span class='const'>StandardError</span>
-  <span class='id identifier rubyid_cache'>cache</span><span class='lbracket'>[</span><span class='id identifier rubyid_abs'>abs</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="parse_gemspec_name-class_method">
-  
-    .<strong>parse_gemspec_name</strong>(gemspec_path)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Lightweight parse for gem name to avoid full Gem::Specification load</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 28</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_parse_gemspec_name'>parse_gemspec_name</span><span class='lparen'>(</span><span class='id identifier rubyid_gemspec_path'>gemspec_path</span><span class='rparen'>)</span>
-  <span class='kw'>begin</span>
-    <span class='id identifier rubyid_content'>content</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_gemspec_path'>gemspec_path</span><span class='rparen'>)</span>
-    <span class='comment'># Look for name assignment patterns like:
-</span>    <span class='comment'>#   spec.name = &quot;my_gem&quot; OR Gem::Specification.new do |spec|; spec.name = &#39;my_gem&#39;
-</span>    <span class='kw'>if</span> <span class='id identifier rubyid_content'>content</span> <span class='op'>=~</span> <span class='const'><span class='object_link'><a href="#NAME_ASSIGNMENT_REGEX-constant" title="FlossFunding::Library::NAME_ASSIGNMENT_REGEX (constant)">NAME_ASSIGNMENT_REGEX</a></span></span>
-      <span class='kw'>return</span> <span class='backref'>$2</span>
-    <span class='kw'>end</span>
-  <span class='kw'>rescue</span> <span class='const'>StandardError</span>
-    <span class='comment'># fall through
-</span>  <span class='kw'>end</span>
-  <span class='kw'>nil</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="reset_caches!-class_method">
-  
-    .<strong>reset_caches!</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-  <div class="note notetag">
-    <strong>Note:</strong>
-    <div class='inline'><p>Test shim: used by specs; no internal usage as of 2025-08-13.</p>
-</div>
-  </div>
-
-<p>Testing helper</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-71
-72
-73
-74</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 71</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_reset_caches!'>reset_caches!</span>
-  <span class='ivar'>@yaml_config_cache</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-  <span class='ivar'>@gemspec_name_cache</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="yaml_config_cache-class_method">
-  
-    .<strong>yaml_config_cache</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Simple process-lifetime caches</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-19
-20
-21</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 19</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_yaml_config_cache'>yaml_config_cache</span>
-  <span class='ivar'>@yaml_config_cache</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
-
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 14 17:04:04 2025 by
+  Generated on Fri Aug 15 14:04:24 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

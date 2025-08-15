@@ -6,7 +6,7 @@ module FlossFunding
   # Normalizes all values to arrays to simplify downstream processing.
   # Provides a hash-like interface for reading values.
   #
-  # Examples
+  # @example Basic usage
   #   cfg = FlossFunding::Configuration.new({"a" => 1, "b" => [2, 3]})
   #   cfg["a"] #=> [1]
   #   cfg["b"] #=> [2, 3]

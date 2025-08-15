@@ -165,25 +165,6 @@
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>config.yml</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
-        <dt id="FLOSS_FUNDING_HOME-constant" class="">FLOSS_FUNDING_HOME =
-          <div class="docstring">
-  <div class="discussion">
-    <p class="note private">
-  <strong>This constant is part of a private API.</strong>
-  You should avoid using this constant if possible, as it may be removed or be changed in the future.
-</p>
-
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
-        </dt>
-        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_realpath'>realpath</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>..</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>..</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span></pre></dd>
-      
         <dt id="DEFAULT_FILE-constant" class="">DEFAULT_FILE =
           <div class="docstring">
   <div class="discussion">
@@ -201,7 +182,7 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#FLOSS_FUNDING_HOME-constant" title="FlossFunding::ConfigFinder::FLOSS_FUNDING_HOME (constant)">FLOSS_FUNDING_HOME</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>config</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>default.yml</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span></pre></dd>
+        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../FlossFunding.html#FLOSS_FUNDING_HOME-constant" title="FlossFunding::FLOSS_FUNDING_HOME (constant)">FLOSS_FUNDING_HOME</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>config</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>default.yml</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span></pre></dd>
       
     </dl>
   
@@ -347,12 +328,12 @@ searches will go past this directory.</p>
       <pre class="lines">
 
 
+41
 42
-43
-44</pre>
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_finder.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_finder.rb', line 41</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_project_root'>project_root</span>
   <span class='ivar'>@project_root</span> <span class='op'>||=</span> <span class='id identifier rubyid_find_project_root'>find_project_root</span>
@@ -398,14 +379,14 @@ searches will go past this directory.</p>
       <pre class="lines">
 
 
+46
 47
 48
 49
-50
-51</pre>
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_finder.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_finder.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_clear_caches!'>clear_caches!</span>
   <span class='ivar'>@config_path_cache</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -446,6 +427,7 @@ searches will go past this directory.</p>
       <pre class="lines">
 
 
+25
 26
 27
 28
@@ -457,11 +439,10 @@ searches will go past this directory.</p>
 34
 35
 36
-37
-38</pre>
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_finder.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/config_finder.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_config_path'>find_config_path</span><span class='lparen'>(</span><span class='id identifier rubyid_target_dir'>target_dir</span><span class='rparen'>)</span>
   <span class='ivar'>@config_path_cache</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -471,7 +452,7 @@ searches will go past this directory.</p>
   <span class='comment'># Test-friendly fallback: when no project/user config is found (path == DEFAULT_FILE),
 </span>  <span class='comment'># prefer a repo-root .floss_funding.yml if it exists within FLOSS_FUNDING_HOME.
 </span>  <span class='kw'>if</span> <span class='id identifier rubyid_path'>path</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#DEFAULT_FILE-constant" title="FlossFunding::ConfigFinder::DEFAULT_FILE (constant)">DEFAULT_FILE</a></span></span>
-    <span class='id identifier rubyid_repo_root_dotfile'>repo_root_dotfile</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#FLOSS_FUNDING_HOME-constant" title="FlossFunding::ConfigFinder::FLOSS_FUNDING_HOME (constant)">FLOSS_FUNDING_HOME</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#DOTFILE-constant" title="FlossFunding::ConfigFinder::DOTFILE (constant)">DOTFILE</a></span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_repo_root_dotfile'>repo_root_dotfile</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../FlossFunding.html#FLOSS_FUNDING_HOME-constant" title="FlossFunding::FLOSS_FUNDING_HOME (constant)">FLOSS_FUNDING_HOME</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#DOTFILE-constant" title="FlossFunding::ConfigFinder::DOTFILE (constant)">DOTFILE</a></span></span><span class='rparen'>)</span>
     <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='id identifier rubyid_repo_root_dotfile'>repo_root_dotfile</span> <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_repo_root_dotfile'>repo_root_dotfile</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
   <span class='ivar'>@config_path_cache</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_path'>path</span>
@@ -486,7 +467,7 @@ searches will go past this directory.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 14 17:04:04 2025 by
+  Generated on Fri Aug 15 14:04:24 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

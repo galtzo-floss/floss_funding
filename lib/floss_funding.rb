@@ -145,7 +145,6 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     #
     # @see @loaded_at
     #
-    # @param value [Time]
     # @return [Time]
     attr_reader :loaded_at
 
@@ -175,12 +174,12 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     end
 
     # Accessor for namespaces hash: keys are namespace strings, values are Namespace objects
-    # @return [Hash[String, Array<::FlossFunding::Namespace>]]
+    # @return [Hash{String => ::FlossFunding::Namespace}]
     def namespaces
       @mutex.synchronize { @namespaces.dup }
     end
 
-    # Replace the namespaces hash (expects Hash[String, Array<::FlossFunding::Namespace>])
+    # Replace the namespaces hash (expects `Hash{String => ::FlossFunding::Namespace}`)
     def namespaces=(value)
       @mutex.synchronize { @namespaces = value }
     end
@@ -244,14 +243,11 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
 
     # Reads the first N lines from the base words file to validate paid activation keys.
     #
-    # @param num_valid_words [Integer] number of words to read from the word list
+    # @param num_valid_words [Integer, nil] number of words to read from the word list
     # @return [Array<String>] the first N words; empty when N is nil or zero
     # Reads base words used to validate paid activation keys.
     # When called without an argument, uses the current month window to
     # determine how many words are valid.
-    #
-    # @param num_valid_words [Integer, nil]
-    # @return [Array<String>]
     def base_words(num_valid_words = nil)
       n = num_valid_words.nil? ? @num_valid_words_for_month : num_valid_words
       return [] if n.nil? || n.zero?

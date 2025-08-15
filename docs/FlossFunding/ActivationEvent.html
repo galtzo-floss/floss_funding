@@ -271,7 +271,7 @@ Tracks mutable state across: “activated”, “unactivated”, and “invalid�
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(library, activation_key, state = DEFAULT_STATE, silent = nil)  &#x21d2; ActivationEvent </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(library, activation_key, state, silent)  &#x21d2; ActivationEvent </a>
     
 
     
@@ -293,6 +293,29 @@ Tracks mutable state across: “activated”, “unactivated”, and “invalid�
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate!-instance_method" title="#validate! (instance method)">#<strong>validate!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -302,7 +325,7 @@ Tracks mutable state across: “activated”, “unactivated”, and “invalid�
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(library, activation_key, state = DEFAULT_STATE, silent = nil)  &#x21d2; <tt><span class='object_link'><a href="" title="FlossFunding::ActivationEvent (class)">ActivationEvent</a></span></tt> 
+    #<strong>initialize</strong>(library, activation_key, state, silent)  &#x21d2; <tt><span class='object_link'><a href="" title="FlossFunding::ActivationEvent (class)">ActivationEvent</a></span></tt> 
   
 
   
@@ -349,8 +372,6 @@ Tracks mutable state across: “activated”, “unactivated”, and “invalid�
         <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>DEFAULT_STATE</tt>)</em>
-      
       
         &mdash;
         <div class='inline'><p>initial state (defaults to :unactivated)</p>
@@ -365,8 +386,6 @@ Tracks mutable state across: “activated”, “unactivated”, and “invalid�
       
         <span class='type'>(<tt>Object</tt>, <tt>nil</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -391,18 +410,22 @@ Tracks mutable state across: “activated”, “unactivated”, and “invalid�
 26
 27
 28
-29</pre>
+29
+30
+31</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/activation_event.rb', line 22</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='comma'>,</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_state'>state</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../FlossFunding.html#DEFAULT_STATE-constant" title="FlossFunding::DEFAULT_STATE (constant)">DEFAULT_STATE</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_silent'>silent</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_library'>library</span><span class='comma'>,</span> <span class='id identifier rubyid_activation_key'>activation_key</span><span class='comma'>,</span> <span class='id identifier rubyid_state'>state</span><span class='comma'>,</span> <span class='id identifier rubyid_silent'>silent</span><span class='rparen'>)</span>
   <span class='ivar'>@library</span> <span class='op'>=</span> <span class='id identifier rubyid_library'>library</span>
   <span class='ivar'>@activation_key</span> <span class='op'>=</span> <span class='id identifier rubyid_activation_key'>activation_key</span>
-  <span class='ivar'>@state</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_state'>normalize_state</span><span class='lparen'>(</span><span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
-  <span class='comment'># Always use the deterministic time source from FlossFunding
+  <span class='ivar'>@state</span> <span class='op'>=</span> <span class='id identifier rubyid_state'>state</span> <span class='comment'># has already been normalized by FlossFunding::Inclusion
+</span>  <span class='comment'># Always use the deterministic time source from FlossFunding
 </span>  <span class='ivar'>@occurred_at</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_loaded_at'><span class='object_link'><a href="../FlossFunding.html#loaded_at-class_method" title="FlossFunding.loaded_at (method)">loaded_at</a></span></span>
   <span class='ivar'>@silent</span> <span class='op'>=</span> <span class='id identifier rubyid_silent'>silent</span>
+  <span class='id identifier rubyid_validate!'>validate!</span>
+  <span class='id identifier rubyid_freeze'>freeze</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -700,10 +723,71 @@ Tracks mutable state across: “activated”, “unactivated”, and “invalid�
   </div>
 
 
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="validate!-instance_method">
+  
+    #<strong>validate!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Error.html" title="FlossFunding::Error (class)">FlossFunding::Error</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/activation_event.rb', line 33</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_validate!'>validate!</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Error.html" title="FlossFunding::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@state</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> (</span><span class='embexpr_beg'>#{</span><span class='ivar'>@state</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='embexpr_end'>}</span><span class='tstring_content'>) must be one of </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="../FlossFunding.html#STATE_VALUES-constant" title="FlossFunding::STATE_VALUES (constant)">STATE_VALUES</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../FlossFunding.html#STATE_VALUES-constant" title="FlossFunding::STATE_VALUES (constant)">STATE_VALUES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='ivar'>@state</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Error.html" title="FlossFunding::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>silent must be nil or respond to call (silent=true short circuits)</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@silent</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@silent</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 14 17:04:04 2025 by
+  Generated on Fri Aug 15 14:04:24 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

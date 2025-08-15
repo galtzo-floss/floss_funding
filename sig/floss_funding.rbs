@@ -9,7 +9,8 @@ module FlossFunding
     attr_reader occurred_at: Time
     attr_reader silent: (untyped | nil)
 
-    def initialize: (::FlossFunding::Library, String, ?(String | Symbol), ?(untyped | nil)) -> void
+    def initialize: (::FlossFunding::Library, String, String, (untyped | nil)) -> void
+    def validate!: -> void
   end
 
   class Library
@@ -17,19 +18,16 @@ module FlossFunding
 
     attr_reader namespace: String
     attr_reader base_name: String
-    attr_reader gem_name: String
-    attr_reader including_path: (String)
+    attr_reader library_name: String
+    attr_reader including_path: String
     attr_reader env_var_name: String
-    attr_reader project_root_path: (String)
-    attr_reader library_root_path: (String)
-    attr_reader library_config_path: (String)
-    attr_reader project_config_path: (String | nil)
+    attr_reader library_root_path: String
+    attr_reader library_config_path: String
     attr_reader seen_at: Time
     attr_reader silence: untyped
     attr_reader config: ::FlossFunding::Configuration
 
-    # initialize(ns, custom_ns, base_name, including_path, env_var_name, settings, silent)
-    def initialize: (::FlossFunding::Namespace, (String | nil), String, String, String, ?Hash[Symbol, untyped]) -> void
+    def initialize: (String, ::FlossFunding::Namespace, (String | nil), String, String, String, String, String, ::FlossFunding::Configuration, untyped) -> void
   end
 
   class Namespace
@@ -37,7 +35,13 @@ module FlossFunding
     attr_reader env_var_name: String
     attr_reader activation_key: String
     attr_reader state: String
-    attr_accessor activation_events: Array[ActivationEvent]
+    attr_reader activation_events: Array[ActivationEvent]
+
+    def activation_events=: (Array[ActivationEvent]) -> void
+    def to_s: -> String
+    def has_state?: (String) -> bool
+    def with_state: (String) -> Array[ActivationEvent]
+    def configs: -> Array[::FlossFunding::Configuration]
 
     def check_unpaid_silence: (String) -> bool
     def floss_funding_decrypt: (String) -> (String | false)
@@ -45,7 +49,7 @@ module FlossFunding
   end
 
   class Configuration
-    include Enumerable[Array[untyped]]
+    include Enumerable[untyped]
 
     def self.merged_config: (Array[::FlossFunding::Configuration]) -> ::FlossFunding::Configuration
     def initialize: (?Hash[untyped, untyped]) -> void
@@ -62,40 +66,56 @@ module FlossFunding
   end
 
   # Constants
+  DEBUG: bool
+  CONFIG_FILE_NAME: String
+  FLOSS_FUNDING_HOME: String
+  REQUIRED_YAML_KEYS: Array[String]
   FREE_AS_IN_BEER: String
   BUSINESS_IS_NOT_GOOD_YET: String
   NOT_FINANCIALLY_SUPPORTING: String
+  STATES: Hash[Symbol, String]
+  STATE_VALUES: Array[String]
+  DEFAULT_STATE: String
   START_MONTH: Integer
   BASE_WORDS_PATH: String
   EIGHT_BYTES: Integer
   HEX_LICENSE_RULE: Regexp
   FOOTER: String
-  
+
   module Constants
     DEFAULT_PREFIX: String
     SILENT: bool
   end
-  
+
   module Version
     VERSION: String
   end
 
+  def self.install_tasks: -> void
+  def self.debug_log: (*untyped) { () -> String } -> void
+
   def self.namespaces: -> Hash[String, Namespace]
   def self.namespaces=: (Hash[String, Namespace]) -> void
+
+  def self.silenced: -> bool
+  def self.silenced=: (bool) -> void
 
   # All namespaces as Namespace objects
   def self.all_namespaces: -> Array[Namespace]
 
-  def self.configurations: (?String) -> untyped
+  # configurations
+  def self.configurations: ((String | nil)) -> (Hash[String, Array[::FlossFunding::Configuration]] | ::FlossFunding::Configuration | nil)
+  def self.configuration: (String) -> (::FlossFunding::Configuration | nil)
+
   def self.env_var_names: -> Hash[String, String]
 
   def self.base_words: (?Integer) -> Array[String]
 
   def self.loaded_at: -> Time
-  def self.num_valid_words_for_month: -> Integer
   def self.check_activation: (String) -> bool
   def self.start_coughing: (String, String, String) -> void
   def self.start_begging: (String, String, String) -> void
+  def self.initiate_begging: (::FlossFunding::ActivationEvent) -> void
 
   module UnderBar
     SAFE_TO_UNDERSCORE: Regexp
@@ -107,15 +127,13 @@ module FlossFunding
   end
 
   module Config
-    CONFIG_FILE_NAME: String
-
-    # def self.read_gemspec_data: (String) -> Hash[Symbol, untyped]
+    def self.find_project_root: -> (String | nil)
     def self.normalize_to_array: (untyped) -> Array[untyped]
   end
 
   module Poke
     def self.included: (Module) -> void
-    def self.new: (String, ?{ namespace: String?, silent: untyped? }) -> Module
+    def self.new: ((String | nil), ?{ namespace: String?, silent: untyped?, config_path: String?, wedge: bool? }) -> Module
   end
 
   class ContraIndications
@@ -133,6 +151,7 @@ module FlossFunding
     def self.clear_options: -> void
     def self.configuration_file_for: (String) -> (String | nil)
     def self.load_file: (String, ?{ check: bool }) -> Hash[untyped, untyped]
-    def self.default_configuration: -> untyped
+    def self.default_configuration: -> Hash[untyped, untyped]
+    def self.reset_caches!: -> void
   end
 end

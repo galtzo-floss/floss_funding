@@ -37,7 +37,7 @@ module FlossFunding
     attr_reader :config_path
     # @return [Hash]
     attr_reader :config_data
-    # @return [FlossFunding::Configuration]]
+    # @return [FlossFunding::Configuration]
     attr_reader :configuration
 
     # Build an Inclusion and register its activation event.

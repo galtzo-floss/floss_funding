@@ -83,7 +83,6 @@ module FlossFunding
     # Otherwise false.
     #
     # @param activation_key [String]
-    # @param namespace [String]
     # @return [Boolean]
     def check_unpaid_silence(activation_key)
       return false if activation_key.empty?
@@ -101,7 +100,6 @@ module FlossFunding
     # Decrypts a hex-encoded activation key using a namespace-derived key.
     #
     # @param activation_key [String] 64-character hex string for paid activation
-    # @param namespace [FlossFunding::Namespace, String] the namespace used to derive the cipher key
     # @return [String, false] plaintext activation key (base word) on success; false if empty
     def floss_funding_decrypt(activation_key)
       return false if activation_key.nil? || activation_key.empty?
