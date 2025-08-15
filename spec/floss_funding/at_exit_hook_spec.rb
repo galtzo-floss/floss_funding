@@ -22,7 +22,5 @@ RSpec.describe "at_exit hook behavior" do
     # Expect at least the activated/unactivated counts lines to be present
     expect(stdout).to include("activated: namespaces=")
     expect(stdout).to include("unactivated: namespaces=")
-    # Progressbar title should also be present
-    expect(stdout).to include("Activated Libraries")
   end
 end

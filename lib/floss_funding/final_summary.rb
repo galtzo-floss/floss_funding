@@ -53,7 +53,9 @@ module FlossFunding
       end
 
       # 4. Render a summary of counts
-      lines << "FLOSS Funding Summary:"
+      root = ::FlossFunding.project_root
+      root_label = (root.nil? || root.to_s.empty?) ? "(unknown)" : root.to_s
+      lines << "FLOSS Funding Summary: #{root_label}"
       lines << counts_line("activated", @activated_ns_names.size, @activated_libs.size)
       lines << counts_line("unactivated", @unactivated_ns_names.size, @unactivated_libs.size)
       if (@invalid_ns_names.size + @invalid_libs.size) > 0
@@ -64,10 +66,12 @@ module FlossFunding
 
       # 5. Show a progressbar of activated libraries over total fingerprinted libraries
       total = @all_libs.size
-      progressbar = ProgressBar.create(:title => "Activated Libraries", :total => total)
-      @activated_libs.size.times { progressbar.increment }
-      # Ensure we end with a newline after progress bar output
-      puts ""
+      if total > 0
+        progressbar = ProgressBar.create(:title => "Activated Libraries", :total => total)
+        @activated_libs.size.times { progressbar.increment }
+        # Ensure we end with a newline after progress bar output
+        puts ""
+      end
     rescue StandardError
       # Never allow an error here to affect process exit status — swallow safely.
     end

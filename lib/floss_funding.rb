@@ -148,6 +148,12 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @return [Time]
     attr_reader :loaded_at
 
+    # Expose the discovered project root (may be nil when running inside this gem's own repo)
+    # @return [String, nil]
+    def project_root
+      ::FlossFunding::Config.find_project_root
+    end
+
     # Tasks for both development and test environments
     def install_tasks
       load("floss_funding/tasks.rb")

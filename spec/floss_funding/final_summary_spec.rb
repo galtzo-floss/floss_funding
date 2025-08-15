@@ -25,15 +25,17 @@ RSpec.describe FlossFunding::FinalSummary do
   end
 
   describe "rendering basics (no namespaces)", :check_output do
-    it "prints summary with zero counts and no invalid line or spotlight" do
-      fake_pb = instance_double("PB", :increment => nil)
-      expect(ProgressBar).to receive(:create).with(:title => "Activated Libraries", :total => 0).and_return(fake_pb)
+    # rubocop:disable RSpec/MultipleExpectations
+    it "prints summary with zero counts and no invalid line or spotlight and no progress bar" do
+      expect(ProgressBar).not_to receive(:create)
 
       output = capture_stdout { described_class.new }
-      expect(output).to match(/FLOSS Funding Summary:\nactivated: namespaces=0 \/ libraries=0\nunactivated: namespaces=0 \/ libraries=0/)
+      # Header now includes project root info after the colon
+      expect(output).to match(/FLOSS Funding Summary:.*\nactivated: namespaces=0 \/ libraries=0\nunactivated: namespaces=0 \/ libraries=0/)
       expect(output).not_to match(/invalid: namespaces=/)
       expect(output).not_to match(/Unactivated\/Invalid namespace spotlight:/)
     end
+    # rubocop:enable RSpec/MultipleExpectations
   end
 
   describe "rendering with activated and unactivated and invalid", :check_output do
