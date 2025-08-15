@@ -19,11 +19,17 @@
 
 This tool can help library maintainers earn money from their open source work in one line of code.
 
-👉️ No network calls.
-👉️ No tracking.
-👉️ No oversight.
-👉️ Minimal crypto hashing.
-💡 Easily disabled by `ENV['FLOSS_FUNDING_SILENT'] = "CATHEDRAL_OR_BAZAAR"`
+- 👉️ No network calls.
+- 👉️ No tracking.
+- 👉️ No oversight.
+- 👉️ Minimal crypto hashing.
+- 💡 Easily disabled\*
+
+\* There will be many ways to disable nags, to ensure it is always an option for Mr. Scrooge. One of them is:
+
+```
+ENV['FLOSS_FUNDING_SILENT'] = "CATHEDRAL_OR_BAZAAR"`
+```
 
 Now, back to the one line of code I mentioned. If you blink you may miss it...
 
@@ -56,6 +62,16 @@ Activation keys use a cipher encryption algorithm against a 2400-word dictionary
 
 ## TO DO List
 
+`floss_funding` ruby gem is a work in progress.
+
+- [x] install take task `floss_funding:install`
+  - [x] support for ruby gem implementers
+  - [ ] support for apps with dependencies that use floss_funding
+- [x] validation of activation keys
+- [x] working silencing
+- [x] working configuration
+- [x] working CLI `floss_funding`
+
 Website coming soon.
 
 - [ ] A website to generate activation keys for gems
@@ -66,13 +82,13 @@ Website coming soon.
     - [ ] (Optional) Receive activation key specific to namespace & month generated
     - [x] Activation key will remain valid for that namespace forever (tested out to the June, 5425 C.E.)
 
-I expect the current release of this gem to be compatible with Ruby 1.8.7+,
+I expect the current release of this gem to be compatible with Ruby 1.9.2+,
 but it is only tested on CI against Ruby 2.3+,
 due to the inherent limitations of GitHub Actions.
 
-| 🚚 _Amazing_ test matrix was brought to you by | 🔎 appraisal2 🔎                                                                     |
-|------------------------------------------------|--------------------------------------------------------------------------------------|
-| 👟 Check it out!                               | ✨ [github.com/appraisal-rb/appraisal2](https://github.com/appraisal-rb/appraisal2) ✨ |
+| 🚚 _Amazing_ test matrix was brought to you by | 🔎 appraisal2 🔎                                                                    |
+|------------------------------------------------|-------------------------------------------------------------------------------------|
+| 👟 Check it out!                               | ✨ [github.com/appraisal-rb/appraisal2][💎appraisal2] ✨ |
 
 ## 💡 Info you can shake a stick at
 
@@ -92,7 +108,7 @@ due to the inherent limitations of GitHub Actions.
 
 [gh-discussions]: https://github.com/galtzo-floss/floss_funding/discussions
 
-### Enterprise Support
+### Enterprise Support [![Tidelift](https://tidelift.com/badges/package/rubygems/library_tree)](https://tidelift.com/subscription/pkg/rubygems-library_tree?utm_source=rubygems-library_tree&utm_medium=referral&utm_campaign=readme)
 
 <details>
   <summary>Need enterprise-level guarantees?</summary>
@@ -121,7 +137,7 @@ Alternatively:
 | Source                  | [![Source on GitLab.com][📜src-gl-img]][📜src-gl] [![Source on CodeBerg.org][📜src-cb-img]][📜src-cb] [![Source on Github.com][📜src-gh-img]][📜src-gh] [![The best SHA: dQw4w9WgXcQ!][🧮kloc-img]][🧮kloc]                                                                                                                      |
 | Documentation           | [![Current release on RubyDoc.info][📜docs-cr-rd-img]][🚎yard-current] [![YARD on Galtzo.com][📜docs-head-rd-img]][🚎yard-head] [![Maintainer Blog][🚂maint-blog-img]][🚂maint-blog] [![Wiki][📜wiki-img]][📜wiki]                                                                                                               |
 | Compliance              | [![License: MIT][📄license-img]][📄license-ref] [![📄ilo-declaration-img]][📄ilo-declaration] [![Security Policy][🔐security-img]][🔐security] [![Contributor Covenant 2.1][🪇conduct-img]][🪇conduct] [![SemVer 2.0.0][📌semver-img]][📌semver]                                                                                 |
-| Style                   | [![Enforced Code Style Linter][💎rlts-img]][💎rlts] [![Keep-A-Changelog 1.0.0][📗keep-changelog-img]][📗keep-changelog] [![Gitmoji Commits][📌gitmoji-img]][📌gitmoji]                                                                                                                                                           |
+| Style                   | [![Enforced Code Style Linter][💎rlts-img]][💎rlts] [![Keep-A-Changelog 1.0.0][📗keep-changelog-img]][📗keep-changelog] [![Gitmoji Commits][📌gitmoji-img]][📌gitmoji] [![Compatibility appraised by: appraisal2][💎appraisal2-img]][💎appraisal2]                                                                               |
 | Support                 | [![Live Chat on Discord][✉️discord-invite-img]][✉️discord-invite] [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]][👨🏼‍🏫expsup-upwork] [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]][👨🏼‍🏫expsup-codementor]                                                                                    |
 | Maintainer 🎖️          | [![Follow Me on LinkedIn][💖🖇linkedin-img]][💖🖇linkedin] [![Follow Me on Ruby.Social][💖🐘ruby-mast-img]][💖🐘ruby-mast] [![Follow Me on Bluesky][💖🦋bluesky-img]][💖🦋bluesky] [![Contact Maintainer][🚂maint-contact-img]][🚂maint-contact] [![My technical writing][💖💁🏼‍♂️devto-img]][💖💁🏼‍♂️devto]                   |
 | `...` 💖                | [![Find Me on WellFound:][💖✌️wellfound-img]][💖✌️wellfound] [![Find Me on CrunchBase][💖💲crunchbase-img]][💖💲crunchbase] [![My LinkTree][💖🌳linktree-img]][💖🌳linktree] [![More About Me][💖💁🏼‍♂️aboutme-img]][💖💁🏼‍♂️aboutme] [🧊][💖🧊berg] [🐙][💖🐙hub]  [🛖][💖🛖hut] [🧪][💖🧪lab]                                |
@@ -229,6 +245,28 @@ suggested_donation_amount: 10
 floss_funding_url: https://example.com/fund
 ```
 
+## 🦷 FLOSS Funding
+
+> How wonderful it is that nobody need wait a single moment before starting to improve the world.<br/>
+>—Anne Frank
+
+I’m driven by a passion to foster a thriving open-source community – a space where people can tackle complex problems, no matter how small.  Revitalizing libraries that have fallen into disrepair, and building new libraries focused on solving real-world challenges, are my passions — totaling 79 hours of FLOSS coding over just the past seven days, a pretty regular week for me.  I was recently affected by layoffs, and the tech jobs market is unwelcoming. I’m reaching out here because your support would significantly aid my efforts to provide for my family, and my farm (11 🐔 chickens, 2 🐶 dogs, 3 🐰 rabbits, 8 🐈‍ cats).
+
+If you work at a company that uses my work, please encourage them to support me as a corporate sponsor. My work on gems you use might show up in `bundle fund`.
+
+I’m developing a new library, [floss_funding][🖇floss-funding-gem], designed to empower open-source developers like myself to get paid for the work we do, in a sustainable way. Please give it a look.
+
+**[Floss-Funding.dev][🖇floss-funding.dev]: 👉️ No network calls. 👉️ No tracking. 👉️ No oversight. 👉️ Minimal crypto hashing. 💡 Easily disabled nags**
+
+Here's a joke I'm workshopping - tell me how I'm doing:
+
+> Software rots with time and lack of maintenance, just like teeth.
+> FLOSS funding should be done on a regular basis, just like tooth burshing
+> > Do it at least once a month.
+>-- My fuzzy memory of pediatric dentist
+
+[![Liberapay Goal Progress][⛳liberapay-img]][⛳liberapay] [![Donate on PayPal][🖇paypal-img]][🖇paypal] [![Sponsor Me on Github][🖇sponsor-img]][🖇sponsor] [![Buy me a coffee][🖇buyme-small-img]][🖇buyme] [![Donate on Polar][🖇polar-img]][🖇polar] [![Donate to my FLOSS or refugee efforts at ko-fi.com][🖇kofi-img]][🖇kofi] [![Donate to my FLOSS or refugee efforts using Patreon][🖇patreon-img]][🖇patreon]
+
 ## 🔐 Security
 
 See [SECURITY.md][🔐security].
@@ -286,32 +324,33 @@ Specifically, if a minor or patch version is released that breaks backward compa
 a new version should be immediately released that restores compatibility.
 Breaking changes to the public API will only be introduced with new major versions.
 
-### 📌 Is "Platform Support" part of the public API?
+> dropping support for a platform is both obviously and objectively a breaking change <br/>
+>—Jordan Harband ([@ljharb](https://github.com/ljharb), maintainer of SemVer) [in SemVer issue 716][📌semver-breaking]
 
-Yes.  But I'm obligated to include notes...
+I understand that policy doesn't work universally ("exceptions to every rule!"),
+but it is the policy here.
+As such, in many cases it is good to specify a dependency on this library using
+the [Pessimistic Version Constraint][📌pvc] with two digits of precision.
+
+For example:
+
+```ruby
+spec.add_dependency("library_tree", "~> 1.0")
+```
+
+<details>
+<summary>📌 Is "Platform Support" part of the public API? More details inside.</summary>
 
 SemVer should, but doesn't explicitly, say that dropping support for specific Platforms
 is a *breaking change* to an API.
 It is obvious to many, but not all, and since the spec is silent, the bike shedding is endless.
-
-> dropping support for a platform is both obviously and objectively a breaking change
-
-- Jordan Harband (@ljharb, maintainer of SemVer) [in SemVer issue 716][📌semver-breaking]
 
 To get a better understanding of how SemVer is intended to work over a project's lifetime,
 read this article from the creator of SemVer:
 
 - ["Major Version Numbers are Not Sacred"][📌major-versions-not-sacred]
 
-As a result of this policy, and the interpretive lens used by the maintainer,
-you can (and should) specify a dependency on these libraries using
-the [Pessimistic Version Constraint][📌pvc] with two digits of precision.
-
-For example:
-
-```ruby
-spec.add_dependency("floss_funding", "~> 1.0")
-```
+</details>
 
 See [CHANGELOG.md][📌changelog] for a list of releases.
 
@@ -337,35 +376,27 @@ See [LICENSE.txt][📄license] for the official [Copyright Notice][📄copyright
     <li>*1) If they were extracted into a general purpose `config_finder`, I'd use that instead, and I may do that at some point.</li>
 </ul>
 
-## 🤑 One more thing
-
-Having arrived at the bottom of the page, please endure a final supplication.
-The primary maintainer of this gem, Peter Boling, wants
-Ruby to be a great place for people to solve problems, big and small.
-Please consider supporting his efforts via the giant yellow link below,
-or one of the smaller ones, depending on button size preference.
-
-[![Buy me a latte][🖇buyme-img]][🖇buyme]
-
-[![Liberapay Goal Progress][⛳liberapay-img]][⛳liberapay] [![Sponsor Me on Github][🖇sponsor-img]][🖇sponsor] [![Donate on Polar][🖇polar-img]][🖇polar] [![Donate to my FLOSS or refugee efforts at ko-fi.com][🖇kofi-img]][🖇kofi] [![Donate to my FLOSS or refugee efforts using Patreon][🖇patreon-img]][🖇patreon]
-
 P.S. If you need help️ or want to say thanks, 👇 Join the Discord.
 
 [![Live Chat on Discord][✉️discord-invite-img]][✉️discord-invite]
 
-[⛳liberapay-img]: https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay
+[⛳liberapay-img]: https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay&color=a51611
 [⛳liberapay]: https://liberapay.com/pboling/donate
 [🖇sponsor-img]: https://img.shields.io/badge/Sponsor_Me!-pboling.svg?style=social&logo=github
 [🖇sponsor]: https://github.com/sponsors/pboling
-[🖇polar-img]: https://img.shields.io/badge/polar-donate-yellow.svg
+[🖇polar-img]: https://img.shields.io/badge/polar-donate-a51611.svg
 [🖇polar]: https://polar.sh/pboling
-[🖇kofi-img]: https://img.shields.io/badge/a_more_different_coffee-✓-yellow.svg
+[🖇kofi-img]: https://img.shields.io/badge/ko--fi-✓-a51611.svg
 [🖇kofi]: https://ko-fi.com/O5O86SNP4
-[🖇patreon-img]: https://img.shields.io/badge/patreon-donate-yellow.svg
+[🖇patreon-img]: https://img.shields.io/badge/patreon-donate-a51611.svg
 [🖇patreon]: https://patreon.com/galtzo
-[🖇buyme-small-img]: https://img.shields.io/badge/buy_me_a_coffee-✓-yellow.svg?style=flat
+[🖇buyme-small-img]: https://img.shields.io/badge/buy_me_a_coffee-✓-a51611.svg?style=flat
 [🖇buyme-img]: https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20latte&emoji=&slug=pboling&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff
 [🖇buyme]: https://www.buymeacoffee.com/pboling
+[🖇paypal-img]: https://img.shields.io/badge/donate-paypal-a51611.svg?style=flat&logo=paypal
+[🖇paypal]: https://www.paypal.com/paypalme/peterboling
+[🖇floss-funding.dev]: https://floss-funding.dev
+[🖇floss-funding-gem]: https://github.com/galtzo-floss/floss_funding
 [✉️discord-invite]: https://discord.gg/3qme4XHNKN
 [✉️discord-invite-img]: https://img.shields.io/discord/1373797679469170758?style=for-the-badge
 
@@ -526,4 +557,6 @@ P.S. If you need help️ or want to say thanks, 👇 Join the Discord.
 [💎SHA_checksums]: https://gitlab.com/galtzo-floss/floss_funding/-/tree/main/checksums
 [💎rlts]: https://github.com/rubocop-lts/rubocop-lts
 [💎rlts-img]: https://img.shields.io/badge/code_style_%26_linting-rubocop--lts-34495e.svg?plastic&logo=ruby&logoColor=white
+[💎appraisal2]: https://github.com/appraisal-rb/appraisal2
+[💎appraisal2-img]: https://img.shields.io/badge/appraised_by-appraisal2-34495e.svg?plastic&logo=ruby&logoColor=white
 [💎d-in-dvcs]: https://railsbling.com/posts/dvcs/put_the_d_in_dvcs/

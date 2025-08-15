@@ -65,17 +65,24 @@
 
 <hr>
 
-<p><a href="https://liberapay.com/pboling/donate"><img src="https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay" alt="Liberapay Goal Progress"></a> <a href="https://github.com/sponsors/pboling"><img src="https://img.shields.io/badge/Sponsor_Me!-pboling.svg?style=social&amp;logo=github" alt="Sponsor Me on Github"></a> <a href="https://www.buymeacoffee.com/pboling"><img src="https://img.shields.io/badge/buy_me_a_coffee-%E2%9C%93-yellow.svg?style=flat" alt="Buy me a coffee"></a> <a href="https://polar.sh/pboling"><img src="https://img.shields.io/badge/polar-donate-yellow.svg" alt="Donate on Polar"></a> <a href="https://ko-fi.com/O5O86SNP4"><img src="https://img.shields.io/badge/a_more_different_coffee-%E2%9C%93-yellow.svg" alt="Donate to my FLOSS or refugee efforts at ko-fi.com"></a> <a href="https://patreon.com/galtzo"><img src="https://img.shields.io/badge/patreon-donate-yellow.svg" alt="Donate to my FLOSS or refugee efforts using Patreon"></a></p>
+<p><a href="https://liberapay.com/pboling/donate"><img src="https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay&amp;color=a51611" alt="Liberapay Goal Progress"></a> <a href="https://github.com/sponsors/pboling"><img src="https://img.shields.io/badge/Sponsor_Me!-pboling.svg?style=social&amp;logo=github" alt="Sponsor Me on Github"></a> <a href="https://www.buymeacoffee.com/pboling"><img src="https://img.shields.io/badge/buy_me_a_coffee-%E2%9C%93-a51611.svg?style=flat" alt="Buy me a coffee"></a> <a href="https://polar.sh/pboling"><img src="https://img.shields.io/badge/polar-donate-a51611.svg" alt="Donate on Polar"></a> <a href="https://ko-fi.com/O5O86SNP4"><img src="https://img.shields.io/badge/ko--fi-%E2%9C%93-a51611.svg" alt="Donate to my FLOSS or refugee efforts at ko-fi.com"></a> <a href="https://patreon.com/galtzo"><img src="https://img.shields.io/badge/patreon-donate-a51611.svg" alt="Donate to my FLOSS or refugee efforts using Patreon"></a></p>
 
 <h2 id="-synopsis">🌻 Synopsis</h2>
 
 <p>This tool can help library maintainers earn money from their open source work in one line of code.</p>
 
-<p>👉️ No network calls.<br>
-👉️ No tracking.<br>
-👉️ No oversight.<br>
-👉️ Minimal crypto hashing.<br>
-💡 Easily disabled by <code>ENV['FLOSS_FUNDING_SILENT'] = "CATHEDRAL_OR_BAZAAR"</code></p>
+<ul>
+  <li>👉️ No network calls.</li>
+  <li>👉️ No tracking.</li>
+  <li>👉️ No oversight.</li>
+  <li>👉️ Minimal crypto hashing.</li>
+  <li>💡 Easily disabled*</li>
+</ul>
+
+<p>* There will be many ways to disable nags, to ensure it is always an option for Mr. Scrooge. One of them is:</p>
+
+<pre class="code ruby"><code class="ruby">ENV[&#39;FLOSS_FUNDING_SILENT&#39;] = &quot;CATHEDRAL_OR_BAZAAR&quot;`
+</code></pre>
 
 <p>Now, back to the one line of code I mentioned. If you blink you may miss it…</p>
 
@@ -109,6 +116,29 @@ end
 
 <h2 id="to-do-list">TO DO List</h2>
 
+<p><code>floss_funding</code> ruby gem is a work in progress.</p>
+
+<ul class="task-list">
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>install take task <code>floss_funding:install</code>
+    <ul class="task-list">
+      <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>support for ruby gem implementers</li>
+      <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>support for apps with dependencies that use floss_funding</li>
+    </ul>
+  </li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>validation of activation keys</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>working silencing</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>working configuration</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>working CLI <code>floss_funding</code>
+</li>
+</ul>
+
 <p>Website coming soon.</p>
 
 <ul class="task-list">
@@ -131,7 +161,7 @@ end
   </li>
 </ul>
 
-<p>I expect the current release of this gem to be compatible with Ruby 1.8.7+,<br>
+<p>I expect the current release of this gem to be compatible with Ruby 1.9.2+,<br>
 but it is only tested on CI against Ruby 2.3+,<br>
 due to the inherent limitations of GitHub Actions.</p>
 
@@ -166,7 +196,8 @@ due to the inherent limitations of GitHub Actions.</p>
 
 </details>
 
-<h3 id="enterprise-support">Enterprise Support</h3>
+<h3 id="enterprise-support-">Enterprise Support <a href="https://tidelift.com/subscription/pkg/rubygems-library_tree?utm_source=rubygems-library_tree&amp;utm_medium=referral&amp;utm_campaign=readme"><img src="https://tidelift.com/badges/package/rubygems/library_tree" alt="Tidelift"></a>
+</h3>
 
 <details>
   <summary>Need enterprise-level guarantees?</summary>
@@ -244,7 +275,7 @@ Alternatively:
     <tr>
       <td>Style</td>
       <td>
-<a href="https://github.com/rubocop-lts/rubocop-lts"><img src="https://img.shields.io/badge/code_style_%26_linting-rubocop--lts-34495e.svg?plastic&amp;logo=ruby&amp;logoColor=white" alt="Enforced Code Style Linter"></a> <a href="https://keepachangelog.com/en/1.0.0/"><img src="https://img.shields.io/badge/keep--a--changelog-1.0.0-34495e.svg?style=flat" alt="Keep-A-Changelog 1.0.0"></a> <a href="https://gitmoji.dev"><img src="https://img.shields.io/badge/gitmoji_commits-%20%F0%9F%98%9C%20%F0%9F%98%8D-34495e.svg?style=flat-square" alt="Gitmoji Commits"></a>
+<a href="https://github.com/rubocop-lts/rubocop-lts"><img src="https://img.shields.io/badge/code_style_%26_linting-rubocop--lts-34495e.svg?plastic&amp;logo=ruby&amp;logoColor=white" alt="Enforced Code Style Linter"></a> <a href="https://keepachangelog.com/en/1.0.0/"><img src="https://img.shields.io/badge/keep--a--changelog-1.0.0-34495e.svg?style=flat" alt="Keep-A-Changelog 1.0.0"></a> <a href="https://gitmoji.dev"><img src="https://img.shields.io/badge/gitmoji_commits-%20%F0%9F%98%9C%20%F0%9F%98%8D-34495e.svg?style=flat-square" alt="Gitmoji Commits"></a> <a href="https://github.com/appraisal-rb/appraisal2"><img src="https://img.shields.io/badge/appraised_by-appraisal2-34495e.svg?plastic&amp;logo=ruby&amp;logoColor=white" alt="Compatibility appraised by: appraisal2"></a>
 </td>
     </tr>
     <tr>
@@ -381,6 +412,34 @@ a. default: https://floss-funding.dev, which doesn’t take donations on behalf 
 floss_funding_url: https://example.com/fund
 </code></pre>
 
+<h2 id="-floss-funding">🦷 FLOSS Funding</h2>
+
+<blockquote>
+  <p>How wonderful it is that nobody need wait a single moment before starting to improve the world.<br><br>
+—Anne Frank</p>
+</blockquote>
+
+<p>I’m driven by a passion to foster a thriving open-source community – a space where people can tackle complex problems, no matter how small.  Revitalizing libraries that have fallen into disrepair, and building new libraries focused on solving real-world challenges, are my passions — totaling 79 hours of FLOSS coding over just the past seven days, a pretty regular week for me.  I was recently affected by layoffs, and the tech jobs market is unwelcoming. I’m reaching out here because your support would significantly aid my efforts to provide for my family, and my farm (11 🐔 chickens, 2 🐶 dogs, 3 🐰 rabbits, 8 🐈‍ cats).</p>
+
+<p>If you work at a company that uses my work, please encourage them to support me as a corporate sponsor. My work on gems you use might show up in <code>bundle fund</code>.</p>
+
+<p>I’m developing a new library, <a href="https://github.com/galtzo-floss/floss_funding">floss_funding</a>, designed to empower open-source developers like myself to get paid for the work we do, in a sustainable way. Please give it a look.</p>
+
+<p><strong><a href="https://floss-funding.dev">Floss-Funding.dev</a>: 👉️ No network calls. 👉️ No tracking. 👉️ No oversight. 👉️ Minimal crypto hashing. 💡 Easily disabled nags</strong></p>
+
+<p>Here’s a joke I’m workshopping - tell me how I’m doing:</p>
+
+<blockquote>
+  <p>Software rots with time and lack of maintenance, just like teeth.<br>
+FLOSS funding should be done on a regular basis, just like tooth burshing</p>
+  <blockquote>
+    <p>Do it at least once a month.<br>
+– My fuzzy memory of pediatric dentist</p>
+  </blockquote>
+</blockquote>
+
+<p><a href="https://liberapay.com/pboling/donate"><img src="https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay&amp;color=a51611" alt="Liberapay Goal Progress"></a> <a href="https://www.paypal.com/paypalme/peterboling"><img src="https://img.shields.io/badge/donate-paypal-a51611.svg?style=flat&amp;logo=paypal" alt="Donate on PayPal"></a> <a href="https://github.com/sponsors/pboling"><img src="https://img.shields.io/badge/Sponsor_Me!-pboling.svg?style=social&amp;logo=github" alt="Sponsor Me on Github"></a> <a href="https://www.buymeacoffee.com/pboling"><img src="https://img.shields.io/badge/buy_me_a_coffee-%E2%9C%93-a51611.svg?style=flat" alt="Buy me a coffee"></a> <a href="https://polar.sh/pboling"><img src="https://img.shields.io/badge/polar-donate-a51611.svg" alt="Donate on Polar"></a> <a href="https://ko-fi.com/O5O86SNP4"><img src="https://img.shields.io/badge/ko--fi-%E2%9C%93-a51611.svg" alt="Donate to my FLOSS or refugee efforts at ko-fi.com"></a> <a href="https://patreon.com/galtzo"><img src="https://img.shields.io/badge/patreon-donate-a51611.svg" alt="Donate to my FLOSS or refugee efforts using Patreon"></a></p>
+
 <h2 id="-security">🔐 Security</h2>
 
 <p>See <a href="file.SECURITY.html" title="SECURITY.md">SECURITY.md</a>.</p>
@@ -438,38 +497,34 @@ Specifically, if a minor or patch version is released that breaks backward compa
 a new version should be immediately released that restores compatibility.<br>
 Breaking changes to the public API will only be introduced with new major versions.</p>
 
-<h3 id="-is-platform-support-part-of-the-public-api">📌 Is “Platform Support” part of the public API?</h3>
-
-<p>Yes.  But I’m obligated to include notes…</p>
-
-<p>SemVer should, but doesn’t explicitly, say that dropping support for specific Platforms<br>
-is a <em>breaking change</em> to an API.<br>
-It is obvious to many, but not all, and since the spec is silent, the bike shedding is endless.</p>
-
 <blockquote>
-  <p>dropping support for a platform is both obviously and objectively a breaking change</p>
+  <p>dropping support for a platform is both obviously and objectively a breaking change <br><br>
+—Jordan Harband (<a href="https://github.com/ljharb">@ljharb</a>, maintainer of SemVer) <a href="https://github.com/semver/semver/issues/716#issuecomment-869336139">in SemVer issue 716</a></p>
 </blockquote>
 
-<ul>
-  <li>Jordan Harband (@ljharb, maintainer of SemVer) <a href="https://github.com/semver/semver/issues/716#issuecomment-869336139">in SemVer issue 716</a>
-</li>
-</ul>
-
-<p>To get a better understanding of how SemVer is intended to work over a project’s lifetime,<br>
-read this article from the creator of SemVer:</p>
-
-<ul>
-  <li><a href="https://tom.preston-werner.com/2022/05/23/major-version-numbers-are-not-sacred.html">“Major Version Numbers are Not Sacred”</a></li>
-</ul>
-
-<p>As a result of this policy, and the interpretive lens used by the maintainer,<br>
-you can (and should) specify a dependency on these libraries using<br>
+<p>I understand that policy doesn’t work universally (“exceptions to every rule!”),<br>
+but it is the policy here.<br>
+As such, in many cases it is good to specify a dependency on this library using<br>
 the <a href="http://guides.rubygems.org/patterns/#pessimistic-version-constraint">Pessimistic Version Constraint</a> with two digits of precision.</p>
 
 <p>For example:</p>
 
-<pre class="code language-ruby"><code class="language-ruby">spec.add_dependency(&quot;floss_funding&quot;, &quot;~&gt; 1.0&quot;)
+<pre class="code language-ruby"><code class="language-ruby">spec.add_dependency(&quot;library_tree&quot;, &quot;~&gt; 1.0&quot;)
 </code></pre>
+
+<details>
+<summary>📌 Is "Platform Support" part of the public API? More details inside.</summary>
+
+SemVer should, but doesn't explicitly, say that dropping support for specific Platforms
+is a *breaking change* to an API.
+It is obvious to many, but not all, and since the spec is silent, the bike shedding is endless.
+
+To get a better understanding of how SemVer is intended to work over a project's lifetime,
+read this article from the creator of SemVer:
+
+- ["Major Version Numbers are Not Sacred"][📌major-versions-not-sacred]
+
+</details>
 
 <p>See <a href="file.CHANGELOG.html" title="CHANGELOG.md">CHANGELOG.md</a> for a list of releases.</p>
 
@@ -495,18 +550,6 @@ See <a href="file.LICENSE.html" title="LICENSE.txt">LICENSE.txt</a> for the offi
     <li>*1) If they were extracted into a general purpose `config_finder`, I'd use that instead, and I may do that at some point.</li>
 </ul>
 
-<h2 id="-one-more-thing">🤑 One more thing</h2>
-
-<p>Having arrived at the bottom of the page, please endure a final supplication.<br>
-The primary maintainer of this gem, Peter Boling, wants<br>
-Ruby to be a great place for people to solve problems, big and small.<br>
-Please consider supporting his efforts via the giant yellow link below,<br>
-or one of the smaller ones, depending on button size preference.</p>
-
-<p><a href="https://www.buymeacoffee.com/pboling"><img src="https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20latte&amp;emoji=&amp;slug=pboling&amp;button_colour=FFDD00&amp;font_colour=000000&amp;font_family=Cookie&amp;outline_colour=000000&amp;coffee_colour=ffffff" alt="Buy me a latte"></a></p>
-
-<p><a href="https://liberapay.com/pboling/donate"><img src="https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay" alt="Liberapay Goal Progress"></a> <a href="https://github.com/sponsors/pboling"><img src="https://img.shields.io/badge/Sponsor_Me!-pboling.svg?style=social&amp;logo=github" alt="Sponsor Me on Github"></a> <a href="https://polar.sh/pboling"><img src="https://img.shields.io/badge/polar-donate-yellow.svg" alt="Donate on Polar"></a> <a href="https://ko-fi.com/O5O86SNP4"><img src="https://img.shields.io/badge/a_more_different_coffee-%E2%9C%93-yellow.svg" alt="Donate to my FLOSS or refugee efforts at ko-fi.com"></a> <a href="https://patreon.com/galtzo"><img src="https://img.shields.io/badge/patreon-donate-yellow.svg" alt="Donate to my FLOSS or refugee efforts using Patreon"></a></p>
-
 <p>P.S. If you need help️ or want to say thanks, 👇 Join the Discord.</p>
 
 <p><a href="https://discord.gg/3qme4XHNKN"><img src="https://img.shields.io/discord/1373797679469170758?style=for-the-badge" alt="Live Chat on Discord"></a></p>
@@ -514,7 +557,7 @@ or one of the smaller ones, depending on button size preference.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Fri Aug 15 14:04:24 2025 by
+  Generated on Fri Aug 15 16:31:07 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
