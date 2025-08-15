@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
-# Galtzo FLOSS Rakefile v1.0.3 - 2025-08-14
+# Galtzo FLOSS Rakefile v1.0.4 - 2025-08-14
+#
+# CHANGELOG
+# v1.0.0 - initial release w/ support for rspec, minitest, rubocop, reek, yard, and stone_checksums
+# v1.0.1 - fix test / spec tasks running 2x
+# v1.0.2 - fix duplicate task warning from RuboCop
+# v1.0.3 - add bench tasks to run mini benchmarks (add scripts to /benchmarks)
+# v1.0.4 - add support for floss_funding:install
 #
 # MIT License (see License.txt)
 #
