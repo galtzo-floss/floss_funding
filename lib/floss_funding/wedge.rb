@@ -14,7 +14,7 @@ require "floss_funding"
 # Behavior:
 # - Enumerates loaded gem specifications via Gem.loaded_specs.
 # - Guesses Ruby namespace constants from gem names (handles dashes/underscores).
-# - For each constant that exists and is a Module, performs `include FlossFunding::Poke.new(<path>)`.
+# - For each constant that exists and is a Module, performs `include FlossFunding::Poke.new(<path>, wedge: true)`.
 # - Returns a summary Hash of attempts and successes for observability.
 module FlossFunding
   class Wedge
@@ -39,47 +39,47 @@ module FlossFunding
       # Perform the wedge across all currently loaded specs.
       # @return [Hash] summary with keys :tried, :injected, :details
       def wedge!
-        ::FlossFunding.log { "[Wedge] Starting wedge! DEBUG=#{::FlossFunding::DEBUG}" }
+        ::FlossFunding.debug_log { "[Wedge] Starting wedge! DEBUG=#{::FlossFunding::DEBUG}" }
         results = {:tried => 0, :injected => 0, :details => []}
 
         specs = loaded_specs
-        ::FlossFunding.log { "[Wedge] Loaded specs count=#{specs.length}" }
+        ::FlossFunding.debug_log { "[Wedge] Loaded specs count=#{specs.length}" }
 
         specs.each do |spec|
           unless valid_spec?(spec)
-            ::FlossFunding.log { "[Wedge] Skipping invalid spec=#{spec.inspect}" }
+            ::FlossFunding.debug_log { "[Wedge] Skipping invalid spec=#{spec.inspect}" }
             next
           end
           if spec.name == "floss_funding"
-            ::FlossFunding.log { "[Wedge] Skipping self gem: #{spec.name}" }
+            ::FlossFunding.debug_log { "[Wedge] Skipping self gem: #{spec.name}" }
             next
           end
 
-          ::FlossFunding.log { "[Wedge] Processing gem=#{spec.name}" }
+          ::FlossFunding.debug_log { "[Wedge] Processing gem=#{spec.name}" }
           candidates = namespace_candidates_for(spec.name)
-          ::FlossFunding.log { "[Wedge] Candidates for #{spec.name}: #{candidates.inspect}" }
+          ::FlossFunding.debug_log { "[Wedge] Candidates for #{spec.name}: #{candidates.inspect}" }
           injected_into = []
 
           # Dangerous effort: try to require the gem before resolving constants
           attempt_require_for_spec(spec, candidates) if DANGEROUS
 
           candidates.each do |ns|
-            ::FlossFunding.log { "[Wedge] Resolving constant path=#{ns} for gem=#{spec.name}" }
+            ::FlossFunding.debug_log { "[Wedge] Resolving constant path=#{ns} for gem=#{spec.name}" }
             mod = safe_const_resolve(ns)
             unless mod.is_a?(Module)
-              ::FlossFunding.log { "[Wedge] Not a Module or missing: #{ns} => #{mod.inspect}" }
+              ::FlossFunding.debug_log { "[Wedge] Not a Module or missing: #{ns} => #{mod.inspect}" }
               next
             end
 
             begin
               inc_path = spec.loaded_from || guess_including_path(spec)
-              ::FlossFunding.log { "[Wedge] Including Poke into #{ns} with path=#{inc_path.inspect}" }
-              mod.send(:include, ::FlossFunding::Poke.new(inc_path))
+              ::FlossFunding.debug_log { "[Wedge] Including Poke into #{ns} with path=#{inc_path.inspect}" }
+              mod.send(:include, ::FlossFunding::Poke.new(inc_path, :wedge => true))
               injected_into << ns
-              ::FlossFunding.log { "[Wedge] Included successfully into #{ns}" }
+              ::FlossFunding.debug_log { "[Wedge] Included successfully into #{ns}" }
             rescue StandardError => e
               # :nocov:
-              ::FlossFunding.log { "[Wedge] Include failed for #{ns}: #{e.class}: #{e.message}" }
+              ::FlossFunding.debug_log { "[Wedge] Include failed for #{ns}: #{e.class}: #{e.message}" }
               # Swallow and continue; this is best-effort to probe many libs
               # :nocov:
             end
@@ -89,7 +89,7 @@ module FlossFunding
           results[:injected] += injected_into.size.positive? ? 1 : 0
           details = {:gem => spec.name, :injected_into => injected_into}
           results[:details] << details
-          ::FlossFunding.log { "[Wedge] Result for #{spec.name}: #{details.inspect}" }
+          ::FlossFunding.debug_log { "[Wedge] Result for #{spec.name}: #{details.inspect}" }
         end
 
         if DEBUG
@@ -108,17 +108,17 @@ module FlossFunding
           begin
             [::Gem.loaded_specs, "Gem.loaded_specs"]
           rescue StandardError => e
-            ::FlossFunding.log { "[Wedge] Gem.loaded_specs failed: #{e.class}: #{e.message}" }
+            ::FlossFunding.debug_log { "[Wedge] Gem.loaded_specs failed: #{e.class}: #{e.message}" }
             [[], "(error)"]
           end
 
-        ::FlossFunding.log { "[Wedge] Using #{strategy}" }
+        ::FlossFunding.debug_log { "[Wedge] Using #{strategy}" }
         specs = specs.values if specs.respond_to?(:values)
         arr = Array(specs)
-        ::FlossFunding.log { "[Wedge] Loaded specs: count=#{arr.length}" }
+        ::FlossFunding.debug_log { "[Wedge] Loaded specs: count=#{arr.length}" }
         arr
       rescue StandardError => e
-        ::FlossFunding.log { "[Wedge] loaded_specs failed: #{e.class}: #{e.message}" }
+        ::FlossFunding.debug_log { "[Wedge] loaded_specs failed: #{e.class}: #{e.message}" }
         []
       end
 
@@ -129,14 +129,14 @@ module FlossFunding
       #    "GoogleCloudStorage"
       #  ]
       #  "alpha_beta" => ["AlphaBeta", "Alpha", "Alpha::Beta"]
-      def namespace_candidates_for(gem_name)
-        ::FlossFunding.log { "[Wedge] namespace_candidates_for input=#{gem_name.inspect}" }
-        return [] if gem_name.nil? || gem_name.empty?
+      def namespace_candidates_for(library_name)
+        ::FlossFunding.debug_log { "[Wedge] namespace_candidates_for input=#{library_name.inspect}" }
+        return [] if library_name.nil? || library_name.empty?
 
-        dash_parts = gem_name.split("-")
+        dash_parts = library_name.split("-")
         # Build CamelCase per dash part, where each part may contain underscores
         camel_parts = dash_parts.map { |p| camelize(p) }
-        ::FlossFunding.log { "[Wedge] camel_parts=#{camel_parts.inspect} from dash_parts=#{dash_parts.inspect}" }
+        ::FlossFunding.debug_log { "[Wedge] camel_parts=#{camel_parts.inspect} from dash_parts=#{dash_parts.inspect}" }
 
         candidates = []
         # Most likely: top-level module per dash part
@@ -153,13 +153,13 @@ module FlossFunding
         candidates << camel_parts.join
 
         uniq = candidates.uniq
-        ::FlossFunding.log { "[Wedge] namespace_candidates_for output=#{uniq.inspect}" }
+        ::FlossFunding.debug_log { "[Wedge] namespace_candidates_for output=#{uniq.inspect}" }
         uniq
       end
 
       # Safe resolve of a constant path like "Foo::Bar" without raising
       def safe_const_resolve(path)
-        ::FlossFunding.log { "[Wedge] safe_const_resolve path=#{path.inspect}" }
+        ::FlossFunding.debug_log { "[Wedge] safe_const_resolve path=#{path.inspect}" }
         return if path.nil? || path.empty?
         parts = path.split("::")
         obj = Object
@@ -175,22 +175,22 @@ module FlossFunding
             false
           end
           # :nocov:
-          ::FlossFunding.log { "[Wedge]   checking part=#{name.inspect} exists=#{exists} in obj=#{obj}" }
+          ::FlossFunding.debug_log { "[Wedge]   checking part=#{name.inspect} exists=#{exists} in obj=#{obj}" }
           return nil unless exists
           obj = begin
             obj.const_get(name)
           rescue
             # :nocov:
-            ::FlossFunding.log { "[Wedge]   const_get failed for #{name.inspect}" }
+            ::FlossFunding.debug_log { "[Wedge]   const_get failed for #{name.inspect}" }
             # :nocov:
             (return nil)
           end
         end
-        ::FlossFunding.log { "[Wedge] safe_const_resolve resolved=#{obj.inspect}" }
+        ::FlossFunding.debug_log { "[Wedge] safe_const_resolve resolved=#{obj.inspect}" }
         obj
       rescue StandardError => e
         # :nocov:
-        ::FlossFunding.log { "[Wedge] safe_const_resolve error: #{e.class}: #{e.message}" }
+        ::FlossFunding.debug_log { "[Wedge] safe_const_resolve error: #{e.class}: #{e.message}" }
         nil
         # :nocov:
       end
@@ -206,34 +206,34 @@ module FlossFunding
         rows = details.each_with_object([]) do |d, acc|
           injected_arr = Array(d[:injected_into])
           next if injected_arr.empty?
-          gem_name = d[:gem].to_s
+          library_name = d[:gem].to_s
           injected = injected_arr.join(", ")
-          acc << [gem_name, injected]
+          acc << [library_name, injected]
         end
 
         title = "[Wedge] Summary: tried=#{results[:tried]} injected=#{results[:injected]}"
         table = Terminal::Table.new(:title => title, :headings => ["Gem", "Injected Into"], :rows => rows)
         table.to_s
       rescue StandardError => e
-        ::FlossFunding.log { "[Wedge] render_summary_table error: #{e.class}: #{e.message}" }
+        ::FlossFunding.debug_log { "[Wedge] render_summary_table error: #{e.class}: #{e.message}" }
         "[Wedge] Summary: #{results.inspect}"
       end
 
       def valid_spec?(spec)
         ok = spec && spec.respond_to?(:name) && spec.name.is_a?(String) && !spec.name.empty?
-        ::FlossFunding.log { "[Wedge] valid_spec? #{spec.inspect} => #{ok}" }
+        ::FlossFunding.debug_log { "[Wedge] valid_spec? #{spec.inspect} => #{ok}" }
         ok
       end
 
       # Try to provide a reasonable including_path when spec.loaded_from is nil
       def guess_including_path(spec)
-        ::FlossFunding.log { "[Wedge] guess_including_path for #{spec.inspect}" }
+        ::FlossFunding.debug_log { "[Wedge] guess_including_path for #{spec.inspect}" }
         if spec.respond_to?(:full_gem_path) && spec.full_gem_path
           gemspec = Dir.glob(File.join(spec.full_gem_path, "*.gemspec")).first
-          ::FlossFunding.log { "[Wedge] guess_including_path found gemspec=#{gemspec.inspect}" }
+          ::FlossFunding.debug_log { "[Wedge] guess_including_path found gemspec=#{gemspec.inspect}" }
           return gemspec if gemspec
         end
-        ::FlossFunding.log { "[Wedge] guess_including_path defaulting to __FILE__=#{__FILE__}" }
+        ::FlossFunding.debug_log { "[Wedge] guess_including_path defaulting to __FILE__=#{__FILE__}" }
         __FILE__
       end
 
@@ -253,14 +253,14 @@ module FlossFunding
         end
 
         reqs = reqs.uniq
-        ::FlossFunding.log { "[Wedge] attempt_require_for_spec gem=#{name} reqs=#{reqs.inspect}" }
+        ::FlossFunding.debug_log { "[Wedge] attempt_require_for_spec gem=#{name} reqs=#{reqs.inspect}" }
         reqs.each do |r|
           begin
-            ::FlossFunding.log { "[Wedge]   require '#{r}' ..." }
+            ::FlossFunding.debug_log { "[Wedge]   require '#{r}' ..." }
             res = require r
-            ::FlossFunding.log { "[Wedge]   require '#{r}' => #{res.inspect}" }
+            ::FlossFunding.debug_log { "[Wedge]   require '#{r}' => #{res.inspect}" }
           rescue LoadError, StandardError => e
-            ::FlossFunding.log { "[Wedge]   require '#{r}' failed: #{e.class}: #{e.message}" }
+            ::FlossFunding.debug_log { "[Wedge]   require '#{r}' failed: #{e.class}: #{e.message}" }
             # ignore; best-effort
           end
         end
@@ -270,7 +270,7 @@ module FlossFunding
       #  "alpha_beta" => "AlphaBeta"
       def camelize(segment)
         res = segment.to_s.split("_").map { |s| s[0] ? s[0].upcase + s[1..-1].to_s : "" }.join
-        ::FlossFunding.log { "[Wedge] camelize #{segment.inspect} => #{res.inspect}" }
+        ::FlossFunding.debug_log { "[Wedge] camelize #{segment.inspect} => #{res.inspect}" }
         res
       end
     end

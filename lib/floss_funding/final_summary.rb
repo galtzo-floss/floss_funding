@@ -99,12 +99,12 @@ module FlossFunding
       opt_out = "#{::FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{name}"
 
       libs = ns.activation_events.map(&:library).compact.uniq
-      gem_names = libs.map(&:gem_name).compact.uniq
+      library_names = libs.map(&:library_name).compact.uniq
 
       details = []
       details << "- Namespace: #{name}"
       details << "  ENV Variable: #{env_name}"
-      details << "  Libraries: #{gem_names.join(", ")}" unless gem_names.empty?
+      details << "  Libraries: #{library_names.join(", ")}" unless library_names.empty?
       details << "  Suggested donation amount: $#{suggested_amount}"
       details << "  Funding URL: #{funding_url}"
       details << "  Opt-out key: \"#{opt_out}\""

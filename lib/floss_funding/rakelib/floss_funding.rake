@@ -3,6 +3,8 @@
 require "yaml"
 require "fileutils"
 
+require "floss_funding/rakelib/gem_spec_reader"
+
 namespace :floss_funding do
   desc "Install a default .floss_funding.yml by merging gemspec data with defaults"
   task :install, [:force] do |_, args|
@@ -21,8 +23,8 @@ namespace :floss_funding do
     # Load defaults from the gem's config/default.yml
     defaults = FlossFunding::ConfigLoader.default_configuration.dup
 
-    # Read gemspec-derived data (private API; explicitly using send)
-    gemspec_data = FlossFunding::Config.send(:read_gemspec_data, project_root)
+    # Read gemspec-derived data
+    gemspec_data = FlossFunding::Rakelib::GemSpecReader.read(project_root)
 
     # Merge: gemspec values take precedence over defaults when present
     merged = defaults.merge(

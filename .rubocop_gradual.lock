@@ -1,7 +1,7 @@
 {
-  "lib/floss_funding.rb:2304557013": [
-    [283, 14, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
-    [303, 15, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844]
+  "lib/floss_funding.rb:4075664507": [
+    [296, 14, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
+    [316, 15, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844]
   ],
   "lib/floss_funding/config_finder.rb:2031992862": [
     [24, 7, 25, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 397451408],
@@ -165,18 +165,18 @@
     [128, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
     [128, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950]
   ],
-  "spec/floss_funding/floss_funding_more_spec.rb:3560812836": [
+  "spec/floss_funding/floss_funding_more_spec.rb:674923636": [
     [13, 5, 62, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2540439717],
-    [47, 5, 41, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3909376796],
-    [48, 29, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
-    [50, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [50, 35, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
-    [51, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [51, 35, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
-    [56, 29, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
-    [58, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
-    [58, 31, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
-    [70, 112, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146]
+    [52, 5, 41, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3909376796],
+    [53, 29, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
+    [55, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [55, 35, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [56, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [56, 35, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [61, 29, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146],
+    [63, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
+    [63, 31, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [75, 112, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146]
   ],
   "spec/floss_funding/floss_funding_spec.rb:3889256645": [
     [8, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],

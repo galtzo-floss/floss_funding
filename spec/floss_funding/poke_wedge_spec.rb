@@ -11,10 +11,10 @@ RSpec.describe FlossFunding::Poke do
 
   context "when :wedge is falsy" do
     it "raises if no .floss_funding.yml exists" do
-      mod = Module.new
+      stub_const("WedgeTest1", Module.new)
       # Provide an explicit config_path pointing to a non-existent file relative to including_path
       expect {
-        mod.send(:include, described_class.new(including_path, :config_path => ".floss_funding.yml"))
+        WedgeTest1.send(:include, described_class.new(including_path, :config_path => ".floss_funding.yml"))
       }.to raise_error(FlossFunding::Error, /Missing required .floss_funding.yml/)
     end
 
@@ -22,9 +22,9 @@ RSpec.describe FlossFunding::Poke do
       Dir.mktmpdir do |tmp|
         cfg_path = File.join(tmp, ".floss_funding.yml")
         File.write(cfg_path, {"library_name" => "my_lib"}.to_yaml) # missing funding_uri
-        mod = Module.new
+        stub_const("WedgeTest2", Module.new)
         expect {
-          mod.send(:include, described_class.new(including_path, :config_path => cfg_path))
+          WedgeTest2.send(:include, described_class.new(including_path, :config_path => cfg_path))
         }.to raise_error(FlossFunding::Error, /missing required keys: funding_uri/)
       end
     end

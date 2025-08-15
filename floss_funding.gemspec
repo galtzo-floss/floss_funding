@@ -101,9 +101,10 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency("month-serializer", "~> 1.0", "1.0.1")                                # ruby >= 1.9.2
   # Exclude broken rainbow releases: https://github.com/ku1ik/rainbow/blob/master/Changelog.md
+  spec.add_dependency("psych", ">= 2.2.4") # ruby > 1.9.2
   spec.add_dependency("rainbow", ">= 1.99.2", "!= 2.2.0", "!= 2.2.1", "!= 3.1.0", "< 4.0")  # ruby > 0
   spec.add_dependency("ruby-progressbar", "~> 1.13")                                        # ruby > 0
-  spec.add_dependency("terminal-table", "~> 4.0")                                           # ruby > 0
+  spec.add_dependency("terminal-table", "~> 4.0")
 
   # NOTE: It is preferable to list development dependencies in the gemspec due to increased
   #       visibility and discoverability on RubyGems.org.

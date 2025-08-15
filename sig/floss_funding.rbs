@@ -13,20 +13,22 @@ module FlossFunding
   end
 
   class Library
+    @custom_ns: (String | nil)
+
     attr_reader namespace: String
     attr_reader base_name: String
     attr_reader gem_name: String
-    attr_reader including_path: String
+    attr_reader including_path: (String)
     attr_reader env_var_name: String
-    attr_reader project_root_path: (String | nil)
-    attr_reader library_root_path: (String | nil)
-    attr_reader library_config_path: (String | nil)
+    attr_reader project_root_path: (String)
+    attr_reader library_root_path: (String)
+    attr_reader library_config_path: (String)
     attr_reader project_config_path: (String | nil)
     attr_reader seen_at: Time
     attr_reader silence: untyped
     attr_reader config: ::FlossFunding::Configuration
 
-    # initialize(namespace, custom_namespace, base_name, including_path, env_var_name, options = {})
+    # initialize(ns, custom_ns, base_name, including_path, env_var_name, settings, silent)
     def initialize: (::FlossFunding::Namespace, (String | nil), String, String, String, ?Hash[Symbol, untyped]) -> void
   end
 
@@ -78,21 +80,11 @@ module FlossFunding
     VERSION: String
   end
 
-  # Singleton methods on FlossFunding
-  def self.mutex: -> Mutex
-
   def self.namespaces: -> Hash[String, Namespace]
   def self.namespaces=: (Hash[String, Namespace]) -> void
 
   # All namespaces as Namespace objects
   def self.all_namespaces: -> Array[Namespace]
-  # All namespace names as strings
-  def self.all_namespace_names: -> Array[String]
-
-  # Active/inactive/invalid lookups by name
-  def self.activated_namespace_names: -> Array[String]
-  def self.unactivated_namespace_names: -> Array[String]
-  def self.invalid_namespace_names: -> Array[String]
 
   def self.configurations: (?String) -> untyped
   def self.env_var_names: -> Hash[String, String]
@@ -100,7 +92,6 @@ module FlossFunding
   def self.base_words: (?Integer) -> Array[String]
 
   def self.loaded_at: -> Time
-  def self.loaded_month: -> Integer
   def self.num_valid_words_for_month: -> Integer
   def self.check_activation: (String) -> bool
   def self.start_coughing: (String, String, String) -> void
@@ -120,16 +111,6 @@ module FlossFunding
 
     # def self.read_gemspec_data: (String) -> Hash[Symbol, untyped]
     def self.normalize_to_array: (untyped) -> Array[untyped]
-  end
-
-  module Check
-    module ClassMethods
-      def self.loaded_at: -> Time
-
-      def base_words: -> Array[String]
-      def check_activation: (String) -> bool
-      def floss_funding_initiate_begging: (ActivationEvent) -> void
-    end
   end
 
   module Poke

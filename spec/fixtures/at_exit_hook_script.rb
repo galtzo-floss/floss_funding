@@ -18,6 +18,6 @@ module MiniAtExitTest
   module Inner; end
 end
 
-MiniAtExitTest::Inner.send(:include, FlossFunding::Poke.new(__FILE__))
+MiniAtExitTest::Inner.send(:include, FlossFunding::Poke.new(__FILE__, :wedge => true))
 
 # Let the process exit normally; the at_exit hook should render the summary.

@@ -23,6 +23,12 @@ module FlossFunding
   # Debug toggle controlled by ENV; set true when ENV['FLOSS_FUNDING_DEBUG'] case-insensitively equals "true".
   DEBUG = ENV.fetch("FLOSS_FUNDING_DEBUG", "").casecmp("true") == 0
 
+  # The file name to look for in the project root.
+  # @return [String]
+  CONFIG_FILE_NAME = ".floss_funding.yml"
+
+  FLOSS_FUNDING_HOME = File.realpath(File.join(File.dirname(__FILE__), ".."))
+
   # Minimum required keys for a valid .floss_funding.yml file
   # Used to validate presence when integrating without :wedge mode
   REQUIRED_YAML_KEYS = %w[library_name funding_uri].freeze
@@ -47,6 +53,7 @@ module FlossFunding
     :unactivated => "unactivated",
     :invalid => "invalid",
   }.freeze
+  STATE_VALUES = STATES.values.freeze
 
   # The default state is unknown / unactivated until proven otherwise.
   DEFAULT_STATE = STATES[:unactivated]
@@ -55,6 +62,10 @@ module FlossFunding
   # Do not change once released as it would invalidate existing activation keys.
   # @return [Integer]
   START_MONTH = Month.new(2025, 7).to_i # Don't change this, not ever!
+  # Sanity check to ensure the month gem and month-serializer gem are in sync with expectations from this repo
+  # TODO: If the number is incorrect, and too high, what happens with previously valid keys?
+  # TODO: If the number is incorrect, and too low, what happens with previously valid keys?
+  warn "[floss_funding] Expected START_MONTH to be be 24307" unless START_MONTH == 24307
 
   # Absolute path to the base words list used for paid activation validation.
   # @return [String]
@@ -107,10 +118,29 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
   # @return [Integer]
   @num_valid_words_for_month = @loaded_month - ::FlossFunding::START_MONTH
 
-  class << self
-    # Provides access to the mutex for thread synchronization
-    attr_reader :mutex
+  # The computed base words for a given month window
+  #
+  # @return [Hash[Integer, Set<String>]]]
+  @base_words_set_cache = {}
 
+  # All available base words
+  #
+  # @see {file:../base_words.txt All Base Words}
+  #
+  # @return [Array<String>]
+  @base_words_all =
+    begin
+      words = []
+      begin
+        File.foreach(::FlossFunding::BASE_WORDS_PATH) { |line| words << line.chomp }
+      rescue StandardError
+        warn("[FlossFunding] Unable to read base words file: #{::FlossFunding::BASE_WORDS_PATH}")
+        words = []
+      end
+      words.freeze
+    end
+
+  class << self
     # Read the deterministic time source
     #
     # @see @loaded_at
@@ -119,21 +149,10 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @return [Time]
     attr_reader :loaded_at
 
-    # Read the serialized month (Integer) in which the runtime was loaded
-    #
-    # @see @loaded_at
-    #
-    # @param value [Integer]
-    # @return [Integer]
-    attr_reader :loaded_month
-
-    # Read the number of valid words for the month in which the runtime was loaded
-    #
-    # @see @loaded_at
-    #
-    # @param value [Integer]
-    # @return [Integer]
-    attr_reader :num_valid_words_for_month
+    # Tasks for both development and test environments
+    def install_tasks
+      load("floss_funding/tasks.rb")
+    end
 
     # Debug logging helper. Only outputs when FlossFunding::DEBUG is true.
     # Accepts either a message (or multiple args joined by space) or a block
@@ -141,7 +160,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @param args [Array<Object>] message parts to join with space
     # @yieldreturn [String] optional block returning the message
     # @return [void]
-    def log(*args)
+    def debug_log(*args)
       return unless ::FlossFunding::DEBUG
       msg = if block_given?
         yield
@@ -158,31 +177,31 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # Accessor for namespaces hash: keys are namespace strings, values are Namespace objects
     # @return [Hash[String, Array<::FlossFunding::Namespace>]]
     def namespaces
-      mutex.synchronize { @namespaces.dup }
+      @mutex.synchronize { @namespaces.dup }
     end
 
     # Replace the namespaces hash (expects Hash[String, Array<::FlossFunding::Namespace>])
     def namespaces=(value)
-      mutex.synchronize { @namespaces = value }
+      @mutex.synchronize { @namespaces = value }
     end
 
     # Global silenced flag accessor (boolean)
     # @return [Boolean]
     def silenced
-      mutex.synchronize { @silenced }
+      @mutex.synchronize { @silenced }
     end
 
     # Set the global silenced flag
     # @param value [Boolean]
     # @return [void]
     def silenced=(value)
-      mutex.synchronize { @silenced = !!value }
+      @mutex.synchronize { @silenced = !!value }
     end
 
     def add_or_update_namespace_with_event(namespace, event)
-      mutex.synchronize do
+      @mutex.synchronize do
         ns_obj = namespace
-        # Append in place to reduce allocations and avoid extra mutex churn
+        # Append in place to reduce allocations and avoid extra @mutex churn
         ns_obj.activation_events << event
         @namespaces[namespace.name] = ns_obj
       end
@@ -192,56 +211,14 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # Returns array of Namespace objects
     # @return [Array<::FlossFunding::Namespace>]
     def all_namespaces
-      mutex.synchronize { @namespaces.values.flatten.dup }
-    end
-
-    # All namespace names (strings)
-    # @return [Array<String>]
-    def all_namespace_names
-      mutex.synchronize { @namespaces.keys.dup }
-    end
-
-    # Activated namespaces are those that have at least one :activated event
-    # @return [Array<String>]
-    def activated_namespace_names
-      mutex.synchronize do
-        names = []
-        @namespaces.each_value do |nobj|
-          names << nobj.name if nobj.has_state?(STATES[:activated])
-        end
-        names
-      end
-    end
-
-    # Unactivated namespaces are those that have at least one :unactivated event
-    # @return [Array<String>]
-    def unactivated_namespace_names
-      mutex.synchronize do
-        names = []
-        @namespaces.each_value do |nobj|
-          names << nobj.name if nobj.has_state?(STATES[:unactivated])
-        end
-        names
-      end
-    end
-
-    # Invalid namespaces are those that have at least one :invalid event
-    # @return [Array<String>]
-    def invalid_namespace_names
-      mutex.synchronize do
-        names = []
-        @namespaces.each_value do |nobj|
-          names << nobj.name if nobj.has_state?(STATES[:invalid])
-        end
-        names
-      end
+      @mutex.synchronize { @namespaces.values.flatten.dup }
     end
 
     # Configuration storage and helpers (derived from namespaces and activation events)
     # When namespace is nil, returns a Hash mapping namespace String => Array<FlossFunding::Configuration>.
     # When namespace is provided, returns FlossFunding::Configuration for that namespace (or nil if not found).
     def configurations(namespace = nil)
-      mutex.synchronize do
+      @mutex.synchronize do
         if namespace
           nobj = @namespaces[namespace]
           nobj ? nobj.merged_config : nil
@@ -260,7 +237,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # ENV var name mapping helpers (derived from namespaces)
     # Returns a Hash mapping namespace String => ENV variable name String
     def env_var_names
-      mutex.synchronize do
+      @mutex.synchronize do
         @namespaces.transform_values { |nobj| nobj.env_var_name }
       end
     end
@@ -276,35 +253,26 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # @param num_valid_words [Integer, nil]
     # @return [Array<String>]
     def base_words(num_valid_words = nil)
-      n = num_valid_words.nil? ? num_valid_words_for_month : num_valid_words
+      n = num_valid_words.nil? ? @num_valid_words_for_month : num_valid_words
       return [] if n.nil? || n.zero?
 
-      # Load all words once
-      all = (@base_words_all ||= begin
-        words = []
-        begin
-          File.foreach(::FlossFunding::BASE_WORDS_PATH) { |line| words << line.chomp }
-        rescue StandardError
-          words = []
-        end
-        words.freeze
-      end)
-
-      all[0, n] || []
+      @base_words_all.slice(0, n)
     end
 
     # Check whether a plaintext activation base word is currently valid
     # @param plain_text [String]
     # @return [Boolean]
     def check_activation(plain_text)
-      n = ::FlossFunding.num_valid_words_for_month
-      return false if n.nil? || n <= 0
+      return false if @num_valid_words_for_month.nil? || @num_valid_words_for_month <= 0
       # Cache a Set for fast membership per current n
-      sets = (@base_words_set_cache ||= {})
-      set = sets[n]
+      sets = @base_words_set_cache
+      set = sets[@num_valid_words_for_month]
       unless set
-        set = Set.new(base_words(n))
-        sets[n] = set
+        words = base_words(@num_valid_words_for_month)
+        # Warning inside a cache-protected lookup means it should only happen once per process, at most.
+        warn("[FlossFunding] ZOMG! Base words missing. Did you time travel? Is it #{@loaded_month}? Is system clock set in the past?") if words.empty?
+        set = Set.new(words)
+        sets[@num_valid_words_for_month] = set
       end
       set.include?(plain_text)
     end
@@ -341,18 +309,18 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
     # Emit the standard friendly funding message for unactivated usage
     # @param namespace [String]
     # @param env_var_name [String]
-    # @param gem_name [String]
+    # @param library_name [String]
     # @return [void]
-    def start_begging(namespace, env_var_name, gem_name)
+    def start_begging(namespace, env_var_name, library_name)
       return if ::FlossFunding::ContraIndications.at_exit_contraindicated?
-      puts %(FLOSS Funding: Activation key missing for #{gem_name} (#{namespace}). Set ENV["#{env_var_name}"] to your activation key; details will be shown at exit.)
+      puts %(FLOSS Funding: Activation key missing for #{library_name} (#{namespace}). Set ENV["#{env_var_name}"] to your activation key; details will be shown at exit.)
     end
 
     def initiate_begging(event)
       library = event.library
       ns = library.namespace
       env_var_name = ::FlossFunding::UnderBar.env_variable_name(ns)
-      gem_name = library.gem_name
+      library_name = library.library_name
       activation_key = event.activation_key
 
       case event.state
@@ -361,7 +329,7 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
       when ::FlossFunding::STATES[:invalid]
         ::FlossFunding.start_coughing(activation_key, ns, env_var_name)
       else
-        ::FlossFunding.start_begging(ns, env_var_name, gem_name)
+        ::FlossFunding.start_begging(ns, env_var_name, library_name)
       end
     end
   end
@@ -374,8 +342,6 @@ require "floss_funding/config"
 require "floss_funding/file_finder"
 require "floss_funding/config_finder" # depends on FileFinder
 require "floss_funding/config_loader" # depends on ConfigFinder
-require "floss_funding/project_root"
-require "floss_funding/library_root"
 require "floss_funding/library"
 require "floss_funding/namespace"
 require "floss_funding/activation_event"

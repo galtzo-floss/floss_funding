@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe FlossFunding::FinalSummary do
+  include(ActivationEventsHelper)
   include_context "with stubbed env"
 
   before do
@@ -23,12 +24,6 @@ RSpec.describe FlossFunding::FinalSummary do
     ns
   end
 
-  # Create a simple event with a minimal library double
-  def make_event(ns_name, state, gem_name: nil)
-    lib = instance_double("Lib", :namespace => ns_name, :gem_name => gem_name.nil? ? nil : (gem_name || ns_name.downcase))
-    FlossFunding::ActivationEvent.new(lib, "", state)
-  end
-
   describe "rendering basics (no namespaces)", :check_output do
     it "prints summary with zero counts and no invalid line or spotlight" do
       fake_pb = instance_double("PB", :increment => nil)
@@ -44,9 +39,9 @@ RSpec.describe FlossFunding::FinalSummary do
   describe "rendering with activated and unactivated and invalid", :check_output do
     before do
       # Build three namespaces: A(activated), U(unactivated), I(invalid)
-      a1 = make_event("NsA", :activated, :gem_name => "gem_a")
-      u1 = make_event("NsU", :unactivated, :gem_name => "gem_u")
-      i1 = make_event("NsI", :invalid, :gem_name => "gem_i")
+      a1 = make_event("NsA", :activated, :library_name => "gem_a")
+      u1 = make_event("NsU", :unactivated, :library_name => "gem_u")
+      i1 = make_event("NsI", :invalid, :library_name => "gem_i")
 
       @ns_a = register_ns("NsA", [a1])
       @ns_u = register_ns("NsU", [u1])
@@ -59,7 +54,7 @@ RSpec.describe FlossFunding::FinalSummary do
       default_cfg = FlossFunding::Configuration.new({
         "floss_funding_url" => ["https://example.invalid/f"],
         "suggested_donation_amount" => [42],
-        "gem_name" => ["g"],
+        "library_name" => ["g"],
       })
       allow(FlossFunding).to receive(:configurations).and_return({
         "NsA" => [default_cfg],
@@ -99,7 +94,7 @@ RSpec.describe FlossFunding::FinalSummary do
 
   describe "invalid line suppression (no invalid events)", :check_output do
     it "omits invalid line when there are zero invalid namespaces and libraries" do
-      u1 = make_event("OnlyU", :unactivated, :gem_name => "gem_u")
+      u1 = make_event("OnlyU", :unactivated, :library_name => "gem_u")
       register_ns("OnlyU", [u1])
 
       allow(FlossFunding).to receive(:configurations).and_return({"OnlyU" => [FlossFunding::Configuration.new({})]})
@@ -115,7 +110,7 @@ RSpec.describe FlossFunding::FinalSummary do
 
   describe "uses defaults when configuration missing or non-hashlike", :check_output do
     it "falls back to default URL and amount and omits empty libraries line" do
-      ev = make_event("CfgLess", :unactivated, :gem_name => nil)
+      ev = make_event("CfgLess", :unactivated, :library_name => nil)
       ns = register_ns("CfgLess", [ev])
 
       # Return a weird configuration object that causes rescue to [] in details lookup
@@ -130,7 +125,7 @@ RSpec.describe FlossFunding::FinalSummary do
       output = capture_stdout { described_class.new }
       expect(output).to include("Funding URL: https://floss-funding.dev")
       expect(output).to include("Suggested donation amount: $5")
-      # library gem_name was nil; libraries list should be omitted
+      # library library_name was nil; libraries list should be omitted
       expect(output).not_to include("Libraries:")
     end
   end

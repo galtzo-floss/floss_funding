@@ -9,7 +9,7 @@ module GemMine
     DEFAULTS = {
       :count => 100,
       :root_dir => File.expand_path("../../spec/fixtures/gem_mine", __dir__),
-      :gem_name_prefix => "bench_gem_",
+      :library_name_prefix => "bench_gem_",
       :start_index => 1,
       :group_size => 10,
       :groups_env_prefix => "GEM_MINE_GROUP_",
@@ -69,9 +69,9 @@ module GemMine
         ordinal = offset
         group_index = (ordinal / group_size)
 
-        gem_name = format_name(@options[:gem_name_prefix], index, count)
-        module_name = Helpers.camelize(gem_name)
-        gem_dir = File.join(root_dir, gem_name)
+        library_name = format_name(@options[:library_name_prefix], index, count)
+        module_name = Helpers.camelize(library_name)
+        gem_dir = File.join(root_dir, library_name)
         lib_dir = File.join(gem_dir, "lib")
         FileUtils.mkdir_p(lib_dir)
 
@@ -89,7 +89,7 @@ module GemMine
           :root_dir => root_dir,
           :gem_dir => gem_dir,
           :lib_dir => lib_dir,
-          :gem_name => gem_name,
+          :library_name => library_name,
           :module_name => module_name,
           :include_floss_funding => !!@options[:include_floss_funding]
         )
@@ -99,14 +99,14 @@ module GemMine
 
         # Write Gemfile and gemspec
         gemfile_path = File.join(gem_dir, "Gemfile")
-        gemspec_path = File.join(gem_dir, "#{gem_name}.gemspec")
+        gemspec_path = File.join(gem_dir, "#{library_name}.gemspec")
 
         write_gemfile(gemfile_path, ctx[:dependencies], @options[:overwrite])
 
         authors = call_opt(@options[:authors], ctx) || []
         version = call_opt(@options[:version_strategy], ctx)
         extras = symbolize_keys(call_opt(@options[:gemspec_extras], ctx) || {})
-        write_gemspec(gemspec_path, gem_name, version, authors, extras, ctx, @options[:overwrite])
+        write_gemspec(gemspec_path, library_name, version, authors, extras, ctx, @options[:overwrite])
 
         # YAML templates
         yaml_templates = call_opt(@options[:yaml_templates], ctx) || {}
@@ -117,14 +117,14 @@ module GemMine
         if files_templates.nil? || files_templates.empty?
           # Provide default minimal lib file rendered via ERB
           files_templates = {
-            File.join("lib", "#{gem_name}.rb") => default_lib_template,
+            File.join("lib", "#{library_name}.rb") => default_lib_template,
           }
         end
         write_file_templates(gem_dir, files_templates, ctx, @options[:overwrite])
 
         per_gem = {
           :index => index,
-          :gem_name => gem_name,
+          :library_name => library_name,
           :module_name => module_name,
           :namespace => ctx[:namespace],
           :group_index => group_index,
@@ -241,7 +241,7 @@ module GemMine
       "#{parts.join(", ")}"
     end
 
-    def write_gemspec(path, gem_name, version, authors, extras, ctx, overwrite)
+    def write_gemspec(path, library_name, version, authors, extras, ctx, overwrite)
       return if File.exist?(path) && !overwrite
 
       files_glob = extras[:files_glob] || "lib/**/*.rb"
@@ -253,10 +253,10 @@ module GemMine
       if extras[:name_literal]
         body << "  s.name        = #{extras[:name_literal]}"
       else
-        body << "  s.name        = #{gem_name.inspect}"
+        body << "  s.name        = #{library_name.inspect}"
       end
       body << "  s.version     = #{version.inspect}"
-      summary = extras[:summary] || "Generated gem #{gem_name}"
+      summary = extras[:summary] || "Generated gem #{library_name}"
       body << "  s.summary     = #{summary.inspect}"
       body << "  s.description = #{extras[:description].inspect}" if extras.key?(:description)
       body << "  s.authors     = #{Array(authors).inspect}"

@@ -24,8 +24,11 @@ RSpec.describe "FlossFunding tracking functionality" do
         TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
 
         # Check that the module was added to the activated list
-        expect(FlossFunding.activated_namespace_names).to include("TraditionalTest::InnerModule")
-        expect(FlossFunding.unactivated_namespace_names).not_to include("TraditionalTest::InnerModule")
+        activated_namespaces = FlossFunding.all_namespaces.select { |ns| ns.state == FlossFunding::STATES[:activated] }.map(&:name)
+        not_activated_namespaces = FlossFunding.all_namespaces.select { |ns| ns.state != FlossFunding::STATES[:activated] }.map(&:name)
+
+        expect(activated_namespaces).to include("TraditionalTest::InnerModule")
+        expect(not_activated_namespaces).not_to include("TraditionalTest::InnerModule")
       end
     end
 
@@ -38,8 +41,11 @@ RSpec.describe "FlossFunding tracking functionality" do
       TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
 
       # Check that the module was added to the unactivated list
-      expect(FlossFunding.unactivated_namespace_names).to include("TraditionalTest::InnerModule")
-      expect(FlossFunding.activated_namespace_names).not_to include("TraditionalTest::InnerModule")
+      unactivated_namespaces = FlossFunding.all_namespaces.select { |ns| ns.state == FlossFunding::STATES[:unactivated] }.map(&:name)
+      not_unactivated_namespaces = FlossFunding.all_namespaces.select { |ns| ns.state != FlossFunding::STATES[:unactivated] }.map(&:name)
+
+      expect(unactivated_namespaces).to include("TraditionalTest::InnerModule")
+      expect(not_unactivated_namespaces).not_to include("TraditionalTest::InnerModule")
     end
 
     it "tracks libraries with unpaid silence activation keys" do
@@ -50,8 +56,11 @@ RSpec.describe "FlossFunding tracking functionality" do
       TraditionalTest::InnerModule.send(:include, FlossFunding::Poke.new(__FILE__))
 
       # Check that the module was added to the activated list
-      expect(FlossFunding.activated_namespace_names).to include("TraditionalTest::InnerModule")
-      expect(FlossFunding.unactivated_namespace_names).not_to include("TraditionalTest::InnerModule")
+      activated_namespaces = FlossFunding.all_namespaces.select { |ns| ns.state == FlossFunding::STATES[:activated] }.map(&:name)
+      not_activated_namespaces = FlossFunding.all_namespaces.select { |ns| ns.state != FlossFunding::STATES[:activated] }.map(&:name)
+
+      expect(activated_namespaces).to include("TraditionalTest::InnerModule")
+      expect(not_activated_namespaces).not_to include("TraditionalTest::InnerModule")
     end
   end
 
@@ -84,18 +93,21 @@ RSpec.describe "FlossFunding tracking functionality" do
         thread2.join
 
         # Check that both modules were tracked correctly
-        expect(FlossFunding.activated_namespace_names).to include("TraditionalTest::InnerModule")
-        expect(FlossFunding.unactivated_namespace_names).to include("TraditionalTest::OtherModule")
+        activated_namespaces = FlossFunding.all_namespaces.select { |ns| ns.state == FlossFunding::STATES[:activated] }.map(&:name)
+        unactivated_namespaces = FlossFunding.all_namespaces.select { |ns| ns.state == FlossFunding::STATES[:unactivated] }.map(&:name)
+
+        expect(activated_namespaces).to include("TraditionalTest::InnerModule")
+        expect(unactivated_namespaces).to include("TraditionalTest::OtherModule")
 
         # Ensure env var names are derived and present for both namespaces
         names = FlossFunding.env_var_names
         expect(names["TraditionalTest::InnerModule"]).to eq(FlossFunding::UnderBar.env_variable_name("TraditionalTest::InnerModule"))
         expect(names["TraditionalTest::OtherModule"]).to eq(FlossFunding::UnderBar.env_variable_name("TraditionalTest::OtherModule"))
 
-        # Validate configurations are available and include gem_name entries
+        # Validate configurations are available and include library_name entries
         merged_config = FlossFunding.configurations("TraditionalTest::InnerModule")
         expect(merged_config).to be_a(FlossFunding::Configuration)
-        expect(Array(merged_config["gem_name"]).compact).to include("floss_funding")
+        expect(Array(merged_config["library_name"]).compact).to include("floss_funding")
 
         # Exercise base_words early return branch
         expect(FlossFunding.base_words(0)).to eq([])

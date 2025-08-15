@@ -19,23 +19,20 @@ module FlossFunding
     # @param activation_key [String]
     # @param state [Symbol, String] initial state (defaults to :unactivated)
     # @param silent [Object, nil] optional silence flag or callable captured at event creation
-    def initialize(library, activation_key, state = DEFAULT_STATE, silent = nil)
+    def initialize(library, activation_key, state, silent)
       @library = library
       @activation_key = activation_key
-      @state = normalize_state(state.to_s)
+      @state = state # has already been normalized by FlossFunding::Inclusion
       # Always use the deterministic time source from FlossFunding
       @occurred_at = ::FlossFunding.loaded_at
       @silent = silent
+      validate!
+      freeze
     end
 
-    private
-
-    # @param value [String]
-    # @return [String]
-    def normalize_state(value)
-      return value if STATES.value?(value)
-
-      DEFAULT_STATE
+    def validate!
+      raise FlossFunding::Error, "#{@state.inspect} (#{@state.class}) must be one of #{STATE_VALUES}" unless STATE_VALUES.include?(@state)
+      raise FlossFunding::Error, "silent must be nil or respond to call (silent=true short circuits)" unless @silent.nil? || @silent.respond_to?(:call)
     end
   end
 end

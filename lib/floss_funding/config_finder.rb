@@ -13,7 +13,6 @@ module FlossFunding
   class ConfigFinder
     DOTFILE = ".floss_funding.yml"
     XDG_CONFIG = "config.yml"
-    FLOSS_FUNDING_HOME = File.realpath(File.join(File.dirname(__FILE__), "..", ".."))
     DEFAULT_FILE = File.join(FLOSS_FUNDING_HOME, "config", "default.yml")
 
     class << self

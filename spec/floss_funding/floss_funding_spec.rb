@@ -3,21 +3,20 @@
 require "spec_helper"
 
 RSpec.describe FlossFunding do
+  include(ActivationEventsHelper)
+
   describe "namespace queries and file-based behaviors" do
     before do
       FlossFunding.namespaces = {}
     end
 
-    it "all_namespaces, all_namespace_names, invalid_namespace_names behave as expected" do
-      lib1 = instance_double("Lib1", :namespace => "Ns1", :gem_name => "g1")
-      lib2 = instance_double("Lib2", :namespace => "Ns2", :gem_name => "g2")
-
+    it "all_namespaces behaves as expected" do
       ns1 = FlossFunding::Namespace.new("Ns1")
       ns2 = FlossFunding::Namespace.new("Ns2")
 
-      ev1 = FlossFunding::ActivationEvent.new(lib1, "", :activated)
-      ev2 = FlossFunding::ActivationEvent.new(lib1, "", :unactivated)
-      ev3 = FlossFunding::ActivationEvent.new(lib2, "", :invalid)
+      ev1 = make_event(ns1.name, :activated, :library_name => "g1", :class_name => "Lib1")
+      ev2 = make_event(ns1.name, :unactivated, :library_name => "g1", :class_name => "Lib1")
+      ev3 = make_event(ns2.name, :invalid, :library_name => "g2", :class_name => "Lib2")
 
       ns1.activation_events = [ev1, ev2]
       ns2.activation_events = [ev3]
@@ -26,24 +25,11 @@ RSpec.describe FlossFunding do
       FlossFunding.add_or_update_namespace_with_event(ns2, ev3)
 
       expect(FlossFunding.all_namespaces.map(&:name).sort).to eq(["Ns1", "Ns2"])
-      expect(FlossFunding.all_namespace_names.sort).to eq(["Ns1", "Ns2"])
-      expect(FlossFunding.invalid_namespace_names).to contain_exactly("Ns2")
-    end
-
-    it "base_words returns [] when BASE_WORDS_PATH is missing" do
-      old_words = FlossFunding.instance_variable_get(:@base_words_all)
-      FlossFunding.instance_variable_set(:@base_words_all, nil)
-      begin
-        stub_const("FlossFunding::BASE_WORDS_PATH", File.join(Dir.mktmpdir, "missing_base.txt"))
-        expect(FlossFunding.base_words(5)).to eq([])
-      ensure
-        FlossFunding.instance_variable_set(:@base_words_all, old_words)
-      end
+      expect(FlossFunding.all_namespaces.sort_by(&:name).map(&:state)).to eq(["unactivated", "unactivated"])
     end
 
     it "initiate_begging calls start_coughing when event is invalid" do
-      lib = instance_double("Lib", :namespace => "NsZ", :gem_name => "gemz")
-      event = FlossFunding::ActivationEvent.new(lib, "deadbeef", :invalid)
+      event = make_event("NsZ", :invalid, :key => "deadbeef", :library_name => "gemz", :class_name => "Lib")
 
       expect(FlossFunding).to receive(:start_coughing).with(
         "deadbeef",
@@ -64,22 +50,21 @@ RSpec.describe FlossFunding do
     after do
       FlossFunding.namespaces = {}
       FlossFunding.silenced = FlossFunding::Constants::SILENT
-      FlossFunding.loaded_at = nil
     end
 
     it "covers base_words early return for n == 0" do
-      FlossFunding.loaded_at = Time.new(2025, 7, 1, 0, 0, 0, "+00:00")
-      FlossFunding.loaded_month = FlossFunding::START_MONTH
-      FlossFunding.num_valid_words_for_month = 0
-      expect(FlossFunding.num_valid_words_for_month).to eq(0)
+      FlossFunding.instance_variable_set(:@loaded_at, Time.new(2025, 7, 1, 0, 0, 0, "+00:00"))
+      FlossFunding.instance_variable_set(:@loaded_month, FlossFunding::START_MONTH)
+      FlossFunding.instance_variable_set(:@num_valid_words_for_month, 0)
+      expect(FlossFunding.instance_variable_get(:@num_valid_words_for_month)).to eq(0)
       expect(FlossFunding.base_words).to eq([])
     end
 
     it "covers check_activation early return when n <= 0" do
-      FlossFunding.loaded_at = Time.new(2025, 7, 1, 0, 0, 0, "+00:00")
-      FlossFunding.loaded_month = FlossFunding::START_MONTH
-      FlossFunding.num_valid_words_for_month = 0
-      expect(FlossFunding.num_valid_words_for_month).to eq(0)
+      FlossFunding.instance_variable_set(:@loaded_at, Time.new(2025, 7, 1, 0, 0, 0, "+00:00"))
+      FlossFunding.instance_variable_set(:@loaded_month, FlossFunding::START_MONTH)
+      FlossFunding.instance_variable_set(:@num_valid_words_for_month, 0)
+      expect(FlossFunding.instance_variable_get(:@num_valid_words_for_month)).to eq(0)
       expect(FlossFunding.check_activation("anything")).to be(false)
     end
 
@@ -105,6 +90,8 @@ RSpec.describe FlossFunding do
       stub_const("Beta", Module.new)
       Alpha.const_set(:Lib, Module.new)
       Beta.const_set(:Lib, Module.new)
+      # Not wedged. env_var_names behavior requires a successful Inclusion.
+      # This works here because there is a .floss_funding.yml file at the root of this repo.
       Alpha::Lib.send(:include, FlossFunding::Poke.new(__FILE__))
       Beta::Lib.send(:include, FlossFunding::Poke.new(__FILE__))
 
@@ -132,7 +119,7 @@ RSpec.describe FlossFunding do
     after do
       FlossFunding.namespaces = {}
       FlossFunding.silenced = FlossFunding::Constants::SILENT
-      FlossFunding.loaded_at = nil
+      FlossFunding.instance_variable_set(:@loaded_at, nil)
     end
 
     it "covers activation_occurrences false path when a namespace has zero events" do
@@ -145,18 +132,18 @@ RSpec.describe FlossFunding do
 
     it "covers base_words early return for n == 0" do
       # Make current month equal to START_MONTH, resulting in n == 0
-      FlossFunding.loaded_at = Time.new(2025, 7, 1, 0, 0, 0, "+00:00")
-      FlossFunding.loaded_month = FlossFunding::START_MONTH
-      FlossFunding.num_valid_words_for_month = 0
-      expect(FlossFunding.num_valid_words_for_month).to eq(0)
+      FlossFunding.instance_variable_set(:@loaded_at, Time.new(2025, 7, 1, 0, 0, 0, "+00:00"))
+      FlossFunding.instance_variable_set(:@loaded_month, FlossFunding::START_MONTH)
+      FlossFunding.instance_variable_set(:@num_valid_words_for_month, 0)
+      expect(FlossFunding.instance_variable_get(:@num_valid_words_for_month)).to eq(0)
       expect(FlossFunding.base_words).to eq([])
     end
 
     it "covers check_activation early return when n <= 0" do
-      FlossFunding.loaded_at = Time.new(2025, 7, 1, 0, 0, 0, "+00:00")
-      FlossFunding.loaded_month = FlossFunding::START_MONTH
-      FlossFunding.num_valid_words_for_month = 0
-      expect(FlossFunding.num_valid_words_for_month).to eq(0)
+      FlossFunding.instance_variable_set(:@loaded_at, Time.new(2025, 7, 1, 0, 0, 0, "+00:00"))
+      FlossFunding.instance_variable_set(:@loaded_month, FlossFunding::START_MONTH)
+      FlossFunding.instance_variable_set(:@num_valid_words_for_month, 0)
+      expect(FlossFunding.instance_variable_get(:@num_valid_words_for_month)).to eq(0)
       expect(FlossFunding.check_activation("anything")).to be(false)
     end
 
@@ -204,22 +191,22 @@ RSpec.describe FlossFunding do
     end
   end
 
-  describe "::log", :check_output do
+  describe "::debug_log", :check_output do
     context "when DEBUG is false" do
       before { stub_const("FlossFunding::DEBUG", false) }
 
       it "returns nil when called with args" do
-        expect(described_class.log("hello", "world")).to be_nil
+        expect(described_class.debug_log("hello", "world")).to be_nil
       end
 
       it "does not output when called with args" do
-        expect { described_class.log("hello", "world") }
+        expect { described_class.debug_log("hello", "world") }
           .not_to output.to_stdout
       end
 
       it "does not evaluate the block when called with a block" do
         executed = false
-        described_class.log {
+        described_class.debug_log {
           executed = true
           "should not print"
         }
@@ -227,7 +214,7 @@ RSpec.describe FlossFunding do
       end
 
       it "does not output when called with a block" do
-        expect { described_class.log { "should not print" } }
+        expect { described_class.debug_log { "should not print" } }
           .not_to output.to_stdout
       end
     end
@@ -236,29 +223,29 @@ RSpec.describe FlossFunding do
       before { stub_const("FlossFunding::DEBUG", true) }
 
       it "returns nil when called with args" do
-        expect(described_class.log("hello", :world, 123)).to be_nil
+        expect(described_class.debug_log("hello", :world, 123)).to be_nil
       end
 
       it "prints joined args separated by spaces" do
-        expect { described_class.log("hello", :world, 123) }
+        expect { described_class.debug_log("hello", :world, 123) }
           .to output("hello world 123\n").to_stdout
       end
 
       it "returns nil when called with a block" do
-        expect(described_class.log("ignored") { "from block" }).to be_nil
+        expect(described_class.debug_log("ignored") { "from block" }).to be_nil
       end
 
       it "yields to the block and prints its return value" do
-        expect { described_class.log("ignored") { "from block" } }
+        expect { described_class.debug_log("ignored") { "from block" } }
           .to output("from block\n").to_stdout
       end
 
       it "returns nil even if the block raises" do
-        expect(described_class.log { raise "boom" }).to be_nil
+        expect(described_class.debug_log { raise "boom" }).to be_nil
       end
 
       it "does not print when the block raises" do
-        expect { described_class.log { raise "boom" } }
+        expect { described_class.debug_log { raise "boom" } }
           .not_to output.to_stdout
       end
     end

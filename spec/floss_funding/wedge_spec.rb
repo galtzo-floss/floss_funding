@@ -6,9 +6,6 @@ require "floss_funding/wedge"
 RSpec.describe FlossFunding::Wedge do
   include_context 'with stubbed env'
 
-  # Build a minimal spec-like struct for stubbing
-  SpecStruct = Struct.new(:name, :loaded_from, :full_gem_path)
-
   before do
     # Ensure clean constants before each test
     Object.send(:remove_const, :Foo) if Object.const_defined?(:Foo)

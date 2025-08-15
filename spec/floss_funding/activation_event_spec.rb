@@ -1,50 +1,75 @@
 # frozen_string_literal: true
 
 RSpec.describe FlossFunding::ActivationEvent do
-  describe "#initialize and state normalization" do
+  describe "#initialize" do
+    subject(:instance) { described_class.new(lib, key, state, silent) }
+
+    let(:state) { "unactivated" }
     let(:lib) { instance_double("Lib", :namespace => "Ns") }
+    let(:key) { "" }
+    let(:silent) { nil }
 
-    before do
-      # Deterministic time source
-      FlossFunding.loaded_at = Time.utc(2025, 1, 1, 0, 0, 0)
+    context "with valid string state, silent=nil" do
+      let(:state) { "activated" }
+
+      it "does not raise error" do
+        block_is_expected.not_to raise_error
+      end
+
+      it "sets state" do
+        expect(instance.state).to eq("activated")
+      end
     end
 
-    after do
-      FlossFunding.loaded_at = nil
+    context "with symbol state, silent=nil" do
+      let(:state) { :unactivated }
+
+      it "raises error" do
+        error = Regexp.escape(%{:unactivated (Symbol) must be one of})
+        block_is_expected.to raise_error(FlossFunding::Error, Regexp.new(error))
+      end
     end
 
-    it "stores attributes and uses FlossFunding.loaded_at" do
-      ev = described_class.new(lib, "", :unactivated, :silent_flag)
-      expect(ev.library).to eq(lib)
-      expect(ev.activation_key).to eq("")
-      expect(ev.state).to eq(FlossFunding::STATES[:unactivated])
-      expect(ev.silent).to eq(:silent_flag)
-      expect(ev.send(:occurred_at)).to eq(Time.utc(2025, 1, 1, 0, 0, 0))
+    context "with invalid string state, silent=nil" do
+      let(:state) { "banana" }
+
+      it "raises error" do
+        error = Regexp.escape(%{"banana" (String) must be one of})
+        block_is_expected.to raise_error(FlossFunding::Error, Regexp.new(error))
+      end
     end
 
-    it "accepts string state names that are valid" do
-      ev = described_class.new(lib, "", "activated")
-      expect(ev.state).to eq(FlossFunding::STATES[:activated])
+    context "with nil state, silent=nil" do
+      let(:state) { nil }
+
+      it "raises error" do
+        error = Regexp.escape(%{nil (NilClass) must be one of})
+        block_is_expected.to raise_error(FlossFunding::Error, Regexp.new(error))
+      end
     end
 
-    it "coerces symbol states via key mapping" do
-      ev = described_class.new(lib, "", :activated)
-      expect(ev.state).to eq(FlossFunding::STATES[:activated])
+    context "with nil state, silent=42" do
+      let(:state) { "activated" }
+      let(:silent) { 42 }
+
+      it "raises error" do
+        error = Regexp.escape(%{silent must be nil or respond to call})
+        block_is_expected.to raise_error(FlossFunding::Error, Regexp.new(error))
+      end
     end
 
-    it "falls back to DEFAULT_STATE for invalid key" do
-      ev = described_class.new(lib, "", :bogus)
-      expect(ev.state).to eq(FlossFunding::DEFAULT_STATE)
+    context "with valid string state, silent is callable" do
+      let(:silent) { ->() { 42 } }
+
+      it "sets silent to callable" do
+        expect(instance.silent.call).to eq(42)
+      end
     end
 
-    it "falls back to DEFAULT_STATE for invalid value" do
-      ev = described_class.new(lib, "", "bogus")
-      expect(ev.state).to eq(FlossFunding::DEFAULT_STATE)
-    end
-
-    it "falls back to DEFAULT_STATE when state is nil" do
-      ev = described_class.new(lib, "", nil)
-      expect(ev.state).to eq(FlossFunding::DEFAULT_STATE)
+    context "with deterministic time", :deterministic_time => Time.utc(1999, 12, 12, 12, 12, 12) do
+      it "sets occurred_at" do
+        expect(instance.occurred_at).to eq(Time.utc(1999, 12, 12, 12, 12, 12))
+      end
     end
   end
 end

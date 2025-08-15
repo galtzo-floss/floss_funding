@@ -3,8 +3,6 @@
 require "floss_funding/wedge"
 
 RSpec.describe "Wedge scenario fixtures" do
-  SpecStruct = Struct.new(:name, :loaded_from, :full_gem_path)
-
   def with_load_path(*paths)
     old = $LOAD_PATH.dup
     paths.each { |p| $LOAD_PATH.unshift(p) }

@@ -25,7 +25,7 @@ module GemMine
       %(ENV.fetch(#{var_name.inspect}, "0") != "0")
     end
 
-    # Simple camelize for typical gem_name strings like "bench_gem_01" -> "BenchGem01"
+    # Simple camelize for typical library_name strings like "bench_gem_01" -> "BenchGem01"
     def camelize(str)
       str.to_s.split(SPLIT_UNDERSCORE_OR_SPACE).map { |s| s[0] ? s[0].upcase + s[1..-1].to_s : s }.join
     end

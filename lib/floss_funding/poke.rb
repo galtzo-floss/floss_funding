@@ -17,10 +17,10 @@ module FlossFunding
   #       include FlossFunding::Poke.new(__FILE__, namespace: "Custom::Namespace::V4")
   #     end
   #
-  # 3. Explicitly disable config discovery (including gem_name) by passing nil:
+  # 3. Explicitly disable config discovery (including library_name) by passing nil and wedge: true:
   #
   #     module MyGemLibrary
-  #       include FlossFunding::Poke.new(nil)
+  #       include FlossFunding::Poke.new(nil, wedge: true)
   #     end
   #
   # 4. Provide an explicit config path (bypasses directory-walk search):
@@ -50,19 +50,24 @@ module FlossFunding
       # @option options [String, nil] :namespace optional custom namespace for activation key
       # @option options [Object, nil] :silent optional silence flag or callable to request global silence
       # @option options [String, nil] :config_path explicit path to a config file; bypasses directory-walk search when provided
+      # @option options [Boolean, nil] :wedge explicitly disable config discovery (including library_name)
       # @return [Module] a module that can be included into your namespace
       def new(including_path, options = {})
-        silent_opt = options[:silent]
+        opts = options.dup
+        silent_opt = opts[:silent]
 
         # If this library explicitly requests boolean silence, set it so libraries loaded later will be silenced;
         # callables are deferred to at_exit.
         if !silent_opt.respond_to?(:call) && silent_opt
+          # don't deal with silent again unless it is callable
+          opts.delete(:silent)
           ::FlossFunding.silenced ||= true
         end
 
-        namespace = options[:namespace]
-        wedge = options[:wedge]
-        config_path_opt = options[:config_path]
+        namespace = options.delete(:namespace)
+        # When including_path is nil, disable discovery, by enforcing wedge: true
+        wedge = options.delete(:wedge) || including_path.nil?
+        contraindicated = ::FlossFunding::ContraIndications.poke_contraindicated?
 
         # an anonymous module that will set up an activation key check when included
         Module.new do
@@ -71,48 +76,11 @@ module FlossFunding
             base.extend(::FlossFunding::Fingerprint)
 
             # After fingerprinting, handle short-circuits
-            if ::FlossFunding::ContraIndications.poke_contraindicated?
-              # Do not proceed with registration/config when contraindicated
-              next
-            end
+            # Do not proceed with registration/config when contraindicated
+            # Fingerprint already injected above; skip configuration/discovery
+            return if contraindicated || wedge
 
-            if wedge
-              # Fingerprint already injected above; skip configuration/discovery
-              next
-            end
-
-            # Library config handling:
-            # - Only use an explicit :config_path if provided (absolute or relative to including_path)
-            # - Do not perform any directory-walk or project-level discovery here
-            cfg_path = nil
-            if config_path_opt
-              # Treat as absolute if it expands to the same path when rooted at '/'
-              if config_path_opt.start_with?(File::SEPARATOR)
-                cfg_path = config_path_opt
-              else
-                unless including_path
-                  raise ::FlossFunding::Error, "Relative config_path requires including_path; provide an absolute :config_path or pass a valid including_path (e.g., __FILE__)."
-                end
-                cfg_path = File.expand_path(config_path_opt, File.dirname(including_path))
-              end
-
-              unless File.file?(cfg_path) && File.basename(cfg_path) == ".floss_funding.yml"
-                raise ::FlossFunding::Error, "Missing required .floss_funding.yml at #{cfg_path.inspect}; run `rake floss_funding:install` to create one."
-              end
-
-              begin
-                data = YAML.safe_load(File.read(cfg_path)) || {}
-              rescue StandardError
-                data = {}
-              end
-
-              missing = ::FlossFunding::REQUIRED_YAML_KEYS.reject { |k| data.key?(k) && data[k] && data[k].to_s.strip != "" }
-              unless missing.empty?
-                raise ::FlossFunding::Error, ".floss_funding.yml missing required keys: #{missing.join(", ")}"
-              end
-            end
-
-            FlossFunding::Inclusion.new(base, namespace, including_path, silent_opt, options)
+            FlossFunding::Inclusion.new(base, namespace, including_path, options)
           end
         end
       end

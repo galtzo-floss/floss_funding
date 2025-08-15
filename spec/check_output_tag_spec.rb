@@ -13,7 +13,7 @@ RSpec.describe "check_output tag" do # rubocop:disable RSpec/DescribeClass
   context "without :check_output tag" do
     it "silences STDOUT" do |example|
       # This output should be silenced
-      puts "This output should be silenced"
+      puts "This output should be silenced (unless in DEBUG mode)"
       expect(example.metadata[:check_output]).to be_nil
     end
   end

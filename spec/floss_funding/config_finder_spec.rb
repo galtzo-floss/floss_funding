@@ -11,7 +11,7 @@ RSpec.describe FlossFunding::ConfigFinder do
       )
 
       path = described_class.find_config_path(Dir.pwd)
-      repo_root_dotfile = File.join(FlossFunding::ConfigFinder::FLOSS_FUNDING_HOME, ".floss_funding.yml")
+      repo_root_dotfile = File.join(FlossFunding::FLOSS_FUNDING_HOME, ".floss_funding.yml")
       expected = File.exist?(repo_root_dotfile) ? repo_root_dotfile : FlossFunding::ConfigFinder::DEFAULT_FILE
       expect(path).to eq(expected)
     end
@@ -24,7 +24,7 @@ RSpec.describe FlossFunding::ConfigFinder do
         :find_user_xdg_config => nil,
       )
 
-      repo_root_dotfile = File.join(FlossFunding::ConfigFinder::FLOSS_FUNDING_HOME, ".floss_funding.yml")
+      repo_root_dotfile = File.join(FlossFunding::FLOSS_FUNDING_HOME, ".floss_funding.yml")
       # Stub File.exist? only for the repo_root_dotfile path to false
       allow(File).to receive(:exist?).and_call_original
       allow(File).to receive(:exist?).with(repo_root_dotfile).and_return(false)

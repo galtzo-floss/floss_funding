@@ -11,7 +11,7 @@ module FlossFunding
       defaults = {
         :count => count,
         :root_dir => File.expand_path("../fixtures/gem_mine", __dir__),
-        :gem_name_prefix => "bench_gem_",
+        :library_name_prefix => "bench_gem_",
         :group_size => 10,
         :include_floss_funding => true,
         :dependencies => [{:name => "floss_funding", :path => "../../../.."}],

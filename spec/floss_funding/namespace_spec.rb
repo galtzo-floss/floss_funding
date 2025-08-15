@@ -76,10 +76,11 @@ RSpec.describe FlossFunding::Namespace do
   end
 
   describe "#has_state? and #with_state" do
+    include(ActivationEventsHelper)
+
     it "detects presence of events with the given state" do
-      lib = instance_double("Lib", :namespace => "Eta")
-      ev_a = FlossFunding::ActivationEvent.new(lib, "", :activated)
-      ev_u = FlossFunding::ActivationEvent.new(lib, "", :unactivated)
+      ev_a = make_event("Eta", :activated, :class_name => "Lib")
+      ev_u = make_event("Eta", :unactivated, :class_name => "Lib")
       ns = described_class.new("Eta")
       ns.activation_events = [ev_a, ev_u]
       expect(ns.has_state?(FlossFunding::STATES[:activated])).to be(true)
@@ -88,13 +89,16 @@ RSpec.describe FlossFunding::Namespace do
   end
 
   describe "#configs" do
+    include(ActivationEventsHelper)
+
     it "returns library configs from events" do
-      cfg = FlossFunding::Configuration.new({"a" => 1})
-      lib = instance_double("Lib", :namespace => "Theta", :config => cfg)
-      ev = FlossFunding::ActivationEvent.new(lib, "", :unactivated)
+      cfg = {"a" => 1}
+      ev = make_event("Theta", :activated, :class_name => "Lib", :config => cfg)
       ns = described_class.new("Theta")
       ns.activation_events = [ev]
-      expect(ns.configs).to eq([cfg])
+      result = ns.configs.first.to_h
+      expect(result.keys).to eq(cfg.keys)
+      expect(result.values.flatten).to eq(cfg.values) # Because of normalizing to array
     end
   end
 
@@ -126,13 +130,15 @@ RSpec.describe FlossFunding::Namespace do
   end
 
   describe "#merged_config" do
+    include(ActivationEventsHelper)
+
     it "merges configs via Configuration.merged_config" do
       ns = described_class.new("Lambda")
-      cfg1 = FlossFunding::Configuration.new({"a" => 1})
-      cfg2 = FlossFunding::Configuration.new({"a" => 2})
-      lib1 = instance_double("Lib1", :namespace => "Lambda", :config => cfg1)
-      lib2 = instance_double("Lib2", :namespace => "Lambda", :config => cfg2)
-      ns.activation_events = [FlossFunding::ActivationEvent.new(lib1, "", :unactivated), FlossFunding::ActivationEvent.new(lib2, "", :unactivated)]
+      cfg1 = {"a" => 1}
+      cfg2 = {"a" => 2}
+      ev1 = make_event("Lambda", :unactivated, :class_name => "Lib1", :config => cfg1)
+      ev2 = make_event("Lambda", :unactivated, :class_name => "Lib2", :config => cfg2)
+      ns.activation_events = [ev1, ev2]
       merged = ns.merged_config
       expect(merged["a"]).to eq([1, 2])
     end

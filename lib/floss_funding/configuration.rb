@@ -40,7 +40,7 @@ module FlossFunding
     def initialize(data = {})
       normalized = {}
       (data || {}).each do |k, v|
-        normalized[k.to_s] = normalize_to_array(v)
+        normalized[k.to_s] = ::FlossFunding::Config.normalize_to_array(v)
       end
       @data = normalized.freeze
       freeze
@@ -96,14 +96,6 @@ module FlossFunding
     # @return [Boolean]
     def empty?
       @data.empty?
-    end
-
-    private
-
-    def normalize_to_array(value)
-      return [] if value.nil?
-      return value.compact if value.is_a?(Array)
-      [value]
     end
   end
 end

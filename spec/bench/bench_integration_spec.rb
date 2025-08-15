@@ -169,7 +169,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     expected_bench_activated = bench_names & csv_names
 
     # Activated namespaces collected by the library (includes FlossFunding itself)
-    activated = FlossFunding.activated_namespace_names
+    activated = FlossFunding.all_namespaces.map(&:name)
 
     # Assert that all bench gems for which we have keys became activated during the sweep
     expect((activated & expected_bench_activated).size).to eq(expected_bench_activated.size)

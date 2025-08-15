@@ -8,7 +8,7 @@
 #
 # Expected to work in any project that uses Bundler.
 #
-# Sets up tasks for rspec, minitest, rubocop, reek, yard, and stone_checksums.
+# Sets up tasks for floss_funding, rspec, minitest, rubocop, reek, yard, and stone_checksums.
 #
 # rake bench                            # Run all benchmarks (alias for bench:run)
 # rake bench:list                       # List available benchmark scripts
@@ -44,6 +44,19 @@ defaults = []
 is_ci = ENV.fetch("CI", "false").casecmp("true") == 0
 
 ### DEVELOPMENT TASKS
+# Setup Floss Funding
+begin
+  require "floss_funding"
+  FlossFunding.install_tasks
+rescue LoadError
+  desc("(stub) floss_funding is unavailable")
+  namespace(:floss_funding) do
+    task("install") do
+      warn("NOTE: floss_funding isn't installed, or is disabled for #{RUBY_VERSION} in the current environment")
+    end
+  end
+end
+
 # Setup Kettle Soup Cover
 begin
   require "kettle-soup-cover"

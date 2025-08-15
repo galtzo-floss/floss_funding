@@ -3,6 +3,14 @@ Project: floss_funding — Development Guidelines (for advanced contributors)
 This document captures project-specific knowledge to streamline setup, testing, and ongoing development.
 
 1. Build and configuration
+- ENV is controlled by `direnv`.
+  - Two files are loaded:
+    - .envrc — environment variables for local development, committed to source control
+    - .env.local — environment variables that are not committed to source control. These setting override .envrc.
+  - Run `direnv allow` after making changes to .envrc or .env.local.
+    - See .envrc for details.
+    - See .env.local.example for an example of what to put in .env.local.
+    - See CONTRIBUTING.md for details on how to set up your local environment.
 - Ruby and Bundler
   - Runtime supports very old Rubies (>= 1.9.2) but development tooling targets >= 2.3 because of CI/setup-ruby and dev dependencies.
   - Use a recent Ruby (>= 3.1 recommended) for fastest setup and to exercise modern coverage behavior.
