@@ -31,8 +31,14 @@ RSpec.describe FlossFunding::FinalSummary do
 
       output = capture_stdout { described_class.new }
       # Header now includes project root info after the colon
-      expect(output).to match(/FLOSS Funding Summary:.*\nactivated: namespaces=0 \/ libraries=0\nunactivated: namespaces=0 \/ libraries=0/)
-      expect(output).not_to match(/invalid: namespaces=/)
+      expect(output).to match(/FLOSS Funding Summary:.+/)
+      # Table headers should include activated and unactivated, and omit invalid when zero
+      expect(output).to include("activated")
+      expect(output).to include("unactivated")
+      expect(output).not_to include("invalid")
+      # Rows for namespaces and libraries with zeros
+      expect(output).to match(/\|\s*namespaces\s*\|\s*0\s*\|\s*0/)
+      expect(output).to match(/\|\s*libraries\s*\|\s*0\s*\|\s*0/)
       expect(output).not_to match(/Unactivated\/Invalid namespace spotlight:/)
     end
     # rubocop:enable RSpec/MultipleExpectations
@@ -86,11 +92,15 @@ RSpec.describe FlossFunding::FinalSummary do
       # opt-out key format
       expect(output).to include("Opt-out key: \"Not-financially-supporting-NsU\"")
 
-      # summary counts
+      # summary table
       expect(output).to include("FLOSS Funding Summary:")
-      expect(output).to include("activated: namespaces=1 / libraries=1")
-      expect(output).to include("unactivated: namespaces=1 / libraries=1")
-      expect(output).to include("invalid: namespaces=1 / libraries=1")
+      # Headers include all three statuses
+      expect(output).to include("activated")
+      expect(output).to include("unactivated")
+      expect(output).to include("invalid")
+      # Rows reflect counts
+      expect(output).to match(/\|\s*namespaces\s*\|[^\n]*\b1\b[^\n]*\b1\b[^\n]*\b1\b/)
+      expect(output).to match(/\|\s*libraries\s*\|[^\n]*\b1\b[^\n]*\b1\b[^\n]*\b1\b/)
     end
   end
 
@@ -105,8 +115,10 @@ RSpec.describe FlossFunding::FinalSummary do
       expect(ProgressBar).to receive(:create).with(:title => "Activated Libraries", :total => 1).and_return(fake_pb)
 
       output = capture_stdout { described_class.new }
-      expect(output).to include("unactivated: namespaces=1 / libraries=1")
-      expect(output).not_to include("invalid: namespaces=")
+      expect(output).to include("unactivated")
+      expect(output).not_to include("invalid")
+      expect(output).to match(/\|\s*namespaces\s*\|[^\n]*\b0\b?[^\n]*\b1\b/)
+      expect(output).to match(/\|\s*libraries\s*\|[^\n]*\b0\b?[^\n]*\b1\b/)
     end
   end
 
@@ -139,6 +151,78 @@ RSpec.describe FlossFunding::FinalSummary do
       expect { described_class.new }.not_to raise_error
     end
   end
+
+  # rubocop:disable RSpec/ExpectOutput
+  # rubocop:disable RSpec/MultipleExpectations
+  describe "colorization and background detection helpers" do
+    it "returns plain text when not a TTY" do
+      # Build an instance (state doesn’t matter here)
+      fs = described_class.allocate
+      orig_stdout = $stdout
+      begin
+        sio = StringIO.new # StringIO#tty? returns false
+        $stdout = sio
+        result = fs.send(:apply_color, "42", FlossFunding::STATES[:activated])
+        expect(result).to eq("42")
+      ensure
+        $stdout = orig_stdout
+      end
+    end
+
+    it "uses lighter hues on dark backgrounds when TTY" do
+      fs = described_class.allocate
+      orig_stdout = $stdout
+      sio = StringIO.new
+      def sio.tty?
+        true
+      end
+      $stdout = sio
+      begin
+        include_context "with stubbed env"
+      rescue StandardError
+        # ignore if not available in this scope
+      end
+      ENV["COLORFGBG"] = "15;0" # background 0 (black) => dark
+      out = fs.send(:apply_color, "ok", FlossFunding::STATES[:activated])
+      expect(out).to be_a(String)
+      expect(out).not_to eq("ok")
+      ENV.delete("COLORFGBG")
+      $stdout = orig_stdout
+    end
+
+    it "uses darker hues on light backgrounds when TTY" do
+      fs = described_class.allocate
+      orig_stdout = $stdout
+      sio = StringIO.new
+      def sio.tty?
+        true
+      end
+      $stdout = sio
+      ENV["COLORFGBG"] = "0;15" # background 15 (white) => light
+      out = fs.send(:apply_color, "ok", FlossFunding::STATES[:invalid])
+      expect(out).to be_a(String)
+      expect(out).not_to eq("ok")
+      ENV.delete("COLORFGBG")
+      $stdout = orig_stdout
+    end
+
+    it "falls back to default colors when background unknown" do
+      fs = described_class.allocate
+      orig_stdout = $stdout
+      sio = StringIO.new
+      def sio.tty?
+        true
+      end
+      $stdout = sio
+      ENV.delete("COLORFGBG")
+      out = fs.send(:apply_color, "ok", FlossFunding::STATES[:unactivated])
+      expect(out).to be_a(String)
+      expect(out).not_to eq("ok")
+      $stdout = orig_stdout
+    end
+  end
+  # rubocop:enable RSpec/ExpectOutput
+  # rubocop:enable RSpec/MultipleExpectations
 
   # Small helper to capture stdout while keeping :check_output opt-in behavior consistent
   def capture_stdout

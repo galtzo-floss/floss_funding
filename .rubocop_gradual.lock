@@ -103,7 +103,7 @@
   "spec/floss_funding/activation_event_spec.rb:4037403025": [
     [8, 33, 5, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 96514146]
   ],
-  "spec/floss_funding/at_exit_hook_spec.rb:4081791216": [
+  "spec/floss_funding/at_exit_hook_spec.rb:3251309029": [
     [8, 16, 23, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3202457120],
     [9, 3, 80, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 114688600]
   ],
@@ -141,28 +141,28 @@
   "spec/floss_funding/default_prefix_spec.rb:2325600185": [
     [3, 1, 38, "RSpec/SpecFilePathFormat: Spec path should end with `floss_funding/constants*_spec.rb`.", 1065269856]
   ],
-  "spec/floss_funding/final_summary_spec.rb:978403060": [
+  "spec/floss_funding/final_summary_spec.rb:1622748346": [
     [30, 34, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950],
-    [53, 7, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
-    [53, 105, 5, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 213697586],
-    [68, 34, 4, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 2085345239],
-    [69, 7, 6, "RSpec/ExpectInHook: Do not use `expect` in `before` hook", 1179768986],
-    [69, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
-    [69, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950],
-    [69, 109, 8, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 2094546817],
-    [71, 7, 6, "RSpec/ExpectInHook: Do not use `expect` in `before` hook", 1179768986],
-    [71, 14, 8, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 2094546817],
-    [71, 27, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `@fake_pb` as a spy using `allow` or `instance_spy`.", 1384559950],
-    [74, 5, 70, "RSpec/MultipleExpectations: Example has too many expectations [11/1].", 3473323205],
-    [98, 5, 76, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2639291062],
-    [104, 33, 4, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 2085345239],
-    [105, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
-    [105, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950],
-    [114, 5, 72, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 358575326],
-    [122, 7, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
-    [124, 33, 4, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 2085345239],
-    [125, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
-    [125, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950]
+    [59, 7, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
+    [59, 105, 5, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 213697586],
+    [74, 34, 4, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 2085345239],
+    [75, 7, 6, "RSpec/ExpectInHook: Do not use `expect` in `before` hook", 1179768986],
+    [75, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
+    [75, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [75, 109, 8, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 2094546817],
+    [77, 7, 6, "RSpec/ExpectInHook: Do not use `expect` in `before` hook", 1179768986],
+    [77, 14, 8, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 2094546817],
+    [77, 27, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `@fake_pb` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [80, 5, 70, "RSpec/MultipleExpectations: Example has too many expectations [13/1].", 3473323205],
+    [108, 5, 76, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 2639291062],
+    [114, 33, 4, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 2085345239],
+    [115, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
+    [115, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [126, 5, 72, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 358575326],
+    [134, 7, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
+    [136, 33, 4, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 2085345239],
+    [137, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
+    [137, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950]
   ],
   "spec/floss_funding/floss_funding_more_spec.rb:3062720054": [
     [15, 5, 62, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2540439717],

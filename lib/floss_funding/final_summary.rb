@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "ruby-progressbar"
+require "terminal-table"
+require "rainbow"
 
 module FlossFunding
   # Builds and renders an end-of-process summary without exposing any attributes.
@@ -56,11 +58,7 @@ module FlossFunding
       root = ::FlossFunding.project_root
       root_label = (root.nil? || root.to_s.empty?) ? "(unknown)" : root.to_s
       lines << "FLOSS Funding Summary: #{root_label}"
-      lines << counts_line("activated", @activated_ns_names.size, @activated_libs.size)
-      lines << counts_line("unactivated", @unactivated_ns_names.size, @unactivated_libs.size)
-      if (@invalid_ns_names.size + @invalid_libs.size) > 0
-        lines << counts_line("invalid", @invalid_ns_names.size, @invalid_libs.size)
-      end
+      lines << build_summary_table
 
       puts lines.join("\n")
 
@@ -78,6 +76,99 @@ module FlossFunding
 
     def counts_line(label, namespaces_count, libraries_count)
       "#{label}: namespaces=#{namespaces_count} / libraries=#{libraries_count}"
+    end
+
+    # Build a terminal-table summary with colored columns per status.
+    def build_summary_table
+      # Determine which statuses to show (skip invalid if no invalids at all)
+      invalid_total = @invalid_ns_names.size + @invalid_libs.size
+      statuses = ::FlossFunding::STATE_VALUES.dup
+      statuses.delete(::FlossFunding::STATES[:invalid]) if invalid_total.zero?
+
+      # Headings: first column empty (row labels), then status columns
+      headings = [""] + statuses.map { |st| colorize_heading(st) }
+
+      # Rows for namespaces and libraries
+      ns_counts = counts_for(:namespaces)
+      lib_counts = counts_for(:libraries)
+
+      rows = []
+      rows << (["namespaces"] + statuses.map { |st| colorize_cell(st, ns_counts[st]) })
+      rows << (["libraries"] + statuses.map { |st| colorize_cell(st, lib_counts[st]) })
+
+      Terminal::Table.new(:headings => headings, :rows => rows).to_s
+    end
+
+    def counts_for(kind)
+      case kind
+      when :namespaces
+        {
+          ::FlossFunding::STATES[:activated] => @activated_ns_names.size,
+          ::FlossFunding::STATES[:unactivated] => @unactivated_ns_names.size,
+          ::FlossFunding::STATES[:invalid] => @invalid_ns_names.size,
+        }
+      when :libraries
+        {
+          ::FlossFunding::STATES[:activated] => @activated_libs.size,
+          ::FlossFunding::STATES[:unactivated] => @unactivated_libs.size,
+          ::FlossFunding::STATES[:invalid] => @invalid_libs.size,
+        }
+      else
+        {}
+      end
+    end
+
+    # Try to detect if terminal background is dark (true), light (false), or unknown (nil)
+    def detect_dark_background
+      cfg = ENV["COLORFGBG"]
+      return unless cfg
+      parts = cfg.split(";")
+      bg = parts.last.to_i
+      bg <= 7
+    rescue StandardError
+      nil
+    end
+
+    def colorize_heading(status)
+      txt = status.to_s
+      apply_color(txt, status)
+    end
+
+    def colorize_cell(status, count)
+      apply_color(count.to_s, status)
+    end
+
+    def apply_color(text, status)
+      # Only colorize when writing to a TTY; specs capture to StringIO and shouldn't receive ANSI codes.
+      return text.to_s unless $stdout.tty?
+      case status
+      when ::FlossFunding::STATES[:activated]
+        light_hex = "#90ee90"  # lightgreen
+        dark_hex = "#006400"  # darkgreen
+        default = ->(t) { Rainbow(t).green }
+      when ::FlossFunding::STATES[:unactivated]
+        light_hex = "#ffcc80"  # light orange
+        dark_hex = "#ff8c00"  # dark orange
+        default = ->(t) { Rainbow(t).color("#ffa500") } # orange
+      when ::FlossFunding::STATES[:invalid]
+        light_hex = "#87cefa"  # light sky blue
+        dark_hex = "#00008b"  # dark blue
+        default = ->(t) { Rainbow(t).blue }
+      else
+        return text
+      end
+
+      bg = detect_dark_background
+      if bg.nil?
+        default.call(text).to_s
+      elsif bg # dark background -> use lighter hues
+        Rainbow(text).color(light_hex).to_s
+      else # light background -> use darker hues
+        Rainbow(text).color(dark_hex).to_s
+      end
+    rescue StandardError
+      # Never raise if Rainbow/terminal color unsupported
+      text.to_s
     end
 
     def namespace_details_block(ns)

@@ -19,8 +19,8 @@ RSpec.describe "at_exit hook behavior" do
 
     # Validate at_exit output from the child process (basic behavior)
     expect(stdout).to include("FLOSS Funding Summary:")
-    # Expect at least the activated/unactivated counts lines to be present
-    expect(stdout).to include("activated: namespaces=")
-    expect(stdout).to include("unactivated: namespaces=")
+    # Expect the table headers to include activated/unactivated
+    expect(stdout).to include("activated")
+    expect(stdout).to include("unactivated")
   end
 end
