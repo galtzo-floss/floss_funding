@@ -73,8 +73,9 @@ module FlossFunding
         # Ensure we end with a newline after progress bar output
         puts ""
       end
-    rescue StandardError
-      # Never allow an error here to affect process exit status — swallow safely.
+    rescue StandardError => e
+      # Record the failure and switch library to inert mode.
+      ::FlossFunding.error!(e, "FinalSummary#render")
     end
 
     def counts_line(label, namespaces_count, libraries_count)
@@ -169,8 +170,9 @@ module FlossFunding
       else # light background -> use darker hues
         Rainbow(text).color(dark_hex).to_s
       end
-    rescue StandardError
-      # Never raise if Rainbow/terminal color unsupported
+    rescue StandardError => e
+      # Log and fall back when color support fails; not a fatal error
+      ::FlossFunding.debug_log { "[WARN][FinalSummary#apply_color] #{e.class}: #{e.message}" }
       text.to_s
     end
 
@@ -214,7 +216,7 @@ module FlossFunding
 
       # Filter using at_exit lockfile to exclude recently featured libraries
       lock = ::FlossFunding::Lockfile.at_exit
-      filtered = libs.reject { |lib| lock && lock.nagged?(lib.library_name) }
+      filtered = libs.reject { |lib| lock && lock.nagged?(lib) }
       pool = filtered.empty? ? libs : filtered
 
       chosen = pool[rand(pool.size)]

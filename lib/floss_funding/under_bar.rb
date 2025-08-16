@@ -41,7 +41,7 @@ module FlossFunding
         return cached if cached
 
         name_parts = namespace.split("::")
-        env_name = name_parts.map { |np| to_under_bar(np) }.join("_")
+        env_name = name_parts.map { |np| to_under_bar(np) }.join("__")
         result = "#{::FlossFunding::Constants::DEFAULT_PREFIX}#{env_name}".upcase
         _cache[namespace] = result.freeze
       end

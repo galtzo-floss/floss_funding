@@ -47,3 +47,6 @@ Appraisal.*.gemfile.lock
 # Ephemeral fixtures
 /spec/fixtures/gem_mine/*
 /spec/fixtures/bench_gems/*
+
+# Lockfiles
+.floss_funding.*.lock

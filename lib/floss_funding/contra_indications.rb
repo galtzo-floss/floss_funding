@@ -11,6 +11,8 @@ module FlossFunding
       # - If Dir.pwd raises (defensive check for broken runtime env).
       # @return [Boolean]
       def poke_contraindicated?
+        # If an internal error occurred, become inert immediately
+        return true if ::FlossFunding.errored?
         # Callable silencers do not apply during load; only at-exit.
         # For early short-circuiting we honor the global silenced flag only.
         return true if ::FlossFunding.silenced
@@ -52,6 +54,7 @@ module FlossFunding
       # @return [Boolean]
       def at_exit_contraindicated?
         # Honor global flags first
+        return true if ::FlossFunding.errored?
         return true if ::FlossFunding.silenced
         return true if ::FlossFunding::Constants::SILENT
 

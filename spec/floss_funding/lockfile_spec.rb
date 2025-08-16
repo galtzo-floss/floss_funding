@@ -20,8 +20,8 @@ RSpec.describe FlossFunding::Lockfile do
         expect(FlossFunding::ConfigFinder.project_root).to eq(dir)
 
         described_class.install!
-        on_load_path = File.join(dir, "floss_funding.on_load.lock")
-        at_exit_path = File.join(dir, "floss_funding.at_exit.lock")
+        on_load_path = File.join(dir, ".floss_funding.on_load.lock")
+        at_exit_path = File.join(dir, ".floss_funding.at_exit.lock")
 
         expect(File).to exist(on_load_path)
         expect(File).to exist(at_exit_path)

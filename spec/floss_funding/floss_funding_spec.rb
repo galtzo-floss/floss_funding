@@ -32,6 +32,9 @@ RSpec.describe FlossFunding do
     it "initiate_begging calls start_coughing when event is invalid" do
       event = make_event("NsZ", :invalid, :key => "deadbeef", :library_name => "gemz", :class_name => "Lib")
 
+      # Ensure lockfile sentinel does not gate this unit test
+      allow(FlossFunding::Lockfile).to receive(:on_load).and_return(nil)
+
       expect(FlossFunding).to receive(:start_coughing).with(
         "deadbeef",
         "NsZ",

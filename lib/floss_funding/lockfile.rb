@@ -6,8 +6,8 @@ require "yaml"
 module FlossFunding
   # Lockfile re-architecture: YAML-based sentinels for per-library nags.
   # There are two lockfiles with identical structure, but different purposes:
-  # - OnLoadLockfile ("floss_funding.on_load.lock"): sentinel for on_load nags
-  # - AtExitLockfile ("floss_funding.at_exit.lock"): sentinel for at_exit nags
+  # - OnLoadLockfile (".floss_funding.on_load.lock"): sentinel for on_load nags
+  # - AtExitLockfile (".floss_funding.at_exit.lock"): sentinel for at_exit nags
   #
   # YAML structure:
   # created:
@@ -31,8 +31,8 @@ module FlossFunding
       # Ensure file exists on first touch
       begin
         persist! if @path
-      rescue StandardError
-        # ignore
+      rescue StandardError => e
+        ::FlossFunding.error!(e, "LockfileBase#initialize/persist!")
       end
       rotate_if_expired!
     end
@@ -41,12 +41,20 @@ module FlossFunding
     attr_reader :path
 
     # Has this library already nagged within this lockfile's lifetime?
-    # @param library_name [String]
-    def nagged?(library_name)
+    # Accepts either a String key or a library-like object (responds to :library_name/:namespace).
+    # @param library_or_name [Object]
+    def nagged?(library_or_name)
       d = @data
       return false unless d && d["nags"].is_a?(Hash)
-      d["nags"].key?(library_name.to_s)
-    rescue StandardError
+      key =
+        if library_or_name.respond_to?(:library_name)
+          key_name_for(library_or_name)
+        else
+          library_or_name.to_s
+        end
+      d["nags"].key?(key)
+    rescue StandardError => e
+      ::FlossFunding.error!(e, "LockfileBase#nagged?")
       false
     end
 
@@ -58,19 +66,25 @@ module FlossFunding
       return unless @path
       rotate_if_expired!
       @data["nags"] ||= {}
-      name = library.library_name.to_s
-      return if name.empty? || @data["nags"].key?(name)
+      key = key_name_for(library)
+      return if key.empty? || @data["nags"].key?(key)
 
-      @data["nags"][name] = {
+      env_name = begin
+        ::FlossFunding::UnderBar.env_variable_name(library.namespace)
+      rescue StandardError => e
+        ::FlossFunding.error!(e, "LockfileBase#record_nag/env_variable_name")
+        nil
+      end
+      @data["nags"][key] = {
         "namespace" => library.namespace,
-        "env_variable_name" => library.env_var_name,
+        "env_variable_name" => env_name,
         "state" => event.state,
         "pid" => Process.pid,
         "at" => Time.now.utc.iso8601,
       }
       persist!
-    rescue StandardError
-      # never raise
+    rescue StandardError => e
+      ::FlossFunding.error!(e, "LockfileBase#record_nag")
     end
 
     # Remove and recreate lockfile if expired.
@@ -83,28 +97,37 @@ module FlossFunding
 
       begin
         File.delete(@path)
-      rescue StandardError
-        # ignore delete errors
+      rescue StandardError => e
+        ::FlossFunding.error!(e, "LockfileBase#rotate_if_expired!/delete")
       end
       @data = fresh_payload
       persist!
-    rescue StandardError
-      # never raise
+    rescue StandardError => e
+      ::FlossFunding.error!(e, "LockfileBase#rotate_if_expired!")
     end
 
     def touch!
       persist!
-    rescue StandardError
+    rescue StandardError => e
+      ::FlossFunding.error!(e, "LockfileBase#touch!")
       nil
     end
 
     private
 
     def resolve_path
+      # Prefer the discovered project_root; fall back to current working directory
       root = ::FlossFunding.project_root
+      begin
+        root ||= Dir.pwd
+      rescue StandardError => e
+        ::FlossFunding.error!(e, "LockfileBase#resolve_path/Dir.pwd")
+        # keep nil
+      end
       return unless root
       File.join(root, default_filename)
-    rescue StandardError
+    rescue StandardError => e
+      ::FlossFunding.error!(e, "LockfileBase#resolve_path")
       nil
     end
 
@@ -112,7 +135,8 @@ module FlossFunding
       return fresh_payload unless @path && File.exist?(@path)
       begin
         raw = YAML.safe_load(File.read(@path))
-      rescue StandardError
+      rescue StandardError => e
+        ::FlossFunding.error!(e, "LockfileBase#load_or_initialize")
         raw = nil
       end
       unless raw.is_a?(Hash) && raw["created"].is_a?(Hash)
@@ -137,14 +161,15 @@ module FlossFunding
       dir = File.dirname(@path)
       Dir.mkdir(dir) unless Dir.exist?(dir)
       File.open(@path, "w") { |f| f.write(YAML.dump(@data)) }
-    rescue StandardError
-      # never raise
+    rescue StandardError => e
+      ::FlossFunding.error!(e, "LockfileBase#persist!")
     end
 
     def parse_time(s)
       return unless s
       Time.iso8601(s.to_s)
-    rescue StandardError
+    rescue StandardError => e
+      ::FlossFunding.error!(e, "LockfileBase#parse_time")
       nil
     end
 
@@ -174,12 +199,35 @@ module FlossFunding
       # enforce bounds
       [[env_val, MIN_SECONDS].max, MAX_SECONDS].min
     end
+
+    def key_name_for(library)
+      # Prefer explicit library_name when available
+      name = begin
+        library.library_name
+      rescue StandardError
+        nil
+      end
+      if name && !name.to_s.empty?
+        return name.to_s
+      end
+      # Fallback: derive a YAML-safe key from the namespace
+      ns = begin
+        library.namespace
+      rescue StandardError
+        nil
+      end
+      val = ns.to_s
+      # Replace Ruby namespace separators and any non-word characters with underscores
+      val = val.gsub("::", "__").gsub(/[^\w\-]+/, "_")
+      # The only place we use namespace in place of library name is with wedges.
+      "wedge_#{val}"
+    end
   end
 
   # Lockfile that records on_load nags (during Poke/Inclusion time)
   class OnLoadLockfile < LockfileBase
     def default_filename
-      "floss_funding.on_load.lock"
+      ".floss_funding.on_load.lock"
     end
 
     def lock_type
@@ -198,7 +246,7 @@ module FlossFunding
   # Lockfile that records at_exit nags (featured info cards rendered at exit)
   class AtExitLockfile < LockfileBase
     def default_filename
-      "floss_funding.at_exit.lock"
+      ".floss_funding.at_exit.lock"
     end
 
     def lock_type
@@ -219,20 +267,24 @@ module FlossFunding
     class << self
       def on_load
         @on_load ||= OnLoadLockfile.new
-      rescue StandardError
+      rescue StandardError => e
+        ::FlossFunding.error!(e, "Lockfile.on_load")
         begin
           OnLoadLockfile.new
-        rescue
+        rescue StandardError => e2
+          ::FlossFunding.error!(e2, "Lockfile.on_load/fallback")
           nil
         end
       end
 
       def at_exit
         @at_exit ||= AtExitLockfile.new
-      rescue StandardError
+      rescue StandardError => e
+        ::FlossFunding.error!(e, "Lockfile.at_exit")
         begin
           AtExitLockfile.new
-        rescue
+        rescue StandardError => e2
+          ::FlossFunding.error!(e2, "Lockfile.at_exit/fallback")
           nil
         end
       end

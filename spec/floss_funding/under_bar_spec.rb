@@ -87,11 +87,11 @@ RSpec.describe FlossFunding::UnderBar do
 
     context "with valid inputs" do
       it "converts a simple class name to an environment variable name" do
-        expect(described_class.env_variable_name(TestModule::TestClass.name)).to eq("FLOSS_FUNDING_TEST_MODULE_TEST_CLASS")
+        expect(described_class.env_variable_name(TestModule::TestClass.name)).to eq("FLOSS_FUNDING_TEST_MODULE__TEST_CLASS")
       end
 
       it "handles nested namespaces" do
-        expect(described_class.env_variable_name(TestModule::NestedModule::NestedClass.name)).to eq("FLOSS_FUNDING_TEST_MODULE_NESTED_MODULE_NESTED_CLASS")
+        expect(described_class.env_variable_name(TestModule::NestedModule::NestedClass.name)).to eq("FLOSS_FUNDING_TEST_MODULE__NESTED_MODULE__NESTED_CLASS")
       end
 
       it "works with Ruby standard library classes" do

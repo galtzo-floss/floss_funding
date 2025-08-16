@@ -60,6 +60,8 @@ RSpec.describe FlossFunding do
 
     it "begs when state is unactivated" do
       ev = make_event("Ns2", :unactivated, :library_name => "g2")
+      # Ensure lockfile sentinel does not gate this unit test
+      allow(FlossFunding::Lockfile).to receive(:on_load).and_return(nil)
       expect(FlossFunding).to receive(:start_begging)
       described_class.initiate_begging(ev)
     end
