@@ -8,6 +8,7 @@
 # v1.0.2 - fix duplicate task warning from RuboCop
 # v1.0.3 - add bench tasks to run mini benchmarks (add scripts to /benchmarks)
 # v1.0.4 - add support for floss_funding:install
+# v1.0.5 - add support for halting in Rake tasks with binding.b (from debug gem)
 #
 # MIT License (see License.txt)
 #
@@ -43,8 +44,12 @@
 # rake test                             # Run tests
 # rake yard                             # Generate YARD Documentation
 
+DEBUGGING = ENV.fetch("DEBUG", "false").casecmp("true").zero?
+
+# External gems
 require "bundler/gem_tasks"
 require "rbconfig"
+require "debug" if DEBUGGING
 
 defaults = []
 

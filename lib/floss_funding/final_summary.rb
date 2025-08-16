@@ -54,24 +54,25 @@ module FlossFunding
         lines << "=============================================================="
         lines << "Unactivated/Invalid library spotlight:"
         lines << library_details_block(showcased_lib)
-      end
 
-      # 4. Render a summary of counts
-      root = ::FlossFunding.project_root
-      root_label = (root.nil? || root.to_s.empty?) ? "(unknown)" : root.to_s
-      lines << "FLOSS Funding Summary: #{root_label}"
-      lines << build_summary_table
-      ::FlossFunding.debug_log { "[FinalSummary] counts ns: activated=#{@activated_ns_names.size} unactivated=#{@unactivated_ns_names.size} invalid=#{@invalid_ns_names.size}; libs: activated=#{@activated_libs.size} unactivated=#{@unactivated_libs.size} invalid=#{@invalid_libs.size}" }
+        # 4. Render a summary of counts
+        root = ::FlossFunding.project_root
+        root_label = (root.nil? || root.to_s.empty?) ? "(unknown)" : root.to_s
+        lines << "FLOSS Funding Summary: #{root_label}"
+        lines << build_summary_table
+        ::FlossFunding.debug_log { "[FinalSummary] counts ns: activated=#{@activated_ns_names.size} unactivated=#{@unactivated_ns_names.size} invalid=#{@invalid_ns_names.size}; libs: activated=#{@activated_libs.size} unactivated=#{@unactivated_libs.size} invalid=#{@invalid_libs.size}" }
 
-      puts lines.join("\n")
+        ::FlossFunding.debug_log("[FinalSummary] " + lines.join("\n"))
+        puts lines.join("\n")
 
-      # 5. Show a progressbar of activated libraries over total fingerprinted libraries
-      total = @all_libs.size
-      if total > 0
-        progressbar = ProgressBar.create(:title => "Activated Libraries", :total => total)
-        @activated_libs.size.times { progressbar.increment }
-        # Ensure we end with a newline after progress bar output
-        puts ""
+        # 5. Show a progressbar of activated libraries over total fingerprinted libraries
+        total = @all_libs.size
+        if total > 0
+          progressbar = ProgressBar.create(:title => "Activated Libraries", :total => total)
+          @activated_libs.size.times { progressbar.increment }
+          # Ensure we end with a newline after progress bar output
+          puts ""
+        end
       end
     rescue StandardError => e
       # Record the failure and switch library to inert mode.
@@ -217,7 +218,9 @@ module FlossFunding
       # Filter using at_exit lockfile to exclude recently featured libraries
       lock = ::FlossFunding::Lockfile.at_exit
       filtered = libs.reject { |lib| lock && lock.nagged?(lib) }
-      pool = filtered.empty? ? libs : filtered
+      # If all candidates were recently nagged, do not spotlight any library this run.
+      return if filtered.empty?
+      pool = filtered
 
       chosen = pool[rand(pool.size)]
 

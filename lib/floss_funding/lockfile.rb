@@ -6,8 +6,8 @@ require "yaml"
 module FlossFunding
   # Lockfile re-architecture: YAML-based sentinels for per-library nags.
   # There are two lockfiles with identical structure, but different purposes:
-  # - OnLoadLockfile (".floss_funding.on_load.lock"): sentinel for on_load nags
-  # - AtExitLockfile (".floss_funding.at_exit.lock"): sentinel for at_exit nags
+  # - OnLoadLockfile (".floss_funding.ruby.on_load.lock"): sentinel for on_load nags
+  # - AtExitLockfile (".floss_funding.ruby.at_exit.lock"): sentinel for at_exit nags
   #
   # YAML structure:
   # created:
@@ -52,6 +52,7 @@ module FlossFunding
         else
           library_or_name.to_s
         end
+
       d["nags"].key?(key)
     rescue StandardError => e
       ::FlossFunding.error!(e, "LockfileBase#nagged?")
@@ -227,7 +228,7 @@ module FlossFunding
   # Lockfile that records on_load nags (during Poke/Inclusion time)
   class OnLoadLockfile < LockfileBase
     def default_filename
-      ".floss_funding.on_load.lock"
+      ".floss_funding.ruby.on_load.lock"
     end
 
     def lock_type
@@ -246,7 +247,7 @@ module FlossFunding
   # Lockfile that records at_exit nags (featured info cards rendered at exit)
   class AtExitLockfile < LockfileBase
     def default_filename
-      ".floss_funding.at_exit.lock"
+      ".floss_funding.ruby.at_exit.lock"
     end
 
     def lock_type
