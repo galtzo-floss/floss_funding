@@ -187,6 +187,12 @@ NOTE: Be prepared to track down certs for signed gems and add them the same way 
 
 </details>
 
+## Terminology
+
+- Nag: Non-debug, non-error, behavioral output from FlossFunding.
+  - on_load nag: a single-line message emitted during inclusion/load about missing or invalid activation.
+  - at_exit nag: the featured library information card rendered at process exit.
+
 ## 🔧 Basic Usage
 
 Usage patterns:

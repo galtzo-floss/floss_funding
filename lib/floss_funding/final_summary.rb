@@ -46,14 +46,14 @@ module FlossFunding
     end
 
     def render
-      # 3. Choose a random namespace from unactivated + invalid and show info
-      showcased_ns = random_unpaid_or_invalid_namespace
+      # 3. Choose a random library from unactivated + invalid that hasn't nagged recently (at_exit lockfile)
+      showcased_lib = random_unpaid_or_invalid_library
 
       lines = []
-      if showcased_ns
+      if showcased_lib
         lines << "=============================================================="
-        lines << "Unactivated/Invalid namespace spotlight:"
-        lines << namespace_details_block(showcased_ns)
+        lines << "Unactivated/Invalid library spotlight:"
+        lines << library_details_block(showcased_lib)
       end
 
       # 4. Render a summary of counts
@@ -174,11 +174,12 @@ module FlossFunding
       text.to_s
     end
 
-    def namespace_details_block(ns)
-      name = ns.name
-      env_name = ns.env_var_name
-      config = ::FlossFunding.configurations[name]
-      cfg = Array(config).first # configuration(s) were arrays; show first for brevity
+    def library_details_block(lib)
+      name = lib.library_name
+      ns_name = lib.namespace
+      env_name = ::FlossFunding::UnderBar.env_variable_name(ns_name)
+      config = ::FlossFunding.configurations[ns_name]
+      cfg = Array(config).first
 
       funding_url = begin
         Array(cfg && (cfg.respond_to?(:to_h) ? cfg.to_h["floss_funding_url"] : cfg["floss_funding_url"]))
@@ -194,27 +195,39 @@ module FlossFunding
       end
       suggested_amount = suggested_amount.first || 5
 
-      opt_out = "#{::FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{name}"
-
-      libs = ns.activation_events.map(&:library).compact.uniq
-      library_names = libs.map(&:library_name).compact.uniq
+      opt_out = "#{::FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{ns_name}"
 
       details = []
-      details << "- Namespace: #{name}"
+      details << "- Library: #{name}"
+      details << "  Namespace: #{ns_name}"
       details << "  ENV Variable: #{env_name}"
-      details << "  Libraries: #{library_names.join(", ")}" unless library_names.empty?
       details << "  Suggested donation amount: $#{suggested_amount}"
       details << "  Funding URL: #{funding_url}"
       details << "  Opt-out key: \"#{opt_out}\""
       details.join("\n")
     end
 
-    def random_unpaid_or_invalid_namespace
-      pool = @namespaces.select do |ns|
-        ns.has_state?(::FlossFunding::STATES[:unactivated]) || ns.has_state?(::FlossFunding::STATES[:invalid])
+    def random_unpaid_or_invalid_library
+      # Build pool of unique libraries in unactivated or invalid states
+      libs = (@unactivated_libs + @invalid_libs).uniq
+      return if libs.empty?
+
+      # Filter using at_exit lockfile to exclude recently featured libraries
+      lock = ::FlossFunding::Lockfile.at_exit
+      filtered = libs.reject { |lib| lock && lock.nagged?(lib.library_name) }
+      pool = filtered.empty? ? libs : filtered
+
+      chosen = pool[rand(pool.size)]
+
+      # Record the at_exit nag so it won't be featured again within window
+      if lock && chosen
+        # Create a mock event-like struct for state recording; state is not critical for at_exit cards
+        evt_state = ::FlossFunding::STATES[:unactivated]
+        event_stub = Struct.new(:state).new(evt_state)
+        lock.record_nag(chosen, event_stub, "at_exit")
       end
-      return if pool.empty?
-      pool[rand(pool.size)]
+
+      chosen
     end
   end
 end

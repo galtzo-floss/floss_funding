@@ -201,7 +201,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # Expose the discovered project root (may be nil when running inside this gem's own repo)
     # @return [String, nil]
     def project_root
-      ::FlossFunding::Config.find_project_root
+      ::FlossFunding::ConfigFinder.project_root
     end
 
     # Tasks for both development and test environments
@@ -440,13 +440,22 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
       library_name = library.library_name
       activation_key = event.activation_key
 
+      # On-load nag sentinel: allow each library to nag at most once per lockfile lifetime
+      lock = ::FlossFunding::Lockfile.on_load
+
       case event.state
       when ::FlossFunding::STATES[:activated]
         nil
       when ::FlossFunding::STATES[:invalid]
-        ::FlossFunding.start_coughing(activation_key, ns, env_var_name)
+        unless lock && lock.nagged?(library_name)
+          lock.record_nag(library, event, "on_load") if lock
+          ::FlossFunding.start_coughing(activation_key, ns, env_var_name)
+        end
       else
-        ::FlossFunding.start_begging(ns, env_var_name, library_name)
+        unless lock && lock.nagged?(library_name)
+          lock.record_nag(library, event, "on_load") if lock
+          ::FlossFunding.start_begging(ns, env_var_name, library_name)
+        end
       end
     end
   end

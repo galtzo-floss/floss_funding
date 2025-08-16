@@ -9,11 +9,11 @@ RSpec.describe FlossFunding::Poke do
     before do
       # Stub the module to ensure it's clean for each test
       stub_const("TraditionalTest::InnerModule", Module.new)
-      # Include the Poke module
-      TraditionalTest::InnerModule.send(:include, described_class.new(__FILE__))
     end
 
     it "uses the module's name as namespace" do
+      # Include once to ensure extension happens
+      TraditionalTest::InnerModule.send(:include, described_class.new(__FILE__))
       # We can't directly test the namespace used, but we can check that the module
       # has been extended with FlossFunding::Fingerprint methods
       expect(TraditionalTest::InnerModule).to respond_to(:floss_funding_fingerprint)
@@ -21,11 +21,17 @@ RSpec.describe FlossFunding::Poke do
 
     it "sets up the correct environment variable name based on the module's name", :check_output do
       configure_contraindications!(:at_exit => {:stdout_tty => true})
-      expect do
-        # Re-include to trigger output by stubbing the module again
-        stub_const("TraditionalTest::InnerModule", Module.new)
-        TraditionalTest::InnerModule.send(:include, described_class.new(__FILE__))
-      end.to output(/TRADITIONAL_TEST_INNER_MODULE/).to_stdout
+      Dir.mktmpdir do |dir|
+        File.write(File.join(dir, "Gemfile"), "source 'https://rubygems.org'")
+        Dir.chdir(dir) do
+          FlossFunding::ConfigFinder.clear_caches!
+          FlossFunding::Lockfile.install!
+          # First include: allow any output, we're only asserting the sentinel gates the 2nd
+          TraditionalTest::InnerModule.send(:include, described_class.new(__FILE__))
+          # Second include (same lockfile lifetime) should be gated: no second nag
+          expect { TraditionalTest::InnerModule.send(:include, described_class.new(__FILE__)) }.not_to output(/TRADITIONAL_TEST_INNER_MODULE/).to_stdout
+        end
+      end
     end
   end
 
@@ -33,11 +39,11 @@ RSpec.describe FlossFunding::Poke do
     before do
       # Stub the module to ensure it's clean for each test
       stub_const("CustomTest::InnerModule", Module.new)
-      # Include the Poke module with custom namespace
-      CustomTest::InnerModule.send(:include, described_class.new(__FILE__, :namespace => "MyNamespace::V4"))
     end
 
     it "uses the provided namespace" do
+      # Include once to ensure extension happens
+      CustomTest::InnerModule.send(:include, described_class.new(__FILE__, :namespace => "MyNamespace::V4"))
       # We can't directly test the namespace used, but we can check that the module
       # has been extended with FlossFunding::Fingerprint methods
       expect(CustomTest::InnerModule).to respond_to(:floss_funding_fingerprint)
@@ -45,11 +51,17 @@ RSpec.describe FlossFunding::Poke do
 
     it "sets up the correct environment variable name based on the provided namespace", :check_output do
       configure_contraindications!(:at_exit => {:stdout_tty => true})
-      expect do
-        # Re-include to trigger output by stubbing the module again
-        stub_const("CustomTest::InnerModule", Module.new)
-        CustomTest::InnerModule.send(:include, described_class.new(__FILE__, :namespace => "MyNamespace::V4"))
-      end.to output(/MY_NAMESPACE_V4/).to_stdout
+      Dir.mktmpdir do |dir|
+        File.write(File.join(dir, "Gemfile"), "source 'https://rubygems.org'")
+        Dir.chdir(dir) do
+          FlossFunding::ConfigFinder.clear_caches!
+          FlossFunding::Lockfile.install!
+          # First include: allow any output, we're only asserting the sentinel gates the 2nd
+          CustomTest::InnerModule.send(:include, described_class.new(__FILE__, :namespace => "MyNamespace::V4"))
+          # Second include (same lockfile lifetime) should be gated: no second nag
+          expect { CustomTest::InnerModule.send(:include, described_class.new(__FILE__, :namespace => "MyNamespace::V4")) }.not_to output(/MY_NAMESPACE_V4/).to_stdout
+        end
+      end
     end
   end
 

@@ -39,7 +39,7 @@ RSpec.describe FlossFunding::FinalSummary do
       # Rows for namespaces and libraries with zeros
       expect(output).to match(/\|\s*namespaces\s*\|\s*0\s*\|\s*0/)
       expect(output).to match(/\|\s*libraries\s*\|\s*0\s*\|\s*0/)
-      expect(output).not_to match(/Unactivated\/Invalid namespace spotlight:/)
+      expect(output).not_to match(/Unactivated\/Invalid library spotlight:/)
     end
     # rubocop:enable RSpec/MultipleExpectations
   end
@@ -55,8 +55,11 @@ RSpec.describe FlossFunding::FinalSummary do
       @ns_u = register_ns("NsU", [u1])
       @ns_i = register_ns("NsI", [i1])
 
-      # Deterministic spotlight: force the random pick to choose @ns_u
-      allow_any_instance_of(described_class).to receive(:random_unpaid_or_invalid_namespace).and_return(@ns_u)
+      # Deterministic spotlight: force the random pick to choose a library under @ns_u
+      ns_obj = FlossFunding::Namespace.new("NsU")
+      cfg = FlossFunding::Configuration.new({"library_name" => ["gem_u"], "floss_funding_url" => ["https://example.invalid/f"], "suggested_donation_amount" => [42]})
+      lib_for_spotlight = FlossFunding::Library.new("gem_u", ns_obj, nil, "NsU", __FILE__, nil, nil, ns_obj.env_var_name, cfg, nil)
+      allow_any_instance_of(described_class).to receive(:random_unpaid_or_invalid_library).and_return(lib_for_spotlight)
 
       # Stub configurations to contain default values for each ns
       default_cfg = FlossFunding::Configuration.new({
@@ -80,12 +83,11 @@ RSpec.describe FlossFunding::FinalSummary do
     it "prints spotlight for chosen ns and shows counts including invalid" do
       output = capture_stdout { described_class.new }
 
-      # spotlight section for @ns_u
-      expect(output).to include("Unactivated/Invalid namespace spotlight:")
-      expect(output).to include("- Namespace: NsU")
+      # spotlight section for chosen library under NsU
+      expect(output).to include("Unactivated/Invalid library spotlight:")
+      expect(output).to include("- Library: gem_u")
+      expect(output).to include("Namespace: NsU")
       expect(output).to include("ENV Variable: FLOSS_FUNDING_NS_U")
-      # libraries list appears when non-empty
-      expect(output).to match(/Libraries: (gem_u|nsu)/)
       # configuration-driven values
       expect(output).to include("Suggested donation amount: $42")
       expect(output).to include("Funding URL: https://example.invalid/f")
@@ -125,13 +127,16 @@ RSpec.describe FlossFunding::FinalSummary do
   describe "uses defaults when configuration missing or non-hashlike", :check_output do
     it "falls back to default URL and amount and omits empty libraries line" do
       ev = make_event("CfgLess", :unactivated, :library_name => nil)
-      ns = register_ns("CfgLess", [ev])
+      register_ns("CfgLess", [ev])
 
       # Return a weird configuration object that causes rescue to [] in details lookup
       allow(FlossFunding).to receive(:configurations).and_return({"CfgLess" => [Object.new]})
 
-      # Deterministic spotlight pick to see details
-      allow_any_instance_of(described_class).to receive(:random_unpaid_or_invalid_namespace).and_return(ns)
+      # Deterministic spotlight pick to see details (library-centric spotlight)
+      ns_obj = FlossFunding::Namespace.new("CfgLess")
+      cfg = FlossFunding::Configuration.new({})
+      lib_for_spotlight = FlossFunding::Library.new(nil, ns_obj, nil, "CfgLess", __FILE__, nil, nil, ns_obj.env_var_name, cfg, nil)
+      allow_any_instance_of(described_class).to receive(:random_unpaid_or_invalid_library).and_return(lib_for_spotlight)
 
       fake_pb = instance_double("PB", :increment => nil)
       expect(ProgressBar).to receive(:create).with(:title => "Activated Libraries", :total => 1).and_return(fake_pb)
