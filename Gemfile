@@ -22,6 +22,9 @@ platform :mri do
   gem "pry", "~> 0.14"                     # ruby >= 2.0
 end
 
+# optional dependency for debug logging
+gem "logger"
+
 # Security Audit
 eval_gemfile "gemfiles/modular/audit.gemfile"
 

@@ -273,6 +273,7 @@ DEPENDENCIES
   kettle-soup-cover (~> 1.0, >= 1.0.6)
   kramdown (~> 2.5, >= 2.5.1)
   kramdown-parser-gfm (~> 1.1)
+  logger
   pry (~> 0.14)
   rake (~> 13.0)
   rdoc (~> 6.11)
