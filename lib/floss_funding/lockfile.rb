@@ -18,27 +18,39 @@ module FlossFunding
   #   4) sentinel timestamp (UTC ISO8601, optional)
   # - Create on load; delete on exit only when older than threshold and owned
   module Lockfile
+    DEFAULT_LOCKFILE_TIMEOUT = 2400 # 40 minutes
+    MIN_LOCKFILE_TIMEOUT = 600 # 10 minutes
     class << self
       # Compute the lockfile path according to rules.
       # @return [String, nil]
       def path
         root = ::FlossFunding.project_root
-        return if root.nil?
+        if root.nil?
+          ::FlossFunding.debug_log { "[floss_funding] Lockfile.path: no project_root; skipping lockfile" }
+          return
+        end
 
         env_val = ENV["FLOSS_FUNDING_CFG_LOCK"]
         candidate = if env_val && !env_val.strip.empty?
-          validate_env_lock(env_val, root)
+          v = validate_env_lock(env_val, root)
+          ::FlossFunding.debug_log { "[floss_funding] Lockfile.path: ENV override provided (#{env_val.inspect}) => #{v || "(invalid)"}" }
+          v
         end
 
-        candidate || File.join(root, default_filename)
+        chosen = candidate || File.join(root, default_filename)
+        ::FlossFunding.debug_log { "[floss_funding] Lockfile.path: using #{chosen}" }
+        chosen
       end
 
       # Whether a lockfile currently exists (regardless of owner)
       # @return [Boolean]
       def exists?
         p = path
-        p && File.exist?(p)
+        ex = p && File.exist?(p)
+        ::FlossFunding.debug_log { "[floss_funding] Lockfile.exists?: path=#{p || "(nil)"} exists=#{!!ex}" }
+        ex
       rescue StandardError
+        ::FlossFunding.debug_log { "[floss_funding] Lockfile.exists?: error while checking; returning false" }
         false
       end
 
@@ -52,7 +64,7 @@ module FlossFunding
 
         created = false
         if File.exist?(p)
-          ::FlossFunding.debug_log { "[floss_funding] Lockfile already present at #{p}; may be a subprocess." }
+          ::FlossFunding.debug_log { "[floss_funding] Lockfile already present at #{p}; likely subprocess or previous run" }
         else
           begin
             # Ensure parent directory exists if relative override had subdirs
@@ -63,21 +75,39 @@ module FlossFunding
           end
           begin
             File.open(p, "w") do |f|
-              f.puts(Process.pid.to_s)
-              f.puts(Time.now.utc.iso8601)
+              creator_pid = Process.pid.to_s
+              created_at = Time.now.utc.iso8601
+              # 1) creator PID
+              f.puts(creator_pid)
+              # 2) creation timestamp (UTC ISO8601)
+              f.puts(created_at)
+              # 3) first printer PID (same as creator)
+              f.puts(creator_pid)
+              # 4) first printed timestamp (same as created_at)
+              f.puts(created_at)
             end
             created = true
+            ::FlossFunding.debug_log { "[floss_funding] Lockfile.install!: created lockfile at #{p} (pid=#{Process.pid})" }
           rescue StandardError
             # If we can't create the file, ignore silently to not break users
+            ::FlossFunding.debug_log { "[floss_funding] Lockfile.install!: failed to create lockfile at #{p}" }
             created = false
+          ensure
+            # When in debug, verify existence right after write
+            if ::FlossFunding::DEBUG
+              exists_now = begin
+                File.exist?(p)
+              rescue
+                false
+              end
+              ::FlossFunding.debug_log { "[floss_funding] Lockfile.install!: post-write existence check: path=#{p} exists=#{exists_now}" }
+            end
           end
         end
 
         at_exit do
           begin
-            # Gate at-exit output via sentinel mechanism. If contraindicated, the
-            # global at_exit should see that and skip printing.
-            # We do cleanup independently, respecting age threshold.
+            # Cleanup independently, respecting age threshold, only if we created it
             cleanup! if created
           rescue StandardError
             # never raise from at_exit
@@ -90,54 +120,24 @@ module FlossFunding
       # :nocov:
       def at_exit_contraindicated?
         p = path
-        return false unless p && File.exist?(p) # no lockfile => don't contraindicate here
+        unless p && File.exist?(p)
+          ::FlossFunding.debug_log { "[floss_funding] Lockfile.at_exit_contraindicated?: no lockfile; allow at-exit" }
+          return false # no lockfile => don't contraindicate here
+        end
 
         begin
-          File.open(p, "+r") do |f|
-            # Try to take an exclusive, non-blocking lock (best-effort; proceed even if not supported)
-            begin
-              f.flock(File::LOCK_EX | File::LOCK_NB)
-            rescue StandardError
-              # ignore flock errors and proceed
-            end
-
-            lines = read_lines_from_path(p)
-            # If sentinel already present (3rd and 4th lines exist), contraindicate
-            if lines.length >= 4
-              return true
-            end
-
-            # Otherwise, write sentinel (append or rewrite preserving first two lines)
-            creator_pid = (lines[0] || "").to_s.strip
-            created_at = (lines[1] || "").to_s.strip
-            f.rewind
-            f.truncate(0)
-            f.puts(creator_pid)
-            f.puts(created_at)
-            f.puts(Process.pid.to_s)
-            f.puts(Time.now.utc.iso8601)
-            f.flush
-            begin
-              f.fsync
-            rescue
-              nil
-            end
-            return false # allowed
+          lines = read_lines_from_path(p)
+          creator_pid = (lines[0] || "").to_s.strip
+          decision = Process.pid.to_s != creator_pid
+          ::FlossFunding.debug_log do
+            "[floss_funding] Lockfile.at_exit_contraindicated?: path=#{p} creator_pid=#{creator_pid} current_pid=#{Process.pid} decision=#{decision ? "suppress" : "allow"}"
           end
+          # Allow only the creator process to print; all others are contraindicated
+          decision
         rescue StandardError
-          # Fallback: best-effort append sentinel without locking
-          begin
-            if p && File.exist?(p)
-              File.open(p, "a") do |fa|
-                fa.puts(Process.pid.to_s)
-                fa.puts(Time.now.utc.iso8601)
-              end
-            end
-          rescue StandardError
-            # ignore
-          end
-          # Allow once
-          false
+          # On any error reading, err on the side of suppression if the file exists
+          ::FlossFunding.debug_log { "[floss_funding] Lockfile.at_exit_contraindicated?: error reading lockfile; suppressing" }
+          true
         end
       end
       # :nocov:
@@ -148,21 +148,32 @@ module FlossFunding
         p = path
         return unless p && File.exist?(p)
 
-        return unless owned_by_self?(p)
+        unless owned_by_self?(p)
+          ::FlossFunding.debug_log { "[floss_funding] Lockfile.cleanup!: not owner; skipping delete (path=#{p})" }
+          return
+        end
 
         # Only delete when age exceeds threshold
         begin
           age = age_seconds(p)
           threshold = max_age_seconds
-          return unless !age.nil? && age > threshold
+          unless !age.nil? && age > threshold
+            ::FlossFunding.debug_log { "[floss_funding] Lockfile.cleanup!: under threshold (age=#{age.inspect}s, threshold=#{threshold}s); keep file" }
+            return
+          end
         rescue StandardError
           # If we can't compute age, keep the file (sticky)
+          ::FlossFunding.debug_log { "[floss_funding] Lockfile.cleanup!: error computing age; keeping file" }
           return
         end
 
-        File.delete(p)
-      rescue StandardError
-        # ignore cleanup errors
+        begin
+          File.delete(p)
+          ::FlossFunding.debug_log { "[floss_funding] Lockfile.cleanup!: deleted lockfile at #{p}" }
+        rescue StandardError
+          # ignore cleanup errors
+          ::FlossFunding.debug_log { "[floss_funding] Lockfile.cleanup!: failed to delete lockfile at #{p}" }
+        end
       end
 
       private
@@ -173,9 +184,13 @@ module FlossFunding
 
       # :nocov:
       def max_age_seconds
-        Integer(ENV.fetch("FLOSS_CFG_FUNDING_SEC_PER_NAG_MAX", "2400"))
-      rescue StandardError
-        2400
+        env_val = begin
+          Integer(ENV.fetch("FLOSS_CFG_FUNDING_SEC_PER_NAG_MAX", MIN_LOCKFILE_TIMEOUT.to_s))
+        rescue StandardError
+          MIN_LOCKFILE_TIMEOUT
+        end
+        # Enforce a minimum lifetime of 10 minutes (600 seconds)
+        [env_val, MIN_LOCKFILE_TIMEOUT].max
       end
 
       def age_seconds(p)
@@ -219,13 +234,18 @@ module FlossFunding
           File.expand_path(File.join(root, v))
         end
       rescue StandardError
+        ::FlossFunding.debug_log { "[floss_funding] Lockfile.validate_env_lock: error validating #{val.inspect}; ignoring" }
         nil
       end
 
       def owned_by_self?(p)
         first_line = File.open(p, "r") { |f| f.gets.to_s }
-        first_line.to_s.strip == Process.pid.to_s
+        owner = first_line.to_s.strip
+        mine = owner == Process.pid.to_s
+        ::FlossFunding.debug_log { "[floss_funding] Lockfile.owned_by_self?: path=#{p} owner=#{owner} current=#{Process.pid} mine=#{mine}" }
+        mine
       rescue StandardError
+        ::FlossFunding.debug_log { "[floss_funding] Lockfile.owned_by_self?: error reading; treating as not owned" }
         false
       end
     end

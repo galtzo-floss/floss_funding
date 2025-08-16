@@ -7,6 +7,7 @@ require "yaml"
 require "openssl"
 require "set"
 require "thread" # For Mutex
+require "fileutils"
 
 # external gems
 require "month/serializer"
@@ -142,6 +143,54 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     end
 
   class << self
+    # Register a minimal activation event for wedge-injected libraries to ensure
+    # they are counted in the final summary without performing config discovery.
+    # @param base [Module] the including module
+    # @param custom_namespace [String, nil] optional override namespace
+    def register_wedge(base, custom_namespace = nil)
+      # Derive namespace string
+      ns_name = (custom_namespace.is_a?(String) && custom_namespace.strip != "") ? custom_namespace : base.name.to_s
+
+      # Build Namespace (derives activation key/state from ENV)
+      namespace = ::FlossFunding::Namespace.new(ns_name, base)
+
+      # Minimal configuration: include required keys so downstream consumers have something sensible
+      cfg_hash = {
+        "library_name" => [base.name.to_s],
+        "funding_uri" => ["https://floss-funding.dev"],
+      }
+      config = ::FlossFunding::Configuration.new(cfg_hash)
+
+      # Minimal Library record; many fields are nil or placeholders in wedge mode
+      library = ::FlossFunding::Library.new(
+        base.name.to_s,        # library_name
+        namespace,             # ns
+        custom_namespace,      # custom_ns
+        base.name.to_s,        # base_name
+        nil,                   # including_path
+        nil,                   # root_path
+        nil,                   # config_path
+        namespace.env_var_name,  # env_var_name
+        config,                # configuration
+        nil,                    # silent
+      )
+
+      # Event with the derived state and key
+      event = ::FlossFunding::ActivationEvent.new(
+        library,
+        namespace.activation_key,
+        namespace.state,
+        nil,
+      )
+
+      add_or_update_namespace_with_event(namespace, event)
+      initiate_begging(event)
+
+      event
+    rescue StandardError
+      # Never raise; wedge registration is best-effort only
+      nil
+    end
     # Read the deterministic time source
     #
     # @see @loaded_at
@@ -173,11 +222,70 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       else
         args.map(&:to_s).join(" ")
       end
-      # Ensure a string and a newline
+      # Prefer Logger to file when configured and available; otherwise STDOUT
+      logger = debug_logger
+      if logger
+        begin
+          logger.debug(msg.to_s)
+          return
+        rescue StandardError
+          # fall back to STDOUT below
+        end
+      end
       puts(msg)
     rescue StandardError
       # Never fail the caller due to logging issues
       nil
+    end
+
+    # Lazily build a Logger instance when FLOSS_CFG_FUNDING_LOGFILE is set and 'logger' is available.
+    # Returns a Logger or nil when unavailable or initialization failed.
+    def debug_logger
+      path = begin
+        ENV["FLOSS_CFG_FUNDING_LOGFILE"]
+      rescue StandardError
+        nil
+      end
+      return if path.nil? || path.to_s.strip.empty?
+
+      begin
+        require "logger"
+      rescue LoadError
+        return
+      rescue StandardError
+        return
+      end
+
+      @mutex.synchronize do
+        return @debug_logger if defined?(@debug_logger) && @debug_logger
+
+        # Ensure directory exists; best-effort
+        begin
+          dir = File.dirname(path)
+          FileUtils.mkdir_p(dir) unless dir.nil? || dir.empty? || Dir.exist?(dir)
+        rescue StandardError
+          # ignore; Logger.new may still succeed if dir already exists or is current dir
+        end
+
+        begin
+          # Truncate the debug log file on first initialization to keep runs readable
+          begin
+            File.open(path, "w") { |f| f.truncate(0) }
+          rescue StandardError
+            # ignore truncation errors; proceed to create logger
+          end
+
+          logger = Logger.new(path)
+          logger.level = Logger::DEBUG
+          # Keep output minimal: message only with newline
+          logger.formatter = proc { |_severity, _datetime, _progname, message| (message.to_s.end_with?("\n") ? message.to_s : message.to_s + "\n") }
+          @debug_logger = logger
+        rescue StandardError
+          @debug_logger = nil
+        end
+
+        @debug_logger
+      end
     end
 
     # Accessor for namespaces hash: keys are namespace strings, values are Namespace objects
@@ -210,6 +318,12 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
         # Append in place to reduce allocations and avoid extra @mutex churn
         ns_obj.activation_events << event
         @namespaces[namespace.name] = ns_obj
+        begin
+          lib_name = (event.library ? event.library.library_name : nil)
+          ::FlossFunding.debug_log { "[registry] add_or_update ns=#{namespace.name.inspect} events=#{ns_obj.activation_events.size} state=#{event.state} lib=#{lib_name.inspect}" }
+        rescue StandardError
+          # ignore log errors
+        end
       end
     end
 
@@ -376,10 +490,15 @@ FlossFunding.send(
 # Add END hook to display a final summary. This hook runs when the Ruby process terminates.
 at_exit do
   begin
+    FlossFunding.debug_log { "[at_exit] hook entered" }
     # 1. Preserve exit status by ensuring no exceptions bubble out of this block.
     # 2. Respect silence signal and short-circuit when contraindicated.
-    next if FlossFunding::ContraIndications.at_exit_contraindicated?
+    if FlossFunding::ContraIndications.at_exit_contraindicated?
+      FlossFunding.debug_log { "[at_exit] contraindicated; skipping summary" }
+      next
+    end
 
+    FlossFunding.debug_log { "[at_exit] building FinalSummary; namespaces=#{FlossFunding.all_namespaces.size}" }
     # 2B. Not silent: build and render the final summary.
     FlossFunding::FinalSummary.new
   rescue StandardError

@@ -6,7 +6,8 @@
 # with the command and the count.
 #
 # Usage:
-#   bin/summary_counts
+#   bin/summary_counts [--timeout SECONDS] | [-t SECONDS]
+#   SUMMARY_COUNTS_TIMEOUT=2 bin/summary_counts
 #
 # Notes:
 # - Each command is executed with a pseudo-TTY (PTY) when possible so that
@@ -18,10 +19,28 @@
 
 require "open3"
 require "ruby-progressbar"
+require "timeout"
 begin
   require "pty"
 rescue LoadError
   # PTY not available; we'll fall back to Open3
+end
+
+# Parse timeout from CLI flags or ENV, default to 2 seconds for fast dev cycles
+begin
+  arg_timeout = nil
+  if (idx = ARGV.find_index { |a| a == "--timeout" || a == "-t" })
+    arg_timeout = ARGV[idx + 1]
+    # Remove the flag and its value so downstream tools don't see them
+    begin
+      ARGV.slice!(idx, 2)
+    rescue
+      nil
+    end
+  end
+  timeout = Integer(ENV.fetch("SUMMARY_COUNTS_TIMEOUT", arg_timeout || 2))
+rescue ArgumentError, TypeError
+  timeout = 2
 end
 
 commands = [
@@ -39,6 +58,18 @@ commands = [
 
 results = []
 
+# Global interrupt handling to allow single Ctrl-C to stop the current child and exit cleanly
+interrupted = false
+current_pid = nil
+trap("INT") do
+  interrupted = true
+  begin
+    Process.kill("TERM", current_pid) if current_pid
+  rescue StandardError
+    # ignore
+  end
+end
+
 # Create a progress bar for overall task progress
 pbar = ProgressBar.create(
   :title => "summary_counts",
@@ -47,8 +78,10 @@ pbar = ProgressBar.create(
 )
 
 commands.each do |cmd|
+  break if interrupted
   output = ""
   status = nil
+  timed_out = false
 
   # Log the command being run without breaking the bar
   begin
@@ -59,18 +92,76 @@ commands.each do |cmd|
 
   if defined?(PTY)
     begin
-      PTY.spawn("bash", "-lc", "#{cmd} 2>&1") do |r, _w, pid|
+      PTY.spawn("bash", "-lc", "#{cmd} 2>&1") do |r, w, pid|
+        # Track current child for signal handling
+        current_pid = pid
         begin
-          # Due to frozen string issues we must use `+=` instead of `<<`.
-          r.each { |chunk| output += chunk }
-        rescue Errno::EIO
-          # EIO is expected when the pty is closed; treat as EOF
-        ensure
+          # Close child's stdin immediately to prevent interactive waits
           begin
-            Process.wait(pid)
-            status = $?.dup
+            w.close unless w.closed?
           rescue StandardError
             # ignore
+          end
+
+          start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+          loop do
+            break if interrupted
+
+            # Timeout guard
+            if timeout && timeout > 0 && (Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time) >= timeout
+              timed_out = true
+              output += "\n[summary_counts] Timeout: command exceeded #{timeout}s: #{cmd}"
+              begin
+                Process.kill("TERM", pid)
+              rescue StandardError
+                # ignore
+              end
+              # Give it a brief moment to exit, then escalate
+              10.times do
+                begin
+                  break unless Process.wait(pid, Process::WNOHANG).nil?
+                rescue StandardError
+                  # ignore
+                end
+                sleep(0.05)
+              end
+              begin
+                Process.kill("KILL", pid)
+              rescue StandardError
+                # ignore
+              end
+              break
+            end
+
+            begin
+              chunk = r.read_nonblock(4096)
+              # Due to frozen string issues we must use `+=` instead of `<<`.
+              output += chunk
+              next
+            rescue IO::WaitReadable
+              # Wait briefly for data to become available
+              IO.select([r], nil, nil, 0.1)
+              # then try again in next loop iteration
+            rescue EOFError, Errno::EIO
+              # Child closed PTY; we've reached EOF
+              break
+            end
+          end
+        ensure
+          # Reap or detach the child to avoid zombies
+          begin
+            waited = Process.wait(pid, Process::WNOHANG)
+            Process.detach(pid) if waited.nil?
+            status = $?.dup if $?
+          rescue StandardError
+            # ignore
+          ensure
+            begin
+              r.close unless r.closed?
+            rescue StandardError
+              # ignore
+            end
+            current_pid = nil
           end
         end
       end
@@ -91,8 +182,8 @@ commands.each do |cmd|
     end
   end
 
-  count = output.scan(/FLOSS Funding Summary:?/).size
-  results << [cmd, count, status]
+  count = output.scan("FLOSS Funding Summary:").size
+  results << [cmd, count, status, timed_out]
 
   # Advance the progress bar after finishing this command
   begin
@@ -104,14 +195,16 @@ end
 
 cmd_width = ["task".length, results.map { |r| r[0].length }.max || 0].max
 cnt_width = "count".length
+stat_width = "status".length
 
-sep = "+-#{"-" * cmd_width}-+-#{"-" * cnt_width}-+"
-header = "| #{"task".ljust(cmd_width)} | #{"count".rjust(cnt_width)} |"
+sep = "+-#{"-" * cmd_width}-+-#{"-" * cnt_width}-+-#{"-" * stat_width}-+"
+header = "| #{"task".ljust(cmd_width)} | #{"count".rjust(cnt_width)} | #{"status".ljust(stat_width)} |"
 
 puts sep
 puts header
 puts sep
-results.each do |line_cmd, count, _status|
-  puts "| #{line_cmd.ljust(cmd_width)} | #{count.to_s.rjust(cnt_width)} |"
+results.each do |line_cmd, count, _status, timed_out|
+  status_txt = timed_out ? "timeout" : "ok"
+  puts "| #{line_cmd.ljust(cmd_width)} | #{count.to_s.rjust(cnt_width)} | #{status_txt.ljust(stat_width)} |"
 end
 puts sep

@@ -4,6 +4,7 @@ require "spec_helper"
 
 RSpec.describe FlossFunding do
   include(ActivationEventsHelper)
+  include_context "with stubbed env"
 
   describe "namespace queries and file-based behaviors" do
     before do
@@ -220,7 +221,13 @@ RSpec.describe FlossFunding do
     end
 
     context "when DEBUG is true" do
-      before { stub_const("FlossFunding::DEBUG", true) }
+      before do
+        stub_const("FlossFunding::DEBUG", true)
+        # Force debug_log to use STDOUT by disabling logfile redirection for this context
+        stub_env("FLOSS_CFG_FUNDING_LOGFILE" => "")
+        # Clear any memoized logger created in a prior example when the ENV was set
+        described_class.instance_variable_set(:@debug_logger, nil)
+      end
 
       it "returns nil when called with args" do
         expect(described_class.debug_log("hello", :world, 123)).to be_nil

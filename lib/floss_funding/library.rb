@@ -37,6 +37,11 @@ module FlossFunding
     # @return [FlossFunding::Configuration]
     attr_reader :config
 
+    # Convenience: gem_name used by CLI; alias to library_name for now
+    def gem_name
+      @library_name
+    end
+
     # Initialize a new Library record.
     #
     # @param library_name [String]

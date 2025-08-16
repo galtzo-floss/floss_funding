@@ -76,9 +76,19 @@ module FlossFunding
             base.extend(::FlossFunding::Fingerprint)
 
             # After fingerprinting, handle short-circuits
+            # In wedge mode, we still register a minimal event so at_exit summary reflects usage
+            if wedge
+              begin
+                ::FlossFunding.debug_log { "[Poke] wedge registration for #{base.name.inspect} ns=#{(namespace || base.name).inspect}" }
+                ::FlossFunding.register_wedge(base, namespace)
+              rescue StandardError
+                # never raise from wedge registration
+              end
+              return
+            end
+
             # Do not proceed with registration/config when contraindicated
-            # Fingerprint already injected above; skip configuration/discovery
-            return if contraindicated || wedge
+            return if contraindicated
 
             FlossFunding::Inclusion.new(base, namespace, including_path, options)
           end

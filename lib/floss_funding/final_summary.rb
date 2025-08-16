@@ -11,7 +11,9 @@ module FlossFunding
     def initialize
       # Precompute everything once; print at the end.
       @namespaces = ::FlossFunding.all_namespaces
+      ::FlossFunding.debug_log { "[FinalSummary] init namespaces=#{@namespaces.size}" }
       @events = @namespaces.flat_map(&:activation_events)
+      ::FlossFunding.debug_log { "[FinalSummary] events=#{@events.size}" }
 
       # Caches for repeated queries
       @activated_ns_names = pick_ns_names_with_state(::FlossFunding::STATES[:activated])
@@ -59,6 +61,7 @@ module FlossFunding
       root_label = (root.nil? || root.to_s.empty?) ? "(unknown)" : root.to_s
       lines << "FLOSS Funding Summary: #{root_label}"
       lines << build_summary_table
+      ::FlossFunding.debug_log { "[FinalSummary] counts ns: activated=#{@activated_ns_names.size} unactivated=#{@unactivated_ns_names.size} invalid=#{@invalid_ns_names.size}; libs: activated=#{@activated_libs.size} unactivated=#{@unactivated_libs.size} invalid=#{@invalid_libs.size}" }
 
       puts lines.join("\n")
 

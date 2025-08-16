@@ -81,6 +81,9 @@ RSpec.describe FlossFunding::Lockfile do
       File.write(lock_path, "99999")
       Dir.chdir(dir) do
         stub_const("FlossFunding::DEBUG", true)
+        # Force debug_log to use STDOUT for this example
+        stub_env("FLOSS_CFG_FUNDING_LOGFILE" => "")
+        FlossFunding.instance_variable_set(:@debug_logger, nil)
         FlossFunding::ConfigFinder.clear_caches!
         expect { described_class.install! }.to output(/Lockfile already present/).to_stdout
         # ensure we don't delete someone else's lock
@@ -243,7 +246,7 @@ RSpec.describe FlossFunding::Lockfile do
 
   it "max_age_seconds falls back on invalid env" do
     stub_env("FLOSS_CFG_FUNDING_SEC_PER_NAG_MAX" => "not_an_int")
-    expect(described_class.send(:max_age_seconds)).to eq(2400)
+    expect(described_class.send(:max_age_seconds)).to eq(600)
   end
 
   it "cleanup! does not delete when not owned by self" do
