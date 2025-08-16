@@ -114,6 +114,40 @@ end
 
 <p>Activation keys use a cipher encryption algorithm against a 2400-word dictionary, with some other data, like the project’s namespace, and the current month, thrown in, to make valid activation keys slightly difficult to discover manually. Once a key is made it is valid forever. There is no revocation. The activation keys are <em>opaque</em>, rather than <em>private</em>. They are not tied to you in any way. Other people may use the same one. And that’s fine! They don’t do anything except silence some STDOUT nagging.</p>
 
+<h2 id="project-summary">Project summary</h2>
+
+<ul>
+  <li>Purpose
+    <ul>
+      <li>Help FLOSS maintainers get funded without changing licenses or adding telemetry. Libraries add one line to include a small module that reminds users to fund the software they rely on.</li>
+      <li>Default is consent and privacy-preserving: no network calls, no tracking, and easy opt-out when appropriate.</li>
+    </ul>
+  </li>
+  <li>Methodology (how it works)
+    <ul>
+      <li>Inclusion: Libraries include FlossFunding::Poke.new(<strong>FILE</strong>) in a module or class; this fingerprints the library and records activation events when it loads.</li>
+      <li>Activation keys via ENV: A user or CI sets ENV[“FLOSS_FUNDING_<namespace>"] to an activation key value. Keys can be unpaid silence tokens (e.g., Free-as-in-beer), explicit opt-out tokens (Not-financially-supporting-<namespace>), or a paid 64-hex-byte key.</namespace></namespace>
+</li>
+      <li>Gentle messaging: On library load, if unactivated or invalid, a single-line friendly message can be printed (on-load nag). At process end, a short end-of-run summary can highlight one library with next steps (at-exit spotlight) plus a brief table of activated/unactivated counts.</li>
+      <li>Sentinels: YAML lockfiles in the project root prevent over–nagging:
+        <ul>
+          <li>.floss_funding.ruby.on_load.lock limits on-load messages per library within a window.</li>
+          <li>.floss_funding.ruby.at_exit.lock ensures a given library isn’t repeatedly spotlighted at exit within a window.</li>
+        </ul>
+      </li>
+      <li>Configuration: Optional .floss_funding.yml lets a library suggest donation amount and provide a funding URL. Defaults exist for resilience.</li>
+    </ul>
+  </li>
+  <li>Philosophy
+    <ul>
+      <li>Respect and empathy: Nags are mild, infrequent, and silent by default in many environments. Opt-out is always available and is treated as an “activated” state for silence.</li>
+      <li>Zero network by design: All behavior is local and deterministic. This is a social, not technical, contract encouraging support.</li>
+      <li>Ecosystem-agnostic future: Filenames include the ecosystem (e.g., .ruby) so the approach can be ported to other languages without collisions.</li>
+      <li>Safety first: Any failure paths are defensive; the library should never break your build or flip a successful exit into a failure.</li>
+    </ul>
+  </li>
+</ul>
+
 <h2 id="to-do-list">TO DO List</h2>
 
 <p><code>floss_funding</code> ruby gem is a work in progress.</p>
@@ -347,6 +381,17 @@ NOTE: Be prepared to track down certs for signed gems and add them the same way 
 
 </details>
 
+<h2 id="terminology">Terminology</h2>
+
+<ul>
+  <li>Nag: Non-debug, non-error, behavioral output from FlossFunding.
+    <ul>
+      <li>on_load nag: a single-line message emitted during inclusion/load about missing or invalid activation.</li>
+      <li>at_exit nag: the featured library information card rendered at process exit.</li>
+    </ul>
+  </li>
+</ul>
+
 <h2 id="-basic-usage">🔧 Basic Usage</h2>
 
 <p>Usage patterns:</p>
@@ -557,7 +602,7 @@ See <a href="file.LICENSE.html" title="LICENSE.txt">LICENSE.txt</a> for the offi
 </div></div>
 
       <div id="footer">
-  Generated on Fri Aug 15 21:19:53 2025 by
+  Generated on Sat Aug 16 07:50:26 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
