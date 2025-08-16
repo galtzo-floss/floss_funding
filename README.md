@@ -60,6 +60,27 @@ This tool makes it far easier to get paid for your work down there at the bottom
 
 Activation keys use a cipher encryption algorithm against a 2400-word dictionary, with some other data, like the project's namespace, and the current month, thrown in, to make valid activation keys slightly difficult to discover manually. Once a key is made it is valid forever. There is no revocation. The activation keys are _opaque_, rather than _private_. They are not tied to you in any way. Other people may use the same one. And that's fine! They don't do anything except silence some STDOUT nagging.
 
+## Project summary
+
+- Purpose
+  - Help FLOSS maintainers get funded without changing licenses or adding telemetry. Libraries add one line to include a small module that reminds users to fund the software they rely on.
+  - Default is consent and privacy-preserving: no network calls, no tracking, and easy opt-out when appropriate.
+
+- Methodology (how it works)
+  - Inclusion: Libraries include FlossFunding::Poke.new(__FILE__) in a module or class; this fingerprints the library and records activation events when it loads.
+  - Activation keys via ENV: A user or CI sets ENV["FLOSS_FUNDING_<NAMESPACE>"] to an activation key value. Keys can be unpaid silence tokens (e.g., Free-as-in-beer), explicit opt-out tokens (Not-financially-supporting-<namespace>), or a paid 64-hex-byte key.
+  - Gentle messaging: On library load, if unactivated or invalid, a single-line friendly message can be printed (on-load nag). At process end, a short end-of-run summary can highlight one library with next steps (at-exit spotlight) plus a brief table of activated/unactivated counts.
+  - Sentinels: YAML lockfiles in the project root prevent over–nagging:
+    - .floss_funding.ruby.on_load.lock limits on-load messages per library within a window.
+    - .floss_funding.ruby.at_exit.lock ensures a given library isn’t repeatedly spotlighted at exit within a window.
+  - Configuration: Optional .floss_funding.yml lets a library suggest donation amount and provide a funding URL. Defaults exist for resilience.
+
+- Philosophy
+  - Respect and empathy: Nags are mild, infrequent, and silent by default in many environments. Opt-out is always available and is treated as an "activated" state for silence.
+  - Zero network by design: All behavior is local and deterministic. This is a social, not technical, contract encouraging support.
+  - Ecosystem-agnostic future: Filenames include the ecosystem (e.g., .ruby) so the approach can be ported to other languages without collisions.
+  - Safety first: Any failure paths are defensive; the library should never break your build or flip a successful exit into a failure.
+
 ## TO DO List
 
 `floss_funding` ruby gem is a work in progress.
