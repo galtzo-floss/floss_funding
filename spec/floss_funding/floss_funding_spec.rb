@@ -169,7 +169,14 @@ RSpec.describe FlossFunding do
 
   describe "::DEBUG" do
     it "defaults to false when FLOSS_FUNDING_DEBUG is not set" do
-      expect(FlossFunding::DEBUG).to be(false)
+      require "open3"
+      require "rbconfig"
+      ruby = RbConfig.ruby
+      lib_dir = File.expand_path("../../lib", __dir__)
+      code = 'require "floss_funding"; puts FlossFunding::DEBUG'
+      env = {"FLOSS_FUNDING_DEBUG" => nil}
+      stdout, _stderr, _status = Open3.capture3(env, ruby, "-I", lib_dir, "-e", code)
+      expect(stdout.strip).to eq("false")
     end
 
     it "is true when FLOSS_FUNDING_DEBUG is case-insensitively 'true' at load time" do

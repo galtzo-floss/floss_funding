@@ -10,6 +10,10 @@ RSpec.describe "at_exit hook behavior" do
     ruby = RbConfig.ruby
     lib_dir = File.expand_path("../../lib", __dir__) # project/lib
 
+    # Ensure the at_exit lockfile is fresh so a spotlight can be shown
+    lock_path = File.expand_path("../../.floss_funding.ruby.at_exit.lock", __dir__)
+    File.delete(lock_path) if File.exist?(lock_path)
+
     script = File.expand_path("../fixtures/at_exit_hook_script.rb", __dir__)
 
     stdout, stderr, status = Open3.capture3(ruby, "-I", lib_dir, script)

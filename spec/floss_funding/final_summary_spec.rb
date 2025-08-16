@@ -25,23 +25,12 @@ RSpec.describe FlossFunding::FinalSummary do
   end
 
   describe "rendering basics (no namespaces)", :check_output do
-    # rubocop:disable RSpec/MultipleExpectations
-    it "prints summary with zero counts and no invalid line or spotlight and no progress bar" do
+    it "prints nothing when there are no namespaces (no spotlight available)" do
       expect(ProgressBar).not_to receive(:create)
 
       output = capture_stdout { described_class.new }
-      # Header now includes project root info after the colon
-      expect(output).to match(/FLOSS Funding Summary:.+/)
-      # Table headers should include activated and unactivated, and omit invalid when zero
-      expect(output).to include("activated")
-      expect(output).to include("unactivated")
-      expect(output).not_to include("invalid")
-      # Rows for namespaces and libraries with zeros
-      expect(output).to match(/\|\s*namespaces\s*\|\s*0\s*\|\s*0/)
-      expect(output).to match(/\|\s*libraries\s*\|\s*0\s*\|\s*0/)
-      expect(output).not_to match(/Unactivated\/Invalid library spotlight:/)
+      expect(output).to eq("")
     end
-    # rubocop:enable RSpec/MultipleExpectations
   end
 
   describe "rendering with activated and unactivated and invalid", :check_output do
@@ -112,6 +101,12 @@ RSpec.describe FlossFunding::FinalSummary do
       register_ns("OnlyU", [u1])
 
       allow(FlossFunding).to receive(:configurations).and_return({"OnlyU" => [FlossFunding::Configuration.new({})]})
+
+      # Ensure a spotlight is available so the summary prints under the new rules
+      ns_obj = FlossFunding::Namespace.new("OnlyU")
+      cfg = FlossFunding::Configuration.new({})
+      lib_for_spotlight = FlossFunding::Library.new("gem_u", ns_obj, nil, "OnlyU", __FILE__, nil, nil, ns_obj.env_var_name, cfg, nil)
+      allow_any_instance_of(described_class).to receive(:random_unpaid_or_invalid_library).and_return(lib_for_spotlight)
 
       fake_pb = instance_double("PB", :increment => nil)
       expect(ProgressBar).to receive(:create).with(:title => "Activated Libraries", :total => 1).and_return(fake_pb)
