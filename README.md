@@ -25,11 +25,15 @@ This tool can help library maintainers earn money from their open source work in
 - 👉️ Minimal crypto hashing.
 - 💡 Easily disabled\*
 
-\* There will be many ways to disable nags, to ensure it is always an option for Mr. Scrooge. One of them is:
+\* There will be many ways to disable nags, to ensure it is always an option for Mr. Scrooge.
+A global ones is:
 
 ```
 ENV['FLOSS_FUNDING_SILENT'] = "CATHEDRAL_OR_BAZAAR"`
 ```
+
+Instructions for turning this tool off will always be front and center.
+If all you want is to turn it off, no sense in wasting your time figuring out how.
 
 Now, back to the one line of code I mentioned. If you blink you may miss it...
 
