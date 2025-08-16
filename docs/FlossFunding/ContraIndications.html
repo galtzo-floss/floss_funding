@@ -226,13 +226,6 @@ Returns true if any library requests silence; false otherwise.</p>
       <pre class="lines">
 
 
-52
-53
-54
-55
-56
-57
-58
 59
 60
 61
@@ -260,10 +253,29 @@ Returns true if any library requests silence; false otherwise.</p>
 83
 84
 85
-86</pre>
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/contra_indications.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/contra_indications.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_at_exit_contraindicated?'>at_exit_contraindicated?</span>
   <span class='comment'># Honor global flags first
@@ -275,6 +287,18 @@ Returns true if any library requests silence; false otherwise.</p>
     <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>unless</span> <span class='const'>STDOUT</span><span class='period'>.</span><span class='id identifier rubyid_tty?'>tty?</span>
   <span class='kw'>rescue</span> <span class='const'>StandardError</span>
     <span class='kw'>return</span> <span class='kw'>true</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Lockfile sentinel gating: only allow one process per window to print at-exit
+</span>  <span class='kw'>begin</span>
+    <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Lockfile.html" title="FlossFunding::Lockfile (module)">Lockfile</a></span></span><span class='period'>.</span><span class='id identifier rubyid_at_exit_contraindicated?'><span class='object_link'><a href="Lockfile.html#at_exit_contraindicated%3F-class_method" title="FlossFunding::Lockfile.at_exit_contraindicated? (method)">at_exit_contraindicated?</a></span></span>
+  <span class='kw'>rescue</span> <span class='const'>StandardError</span>
+    <span class='comment'># On any error, err on suppression side only if lockfile exists
+</span>    <span class='kw'>begin</span>
+      <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Lockfile.html" title="FlossFunding::Lockfile (module)">Lockfile</a></span></span><span class='period'>.</span><span class='id identifier rubyid_exists?'><span class='object_link'><a href="Lockfile.html#exists%3F-class_method" title="FlossFunding::Lockfile.exists? (method)">exists?</a></span></span>
+    <span class='kw'>rescue</span> <span class='const'>StandardError</span>
+      <span class='comment'># ignore
+</span>    <span class='kw'>end</span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_configurations'>configurations</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configurations'><span class='object_link'><a href="../FlossFunding.html#configurations-class_method" title="FlossFunding.configurations (method)">configurations</a></span></span>
@@ -374,7 +398,14 @@ Returns true if any library requests silence; false otherwise.</p>
 37
 38
 39
-40</pre>
+40
+41
+42
+43
+44
+45
+46
+47</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/contra_indications.rb', line 13</span>
@@ -405,6 +436,13 @@ Returns true if any library requests silence; false otherwise.</p>
     <span class='kw'>return</span> <span class='kw'>true</span>
   <span class='kw'>end</span>
 
+  <span class='comment'># Lockfile presence contraindicates Poke setup (e.g., subprocesses)
+</span>  <span class='kw'>begin</span>
+    <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Lockfile.html" title="FlossFunding::Lockfile (module)">Lockfile</a></span></span><span class='period'>.</span><span class='id identifier rubyid_exists?'><span class='object_link'><a href="Lockfile.html#exists%3F-class_method" title="FlossFunding::Lockfile.exists? (method)">exists?</a></span></span>
+  <span class='kw'>rescue</span> <span class='const'>StandardError</span>
+    <span class='comment'># ignore issues resolving lockfile
+</span>  <span class='kw'>end</span>
+
   <span class='kw'>false</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -417,7 +455,7 @@ Returns true if any library requests silence; false otherwise.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug 15 17:34:16 2025 by
+  Generated on Fri Aug 15 21:19:54 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

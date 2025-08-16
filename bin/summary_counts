@@ -1,0 +1,117 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Development helper: run several project commands, capture their output,
+# count occurrences of 'FLOSS Funding Summary', and print a two-column table
+# with the command and the count.
+#
+# Usage:
+#   bin/summary_counts
+#
+# Notes:
+# - Each command is executed with a pseudo-TTY (PTY) when possible so that
+#   child processes consider STDOUT a TTY and emit at-exit summaries.
+# - If PTY is unavailable, falls back to Open3.capture2e (counts may be lower
+#   because some tools suppress output when not attached to a TTY).
+# - Failures of individual commands do not abort; counts are still shown
+#   for whatever output was produced.
+
+require "open3"
+require "ruby-progressbar"
+begin
+  require "pty"
+rescue LoadError
+  # PTY not available; we'll fall back to Open3
+end
+
+commands = [
+  # "bin/rake rubocop_gradual:check",
+  # "bin/rake yard",
+  # "bin/rake reek",
+  "bin/rake reek:update",
+  "bin/rake clobber",
+  "bin/rake clean",
+  "bin/rake bench:list",
+  # "bin/rake bench",
+  # "bin/floss_funding -t",
+  # "bin/floss_funding --wedge",
+]
+
+results = []
+
+# Create a progress bar for overall task progress
+pbar = ProgressBar.create(
+  :title => "summary_counts",
+  :total => commands.size,
+  :format => "%t: |%B| %c/%C (%p%%)",
+)
+
+commands.each do |cmd|
+  output = ""
+  status = nil
+
+  # Log the command being run without breaking the bar
+  begin
+    pbar.log("Running: #{cmd}")
+  rescue StandardError
+    # ignore progress bar logging issues
+  end
+
+  if defined?(PTY)
+    begin
+      PTY.spawn("bash", "-lc", "#{cmd} 2>&1") do |r, _w, pid|
+        begin
+          # Due to frozen string issues we must use `+=` instead of `<<`.
+          r.each { |chunk| output += chunk }
+        rescue Errno::EIO
+          # EIO is expected when the pty is closed; treat as EOF
+        ensure
+          begin
+            Process.wait(pid)
+            status = $?.dup
+          rescue StandardError
+            # ignore
+          end
+        end
+      end
+    rescue StandardError
+      begin
+        output, status = Open3.capture2e(cmd)
+      rescue StandardError => e
+        output = e.message.to_s
+        status = nil
+      end
+    end
+  else
+    begin
+      output, status = Open3.capture2e(cmd)
+    rescue StandardError => e
+      output = e.message.to_s
+      status = nil
+    end
+  end
+
+  count = output.scan(/FLOSS Funding Summary:?/).size
+  results << [cmd, count, status]
+
+  # Advance the progress bar after finishing this command
+  begin
+    pbar.increment
+  rescue StandardError
+    # ignore progress bar issues
+  end
+end
+
+cmd_width = ["task".length, results.map { |r| r[0].length }.max || 0].max
+cnt_width = "count".length
+
+sep = "+-#{"-" * cmd_width}-+-#{"-" * cnt_width}-+"
+header = "| #{"task".ljust(cmd_width)} | #{"count".rjust(cnt_width)} |"
+
+puts sep
+puts header
+puts sep
+results.each do |line_cmd, count, _status|
+  puts "| #{line_cmd.ljust(cmd_width)} | #{count.to_s.rjust(cnt_width)} |"
+end
+puts sep

@@ -36,6 +36,13 @@ module FlossFunding
           return true
         end
 
+        # Lockfile presence contraindicates Poke setup (e.g., subprocesses)
+        begin
+          return true if ::FlossFunding::Lockfile.exists?
+        rescue StandardError
+          # ignore issues resolving lockfile
+        end
+
         false
       end
 
@@ -59,6 +66,18 @@ module FlossFunding
           return true unless STDOUT.tty?
         rescue StandardError
           return true
+        end
+
+        # Lockfile sentinel gating: only allow one process per window to print at-exit
+        begin
+          return true if ::FlossFunding::Lockfile.at_exit_contraindicated?
+        rescue StandardError
+          # On any error, err on suppression side only if lockfile exists
+          begin
+            return true if ::FlossFunding::Lockfile.exists?
+          rescue StandardError
+            # ignore
+          end
         end
 
         configurations = ::FlossFunding.configurations

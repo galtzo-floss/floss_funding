@@ -2,17 +2,17 @@
   "Rakefile:1602942827": [
     [61, 5, 15, "Rake/Desc: Describe the task with `desc` method.", 842824456]
   ],
-  "lib/floss_funding.rb:169465563": [
-    [124, 27, 2, "ThreadSafety/MutableClassInstanceVariable: Freeze mutable objects assigned to class instance variables.", 5861859],
-    [258, 34, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [261, 7, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
-    [268, 23, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [268, 58, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [270, 14, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844],
-    [271, 18, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [273, 28, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [275, 85, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3931648013],
-    [277, 14, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227]
+  "lib/floss_funding.rb:2929295164": [
+    [125, 27, 2, "ThreadSafety/MutableClassInstanceVariable: Freeze mutable objects assigned to class instance variables.", 5861859],
+    [259, 34, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [262, 7, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
+    [269, 23, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [269, 58, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [271, 14, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844],
+    [272, 18, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [274, 28, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [276, 85, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3931648013],
+    [278, 14, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227]
   ],
   "lib/floss_funding/config_finder.rb:2857557530": [
     [24, 7, 25, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 397451408],
@@ -37,9 +37,9 @@
   "lib/floss_funding/configuration.rb:3670048929": [
     [23, 5, 393, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 642745473]
   ],
-  "lib/floss_funding/contra_indications.rb:3996846326": [
+  "lib/floss_funding/contra_indications.rb:1171402182": [
     [34, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
-    [59, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
+    [66, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
   ],
   "lib/floss_funding/file_finder.rb:3058164481": [
     [14, 5, 61, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2617869649],

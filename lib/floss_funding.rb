@@ -17,6 +17,7 @@ require "floss_funding/version"
 
 # Load runtime control switch constants separately for easier test isolation
 require "floss_funding/constants"
+require "floss_funding/lockfile"
 
 # Now declare some constants
 module FlossFunding
@@ -352,6 +353,13 @@ require "floss_funding/inclusion"
 require "floss_funding/poke"
 require "floss_funding/final_summary"
 # require "floss_funding/wedge" # Used independently, loaded discretely
+
+# Initialize lockfile on library load (after project_root helpers are available)
+begin
+  FlossFunding::Lockfile.install!
+rescue StandardError
+  # never raise on install
+end
 
 # Dog Food
 FlossFunding.send(
