@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: FlossFunding
+title: floss_funding
 message: >-
   If you use this work and you want to cite it,
   then you can use the metadata from this file.
@@ -13,8 +13,8 @@ authors:
 identifiers:
   - type: url
     value: 'https://github.com/galtzo-floss/floss_funding/'
-    description: FlossFunding
+    description: floss_funding
 repository-code: 'https://github.com/galtzo-floss/floss_funding/'
 abstract: >-
-  FlossFunding
+  floss_funding
 license: See license file
