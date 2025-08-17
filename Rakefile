@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Galtzo FLOSS Rakefile v1.0.4 - 2025-08-14
+# Galtzo FLOSS Rakefile v1.0.6 - 2025-08-17
 #
 # CHANGELOG
 # v1.0.0 - initial release w/ support for rspec, minitest, rubocop, reek, yard, and stone_checksums
@@ -9,6 +9,7 @@
 # v1.0.3 - add bench tasks to run mini benchmarks (add scripts to /benchmarks)
 # v1.0.4 - add support for floss_funding:install
 # v1.0.5 - add support for halting in Rake tasks with binding.b (from debug gem)
+# v1.0.6 - add RBS files and checksums to YARD-generated docs site
 #
 # MIT License (see License.txt)
 #
@@ -203,7 +204,10 @@ begin
       "*.cff",
       "*.md",
       "*.txt",
+      "checksums/**/*.sha256",
+      "checksums/**/*.sha512",
       "REEK",
+      "sig/**/*.rbs",
     ]
   end
   defaults << "yard"
