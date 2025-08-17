@@ -112,14 +112,12 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     results << {:percentage => percentage, :seconds => elapsed}
   end
 
-  it "benchmarks load time across 0%..100% in 10% increments with ENV setup outside timing at 2025-08-15" do
+  it "benchmarks load time across 0%..100% in 10% increments (#{GLOBAL_DATE})" do
     results = []
     keys_rows = parsed_keys(valid_keys_csv)
 
-    Timecop.freeze(Time.local(2025, 8, 15, 12, 0, 0)) do
-      (0..10).each do |step|
-        bench_step(step, keys_rows, results, :key_2025)
-      end
+    (0..10).each do |step|
+      bench_step(step, keys_rows, results, :key_2025)
     end
 
     # We gathered 11 data points (0..100)
@@ -131,7 +129,7 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     RSpec.configuration.reporter.message("FlossFunding bench (Gemfile load via fixtures) at 2025-08-15:\n#{formatted}")
   end
 
-  it "benchmarks load time across 0%..100% in 10% increments with ENV setup outside timing at 5425-07-15" do
+  it "benchmarks load time across 0%..100% in 10% increments with ENV setup outside timing at 5425-07-15", :freeze => Time.local(5425, 7, 15, 12, 0, 0) do
     results = []
     keys_rows = parsed_keys(valid_keys_csv)
 
@@ -149,18 +147,16 @@ RSpec.describe "Benchmark integration: Gemfile load with varying FlossFunding us
     RSpec.configuration.reporter.message("FlossFunding bench (Gemfile load via fixtures) at 5425-07-15:\n#{formatted}")
   end
 
-  it "aggregates all available funded bench gem names after full percentage sweep (2025 era)" do
+  it "aggregates all available funded bench gem names after full percentage sweep (#{GLOBAL_DATE})" do
     keys_rows = parsed_keys(valid_keys_csv)
 
-    Timecop.freeze(Time.local(2025, 8, 15, 12, 0, 0)) do
-      (0..10).each do |step|
-        percentage = step * 10
-        remove_bench_constants
-        set_percentage_env(percentage)
-        activation_env = build_activation_env(keys_rows, percentage, :key_2025)
-        stub_env(activation_env)
-        load loader_path
-      end
+    (0..10).each do |step|
+      percentage = step * 10
+      remove_bench_constants
+      set_percentage_env(percentage)
+      activation_env = build_activation_env(keys_rows, percentage, :key_2025)
+      stub_env(activation_env)
+      load loader_path
     end
 
     # Determine which BenchGem namespaces actually have keys available in the CSV

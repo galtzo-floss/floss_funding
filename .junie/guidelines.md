@@ -85,7 +85,8 @@ This document captures project-specific knowledge to streamline setup, testing, 
       stub_env("FLOSS_FUNDING_MY_NS" => "Free-as-in-beer")
       # example code continues
   - If your spec needs to assert on console output, tag it with :check_output. By default, STDOUT is silenced.
-  - Use Timecop for deterministic time-sensitive behavior as needed (require config/timecop is already done by spec_helper).
+  - Use Timecop::Rspec for deterministic time-sensitive behavior as needed
+    - see spec/config/timecop_rspec.rb for usage examples.
 - Demonstrated example (executed and verified during this session)
   - Example spec content used:
     - File: spec/floss_funding/demo_spec.rb

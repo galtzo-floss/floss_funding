@@ -14,7 +14,8 @@ require "fileutils"
 require "gem_mine"
 
 # Config files
-require "config/timecop"
+require "support/config/timecop"
+require "support/config/timecop_rspec"
 require "support/bench_gems_generator"
 require "support/classes/spec_struct"
 require "support/helpers/activation_events_helper"
