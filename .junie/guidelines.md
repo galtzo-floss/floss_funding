@@ -75,6 +75,7 @@ This document captures project-specific knowledge to streamline setup, testing, 
   - During a spec run, the presence of output about missing activation keys is often expected, since it is literally what this library is for. It only indicates a failure if the spec expected all activation keys to be present, and not all specs do.
 - Adding new tests (guidelines)
   - Organize specs by class/module. Do not create per-task umbrella spec files; add examples to the existing spec for the class/module under test, or create a new spec file for that class/module if one does not exist. Only create a standalone scenario spec when it intentionally spans multiple classes for an integration/benchmark scenario (e.g., bench_integration_spec), and name it accordingly.
+  - Add tests for all public methods and add contexts for variations of their arguments, and arity.
   - Place new specs under spec/ mirroring lib/ structure where possible. Do not require "spec_helper" at the top of spec files, as it is automatically loaded by .rspec.
   - If your code relies on environment variables that drive activation (see "Activation env vars" below), prefer using rspec-stubbed_env:
     - it does not support stubbing with blocks, but it does automatically clean up after itself.

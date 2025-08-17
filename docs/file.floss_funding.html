@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: floss_funding
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "floss_funding";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: floss_funding</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><p>module FlossFunding<br>
+  class Error &lt; StandardError<br>
+  end</p>
+
+<p>class ActivationEvent<br>
+    attr_reader library: ::FlossFunding::Library<br>
+    attr_reader activation_key: String<br>
+    attr_accessor state: String<br>
+    attr_reader occurred_at: Time<br>
+    attr_reader silent: (untyped | nil)</p>
+
+<pre class="code ruby"><code class="ruby">def initialize: (::FlossFunding::Library, String, String, (untyped | nil)) -&gt; void
+def validate!: -&gt; void   end
+</code></pre>
+
+<p>class Library<br>
+    @custom_ns: (String | nil)</p>
+
+<pre class="code ruby"><code class="ruby">attr_reader namespace: String
+attr_reader base_name: String
+attr_reader library_name: String
+attr_reader including_path: String
+attr_reader env_var_name: String
+attr_reader library_root_path: String
+attr_reader library_config_path: String
+attr_reader seen_at: Time
+attr_reader silence: untyped
+attr_reader config: ::FlossFunding::Configuration
+
+def initialize: (String, ::FlossFunding::Namespace, (String | nil), String, String, String, String, String, ::FlossFunding::Configuration, untyped) -&gt; void   end
+</code></pre>
+
+<p>class Namespace<br>
+    attr_reader name: String<br>
+    attr_reader env_var_name: String<br>
+    attr_reader activation_key: String<br>
+    attr_reader state: String<br>
+    attr_reader activation_events: Array[ActivationEvent]</p>
+
+<pre class="code ruby"><code class="ruby">def activation_events=: (Array[ActivationEvent]) -&gt; void
+def to_s: -&gt; String
+def has_state?: (String) -&gt; bool
+def with_state: (String) -&gt; Array[ActivationEvent]
+def configs: -&gt; Array[::FlossFunding::Configuration]
+
+def check_unpaid_silence: (String) -&gt; bool
+def floss_funding_decrypt: (String) -&gt; (String | false)
+def merged_config: -&gt; ::FlossFunding::Configuration   end
+</code></pre>
+
+<p>class Configuration<br>
+    include Enumerable[untyped]</p>
+
+<pre class="code ruby"><code class="ruby">def self.merged_config: (Array[::FlossFunding::Configuration]) -&gt; ::FlossFunding::Configuration
+def initialize: (?Hash[untyped, untyped]) -&gt; void
+def []: (String | Symbol) -&gt; Array[untyped]
+def fetch: (String | Symbol, ?untyped) { (String | Symbol) -&gt; untyped } -&gt; Array[untyped]
+def each: () { (String, Array[untyped]) -&gt; void } -&gt; void
+def keys: -&gt; Array[String]
+def key?: (String | Symbol) -&gt; bool
+def include?: (String | Symbol) -&gt; bool
+def has_key?: (String | Symbol) -&gt; bool
+def to_h: -&gt; Hash[String, Array[untyped]]
+def size: -&gt; Integer
+def empty?: -&gt; bool   end
+</code></pre>
+
+<p># Constants<br>
+  DEBUG: bool<br>
+  CONFIG_FILE_NAME: String<br>
+  FLOSS_FUNDING_HOME: String<br>
+  REQUIRED_YAML_KEYS: Array[String]<br>
+  FREE_AS_IN_BEER: String<br>
+  BUSINESS_IS_NOT_GOOD_YET: String<br>
+  NOT_FINANCIALLY_SUPPORTING: String<br>
+  STATES: Hash[Symbol, String]<br>
+  STATE_VALUES: Array[String]<br>
+  DEFAULT_STATE: String<br>
+  START_MONTH: Integer<br>
+  BASE_WORDS_PATH: String<br>
+  EIGHT_BYTES: Integer<br>
+  HEX_LICENSE_RULE: Regexp<br>
+  FOOTER: String</p>
+
+<p>module Constants<br>
+    DEFAULT_PREFIX: String<br>
+    SILENT: bool<br>
+  end</p>
+
+<p>module Version<br>
+    VERSION: String<br>
+  end</p>
+
+<p>def self.install_tasks: -&gt; void<br>
+  def self.debug_log: (*untyped) { () -&gt; String } -&gt; void</p>
+
+<p>def self.namespaces: -&gt; Hash[String, Namespace]<br>
+  def self.namespaces=: (Hash[String, Namespace]) -&gt; void</p>
+
+<p>def self.silenced: -&gt; bool<br>
+  def self.silenced=: (bool) -&gt; void</p>
+
+<p># All namespaces as Namespace objects<br>
+  def self.all_namespaces: -&gt; Array[Namespace]</p>
+
+<p># configurations<br>
+  def self.configurations: ((String | nil)) -&gt; (Hash[String, Array[::FlossFunding::Configuration]] | ::FlossFunding::Configuration | nil)<br>
+  def self.configuration: (String) -&gt; (::FlossFunding::Configuration | nil)</p>
+
+<p>def self.env_var_names: -&gt; Hash[String, String]</p>
+
+<p>def self.base_words: (?Integer) -&gt; Array[String]</p>
+
+<p>def self.loaded_at: -&gt; Time<br>
+  def self.check_activation: (String) -&gt; bool<br>
+  def self.start_coughing: (String, String, String) -&gt; void<br>
+  def self.start_begging: (String, String, String) -&gt; void<br>
+  def self.initiate_begging: (::FlossFunding::ActivationEvent) -&gt; void</p>
+
+<p>module UnderBar<br>
+    SAFE_TO_UNDERSCORE: Regexp<br>
+    SUBBER_UNDER: Regexp<br>
+    INITIAL_UNDERSCORE: Regexp</p>
+
+<pre class="code ruby"><code class="ruby">def self.env_variable_name: (String | ::FlossFunding::Namespace) -&gt; String
+def self.to_under_bar: (String) -&gt; String   end
+</code></pre>
+
+<p>module Config<br>
+    def self.find_project_root: -&gt; (String | nil)<br>
+    def self.normalize_to_array: (untyped) -&gt; Array[untyped]<br>
+  end</p>
+
+<p>module Poke<br>
+    def self.included: (Module) -&gt; void<br>
+    def self.new: ((String | nil), ?{ namespace: String?, silent: untyped?, config_path: String?, wedge: bool? }) -&gt; Module<br>
+  end</p>
+
+<p>class ContraIndications<br>
+    def self.poke_contraindicated?: -&gt; bool<br>
+    def self.at_exit_contraindicated?: -&gt; bool<br>
+  end</p>
+
+<p>class ConfigNotFoundError &lt; ::FlossFunding::Error<br>
+  end</p>
+
+<p>class ConfigLoader<br>
+    FLOSS_FUNDING_HOME: String<br>
+    DEFAULT_FILE: String</p>
+
+<pre class="code ruby"><code class="ruby">def self.clear_options: -&gt; void
+def self.configuration_file_for: (String) -&gt; (String | nil)
+def self.load_file: (String, ?{ check: bool }) -&gt; Hash[untyped, untyped]
+def self.default_configuration: -&gt; Hash[untyped, untyped]
+def self.reset_caches!: -&gt; void   end end
+</code></pre>
+</div></div>
+
+      <div id="footer">
+  Generated on Sat Aug 16 18:09:20 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.4.5).
+</div>
+
+    </div>
+  </body>
+</html>
