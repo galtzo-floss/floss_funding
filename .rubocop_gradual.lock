@@ -1,6 +1,6 @@
 {
-  "Rakefile:2102064169": [
-    [66, 5, 15, "Rake/Desc: Describe the task with `desc` method.", 842824456]
+  "Rakefile:3032348082": [
+    [67, 5, 15, "Rake/Desc: Describe the task with `desc` method.", 842824456]
   ],
   "bin/summary_counts:3146913659": [
     [196, 14, 13, "Performance/FixedSize: Do not compute the size of statically sized objects.", 1245805370],
