@@ -54,7 +54,13 @@ module FlossFunding
       # @return [Boolean]
       def at_exit_contraindicated?
         # Honor global flags first
-        return true if defined?($ERROR_INFO) # will be defined only if the process is exiting with non-zero exit status due to an uncaught error, and we don't want to suppress that, or interfere by raising a different error.
+        # Only contraindicate when there is an actual unhandled exception present.
+        # $ERROR_INFO is an alias for $! and is always defined, even when nil,
+        # so we must check its value.
+        # Prior to any errors it will likely not be defined at all,
+        # which will result in interpreter warnings,
+        # so we also have to check if it is defined.
+        return true if defined?($ERROR_INFO) && !$ERROR_INFO.nil?
         return true if ::FlossFunding.errored?
         return true if ::FlossFunding.silenced
         return true if ::FlossFunding::Constants::SILENT

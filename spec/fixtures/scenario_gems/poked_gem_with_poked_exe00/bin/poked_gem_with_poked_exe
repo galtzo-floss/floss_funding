@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+require "poked_gem_with_poked_exe"
+module PokedGemWithPokedExeExecutable; end
+require "floss_funding"
+PokedGemWithPokedExeExecutable.extend(Module.new)
+PokedGemWithPokedExeExecutable.send(:include, FlossFunding::Poke.new(nil, wedge: true))
+puts "ok"
