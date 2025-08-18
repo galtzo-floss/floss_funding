@@ -80,7 +80,7 @@ module FlossFunding
             if wedge
               begin
                 ::FlossFunding.debug_log { "[Poke] wedge registration for #{base.name.inspect} ns=#{(namespace || base.name).inspect}" }
-                ::FlossFunding.register_wedge(base, namespace)
+                ::FlossFunding.register_wedge(base, namespace, contraindicated)
               rescue StandardError => e
                 # never raise from wedge registration, but record and become inert
                 ::FlossFunding.error!(e, "Poke#wedge_registration")

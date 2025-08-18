@@ -54,7 +54,7 @@ module FlossFunding
       # @return [Boolean]
       def at_exit_contraindicated?
         # Honor global flags first
-        return true if !$ERROR_INFO.nil? # if not nil the process is exiting with non-zero exit status due to an uncaught error, and we don't want to suppress that, or interfere by raising a different error.
+        return true if defined?($ERROR_INFO) # will be defined only if the process is exiting with non-zero exit status due to an uncaught error, and we don't want to suppress that, or interfere by raising a different error.
         return true if ::FlossFunding.errored?
         return true if ::FlossFunding.silenced
         return true if ::FlossFunding::Constants::SILENT

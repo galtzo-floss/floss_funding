@@ -22,7 +22,7 @@ module FlossFunding
     attr_reader including_path: (String | nil)
     attr_reader env_var_name: String
     attr_reader library_root_path: (String | nil)
-    attr_reader library_config_path: (String | nil)
+    attr_reader library_config_path: String
     attr_reader seen_at: Time
     attr_reader silence: untyped
     attr_reader config: ::FlossFunding::Configuration

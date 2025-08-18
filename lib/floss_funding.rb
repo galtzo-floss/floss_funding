@@ -150,7 +150,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     # they are counted in the final summary without performing config discovery.
     # @param base [Module] the including module
     # @param custom_namespace [String, nil] optional override namespace
-    def register_wedge(base, custom_namespace = nil)
+    def register_wedge(base, custom_namespace = nil, contraindicated = false)
       # Derive namespace string
       ns_name = (custom_namespace.is_a?(String) && custom_namespace.strip != "") ? custom_namespace : base.name.to_s
 
@@ -191,7 +191,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       )
 
       add_or_update_namespace_with_event(namespace, event)
-      initiate_begging(event)
+      initiate_begging(event) unless contraindicated
 
       event
     rescue StandardError => e

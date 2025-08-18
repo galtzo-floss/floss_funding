@@ -22,11 +22,11 @@ module FlossFunding
 
     # @return [String]
     attr_reader :library_name
-    # @return [String]
+    # @return [String, nil]
     attr_reader :including_path
     # @return [String]
     attr_reader :env_var_name
-    # @return [String]
+    # @return [String, nil]
     attr_reader :library_root_path
     # @return [String]
     attr_reader :library_config_path

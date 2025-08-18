@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # :nocov:
 require "uri"
 
@@ -29,7 +30,7 @@ module FlossFunding
       begin
         u = URI.parse(value)
         return false unless %w[http https].include?(u.scheme)
-        return false if (u.host.nil? || u.host.empty?)
+        return false if u.host.nil? || u.host.empty?
         true
       rescue URI::InvalidURIError, ArgumentError
         false

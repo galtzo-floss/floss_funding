@@ -174,11 +174,11 @@ namespace :floss_funding do
     ).compact
 
     # Validate and sanitize before writing
-    sanitized, invalids = ::FlossFunding::Validators.sanitize_config(merged)
+    sanitized, invalids = FlossFunding::Validators.sanitize_config(merged)
     lib_for_log = sanitized["library_name"] || gemspec_data[:library_name] || "(unknown)"
     unless invalids.empty?
       begin
-        ::FlossFunding.debug_log { "[install][invalid] lib=#{lib_for_log.inspect} attrs=#{invalids.join(", ")}" }
+        FlossFunding.debug_log { "[install][invalid] lib=#{lib_for_log.inspect} attrs=#{invalids.join(", ")}" }
       rescue StandardError
       end
       choice = ask_continue_on_invalid(invalids, lib_for_log)

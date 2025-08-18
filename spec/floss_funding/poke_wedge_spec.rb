@@ -47,4 +47,14 @@ RSpec.describe FlossFunding::Poke do
       end
     end
   end
+
+  context "when poke is contraindicated in wedge mode" do
+    it "does not start begging on load", :check_output do
+      allow(FlossFunding::ContraIndications).to receive(:poke_contraindicated?).and_return(true)
+      mod = Module.new
+      expect {
+        mod.send(:include, described_class.new(including_path, :wedge => true))
+      }.not_to output(/FLOSS Funding/).to_stdout
+    end
+  end
 end
