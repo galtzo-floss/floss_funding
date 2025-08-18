@@ -214,7 +214,7 @@ module FlossFunding
 
         title = "[Wedge] Summary: tried=#{results[:tried]} injected=#{results[:injected]}"
         begin
-          table = Terminal::Table.new(:title => title, :headings => ["Gem", "Injected Into"], :rows => rows)
+          table = ::Terminal::Table.new(:title => title, :headings => ["Gem", "Injected Into"], :rows => rows)
           ::FlossFunding::Terminal.apply_width!(table)
           table.to_s
         rescue StandardError => e

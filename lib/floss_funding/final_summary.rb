@@ -122,7 +122,7 @@ module FlossFunding
       rows << (["libraries"] + statuses.map { |st| colorize_cell(st, lib_counts[st]) })
 
       begin
-        tbl = Terminal::Table.new(:headings => headings, :rows => rows)
+        tbl = ::Terminal::Table.new(:headings => headings, :rows => rows)
         ::FlossFunding::Terminal.apply_width!(tbl)
         tbl.to_s
       rescue RuntimeError => e

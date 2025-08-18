@@ -7,28 +7,30 @@ require "floss_funding/rakelib/gem_spec_reader"
 
 namespace :floss_funding do
   # Simple interactive prompt modeled after common installers. Can be overridden
-  # by setting FF_INSTALL_CHOICE to one of: overwrite, skip, abort, diff
+  # by setting FF_INSTALL_CHOICE to one of: overwrite, append, skip, abort, diff
   def ask_overwrite(path)
     env_choice = ENV["FF_INSTALL_CHOICE"].to_s.downcase.strip
     case env_choice
     when "overwrite", "o" then return :overwrite
+    when "append", "p" then return :append
     when "skip", "s" then return :skip
     when "abort", "a" then return :abort
     when "diff", "d" then return :diff
     end
 
     loop do
-      print("#{path} exists. [d]iff, [o]verwrite, [s]kip, [a]bort? ")
+      print("#{path} exists. [d]iff, [o]verwrite, ap[p]end, [s]kip, [a]bort? ")
       $stdout.flush
       ans_line = $stdin.gets
       ans = ans_line ? ans_line.strip.downcase : nil
       case ans
       when "d" then return :diff
       when "o" then return :overwrite
+      when "p" then return :append
       when "s" then return :skip
       when "a" then return :abort
       end
-      puts "Please choose d/o/s/a."
+      puts "Please choose d/o/p/s/a."
     end
   end
 
@@ -64,6 +66,10 @@ namespace :floss_funding do
           File.write(path, content)
           puts "floss_funding: Updated #{path}"
           return :updated
+        when :append
+          File.open(path, "a") { |f| f.write(content) }
+          puts "floss_funding: Appended to #{path}"
+          return :updated
         when :skip
           puts "floss_funding: Skipped #{path}"
           return :skipped
@@ -97,6 +103,11 @@ namespace :floss_funding do
         when :overwrite
           File.write(path, new_content)
           puts "floss_funding: Updated #{path} (added #{required_line})"
+          return :updated
+        when :append
+          to_append = "#{current.end_with?("\n") ? "" : "\n"}#{required_line}\n"
+          File.open(path, "a") { |f| f.write(to_append) }
+          puts "floss_funding: Appended to #{path} (added #{required_line})"
           return :updated
         when :skip
           puts "floss_funding: Skipped updating #{path}"

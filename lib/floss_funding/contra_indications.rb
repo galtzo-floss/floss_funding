@@ -11,7 +11,8 @@ module FlossFunding
       # - If Dir.pwd raises (defensive check for broken runtime env).
       # @return [Boolean]
       def poke_contraindicated?
-        # If global silence is set, become inert immediately
+        # If global inert/silence flags are set, become inert immediately
+        return true if ::FlossFunding.errored?
         return true if ::FlossFunding.silenced
 
         # CI environments may prefer to suppress poke/setup side effects
