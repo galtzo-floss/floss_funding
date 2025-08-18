@@ -14,7 +14,8 @@ module FlossFunding
     DEFAULT_PREFIX = if ENV.key?("FLOSS_CFG_FUND_ENV_PREFIX")
       ENV["FLOSS_CFG_FUND_ENV_PREFIX"]
     else
-      "FLOSS_CFG_FUNDING_"
+      # Default prefix used with ENV variables that will hold activation keys
+      "FLOSS_FUNDING_"
     end
     # :nocov:
 
