@@ -192,10 +192,10 @@ module FFCLI
     activated = [[activated_count, 0].max, total].min
     if total.zero?
       # Avoid creating a progressbar with zero total; print a stable fallback
-      puts "Funding: 0% (0/0)"
+      puts "FUNDED🦷%: 0% (0/0)"
       return
     end
-    bar = ProgressBar.create(:title => "Funding", :total => total, :format => "%t: |%B| %p%% (%c/%C)")
+    bar = ProgressBar.create(:title => "FUNDED🦷%", :total => total, :format => "%t: |%B| %p%% (%c/%C)")
     bar.progress = activated
     # Ensure we end with a newline after progress bar output without forcing completion
     if $stdout.tty?
@@ -207,10 +207,10 @@ module FFCLI
   rescue LoadError
     # Fallback without ruby-progressbar: print a concise summary with percentage and counts
     if total_count.to_i <= 0
-      puts "Funding: 0% (0/0)"
+      puts "FUNDED🦷%: 0% (0/0)"
     else
       pct = ((activated_count.to_f / total_count.to_f) * 100).round
-      puts "Funding: #{pct}% (#{activated_count}/#{total_count})"
+      puts "FUNDED🦷%: #{pct}% (#{activated_count}/#{total_count})"
     end
   end
 
