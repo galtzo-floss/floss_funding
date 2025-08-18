@@ -20,10 +20,12 @@ module FlossFunding
       @activated_ns_names = pick_ns_names_with_state(::FlossFunding::STATES[:activated])
       @unactivated_ns_names = pick_ns_names_with_state(::FlossFunding::STATES[:unactivated])
       @invalid_ns_names = pick_ns_names_with_state(::FlossFunding::STATES[:invalid])
+      @detained_ns_names = pick_ns_names_with_state(::FlossFunding::STATES[:detained])
 
       @activated_libs = pick_unique_libs_with_state(::FlossFunding::STATES[:activated])
       @unactivated_libs = pick_unique_libs_with_state(::FlossFunding::STATES[:unactivated])
       @invalid_libs = pick_unique_libs_with_state(::FlossFunding::STATES[:invalid])
+      @detained_libs = pick_unique_libs_with_state(::FlossFunding::STATES[:detained])
 
       @all_libs = unique_libraries(@events.map(&:library))
 
@@ -47,7 +49,7 @@ module FlossFunding
     end
 
     def render
-      # 3. Choose a random library from unactivated + invalid that hasn't nagged recently (at_exit lockfile)
+      # 3. Choose a random library from unactivated + invalid + detained that hasn't nagged recently (at_exit lockfile)
       showcased_lib = random_unpaid_or_invalid_library
 
       lines = []
@@ -107,8 +109,10 @@ module FlossFunding
     def build_summary_table
       # Determine which statuses to show (skip invalid if no invalids at all)
       invalid_total = @invalid_ns_names.size + @invalid_libs.size
+      detained_total = @detained_ns_names.size + @detained_libs.size
       statuses = ::FlossFunding::STATE_VALUES.dup
       statuses.delete(::FlossFunding::STATES[:invalid]) if invalid_total.zero?
+      statuses.delete(::FlossFunding::STATES[:detained]) if detained_total.zero?
 
       # Headings: first column empty (row labels), then status columns
       headings = [""] + statuses.map { |st| colorize_heading(st) }
@@ -142,12 +146,14 @@ module FlossFunding
           ::FlossFunding::STATES[:activated] => @activated_ns_names.size,
           ::FlossFunding::STATES[:unactivated] => @unactivated_ns_names.size,
           ::FlossFunding::STATES[:invalid] => @invalid_ns_names.size,
+          ::FlossFunding::STATES[:detained] => @detained_ns_names.size,
         }
       when :libraries
         {
           ::FlossFunding::STATES[:activated] => @activated_libs.size,
           ::FlossFunding::STATES[:unactivated] => @unactivated_libs.size,
           ::FlossFunding::STATES[:invalid] => @invalid_libs.size,
+          ::FlossFunding::STATES[:detained] => @detained_libs.size,
         }
       else
         {}
@@ -196,6 +202,10 @@ module FlossFunding
         light_hex = "#87cefa"  # light sky blue
         dark_hex = "#00008b"  # dark blue
         default = ->(t) { Rainbow(t).blue }
+      when ::FlossFunding::STATES[:detained]
+        light_hex = "#ffd1dc"  # light pink
+        dark_hex = "#c71585"  # medium violet red
+        default = ->(t) { Rainbow(t).magenta }
       else
         return text
       end
@@ -249,7 +259,7 @@ module FlossFunding
 
     def random_unpaid_or_invalid_library
       # Build pool of unique libraries in unactivated or invalid states
-      libs = (@unactivated_libs + @invalid_libs).uniq
+      libs = (@unactivated_libs + @invalid_libs + @detained_libs).uniq
       return if libs.empty?
 
       # Filter using at_exit lockfile to exclude recently featured libraries

@@ -4,6 +4,7 @@ require "yaml"
 require "fileutils"
 
 require "floss_funding/rakelib/gem_spec_reader"
+require "floss_funding/validators"
 
 namespace :floss_funding do
   # Simple interactive prompt modeled after common installers. Can be overridden
@@ -124,6 +125,28 @@ namespace :floss_funding do
     end
   end
 
+  def ask_continue_on_invalid(invalids, lib_name)
+    env = ENV["FF_BADDATA_CHOICE"].to_s.downcase.strip
+    if %w[continue abort].include?(env)
+      return env.to_sym
+    end
+    puts "floss_funding: Detected invalid config values for #{lib_name.inspect}: #{invalids.size} attribute(s)."
+    puts "See debug log for details (names only)."
+    loop do
+      print("Continue without invalid values? [c]ontinue / [a]bort: ")
+      $stdout.flush
+      ans = ($stdin.gets || "").strip.downcase
+      case ans
+      when "c", "continue"
+        return :continue
+      when "a", "abort"
+        return :abort
+      else
+        puts "Please choose c/a."
+      end
+    end
+  end
+
   desc "Install or update FlossFunding support files (.floss_funding.yml, .gitignore sentinels). Idempotent per file with prompts (diff/overwrite/skip/abort)."
   task :install, [:force] do |_, args|
     args ||= {}
@@ -150,19 +173,33 @@ namespace :floss_funding do
       "funding_uri" => gemspec_data[:funding_uri],
     ).compact
 
+    # Validate and sanitize before writing
+    sanitized, invalids = ::FlossFunding::Validators.sanitize_config(merged)
+    lib_for_log = sanitized["library_name"] || gemspec_data[:library_name] || "(unknown)"
+    unless invalids.empty?
+      begin
+        ::FlossFunding.debug_log { "[install][invalid] lib=#{lib_for_log.inspect} attrs=#{invalids.join(", ")}" }
+      rescue StandardError
+      end
+      choice = ask_continue_on_invalid(invalids, lib_for_log)
+      if choice == :abort
+        abort("floss_funding: Aborted due to invalid values in suggested config")
+      end
+    end
+
     # Ensure required keys are present (may still be nil if not in gemspec)
-    missing = FlossFunding::REQUIRED_YAML_KEYS.reject { |k| merged.key?(k) && merged[k] && merged[k].to_s.strip != "" }
+    missing = FlossFunding::REQUIRED_YAML_KEYS.reject { |k| sanitized.key?(k) && sanitized[k] && sanitized[k].to_s.strip != "" }
     unless missing.empty?
       warn "floss_funding: Warning - missing suggested values for: #{missing.join(", ")}. You can edit #{dest_path} to fill them in."
     end
 
     if File.exist?(dest_path) && !force
       # Existing file: handle via prompt if content differs
-      write_with_prompt(dest_path, merged.to_yaml)
+      write_with_prompt(dest_path, sanitized.to_yaml)
     else
       # Forced overwrite or create
       FileUtils.mkdir_p(project_root)
-      File.write(dest_path, merged.to_yaml)
+      File.write(dest_path, sanitized.to_yaml)
       puts "floss_funding: #{File.exist?(dest_path) ? "Overwrote" : "Installed"} #{dest_path}"
     end
 

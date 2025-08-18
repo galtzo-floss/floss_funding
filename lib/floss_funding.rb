@@ -19,6 +19,7 @@ require "floss_funding/version"
 # Load runtime control switch constants separately for easier test isolation
 require "floss_funding/constants"
 require "floss_funding/lockfile"
+require "floss_funding/validators"
 
 # Now declare some constants
 module FlossFunding
@@ -54,6 +55,7 @@ module FlossFunding
     :activated => "activated",
     :unactivated => "unactivated",
     :invalid => "invalid",
+    :detained => "detained",
   }.freeze
   STATE_VALUES = STATES.values.freeze
 
@@ -481,6 +483,11 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
         unless lock && lock.nagged?(library)
           lock.record_nag(library, event, "on_load") if lock
           ::FlossFunding.start_coughing(activation_key, ns, env_var_name)
+        end
+      when ::FlossFunding::STATES[:detained]
+        unless lock && lock.nagged?(library)
+          lock.record_nag(library, event, "on_load") if lock
+          puts %(FLOSS Funding: Configuration for #{library_name} (#{ns}) contains invalid values and has been detained; details will be shown at exit.) unless ::FlossFunding::ContraIndications.at_exit_contraindicated?
         end
       else
         unless lock && lock.nagged?(library)

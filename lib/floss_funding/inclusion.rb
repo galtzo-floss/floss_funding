@@ -164,6 +164,18 @@ module FlossFunding
         @config_data[k] = ::FlossFunding::Config.normalize_to_array(yaml_cfg.key?(k) ? yaml_cfg[k] : default_cfg[k])
       end
       augment_derived_fields!
+      # Enforce validators on loaded config values before freezing
+      sanitized, invalids = ::FlossFunding::Validators.sanitize_config(@config_data)
+      @config_data = sanitized
+      unless invalids.empty?
+        begin
+          lib_for_log = Array(@config_data["library_name"]).first || @base_name || "(unknown)"
+          ::FlossFunding.debug_log { "[config][invalid] lib=#{lib_for_log.inspect} attrs=#{invalids.join(", ")}" }
+        rescue StandardError
+        end
+        # Mark as detained at inclusion time; event will carry detained state
+        @state = ::FlossFunding::STATES[:detained]
+      end
       @config_data.freeze
     end
 
