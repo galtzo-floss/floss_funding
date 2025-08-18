@@ -69,7 +69,8 @@ module FlossFunding
 
       # In normal runtime we don't care about the @seen_at value, as this isn't an interactive library.
       # @seen_at is only useful for debugging; e.g., could be used to order libraries by time of discovery
-      @seen_at = DEBUG ? Time.now : FlossFunding.loaded_at
+      # When DEBUG is true, we capture the current UTC time to avoid local timezone issues
+      @seen_at = DEBUG ? Time.now.utc : FlossFunding.loaded_at
       freeze
     end
   end

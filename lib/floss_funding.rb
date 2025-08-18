@@ -108,9 +108,10 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
   # A warning would be printed about the invalid key,
   # which may be a gentle way to discover that your system time is broken.
   #
-  # Time source for month arithmetic; overridable for tests.
+  # Time source for month arithmetic (UTC); overridable for tests.
+  # Always stored as a UTC Time to avoid local timezone issues.
   # @return [Time]
-  @loaded_at = Time.now.freeze
+  @loaded_at = Time.now.utc.freeze
 
   # Current Month index for time-based key validity
   # @return [Integer]

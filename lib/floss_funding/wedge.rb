@@ -2,6 +2,7 @@
 
 # external gems
 require "terminal-table"
+require "floss_funding/terminal_helpers"
 
 # this gem
 require "floss_funding"
@@ -212,8 +213,23 @@ module FlossFunding
         end
 
         title = "[Wedge] Summary: tried=#{results[:tried]} injected=#{results[:injected]}"
-        table = Terminal::Table.new(:title => title, :headings => ["Gem", "Injected Into"], :rows => rows)
-        table.to_s
+        begin
+          table = Terminal::Table.new(:title => title, :headings => ["Gem", "Injected Into"], :rows => rows)
+          ::FlossFunding::Terminal.apply_width!(table)
+          table.to_s
+        rescue RuntimeError => e
+          # Width errors or similar: fall back to a simple key: value list
+          ::FlossFunding.debug_log { "[Wedge] render_summary_table terminal-table failed: #{e.message}" }
+          lines = [title]
+          if rows.empty?
+            lines << "(no injections)"
+          else
+            rows.each do |(gem_name, injected_into)|
+              lines << "  #{gem_name}: #{injected_into}"
+            end
+          end
+          lines.join("\n")
+        end
       rescue StandardError => e
         ::FlossFunding.debug_log { "[Wedge] render_summary_table error: #{e.class}: #{e.message}" }
         "[Wedge] Summary: #{results.inspect}"
