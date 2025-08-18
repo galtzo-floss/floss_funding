@@ -69,6 +69,16 @@ RSpec.describe "exe/floss_funding" do
       # Progress may print a bar or fallback text; assert on a stable prefix
       expect(stdout).to match(/Funding:|Progress|Activated vs/)
     end
+
+    it "shows 0% when 0 of 1 libraries are activated (no false 100%)" do
+      stdout, stderr, status = run_cli("-p")
+      expect(status.exitstatus).to eq(0), "stderr: #{stderr}\nstdout: #{stdout}"
+      expect(stderr).to eq("")
+      # In a typical repo with no activation keys, floss_funding itself is unactivated: 0/1
+      # Ensure it does not incorrectly show 100%
+      expect(stdout).to include("(0/1)")
+      expect(stdout).not_to include("100% (1/1)")
+    end
   end
 
   describe "--table" do

@@ -53,6 +53,11 @@ To run all tests
 bundle exec rake test
 ```
 
+Test hygiene and coverage notes:
+- Sentinel lockfiles are ephemeral. The test harness removes any `.floss_funding.*.lock` files in the project root before the suite starts and again after it finishes. If you run specs outside the standard harness, make sure to delete these files to avoid stale at-exit/on-load state affecting results.
+- Coverage output is always printed when coverage is enabled, even if specs fail. Do not interpret a coverage report as success; always check RSpec’s exit status and failure summary.
+- When running only a subset of specs locally, you may need to disable the hard coverage threshold with `K_SOUP_COV_MIN_HARD=false` as documented in the project guidelines.
+
 ## Lint It
 
 Run all the default tasks, which includes running the gradually autocorrecting linter, `rubocop-gradual`.

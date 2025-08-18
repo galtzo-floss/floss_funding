@@ -11,12 +11,10 @@ module FlossFunding
       # - If Dir.pwd raises (defensive check for broken runtime env).
       # @return [Boolean]
       def poke_contraindicated?
-        # If an internal error occurred, become inert immediately
-        return true if ::FlossFunding.errored?
-        # Callable silencers do not apply during load; only at-exit.
-        # For early short-circuiting we honor the global silenced flag only.
+        # If global silence is set, become inert immediately
         return true if ::FlossFunding.silenced
 
+        # CI environments may prefer to suppress poke/setup side effects
         begin
           ci_val = ENV.fetch("CI", "")
           return true if ci_val.respond_to?(:casecmp) && ci_val.casecmp("true") == 0
@@ -25,6 +23,7 @@ module FlossFunding
           return true
         end
 
+        # Environment sanity check: if Dir.pwd raises, become inert
         begin
           Dir.pwd
         rescue StandardError

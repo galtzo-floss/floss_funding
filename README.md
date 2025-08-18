@@ -55,6 +55,8 @@ gem "floss_funding"
 ```console
 bundle exec rake floss_funding:install
 ```
+   - Idempotent: each file is handled independently. If a file already exists, you will be prompted to [d]iff, [o]verwrite, [s]kip, or [a]bort (set FF_INSTALL_CHOICE=overwrite|skip|abort|diff for non-interactive runs).
+   - Adds or updates .gitignore to include a sentinel ignore for FlossFunding lockfiles: `.floss_funding.*.lock`.
 3. Configure generated defaults:
 ```console
 nano .floss_funding.yml
@@ -268,6 +270,35 @@ Usage pattern options when including in to a library namespace:
     ```
 
 In all cases, the first parameter should be a String file path (e.g., `__FILE__`) or `nil` to disable discovery.
+
+## CLI
+
+The gem ships a CLI executable you can run from a Bundler project root:
+
+- floss_funding -p / --progress
+  - Shows a progress bar of Activated libraries vs Activated + Unactivated libraries in the current project.
+  - The bar reflects progress made toward activating all fingerprinted libraries.
+  - Edge cases:
+    - If 0 of N libraries are activated, the bar shows 0% and remains at the start, e.g., Funding: | | 0% (0/N)
+    - If there are no fingerprinted libraries at all (0/0), a simple fallback line is printed: Funding: 0% (0/0)
+
+Example:
+
+```
+$ ./exe/floss_funding -t
+
++------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Needs Funding (Unactivated + Invalid)                                        | Funded by You (Activated)                                                   |
++------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+| floss_funding [FlossFunding]                                                 |                                                                             |
++------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+
+$ ./exe/floss_funding -p
+Funding: | | 0% (0/1)
+```
+
+- floss_funding -t / --table
+  - Shows a two-pane table of libraries by activation state (Unactivated + Invalid on the left; Activated on the right).
 
 ## Configuration
 

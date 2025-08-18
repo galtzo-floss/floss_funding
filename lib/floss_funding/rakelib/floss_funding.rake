@@ -6,19 +6,123 @@ require "fileutils"
 require "floss_funding/rakelib/gem_spec_reader"
 
 namespace :floss_funding do
-  desc "Install a default .floss_funding.yml by merging gemspec data with defaults"
+  # Simple interactive prompt modeled after common installers. Can be overridden
+  # by setting FF_INSTALL_CHOICE to one of: overwrite, skip, abort, diff
+  def ask_overwrite(path)
+    env_choice = ENV["FF_INSTALL_CHOICE"].to_s.downcase.strip
+    case env_choice
+    when "overwrite", "o" then return :overwrite
+    when "skip", "s" then return :skip
+    when "abort", "a" then return :abort
+    when "diff", "d" then return :diff
+    end
+
+    loop do
+      print("#{path} exists. [d]iff, [o]verwrite, [s]kip, [a]bort? ")
+      $stdout.flush
+      ans_line = $stdin.gets
+      ans = ans_line ? ans_line.strip.downcase : nil
+      case ans
+      when "d" then return :diff
+      when "o" then return :overwrite
+      when "s" then return :skip
+      when "a" then return :abort
+      end
+      puts "Please choose d/o/s/a."
+    end
+  end
+
+  def show_diff(old_str, new_str)
+    old_lines = (old_str || "").to_s.split("\n")
+    new_lines = (new_str || "").to_s.split("\n")
+    puts "--- current"
+    puts "+++ new"
+    max = [old_lines.size, new_lines.size].max
+    max.times do |i|
+      o = old_lines[i]
+      n = new_lines[i]
+      if o != n
+        puts "- #{o}"
+        puts "+ #{n}"
+      end
+    end
+  end
+
+  # Write a file with prompting when destination already exists and content differs.
+  # Returns :created, :updated, :skipped
+  def write_with_prompt(path, content)
+    if File.exist?(path)
+      current = File.read(path)
+      return :skipped if current == content # idempotent
+      loop do
+        choice = ask_overwrite(path)
+        case choice
+        when :diff
+          show_diff(current, content)
+          next
+        when :overwrite
+          File.write(path, content)
+          puts "floss_funding: Updated #{path}"
+          return :updated
+        when :skip
+          puts "floss_funding: Skipped #{path}"
+          return :skipped
+        when :abort
+          abort("floss_funding: Aborted by user while processing #{path}")
+        end
+      end
+    else
+      FileUtils.mkdir_p(File.dirname(path))
+      File.write(path, content)
+      puts "floss_funding: Created #{path}"
+      :created
+    end
+  end
+
+  # Ensure a .gitignore contains a given line (idempotent). Uses the same
+  # prompt logic when the file exists and needs to be updated.
+  def ensure_gitignore_line(path, required_line)
+    required_line = required_line.strip
+    if File.exist?(path)
+      current = File.read(path)
+      return :skipped if current.split("\n").any? { |l| l.strip == required_line }
+      new_content = (current.end_with?("\n") ? current : current + "\n") + required_line + "\n"
+      # ask user whether to update
+      loop do
+        choice = ask_overwrite(path)
+        case choice
+        when :diff
+          show_diff(current, new_content)
+          next
+        when :overwrite
+          File.write(path, new_content)
+          puts "floss_funding: Updated #{path} (added #{required_line})"
+          return :updated
+        when :skip
+          puts "floss_funding: Skipped updating #{path}"
+          return :skipped
+        when :abort
+          abort("floss_funding: Aborted by user while processing #{path}")
+        end
+      end
+    else
+      FileUtils.mkdir_p(File.dirname(path))
+      File.write(path, "#{required_line}\n")
+      puts "floss_funding: Created #{path} with #{required_line}"
+      :created
+    end
+  end
+
+  desc "Install or update FlossFunding support files (.floss_funding.yml, .gitignore sentinels). Idempotent per file with prompts (diff/overwrite/skip/abort)."
   task :install, [:force] do |_, args|
     args ||= {}
     force = !!(args[:force] && args[:force].to_s == "true") || ENV["FORCE"] == "true"
 
     # Determine project root, fall back to Dir.pwd
     project_root = FlossFunding::Config.find_project_root || Dir.pwd
-    dest_path = File.join(project_root, ".floss_funding.yml")
 
-    if File.exist?(dest_path) && !force
-      puts "floss_funding: .floss_funding.yml already exists at #{dest_path}. Use FORCE=true or rake floss_funding:install[true] to overwrite."
-      next
-    end
+    # 1) Prepare .floss_funding.yml content
+    dest_path = File.join(project_root, ".floss_funding.yml")
 
     # Load defaults from the gem's config/default.yml
     defaults = FlossFunding::ConfigLoader.default_configuration.dup
@@ -41,8 +145,18 @@ namespace :floss_funding do
       warn "floss_funding: Warning - missing suggested values for: #{missing.join(", ")}. You can edit #{dest_path} to fill them in."
     end
 
-    FileUtils.mkdir_p(project_root)
-    File.write(dest_path, merged.to_yaml)
-    puts "floss_funding: Installed #{dest_path}"
+    if File.exist?(dest_path) && !force
+      # Existing file: handle via prompt if content differs
+      write_with_prompt(dest_path, merged.to_yaml)
+    else
+      # Forced overwrite or create
+      FileUtils.mkdir_p(project_root)
+      File.write(dest_path, merged.to_yaml)
+      puts "floss_funding: #{File.exist?(dest_path) ? "Overwrote" : "Installed"} #{dest_path}"
+    end
+
+    # 2) Ensure .gitignore contains sentinels ignore line (independent from config)
+    gitignore_path = File.join(project_root, ".gitignore")
+    ensure_gitignore_line(gitignore_path, ".floss_funding.*.lock")
   end
 end

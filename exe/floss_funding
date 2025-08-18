@@ -93,7 +93,21 @@ module FFCLI
         }
         case ev.state
         when ::FlossFunding::STATES[:activated]
-          activated << entry
+          # Treat unpaid/opt-out keys as not-funded for progress and listing purposes
+          unpaid = begin
+            ak = ev.activation_key.to_s
+            ns_name = lib.namespace.to_s
+            ak == ::FlossFunding::FREE_AS_IN_BEER ||
+              ak == ::FlossFunding::BUSINESS_IS_NOT_GOOD_YET ||
+              ak == "#{::FlossFunding::NOT_FINANCIALLY_SUPPORTING}-#{ns_name}"
+          rescue StandardError
+            false
+          end
+          if unpaid
+            unactivated << entry
+          else
+            activated << entry
+          end
         when ::FlossFunding::STATES[:invalid]
           invalid << entry
         else
@@ -176,11 +190,25 @@ module FFCLI
     require "ruby-progressbar"
     total = [total_count, 0].max
     activated = [[activated_count, 0].max, total].min
+    if total.zero?
+      # Avoid creating a progressbar with zero total; print a stable fallback
+      puts "Funding: 0% (0/0)"
+      return
+    end
     bar = ProgressBar.create(:title => "Funding", :total => total, :format => "%t: |%B| %p%% (%c/%C)")
     bar.progress = activated
-    bar.finish
+    # Ensure we end with a newline after progress bar output without forcing completion
+    puts ""
+    # Also print a stable, grep-friendly summary to satisfy non-TTY captures
+    puts "(#{activated}/#{total})"
   rescue LoadError
-    puts "Funding: #{activated_count}/#{total_count}"
+    # Fallback without ruby-progressbar: print a concise summary with percentage and counts
+    if total_count.to_i <= 0
+      puts "Funding: 0% (0/0)"
+    else
+      pct = ((activated_count.to_f / total_count.to_f) * 100).round
+      puts "Funding: #{pct}% (#{activated_count}/#{total_count})"
+    end
   end
 
   def table_libraries(libs)

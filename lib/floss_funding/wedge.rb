@@ -217,9 +217,9 @@ module FlossFunding
           table = Terminal::Table.new(:title => title, :headings => ["Gem", "Injected Into"], :rows => rows)
           ::FlossFunding::Terminal.apply_width!(table)
           table.to_s
-        rescue RuntimeError => e
-          # Width errors or similar: fall back to a simple key: value list
-          ::FlossFunding.debug_log { "[Wedge] render_summary_table terminal-table failed: #{e.message}" }
+        rescue StandardError => e
+          # Any terminal-table issues (missing constant, width errors, etc.): fallback to filtered list
+          ::FlossFunding.debug_log { "[Wedge] render_summary_table terminal-table failed: #{e.class}: #{e.message}" }
           lines = [title]
           if rows.empty?
             lines << "(no injections)"
