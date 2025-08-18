@@ -95,6 +95,35 @@ If all you want is to turn it off, no sense in wasting your time figuring out ho
 end
 </code></pre>
 
+<p>OK, the one line of code was a bit of a lie. You <strong>do</strong> have to require the gem. So it is two lines of code.</p>
+
+<p>Complete setup steps are:</p>
+
+<ol>
+  <li>Add gem to your Gemfile:
+    <pre class="code language-ruby"><code class="language-ruby">gem &quot;floss_funding&quot;
+</code></pre>
+  </li>
+  <li>Run the generator:
+    <pre class="code language-console"><code class="language-console">bundle exec rake floss_funding:install
+</code></pre>
+  </li>
+  <li>Configure generated defaults:
+    <pre class="code language-console"><code class="language-console">nano .floss_funding.yml
+</code></pre>
+  </li>
+  <li>Add to your code (already done!):
+    <pre class="code language-console"><code class="language-console">require &quot;floss_funding&quot;
+
+module MyLibrary
+# namespace (optional): custom namespace for activation key
+# config_file (optional): alternate file name for your config at the library root (defaults to .floss_funding.yml)
+include FlossFunding::Poke.new(__FILE__, namespace: &quot;MyLibrary&quot;, config_file: &quot;.my_custom.yml&quot;)
+end
+</code></pre>
+  </li>
+</ol>
+
 <p>The website that will generate activation keys for your gems is coming soon @ <a href="https://floss-funding.dev">floss-funding.dev</a>.  FLOSS Funding relies on empathy, respect, honor, and annoyance of the most extreme mildness.  It doesn’t accept payments for activation keys, and trusts you to go and sponsor or donate to your favorite open source projects before getting their “activation key”.</p>
 
 <p>What does an <em>activation key</em> do?  It silences the nags for a library, and “activates” your peace of mind. It rewards you with a gold star sticker (⭐️) for each project you fund when your process exits.  That’s it.</p>
@@ -267,13 +296,13 @@ Alternatively:
     <tr>
       <td>Works with JRuby</td>
       <td>
-<a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml"><img src="https://img.shields.io/badge/JRuby-9.1-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.1 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml"><img src="https://img.shields.io/badge/JRuby-9.2-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.2 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml"><img src="https://img.shields.io/badge/JRuby-9.3-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.3 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml"><img src="https://img.shields.io/badge/JRuby-9.4-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.4 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/current.yml"><img src="https://img.shields.io/badge/JRuby-current-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=green" alt="JRuby 10.0 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/heads.yml"><img src="https://img.shields.io/badge/JRuby-HEAD-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=blue" alt="JRuby HEAD Compat"></a>
+<img src="https://img.shields.io/badge/JRuby-9.1_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.1 Compat"> <img src="https://img.shields.io/badge/JRuby-9.2_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.2 Compat"> <br> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml"><img src="https://img.shields.io/badge/JRuby-9.3-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.3 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml"><img src="https://img.shields.io/badge/JRuby-9.4-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.4 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/current.yml"><img src="https://img.shields.io/badge/JRuby-current-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=green" alt="JRuby 10.0 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/heads.yml"><img src="https://img.shields.io/badge/JRuby-HEAD-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=blue" alt="JRuby HEAD Compat"></a>
 </td>
     </tr>
     <tr>
       <td>Works with Truffle Ruby</td>
       <td>
-<a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/truffle.yml"><img src="https://img.shields.io/badge/Truffle_Ruby-22.3-34BCB1?style=for-the-badge&amp;logo=ruby&amp;logoColor=pink" alt="Truffle Ruby 22.3 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/truffle.yml"><img src="https://img.shields.io/badge/Truffle_Ruby-23.0-34BCB1?style=for-the-badge&amp;logo=ruby&amp;logoColor=pink" alt="Truffle Ruby 23.0 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/truffle.yml"><img src="https://img.shields.io/badge/Truffle_Ruby-23.1-34BCB1?style=for-the-badge&amp;logo=ruby&amp;logoColor=pink" alt="Truffle Ruby 23.1 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/current.yml"><img src="https://img.shields.io/badge/Truffle_Ruby-current-34BCB1?style=for-the-badge&amp;logo=ruby&amp;logoColor=green" alt="Truffle Ruby 24.1 Compat"></a>
+<img src="https://img.shields.io/badge/Truffle_Ruby-22.3_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&amp;logo=ruby&amp;logoColor=pink" alt="Truffle Ruby 22.3 Compat"> <br> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/truffle.yml"><img src="https://img.shields.io/badge/Truffle_Ruby-23.0-34BCB1?style=for-the-badge&amp;logo=ruby&amp;logoColor=pink" alt="Truffle Ruby 23.0 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/truffle.yml"><img src="https://img.shields.io/badge/Truffle_Ruby-23.1-34BCB1?style=for-the-badge&amp;logo=ruby&amp;logoColor=pink" alt="Truffle Ruby 23.1 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/current.yml"><img src="https://img.shields.io/badge/Truffle_Ruby-current-34BCB1?style=for-the-badge&amp;logo=ruby&amp;logoColor=green" alt="Truffle Ruby 24.1 Compat"></a>
 </td>
     </tr>
     <tr>
@@ -285,12 +314,12 @@ Alternatively:
     <tr>
       <td>Works with MRI Ruby 2</td>
       <td>
-<img src="https://img.shields.io/badge/Ruby-2.0-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.0 Compat"> <img src="https://img.shields.io/badge/Ruby-2.1-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.1 Compat"> <img src="https://img.shields.io/badge/Ruby-2.2-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.2 Compat"> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/ancient.yml"><img src="https://img.shields.io/badge/Ruby-2.3-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.3 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/ancient.yml"><img src="https://img.shields.io/badge/Ruby-2.4-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.4 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/ancient.yml"><img src="https://img.shields.io/badge/Ruby-2.5-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.5 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/unsupported.yml"><img src="https://img.shields.io/badge/Ruby-2.6-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.6 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/unsupported.yml"><img src="https://img.shields.io/badge/Ruby-2.7-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.7 Compat"></a>
+<img src="https://img.shields.io/badge/Ruby-2.0_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.0 Compat"> <img src="https://img.shields.io/badge/Ruby-2.1_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.1 Compat"> <img src="https://img.shields.io/badge/Ruby-2.2_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.2 Compat"> <br> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/ancient.yml"><img src="https://img.shields.io/badge/Ruby-2.3-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.3 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/ancient.yml"><img src="https://img.shields.io/badge/Ruby-2.4-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.4 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/ancient.yml"><img src="https://img.shields.io/badge/Ruby-2.5-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.5 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/unsupported.yml"><img src="https://img.shields.io/badge/Ruby-2.6-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.6 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/unsupported.yml"><img src="https://img.shields.io/badge/Ruby-2.7-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.7 Compat"></a>
 </td>
     </tr>
     <tr>
       <td>Works with MRI Ruby 1</td>
-      <td><img src="https://img.shields.io/badge/Ruby-1.9-412BD3?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 1.9 Compat"></td>
+      <td><img src="https://img.shields.io/badge/Ruby-1.9_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 1.9 Compat"></td>
     </tr>
     <tr>
       <td>Source</td>
@@ -398,22 +427,29 @@ NOTE: Be prepared to track down certs for signed gems and add them the same way 
 
 <h2 id="-basic-usage">🔧 Basic Usage</h2>
 
-<p>Usage patterns:</p>
+<p>Usage pattern options when including in to a library namespace:</p>
 
 <ol>
   <li>Traditional namespace (uses the including module’s name):
-    <pre class="code language-ruby"><code class="language-ruby"> module MyGemLibrary
-   include FlossFunding::Poke.new(__FILE__)
- end
+    <pre class="code language-ruby"><code class="language-ruby"> include FlossFunding::Poke.new(__FILE__)
 </code></pre>
   </li>
   <li>Arbitrary custom namespace (can add version, or anything else):
-    <pre class="code language-ruby"><code class="language-ruby"> module MyGemLibrary
-   include FlossFunding::Poke.new(__FILE__, :namespace =&gt; &quot;Custom::Namespace::V4&quot;)
- end
+    <pre class="code language-ruby"><code class="language-ruby"> include FlossFunding::Poke.new(__FILE__, :namespace =&gt; &quot;Custom::Namespace::V4&quot;)
+</code></pre>
+  </li>
+  <li>Explicitly disable gemspec parsing, and config discovery (including library_name) by passing <code>nil</code> and <code>wedge: true</code>:
+    <pre class="code language-ruby"><code class="language-ruby"> include FlossFunding::Poke.new(nil, :wedge =&gt; true)
+</code></pre>
+  </li>
+  <li>Provide a custom config file name located at the library root:<br>
+module MyGemLibrary
+    <pre class="code language-ruby"><code class="language-ruby"> include FlossFunding::Poke.new(__FILE__, :config_file =&gt; &quot;.my_custom.yml&quot;)
 </code></pre>
   </li>
 </ol>
+
+<p>In all cases, the first parameter should be a String file path (e.g., <code>__FILE__</code>) or <code>nil</code> to disable discovery.</p>
 
 <h2 id="configuration">Configuration</h2>
 
@@ -595,7 +631,7 @@ See <a href="file.LICENSE.html" title="LICENSE.txt">LICENSE.txt</a> for the offi
 </div></div>
 
       <div id="footer">
-  Generated on Sun Aug 17 12:26:22 2025 by
+  Generated on Sun Aug 17 20:16:36 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

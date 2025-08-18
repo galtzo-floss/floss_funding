@@ -47,6 +47,13 @@ rescue LoadError
   end
 end
 
+# Terminal helpers (width detection via tput each render)
+begin
+  require "floss_funding/terminal_helpers"
+rescue LoadError
+  # Best effort; CLI will still operate without width hints
+end
+
 # Helpers to extract data from FlossFunding global state
 module FFCLI
   module_function
@@ -214,11 +221,16 @@ module FFCLI
       right = right.map { |label| Rainbow(label).green.to_s }
     end
 
-    # Determine terminal width if available to help terminal-table size itself
-    begin
-      cols = IO.console.winsize[1]
+    # Determine terminal width using tput for cross-platform compatibility
+    cols = begin
+      if defined?(::FlossFunding) && defined?(::FlossFunding::Terminal)
+        ::FlossFunding::Terminal.columns
+      else
+        out = %x(tput cols 2>/dev/null).to_s.strip
+        Integer(out) unless out.empty?
+      end
     rescue StandardError
-      cols = nil
+      nil
     end
 
     headings = ["Needs Funding (Unactivated + Invalid)", "Funded by You (Activated)"]
@@ -228,11 +240,31 @@ module FFCLI
       [left[i] || "", right[i] || ""]
     end
 
-    table = Terminal::Table.new(:headings => headings, :rows => rows)
-    # Let terminal-table compute widths, but hint total width if we know it
-    table.style = {:width => cols} if cols && cols > 0
-
-    puts table
+    begin
+      table = Terminal::Table.new(:headings => headings, :rows => rows)
+      # Set width if known (re-evaluated every render)
+      if cols && cols > 0
+        table.style = {:width => cols}
+      end
+      puts table
+    rescue RuntimeError => e
+      # terminal-table can raise when width calculation exceeds available cols.
+      # Fall back to a very basic, non-tabular listing.
+      warn_msg = e.message.to_s
+      ::FlossFunding.debug_log { "[CLI][table] terminal-table failed: #{warn_msg}" } if defined?(::FlossFunding)
+      puts headings[0]
+      if left.empty?
+        puts "  (none)"
+      else
+        left.each { |label| puts "  - #{label}" }
+      end
+      puts headings[1]
+      if right.empty?
+        puts "  (none)"
+      else
+        right.each { |label| puts "  - #{label}" }
+      end
+    end
   end
 end
 

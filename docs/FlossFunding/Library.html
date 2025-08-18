@@ -636,7 +636,8 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
 71
 72
 73
-74</pre>
+74
+75</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/floss_funding/library.rb', line 57</span>
@@ -656,7 +657,8 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
 
   <span class='comment'># In normal runtime we don&#39;t care about the @seen_at value, as this isn&#39;t an interactive library.
 </span>  <span class='comment'># @seen_at is only useful for debugging; e.g., could be used to order libraries by time of discovery
-</span>  <span class='ivar'>@seen_at</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../FlossFunding.html#DEBUG-constant" title="FlossFunding::DEBUG (constant)">DEBUG</a></span></span> <span class='op'>?</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_loaded_at'><span class='object_link'><a href="../FlossFunding.html#loaded_at-class_method" title="FlossFunding.loaded_at (method)">loaded_at</a></span></span>
+</span>  <span class='comment'># When DEBUG is true, we capture the current UTC time to avoid local timezone issues
+</span>  <span class='ivar'>@seen_at</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../FlossFunding.html#DEBUG-constant" title="FlossFunding::DEBUG (constant)">DEBUG</a></span></span> <span class='op'>?</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_utc'>utc</span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='period'>.</span><span class='id identifier rubyid_loaded_at'><span class='object_link'><a href="../FlossFunding.html#loaded_at-class_method" title="FlossFunding.loaded_at (method)">loaded_at</a></span></span>
   <span class='id identifier rubyid_freeze'>freeze</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1275,7 +1277,7 @@ FlossFunding::Poke. Holds discovery info, configuration, and env details.</p>
 </div>
 
       <div id="footer">
-  Generated on Sun Aug 17 12:26:23 2025 by
+  Generated on Sun Aug 17 20:16:37 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

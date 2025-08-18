@@ -15,7 +15,7 @@ RSpec.describe FlossFunding::Poke do
       expect {
         WedgeTest1.send(:include, described_class.new(including_path, :config_file => ".missing.yml"))
       }.to raise_error(FlossFunding::Error, "Missing library root path due to: Missing required config file: " \
-                       "\".missing.yml\"; run `bundle exec rake floss_funding:install` to create one.")
+        "\".missing.yml\"; run `bundle exec rake floss_funding:install` to create one.")
     end
 
     it "raises if required keys are missing" do

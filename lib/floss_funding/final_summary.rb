@@ -3,6 +3,7 @@
 require "ruby-progressbar"
 require "terminal-table"
 require "rainbow"
+require "floss_funding/terminal_helpers"
 
 module FlossFunding
   # Builds and renders an end-of-process summary without exposing any attributes.
@@ -87,6 +88,21 @@ module FlossFunding
     end
     # :nocov:
 
+    # Fallback rendering when terminal-table cannot render due to width constraints.
+    # Produces a very basic key: value list with the same information.
+    def build_summary_kv_list(statuses, ns_counts, lib_counts)
+      lines = []
+      lines << "namespaces:"
+      statuses.each do |st|
+        lines << sprintf("  %-12s %s", "#{st}:", ns_counts[st].to_s)
+      end
+      lines << "libraries:"
+      statuses.each do |st|
+        lines << sprintf("  %-12s %s", "#{st}:", lib_counts[st].to_s)
+      end
+      lines.join("\n")
+    end
+
     # Build a terminal-table summary with colored columns per status.
     def build_summary_table
       # Determine which statuses to show (skip invalid if no invalids at all)
@@ -105,7 +121,14 @@ module FlossFunding
       rows << (["namespaces"] + statuses.map { |st| colorize_cell(st, ns_counts[st]) })
       rows << (["libraries"] + statuses.map { |st| colorize_cell(st, lib_counts[st]) })
 
-      Terminal::Table.new(:headings => headings, :rows => rows).to_s
+      begin
+        tbl = Terminal::Table.new(:headings => headings, :rows => rows)
+        ::FlossFunding::Terminal.apply_width!(tbl)
+        tbl.to_s
+      rescue RuntimeError => e
+        ::FlossFunding.debug_log { "[FinalSummary] terminal-table failed: #{e.message}" } if defined?(::FlossFunding)
+        build_summary_kv_list(statuses, ns_counts, lib_counts)
+      end
     end
 
     # :nocov:

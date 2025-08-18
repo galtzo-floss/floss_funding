@@ -112,10 +112,10 @@
  end</p>
   </li>
   <li>
-    <p>Provide an explicit config path (bypasses directory-walk search):</p>
+    <p>Provide a custom config file name located at the library root:</p>
 
     <p>module MyGemLibrary<br />
-   include FlossFunding::Poke.new(<strong>FILE</strong>, config_path: “/path/to/.floss_funding.yml”)<br />
+   include FlossFunding::Poke.new(<strong>FILE</strong>, config_file: “.my_custom.yml”)<br />
  end</p>
   </li>
 </ol>
@@ -363,13 +363,13 @@
         </li>
       
         <li>
-          <span class="name">:config_path</span>
+          <span class="name">:config_file</span>
           <span class="type">(<tt>String</tt>, <tt>nil</tt>)</span>
           <span class="default">
             
           </span>
           
-            &mdash; <div class='inline'><p>explicit path to a config file; bypasses directory-walk search when provided</p>
+            &mdash; <div class='inline'><p>alternate file name located at the library root; defaults to .floss_funding.yml</p>
 </div>
           
         </li>
@@ -513,7 +513,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Aug 17 12:26:22 2025 by
+  Generated on Sun Aug 17 20:16:37 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
