@@ -12,7 +12,7 @@ unless File.file?(status_path)
 end
 
 failed = []
-IO.foreach(status_path) do |line|
+File.foreach(status_path) do |line|
   # Expected format: "<example_id> | status | <run_time> |"
   # We only care about lines that contain "| failed |"
   next unless line.include?("| failed |")

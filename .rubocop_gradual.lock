@@ -1,23 +1,23 @@
 {
-  "Rakefile:1486137107": [
-    [67, 5, 15, "Rake/Desc: Describe the task with `desc` method.", 842824456]
+  "Rakefile:1577028124": [
+    [69, 5, 15, "Rake/Desc: Describe the task with `desc` method.", 842824456]
   ],
   "bin/summary_counts:3146913659": [
     [196, 14, 13, "Performance/FixedSize: Do not compute the size of statically sized objects.", 1245805370],
     [197, 13, 14, "Performance/FixedSize: Do not compute the size of statically sized objects.", 2582801268],
     [198, 14, 15, "Performance/FixedSize: Do not compute the size of statically sized objects.", 2132976099]
   ],
-  "lib/floss_funding.rb:1989383610": [
-    [126, 27, 2, "ThreadSafety/MutableClassInstanceVariable: Freeze mutable objects assigned to class instance variables.", 5861859],
-    [403, 34, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [406, 7, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
-    [413, 23, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [413, 58, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [415, 14, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844],
-    [416, 18, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [418, 28, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [420, 85, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3931648013],
-    [422, 14, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227]
+  "lib/floss_funding.rb:3955003183": [
+    [129, 27, 2, "ThreadSafety/MutableClassInstanceVariable: Freeze mutable objects assigned to class instance variables.", 5861859],
+    [406, 34, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [409, 7, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
+    [416, 23, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [416, 58, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [418, 14, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844],
+    [419, 18, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [421, 28, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [423, 85, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3931648013],
+    [425, 14, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227]
   ],
   "lib/floss_funding/config_finder.rb:2857557530": [
     [24, 7, 25, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 397451408],
@@ -42,18 +42,18 @@
   "lib/floss_funding/configuration.rb:3670048929": [
     [23, 5, 393, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 642745473]
   ],
-  "lib/floss_funding/contra_indications.rb:866996580": [
+  "lib/floss_funding/contra_indications.rb:2572348720": [
     [36, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
-    [64, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
+    [70, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
   ],
-  "lib/floss_funding/file_finder.rb:3058164481": [
-    [14, 5, 61, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2617869649],
-    [15, 7, 11, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 4095679882],
-    [18, 5, 89, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2506383290],
-    [19, 8, 11, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 4095679882]
+  "lib/floss_funding/file_finder.rb:3679377405": [
+    [18, 5, 61, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2617869649],
+    [19, 7, 11, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 4095679882],
+    [27, 5, 89, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2506383290],
+    [28, 8, 11, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 4095679882]
   ],
-  "lib/floss_funding/inclusion.rb:937093745": [
-    [129, 7, 248, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 3139421737]
+  "lib/floss_funding/inclusion.rb:3169101046": [
+    [127, 7, 248, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 3139421737]
   ],
   "lib/floss_funding/lockfile.rb:2956172219": [
     [118, 7, 35, "Style/InvertibleUnlessCondition: Prefer `if age <= max_age_seconds` over `unless age > max_age_seconds`.", 32631412],
@@ -68,8 +68,12 @@
     [23, 9, 6, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2752972489],
     [27, 9, 6, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2752972489]
   ],
-  "lib/floss_funding/wedge.rb:883925800": [
-    [186, 14, 10, "Lint/NoReturnInBeginEndBlocks: Do not `return` in `begin..end` blocks in assignment contexts.", 1900003172]
+  "lib/floss_funding/validators.rb:2085530198": [
+    [66, 13, 74, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 113680191],
+    [85, 13, 70, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 1958209916]
+  ],
+  "lib/floss_funding/wedge.rb:1903609400": [
+    [187, 14, 10, "Lint/NoReturnInBeginEndBlocks: Do not `return` in `begin..end` blocks in assignment contexts.", 1900003172]
   ],
   "lib/gem_mine.rb:3127632421": [
     [15, 3, 67, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2396624473]
@@ -88,10 +92,10 @@
   "spec/bench/bench_fixtures_spec.rb:2567497232": [
     [9, 7, 36, "RSpec/RemoveConst: Do not use remove_const in specs. Consider using e.g. `stub_const`.", 998002199]
   ],
-  "spec/bench/bench_integration_spec.rb:3801761415": [
+  "spec/bench/bench_integration_spec.rb:4178289511": [
     [67, 7, 36, "RSpec/RemoveConst: Do not use remove_const in specs. Consider using e.g. `stub_const`.", 998002199],
-    [115, 3, 103, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 462375521],
-    [134, 3, 103, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 577489069]
+    [115, 3, 76, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1284495812],
+    [132, 3, 149, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 3602646334]
   ],
   "spec/bench/non_gem_fixtures_spec.rb:455513552": [
     [30, 7, 37, "RSpec/RemoveConst: Do not use remove_const in specs. Consider using e.g. `stub_const`.", 1833599084],
@@ -100,7 +104,7 @@
     [106, 3, 100, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 686813999],
     [133, 3, 75, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 1167268030]
   ],
-  "spec/exe/floss_funding_spec.rb:1277215581": [
+  "spec/exe/floss_funding_spec.rb:1137012516": [
     [5, 16, 19, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3242720625],
     [19, 5, 29, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3805722071],
     [28, 5, 31, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2061216584],
@@ -108,8 +112,9 @@
     [48, 5, 49, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 1338122328],
     [58, 5, 59, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 2479229978],
     [65, 5, 40, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3470347803],
-    [75, 5, 40, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 489636086],
-    [85, 5, 44, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 556236934]
+    [73, 5, 65, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 1244717050],
+    [85, 5, 40, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 489636086],
+    [95, 5, 44, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 556236934]
   ],
   "spec/fixtures/at_exit_hook_script.rb:868457121": [
     [8, 10, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
@@ -263,12 +268,12 @@
   "spec/floss_funding/namespaces_spec.rb:3362491445": [
     [9, 16, 34, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3834489862]
   ],
-  "spec/floss_funding/poke_nil_and_config_path_spec.rb:3620813743": [
-    [3, 16, 32, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 982602712],
+  "spec/floss_funding/poke_nil_and_config_path_spec.rb:17969278": [
+    [3, 16, 32, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 999335859],
     [15, 3, 26, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 2242036732],
     [17, 47, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding::ConfigFinder` as a spy using `allow` or `instance_spy`.", 1384559950],
-    [25, 3, 82, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2753657424],
-    [27, 47, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding::ConfigFinder` as a spy using `allow` or `instance_spy`.", 1384559950]
+    [25, 3, 91, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 202545117],
+    [26, 47, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding::ConfigFinder` as a spy using `allow` or `instance_spy`.", 1384559950]
   ],
   "spec/floss_funding/poke_spec.rb:4060067051": [
     [7, 1, 33, "RSpec/MultipleDescribes: Do not use multiple top-level example groups - try to nest them.", 3101784828],
@@ -298,6 +303,9 @@
   "spec/floss_funding/wedge_spec.rb:3362564704": [
     [13, 3, 6, "Lint/Syntax: unexpected token kRESCUE\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 2123792210]
   ],
+  "spec/scenarios/scenario_gems_spec.rb:3233803425": [
+    [3, 1, 1, "Lint/MissingCopEnableDirective: Re-enable RSpec/DescribeClass cop with `# rubocop:enable` after disabling it.", 177542]
+  ],
   "spec/scenarios/tracking_spec.rb:26499778": [
     [9, 16, 37, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3603826461],
     [15, 5, 31, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2300487680],
@@ -307,14 +315,8 @@
     [83, 19, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361],
     [88, 19, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361]
   ],
-  "spec/scenarios/wedge_scenarios_spec.rb:2327976763": [
-    [5, 16, 25, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 1506215789],
-    [18, 9, 33, "RSpec/RemoveConst: Do not use remove_const in specs. Consider using e.g. `stub_const`.", 3986037036],
-    [27, 3, 62, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 476818824],
-    [42, 3, 87, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3150767071],
-    [63, 3, 81, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1537890998],
-    [75, 3, 90, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 376524520],
-    [87, 3, 80, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 74870830]
+  "spec/scenarios/wedge_scenarios_spec.rb:2347259378": [
+    [24, 9, 33, "RSpec/RemoveConst: Do not use remove_const in specs. Consider using e.g. `stub_const`.", 3986037036]
   ],
   "spec/support/helpers/contraindications_helper.rb:488282364": [
     [68, 13, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
