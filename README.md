@@ -43,6 +43,33 @@ module MyGemLibrary
 end
 ```
 
+OK, the one line of code was a bit of a lie. You __do__ have to require the gem. So it is two lines of code.
+
+Complete setup steps are:
+
+1. Add gem to your Gemfile:
+```ruby
+gem "floss_funding"
+```
+2. Run the generator:
+```console
+bundle exec rake floss_funding:install
+```
+3. Configure generated defaults:
+```console
+nano .floss_funding.yml
+```
+4. Add to your code (already done!):
+```console
+   require "floss_funding"
+
+   module MyLibrary
+   # namespace (optional): custom namespace for activation key
+   # config_file (optional): alternate file name for your config at the library root (defaults to .floss_funding.yml)
+   include FlossFunding::Poke.new(__FILE__, namespace: "MyLibrary", config_file: ".my_custom.yml")
+   end
+```
+
 The website that will generate activation keys for your gems is coming soon @ [floss-funding.dev](https://floss-funding.dev).  FLOSS Funding relies on empathy, respect, honor, and annoyance of the most extreme mildness.  It doesn't accept payments for activation keys, and trusts you to go and sponsor or donate to your favorite open source projects before getting their "activation key".
 
 What does an _activation key_ do?  It silences the nags for a library, and "activates" your peace of mind. It rewards you with a gold star sticker (⭐️) for each project you fund when your process exits.  That's it.
@@ -220,20 +247,27 @@ NOTE: Be prepared to track down certs for signed gems and add them the same way 
 
 ## 🔧 Basic Usage
 
-Usage patterns:
+Usage pattern options when including in to a library namespace:
 
 1. Traditional namespace (uses the including module's name):
     ```ruby
-    module MyGemLibrary
-      include FlossFunding::Poke.new(__FILE__)
-    end
+    include FlossFunding::Poke.new(__FILE__)
     ```
 2. Arbitrary custom namespace (can add version, or anything else):
     ```ruby
-    module MyGemLibrary
-      include FlossFunding::Poke.new(__FILE__, :namespace => "Custom::Namespace::V4")
-    end
+    include FlossFunding::Poke.new(__FILE__, :namespace => "Custom::Namespace::V4")
     ```
+3. Explicitly disable gemspec parsing, and config discovery (including library_name) by passing `nil` and `wedge: true`:
+    ```ruby
+    include FlossFunding::Poke.new(nil, :wedge => true)
+    ```
+4. Provide a custom config file name located at the library root:
+   module MyGemLibrary
+    ```ruby
+    include FlossFunding::Poke.new(__FILE__, :config_file => ".my_custom.yml")
+    ```
+
+In all cases, the first parameter should be a String file path (e.g., `__FILE__`) or `nil` to disable discovery.
 
 ## Configuration
 

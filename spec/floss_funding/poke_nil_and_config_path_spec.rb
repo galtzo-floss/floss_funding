@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "Poke with explicit config_path" do
+RSpec.describe "Poke with explicit config_file" do
   before do
     allow(FlossFunding).to receive(:add_or_update_namespace_with_event)
     allow(FlossFunding).to receive(:initiate_begging)
@@ -13,21 +13,20 @@ RSpec.describe "Poke with explicit config_path" do
   end
 
   it "sets up configuration" do
-    fixture = File.join(File.dirname(__FILE__), "../fixtures/.floss_funding.yml")
+    # specify only the file name; it must reside at the library root
     expect(FlossFunding::ConfigFinder).not_to receive(:find_config_path)
 
-    inclusion = FlossFunding::Inclusion.new(base, nil, __FILE__, {:config_path => fixture})
-    expect(inclusion.config_path).to eq(fixture)
+    inclusion = FlossFunding::Inclusion.new(base, nil, __FILE__, {:config_file => ".floss_funding.yml"})
+    expect(File.basename(inclusion.config_path)).to eq(".floss_funding.yml")
     expect(inclusion.config_data["funding_donation_uri"]).to eq(["https://floss-funding.dev/donate"])
     expect(inclusion.configuration["funding_donation_uri"]).to eq(["https://floss-funding.dev/donate"])
   end
 
-  it "bypasses config search when including_path is nil and config_path is provided" do
-    fixture = File.join(File.dirname(__FILE__), "../fixtures/.floss_funding.yml")
+  it "raises missing library root when including_path is nil even if config_file is provided" do
     expect(FlossFunding::ConfigFinder).not_to receive(:find_config_path)
 
     expect {
-      FlossFunding::Inclusion.new(base, nil, nil, {:config_path => fixture})
+      FlossFunding::Inclusion.new(base, nil, nil, {:config_file => ".floss_funding.yml"})
     }.to raise_error(FlossFunding::Error, /Missing library root path due to: missing including path/)
   end
 end

@@ -48,5 +48,5 @@ Appraisal.*.gemfile.lock
 /spec/fixtures/gem_mine/*
 /spec/fixtures/bench_gems/*
 
-# Lockfiles
+# Sentinels
 .floss_funding.*.lock

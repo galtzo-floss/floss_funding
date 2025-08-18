@@ -133,7 +133,7 @@ module FlossFunding
 
   module Poke
     def self.included: (Module) -> void
-    def self.new: ((String | nil), ?{ namespace: String?, silent: untyped?, config_path: String?, wedge: bool? }) -> Module
+    def self.new: ((String | nil), ?{ namespace: String?, silent: untyped?, config_file: String?, wedge: bool? }) -> Module
   end
 
   class ContraIndications

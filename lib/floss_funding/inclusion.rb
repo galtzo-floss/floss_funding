@@ -33,7 +33,9 @@ module FlossFunding
     attr_reader :event
     # @return [Hash]
     attr_reader :options
-    # @return [String, nil]
+    # @return [String] the config file name to read from the library root; always set to the option or default
+    attr_reader :config_file
+    # @return [String] absolute path to the config file at the discovered library root
     attr_reader :config_path
     # @return [Hash]
     attr_reader :config_data
@@ -45,14 +47,16 @@ module FlossFunding
     # @param base [Module] the including module
     # @param custom_namespace [String, nil]
     # @param including_path [String, nil]
-    # @param options [Hash] additional options (e.g., :config_path)
+    # @param options [Hash] additional options (e.g., :config_file)
+    # @option options [String, nil] :config_file (nil) alternate filename for .floss_funding.yml
     # @option options [#call] :silent (nil)
     def initialize(base, custom_namespace, including_path, options = {})
       @options = options.dup
       @base = base
       @including_path = including_path
       @silent = @options.delete(:silent)
-      @config_path = @options.delete(:config_path)
+      # honoring a custom file name when provided
+      @config_file = @options.delete(:config_file) || FlossFunding::CONFIG_FILE_NAME
       # Assign early so validation sees the actual provided value
       @custom_namespace = custom_namespace
 
@@ -72,12 +76,6 @@ module FlossFunding
 
       reason = discover_library_root_path
       raise ::FlossFunding::Error, "Missing library root path due to: #{reason}" unless @library_root_path
-
-      if @config_path
-        discover_config_path
-      else
-        discover_config_path_from_library_root
-      end
 
       # Derive config data from @config_path by parsing .floss_funding.yml.
       data_from_config_file
@@ -187,34 +185,17 @@ module FlossFunding
       key = File.expand_path(@including_path)
       return "missing key" unless key
 
-      root_indicator_file = find_file_upwards(FlossFunding::CONFIG_FILE_NAME, key)
-      return "missing root_indicator_file" unless root_indicator_file
+      root_indicator_file = find_file_upwards(@config_file, key)
+      # If the root indicator file is not found walking up from the including file,
+      # we cannot determine the library root. Avoid referencing @config_path here because
+      # it is only computed after the root path is known.
+      return "Missing required config file: #{@config_file.inspect}; run `bundle exec rake floss_funding:install` to create one." unless root_indicator_file
 
       dir = File.dirname(root_indicator_file)
       return "missing dir" unless dir
 
+      @config_path = root_indicator_file
       @library_root_path = dir
-    end
-
-    def discover_config_path
-      # Library config handling:
-      # - Only use an explicit `:config_path` if provided (absolute or relative to including_path)
-      # - Do not perform any directory-walk or project-level discovery here
-      if @config_path.start_with?(File::SEPARATOR)
-        # Treat as absolute when rooted at '/'
-        # No change needed
-      else
-        unless @including_path
-          raise ::FlossFunding::Error, "Relative config_path requires including_path; provide an absolute :config_path or pass a valid including_path (e.g., __FILE__)."
-        end
-        expanded_config_path = File.expand_path(@config_path, File.dirname(@including_path))
-        FlossFunding.debug_log { "[Inclusion] #{expanded_config_path.inspect} from #{@config_path.inspect} relative to including_path #{@including_path.inspect}" }
-        @config_path = expanded_config_path
-      end
-
-      unless File.file?(@config_path) && File.basename(@config_path) == ".floss_funding.yml"
-        raise ::FlossFunding::Error, "Missing required .floss_funding.yml at #{@config_path.inspect}; run `rake floss_funding:install` to create one."
-      end
     end
 
     # Set library_root_path.
@@ -222,10 +203,5 @@ module FlossFunding
     # common Bundler/gemspec indicators. Anchors the search to `@including_path`.
     #
     # @return void
-    def discover_config_path_from_library_root
-      @config_path = File.join(@library_root_path, FlossFunding::CONFIG_FILE_NAME)
-
-      nil
-    end
   end
 end
