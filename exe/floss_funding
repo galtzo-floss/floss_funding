@@ -198,9 +198,12 @@ module FFCLI
     bar = ProgressBar.create(:title => "Funding", :total => total, :format => "%t: |%B| %p%% (%c/%C)")
     bar.progress = activated
     # Ensure we end with a newline after progress bar output without forcing completion
-    puts ""
-    # Also print a stable, grep-friendly summary to satisfy non-TTY captures
-    puts "(#{activated}/#{total})"
+    if $stdout.tty?
+      puts ""
+    else
+      # In non-TTY (e.g., CI capture), provide a stable summary with counts
+      puts "(#{activated}/#{total})"
+    end
   rescue LoadError
     # Fallback without ruby-progressbar: print a concise summary with percentage and counts
     if total_count.to_i <= 0
