@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning v2](https://semver.org/spec/v2.
 
 ## [Unreleased]
 ### Added
+- Rakefile: Added `appraisal:update` task to update Appraisal gemfiles and run RuboCop Gradual autocorrect.
 ### Changed
 ### Deprecated
 ### Removed
