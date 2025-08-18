@@ -68,7 +68,7 @@ module FlossFunding
   # Constants
   DEBUG: bool
   CONFIG_FILE_NAME: String
-  FLOSS_FUNDING_HOME: String
+  FF_ROOT: String
   REQUIRED_YAML_KEYS: Array[String]
   FREE_AS_IN_BEER: String
   BUSINESS_IS_NOT_GOOD_YET: String
@@ -145,7 +145,7 @@ module FlossFunding
   end
 
   class ConfigLoader
-    FLOSS_FUNDING_HOME: String
+    FF_ROOT: String
     DEFAULT_FILE: String
 
     def self.clear_options: -> void

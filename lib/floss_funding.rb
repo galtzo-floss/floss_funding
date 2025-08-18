@@ -23,14 +23,19 @@ require "floss_funding/validators"
 
 # Now declare some constants
 module FlossFunding
-  # Debug toggle controlled by ENV; set true when ENV['FLOSS_FUNDING_DEBUG'] case-insensitively equals "true".
-  DEBUG = ENV.fetch("FLOSS_FUNDING_DEBUG", "").casecmp("true") == 0
+  # Debug toggle controlled by ENV; set true when ENV['FLOSS_CFG_FUND_DEBUG'] case-insensitively equals "true".
+  DEBUG = begin
+    v = ENV.fetch("FLOSS_CFG_FUND_DEBUG", nil)
+    v.to_s.casecmp("true") == 0
+  rescue StandardError
+    false
+  end
 
   # The file name to look for in the project root.
   # @return [String]
   CONFIG_FILE_NAME = ".floss_funding.yml"
 
-  FLOSS_FUNDING_HOME = File.realpath(File.join(File.dirname(__FILE__), ".."))
+  FF_ROOT = File.realpath(File.join(File.dirname(__FILE__), ".."))
 
   # Minimum required keys for a valid .floss_funding.yml file
   # Used to validate presence when integrating without :wedge mode
@@ -514,13 +519,6 @@ require "floss_funding/inclusion"
 require "floss_funding/poke"
 require "floss_funding/final_summary"
 # require "floss_funding/wedge" # Used independently, loaded discretely
-
-# Initialize lockfile on library load (after project_root helpers are available)
-begin
-  FlossFunding::Lockfile.install!
-rescue StandardError => e
-  FlossFunding.error!(e, "Lockfile.install!")
-end
 
 # Dog Food
 FlossFunding.send(

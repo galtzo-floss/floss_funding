@@ -7,17 +7,17 @@
     [197, 13, 14, "Performance/FixedSize: Do not compute the size of statically sized objects.", 2582801268],
     [198, 14, 15, "Performance/FixedSize: Do not compute the size of statically sized objects.", 2132976099]
   ],
-  "lib/floss_funding.rb:3955003183": [
-    [129, 27, 2, "ThreadSafety/MutableClassInstanceVariable: Freeze mutable objects assigned to class instance variables.", 5861859],
-    [406, 34, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [409, 7, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
-    [416, 23, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [416, 58, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [418, 14, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844],
-    [419, 18, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [421, 28, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [423, 85, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3931648013],
-    [425, 14, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227]
+  "lib/floss_funding.rb:991099657": [
+    [134, 27, 2, "ThreadSafety/MutableClassInstanceVariable: Freeze mutable objects assigned to class instance variables.", 5861859],
+    [411, 34, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [414, 7, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
+    [421, 23, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [421, 58, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [423, 14, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844],
+    [424, 18, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [426, 28, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [428, 85, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3931648013],
+    [430, 14, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227]
   ],
   "lib/floss_funding/config_finder.rb:2857557530": [
     [24, 7, 25, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 397451408],
@@ -55,14 +55,10 @@
   "lib/floss_funding/inclusion.rb:3169101046": [
     [127, 7, 248, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 3139421737]
   ],
-  "lib/floss_funding/lockfile.rb:2956172219": [
+  "lib/floss_funding/lockfile.rb:2308671463": [
     [118, 7, 35, "Style/InvertibleUnlessCondition: Prefer `if age <= max_age_seconds` over `unless age > max_age_seconds`.", 32631412],
     [320, 9, 8, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 610947325],
-    [332, 9, 8, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 1570262735],
-    [346, 9, 8, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 610947325],
-    [347, 9, 8, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 1570262735],
-    [348, 9, 8, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 610947325],
-    [349, 9, 8, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 1570262735]
+    [332, 9, 8, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 1570262735]
   ],
   "lib/floss_funding/under_bar.rb:3767427366": [
     [23, 9, 6, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2752972489],
@@ -72,8 +68,8 @@
     [66, 13, 74, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 113680191],
     [85, 13, 70, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 1958209916]
   ],
-  "lib/floss_funding/wedge.rb:1903609400": [
-    [187, 14, 10, "Lint/NoReturnInBeginEndBlocks: Do not `return` in `begin..end` blocks in assignment contexts.", 1900003172]
+  "lib/floss_funding/wedge.rb:608620680": [
+    [192, 14, 10, "Lint/NoReturnInBeginEndBlocks: Do not `return` in `begin..end` blocks in assignment contexts.", 1900003172]
   ],
   "lib/gem_mine.rb:3127632421": [
     [15, 3, 67, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2396624473]
@@ -197,7 +193,7 @@
     [65, 14, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
     [65, 31, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950]
   ],
-  "spec/floss_funding/floss_funding_spec.rb:2185948010": [
+  "spec/floss_funding/floss_funding_spec.rb:272255192": [
     [11, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
     [14, 5, 39, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 774390068],
     [25, 7, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
@@ -253,10 +249,10 @@
     [38, 37, 2, "RSpec/BeEq: Prefer `be` over `eq`.", 5860785],
     [46, 7, 67, "RSpec/MultipleExpectations: Example has too many expectations [6/1].", 2026600398]
   ],
-  "spec/floss_funding/lockfile_spec.rb:2551192581": [
+  "spec/floss_funding/lockfile_spec.rb:2659542227": [
     [15, 3, 70, "RSpec/MultipleExpectations: Example has too many expectations [7/1].", 606089710],
-    [40, 3, 57, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 251947487],
-    [63, 3, 58, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2706258850]
+    [42, 3, 57, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 251947487],
+    [66, 3, 58, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2706258850]
   ],
   "spec/floss_funding/namespace_spec.rb:3417847789": [
     [56, 9, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
@@ -303,17 +299,17 @@
   "spec/floss_funding/wedge_spec.rb:3362564704": [
     [13, 3, 6, "Lint/Syntax: unexpected token kRESCUE\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 2123792210]
   ],
-  "spec/scenarios/scenario_gems_spec.rb:3233803425": [
+  "spec/scenarios/scenario_gems_spec.rb:3480206350": [
     [3, 1, 1, "Lint/MissingCopEnableDirective: Re-enable RSpec/DescribeClass cop with `# rubocop:enable` after disabling it.", 177542]
   ],
-  "spec/scenarios/tracking_spec.rb:26499778": [
+  "spec/scenarios/tracking_spec.rb:2632629465": [
     [9, 16, 37, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3603826461],
-    [15, 5, 31, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2300487680],
-    [35, 5, 48, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 772087403],
-    [51, 5, 57, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 248228467],
-    [68, 5, 97, "RSpec/MultipleExpectations: Example has too many expectations [9/1].", 4166943142],
-    [83, 19, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361],
-    [88, 19, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361]
+    [19, 5, 31, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2300487680],
+    [39, 5, 48, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 772087403],
+    [55, 5, 57, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 248228467],
+    [72, 5, 97, "RSpec/MultipleExpectations: Example has too many expectations [9/1].", 4166943142],
+    [87, 19, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361],
+    [92, 19, 10, "ThreadSafety/NewThread: Avoid starting new threads.", 3411682361]
   ],
   "spec/scenarios/wedge_scenarios_spec.rb:2347259378": [
     [24, 9, 33, "RSpec/RemoveConst: Do not use remove_const in specs. Consider using e.g. `stub_const`.", 3986037036]

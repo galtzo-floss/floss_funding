@@ -294,7 +294,7 @@ RSpec.describe FlossFunding::Wedge do
   #     hide_const("FlossFunding::Wedge") if defined?(FlossFunding::Wedge)
   #     stub_const("FlossFunding::DEBUG", debug)
   #     # Control the ENV that gate-keeps DANGEROUS
-  #     stub_env("FLOSS_FUNDING_WEDGE_DANGEROUS" => danger_env)
+  #     stub_env("FLOSS_CFG_FUNDING_WEDGE_DANGEROUS" => danger_env)
   #     load File.expand_path("../../../lib/floss_funding/wedge.rb", __FILE__)
   #     # Touch a few methods to ensure SimpleCov sees this file as executed after reload.
   #     # This counters the Ruby Coverage quirk where Kernel#load can wipe prior counts.
@@ -339,7 +339,7 @@ RSpec.describe FlossFunding::Wedge do
       stub_const("FlossFunding::DEBUG", true)
       spec = SpecStruct.new("no-such-gem-xyz", nil, nil)
       expect {
-        described_class.send(:attempt_require_for_spec, spec, ["NoSuch::Gem"]) 
+        described_class.send(:attempt_require_for_spec, spec, ["NoSuch::Gem"])
       }.not_to raise_error
     end
 
@@ -347,7 +347,7 @@ RSpec.describe FlossFunding::Wedge do
       stub_const("FlossFunding::DEBUG", true)
       spec = SpecStruct.new("json", nil, nil)
       expect {
-        described_class.send(:attempt_require_for_spec, spec, ["Json"]) 
+        described_class.send(:attempt_require_for_spec, spec, ["Json"])
       }.not_to raise_error
     end
     it "does not raise and attempts various require strings" do

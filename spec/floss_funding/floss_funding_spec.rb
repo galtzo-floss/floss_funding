@@ -168,35 +168,35 @@ RSpec.describe FlossFunding do
   end
 
   describe "::DEBUG" do
-    it "defaults to false when FLOSS_FUNDING_DEBUG is not set" do
+    it "defaults to false when FLOSS_CFG_FUND_DEBUG is not set" do
       require "open3"
       require "rbconfig"
       ruby = RbConfig.ruby
       lib_dir = File.expand_path("../../lib", __dir__)
       code = 'require "floss_funding"; puts FlossFunding::DEBUG'
-      env = {"FLOSS_FUNDING_DEBUG" => nil}
+      env = {"FLOSS_CFG_FUND_DEBUG" => nil, "FLOSS_CFG_FUNDING_LOGFILE" => "tmp/log/rspec_debug.log"}
       stdout, _stderr, _status = Open3.capture3(env, ruby, "-I", lib_dir, "-e", code)
       expect(stdout.strip).to eq("false")
     end
 
-    it "is true when FLOSS_FUNDING_DEBUG is case-insensitively 'true' at load time" do
+    it "is true when FLOSS_CFG_FUND_DEBUG is case-insensitively 'true' at load time" do
       require "open3"
       require "rbconfig"
       ruby = RbConfig.ruby
       lib_dir = File.expand_path("../../lib", __dir__)
       code = 'require "floss_funding"; puts FlossFunding::DEBUG'
-      env = {"FLOSS_FUNDING_DEBUG" => "TrUe"}
+      env = {"FLOSS_CFG_FUND_DEBUG" => "TrUe", "FLOSS_CFG_FUNDING_LOGFILE" => "tmp/log/rspec_debug.log"}
       stdout, _stderr, _status = Open3.capture3(env, ruby, "-I", lib_dir, "-e", code)
       expect(stdout.strip).to eq("true")
     end
 
-    it "is false when FLOSS_FUNDING_DEBUG is a non-matching value at load time" do
+    it "is false when FLOSS_CFG_FUND_DEBUG is a non-matching value at load time" do
       require "open3"
       require "rbconfig"
       ruby = RbConfig.ruby
       lib_dir = File.expand_path("../../lib", __dir__)
       code = 'require "floss_funding"; puts FlossFunding::DEBUG'
-      env = {"FLOSS_FUNDING_DEBUG" => "FALSE"}
+      env = {"FLOSS_CFG_FUND_DEBUG" => "FALSE", "FLOSS_CFG_FUNDING_LOGFILE" => "tmp/log/rspec_debug.log"}
       stdout, _stderr, _status = Open3.capture3(env, ruby, "-I", lib_dir, "-e", code)
       expect(stdout.strip).to eq("false")
     end

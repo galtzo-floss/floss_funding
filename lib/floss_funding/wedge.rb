@@ -23,7 +23,12 @@ module FlossFunding
     # This could be extremely dangerous, because some gems are destructive on load.
     # Fortunately this entire wedge file is not loaded at all by the floss_funding gem.
     # Wedge must be loaded explicitly; preferably in a clean testing environment.
-    maybe_dangerous = ENV.fetch("FLOSS_FUNDING_WEDGE_DANGEROUS", "0") == "1"
+    maybe_dangerous = begin
+      v = ENV.fetch("FLOSS_CFG_FUNDING_WEDGE_DANGEROUS", nil)
+      v == "1"
+    rescue StandardError
+      false
+    end
     DANGEROUS =
       if maybe_dangerous
         if DEBUG

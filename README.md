@@ -29,7 +29,7 @@ This tool can help library maintainers earn money from their open source work in
 A global ones is:
 
 ```
-ENV['FLOSS_FUNDING_SILENT'] = "CATHEDRAL_OR_BAZAAR"`
+ENV['FLOSS_CFG_FUNDING_SILENT'] = "CATHEDRAL_OR_BAZAAR"`
 ```
 
 Instructions for turning this tool off will always be front and center.
@@ -304,7 +304,7 @@ Funding: | | 0% (0/1)
 
 ### Silence via lobal Environment Variable
 
-For global silence the best solution is to set the environment variable `FLOSS_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
+For global silence the best solution is to set the environment variable `FLOSS_CFG_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
 
 If you can't control ENV variables, and you can control the stack, at the beginning of the stack, before other things load, simply `require "floss_funding/silent"`, and it will silence all output. Note that this is less performant than setting the global environment variable, as above.
 
@@ -320,7 +320,7 @@ If you have a library that doesn't know, at the time of `Poke.new` inclusion, if
 
 **IMPORTANT** - By the time your `Poke.new` using library loads into a stack, other libraries may have already loaded `Poke.new` for themselves, and may have already generated output. This is not a solution for silencing all output. The main thing it can reliably do is silence the output from the at_exit handler.
 
-If you need to silence **everything**, do so by setting the environment variable `FLOSS_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
+If you need to silence **everything**, do so by setting the environment variable `FLOSS_CFG_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
 
 ### File-based Configuration
 

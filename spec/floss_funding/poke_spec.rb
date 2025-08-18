@@ -25,7 +25,6 @@ RSpec.describe FlossFunding::Poke do
         File.write(File.join(dir, "Gemfile"), "source 'https://rubygems.org'")
         Dir.chdir(dir) do
           FlossFunding::ConfigFinder.clear_caches!
-          FlossFunding::Lockfile.install!
           # First include: allow any output, we're only asserting the sentinel gates the 2nd
           TraditionalTest::InnerModule.send(:include, described_class.new(__FILE__))
           # Second include (same lockfile lifetime) should be gated: no second nag
@@ -55,7 +54,6 @@ RSpec.describe FlossFunding::Poke do
         File.write(File.join(dir, "Gemfile"), "source 'https://rubygems.org'")
         Dir.chdir(dir) do
           FlossFunding::ConfigFinder.clear_caches!
-          FlossFunding::Lockfile.install!
           # First include: allow any output, we're only asserting the sentinel gates the 2nd
           CustomTest::InnerModule.send(:include, described_class.new(__FILE__, :namespace => "MyNamespace::V4"))
           # Second include (same lockfile lifetime) should be gated: no second nag

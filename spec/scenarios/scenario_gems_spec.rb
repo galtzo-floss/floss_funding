@@ -9,15 +9,16 @@ RSpec.describe "Scenario gems fixtures" do
 
   let(:root) { File.expand_path("../fixtures/scenario_gems", __dir__) }
 
+  before do
+    # Ensure Poke runs in specs despite non-TTY STDOUT due to silencing
+    allow(FlossFunding::ContraIndications).to receive(:poke_contraindicated?).and_return(false)
+    FlossFunding.namespaces = {}
+  end
+
   before(:all) do
     # Generate fixtures once per run (idempotent via overwrite in GemMine)
     require_relative "../support/scenario_gems_generator"
     FlossFunding::ScenarioGemsGenerator.generate_all
-  end
-
-  before do
-    # Clean registry for isolation between examples
-    FlossFunding.namespaces = {}
   end
 
   def add_lib_path(path)

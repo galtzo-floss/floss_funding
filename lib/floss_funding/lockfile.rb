@@ -317,6 +317,24 @@ module FlossFunding
   module Lockfile
     class << self
       def on_load
+        expected = begin
+          root = ::FlossFunding.project_root
+          begin
+            root ||= Dir.pwd
+          rescue StandardError
+            root = nil
+          end
+          root ? File.join(root, ".floss_funding.ruby.on_load.lock") : nil
+        rescue StandardError
+          nil
+        end
+
+        if defined?(@on_load) && @on_load && @on_load.respond_to?(:path)
+          if expected && @on_load.path != expected
+            @on_load = OnLoadLockfile.new
+          end
+        end
+
         @on_load ||= OnLoadLockfile.new
       rescue StandardError => e
         ::FlossFunding.error!(e, "Lockfile.on_load")
@@ -329,6 +347,24 @@ module FlossFunding
       end
 
       def at_exit
+        expected = begin
+          root = ::FlossFunding.project_root
+          begin
+            root ||= Dir.pwd
+          rescue StandardError
+            root = nil
+          end
+          root ? File.join(root, ".floss_funding.ruby.at_exit.lock") : nil
+        rescue StandardError
+          nil
+        end
+
+        if defined?(@at_exit) && @at_exit && @at_exit.respond_to?(:path)
+          if expected && @at_exit.path != expected
+            @at_exit = AtExitLockfile.new
+          end
+        end
+
         @at_exit ||= AtExitLockfile.new
       rescue StandardError => e
         ::FlossFunding.error!(e, "Lockfile.at_exit")
@@ -338,31 +374,6 @@ module FlossFunding
           ::FlossFunding.error!(e2, "Lockfile.at_exit/fallback")
           nil
         end
-      end
-
-      # Compatibility no-ops for previous API: no longer used for gating.
-      def install!
-        # Reinitialize to pick up current project_root (may change after load in tests)
-        @on_load = OnLoadLockfile.new
-        @at_exit = AtExitLockfile.new
-        @on_load.touch!
-        @at_exit.touch!
-        nil
-      end
-
-      # Previously used to gate Poke; now always false (never contraindicate discovery)
-      def exists?
-        false
-      end
-
-      # Previously used to gate at-exit globally; now FinalSummary handles per-library gating
-      def at_exit_contraindicated?
-        false
-      end
-
-      # No-op cleanup; rotation is handled automatically per access
-      def cleanup!
-        nil
       end
     end
   end

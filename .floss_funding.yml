@@ -1,14 +1,19 @@
 ---
-funding_subscription_uri: https://floss-funding.dev/subscribe
+funding_subscription_uri:
+- https://floss-funding.dev/subscribe
 suggested_subscription_amounts:
 - 5
-funding_donation_uri: https://floss-funding.dev/donate
+funding_donation_uri:
+- https://floss-funding.dev/donate
 suggested_donation_amounts:
 - 10
-library_name: floss_funding
-homepage: https://github.com/galtzo-floss/floss_funding
+library_name:
+- floss_funding
+homepage:
+- https://github.com/galtzo-floss/floss_funding
 authors:
 - Peter H. Boling
 email:
 - floss@galtzo.com
-funding_uri: https://github.com/sponsors/pboling
+funding_uri:
+- https://github.com/sponsors/pboling
