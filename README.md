@@ -17,7 +17,7 @@
 
 ## 🌻 Synopsis
 
-This tool can help library maintainers earn money from their open source work in one line of code.
+This tool can help library maintainers earn money from their open source work in one line of code, because maintainers have teeth, and need to pay their dentists.
 
 - 👉️ No network calls.
 - 👉️ No tracking.
