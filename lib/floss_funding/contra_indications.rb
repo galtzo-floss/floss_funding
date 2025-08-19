@@ -7,8 +7,9 @@ module FlossFunding
   class ContraIndications
     class << self
       # Returns true if we should short-circuit and do nothing for poke/setup.
+      # NOTE: contraindications do not prevent wedge: true.
       # - In CI: ENV["CI"] case-insensitively equals "true".
-      # - If Dir.pwd raises (defensive check for broken runtime env).
+      # - If Dir.pwd raises (defensive check for incompatible runtime env).
       # @return [Boolean]
       def poke_contraindicated?
         # If global inert/silence flags are set, become inert immediately
