@@ -520,7 +520,10 @@ require "floss_funding/poke"
 require "floss_funding/final_summary"
 # require "floss_funding/wedge" # Used independently, loaded discretely
 
-# Dog Food
+# Dog Food test #1
+require "gem_mine"
+
+# Dog Food test #2
 FlossFunding.send(
   :include,
   FlossFunding::Poke.new(
