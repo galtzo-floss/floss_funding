@@ -70,12 +70,7 @@ module FlossFunding
 
         # 5. Show a progressbar of activated libraries over total fingerprinted libraries
         total = @all_libs.size
-        if total > 0
-          progressbar = ProgressBar.create(:title => "Activated Libraries", :total => total)
-          @activated_libs.size.times { progressbar.increment }
-          # Ensure we end with a newline after progress bar output
-          puts ""
-        end
+        ::FlossFunding.progress_bar(@activated_libs.size, total)
       end
     rescue StandardError => e
       # Record the failure and switch library to inert mode.

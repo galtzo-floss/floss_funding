@@ -186,34 +186,6 @@ module FFCLI
     end
   end
 
-  def progress_bar(activated_count, total_count)
-    require "ruby-progressbar"
-    total = [total_count, 0].max
-    activated = [[activated_count, 0].max, total].min
-    if total.zero?
-      # Avoid creating a progressbar with zero total; print a stable fallback
-      puts "FUNDED🦷%: 0% (0/0)"
-      return
-    end
-    bar = ProgressBar.create(:title => "FUNDED🦷%", :total => total, :format => "%t: |%B| %p%% (%c/%C)")
-    bar.progress = activated
-    # Ensure we end with a newline after progress bar output without forcing completion
-    if $stdout.tty?
-      puts ""
-    else
-      # In non-TTY (e.g., CI capture), provide a stable summary with counts
-      puts "(#{activated}/#{total})"
-    end
-  rescue LoadError
-    # Fallback without ruby-progressbar: print a concise summary with percentage and counts
-    if total_count.to_i <= 0
-      puts "FUNDED🦷%: 0% (0/0)"
-    else
-      pct = ((activated_count.to_f / total_count.to_f) * 100).round
-      puts "FUNDED🦷%: #{pct}% (#{activated_count}/#{total_count})"
-    end
-  end
-
   def table_libraries(libs)
     begin
       require "rainbow"
@@ -395,7 +367,7 @@ when :menu_activated
 when :progress
   activated_count = libs[:activated].size
   total_count = activated_count + libs[:unactivated].size
-  FFCLI.progress_bar(activated_count, total_count)
+  FlossFunding.progress_bar(activated_count, total_count)
 when :table
   FFCLI.table_libraries(libs)
 when :wedge

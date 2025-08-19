@@ -1,17 +1,31 @@
 # frozen_string_literal: true
 
 DEBUGGING = ENV.fetch("DEBUG", "false").casecmp("true").zero?
+# Within the test suite, we will consider this gem to be activated
+ENV["FLOSS_FUNDING_FLOSS_FUNDING"] = "Free-as-in-beer"
 
 # External gems
 require "debug" if DEBUGGING
+require "fileutils"
+
+# NOTE: Gemfiles for older rubies won't have kettle-soup-cover.
+#       The rescue LoadError handles that scenario.
+begin
+  require "kettle-soup-cover"
+  require "simplecov" if Kettle::Soup::Cover::DO_COV # `.simplecov` is run here!
+rescue LoadError => error
+  # check the error message and re-raise when unexpected
+  raise error unless error.message.include?("kettle")
+end
+
+# Load floss_funding early because other gems used in the test harness
+# will also load floss_funding, which would prevent test coverage
+require "floss_funding"
+
 require "silent_stream"
 require "rspec/block_is_expected"
 require "rspec/block_is_expected/matchers/not"
 require "rspec/stubbed_env"
-require "fileutils"
-
-# NOTE: GemMine will be moved into a separate gem, so it can have discrete tests and coverage.
-require "gem_mine"
 
 # Config files
 require "support/config/timecop"
@@ -126,18 +140,3 @@ end
 
 # Generate the 100 gem fixtures on disk (idempotent)
 FlossFunding::BenchGemsGenerator.generate_all
-
-# Within the test suite, we will consider this gem to be activated
-ENV["FLOSS_FUNDING_FLOSS_FUNDING"] = "Free-as-in-beer"
-
-# NOTE: Gemfiles for older rubies won't have kettle-soup-cover.
-#       The rescue LoadError handles that scenario.
-begin
-  require "kettle-soup-cover"
-  require "simplecov" if Kettle::Soup::Cover::DO_COV # `.simplecov` is run here!
-rescue LoadError => error
-  # check the error message and re-raise when unexpected
-  raise error unless error.message.include?("kettle")
-end
-
-require "floss_funding"

@@ -2,6 +2,7 @@
 
 # Galtzo FLOSS Rakefile v1.0.10 - 2025-08-18
 # Ruby 1.9 Compatible Edition
+# NOTE: floss_funding removed because this is the floss_funding gem source.
 #
 # CHANGELOG
 # v1.0.0 - initial release w/ support for rspec, minitest, rubocop, reek, yard, and stone_checksums
@@ -65,18 +66,18 @@ defaults = []
 is_ci = ENV.fetch("CI", "false").casecmp("true") == 0
 
 ### DEVELOPMENT TASKS
-# Setup Floss Funding
-begin
-  require "floss_funding"
-  FlossFunding.install_tasks
-rescue LoadError
-  desc("(stub) floss_funding is unavailable")
-  namespace(:floss_funding) do
-    task("install") do
-      warn("NOTE: floss_funding isn't installed, or is disabled for #{RUBY_VERSION} in the current environment")
-    end
-  end
-end
+# # Setup Floss Funding
+# begin
+#   require "floss_funding"
+#   FlossFunding.install_tasks
+# rescue LoadError
+#   desc("(stub) floss_funding is unavailable")
+#   namespace(:floss_funding) do
+#     task("install") do
+#       warn("NOTE: floss_funding isn't installed, or is disabled for #{RUBY_VERSION} in the current environment")
+#     end
+#   end
+# end
 
 # Setup Kettle Soup Cover
 begin

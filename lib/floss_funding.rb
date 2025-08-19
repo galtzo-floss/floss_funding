@@ -20,6 +20,7 @@ require "floss_funding/version"
 require "floss_funding/constants"
 require "floss_funding/lockfile"
 require "floss_funding/validators"
+require "floss_funding/rake_helpers"
 
 # Now declare some constants
 module FlossFunding
@@ -151,6 +152,46 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     end
 
   class << self
+    # Display a concise progress indicator for activated vs total libraries.
+    # Falls back gracefully if ruby-progressbar is not available or when total is zero.
+    # - In TTY: renders a progress bar and ensures a trailing newline.
+    # - In non-TTY: prints a stable summary with counts to avoid spinner artifacts.
+    # @param activated_count [Integer]
+    # @param total_count [Integer]
+    def progress_bar(activated_count, total_count)
+      begin
+        require "ruby-progressbar"
+      rescue LoadError
+        # Fallback without ruby-progressbar: print a concise summary with percentage and counts
+        total_i = total_count.to_i
+        if total_i <= 0
+          puts "FUNDED🦷%: 0% (0/0)"
+        else
+          pct = ((activated_count.to_f / total_i.to_f) * 100).round
+          puts "FUNDED🦷%: #{pct}% (#{activated_count}/#{total_i})"
+        end
+        return
+      end
+
+      total = [total_count, 0].max
+      activated = [[activated_count, 0].max, total].min
+      if total.zero?
+        # Avoid creating a progressbar with zero total; print a stable fallback
+        puts "FUNDED🦷%: 0% (0/0)"
+        return
+      end
+
+      bar = ProgressBar.create(:title => "FUNDED🦷%", :total => total, :format => "%t: |%B| %p%% (%c/%C)")
+      bar.progress = activated
+      # Ensure we end with a newline after progress bar output without forcing completion
+      if $stdout.tty?
+        puts ""
+      else
+        # In non-TTY (e.g., CI capture), provide a stable summary with counts
+        puts "(#{activated}/#{total})"
+      end
+    end
+
     # Register a minimal activation event for wedge-injected libraries to ensure
     # they are counted in the final summary without performing config discovery.
     # @param base [Module] the including module
@@ -519,9 +560,6 @@ require "floss_funding/inclusion"
 require "floss_funding/poke"
 require "floss_funding/final_summary"
 # require "floss_funding/wedge" # Used independently, loaded discretely
-
-# Dog Food test #1
-require "gem_mine"
 
 # Dog Food test #2
 FlossFunding.send(

@@ -7,5 +7,5 @@ require "kettle/soup/cover/config"
 SimpleCov.start do
   # GemMine is only used in the test framework.
   # It isn't the focus of this library anyway.
-  add_filter "lib/gem_mine"
+  add_filter "gem_mine"
 end

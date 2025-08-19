@@ -1,23 +1,20 @@
 {
-  "Rakefile:3665486145": [
-    [75, 5, 15, "Rake/Desc: Describe the task with `desc` method.", 842824456]
-  ],
   "bin/summary_counts:3146913659": [
     [196, 14, 13, "Performance/FixedSize: Do not compute the size of statically sized objects.", 1245805370],
     [197, 13, 14, "Performance/FixedSize: Do not compute the size of statically sized objects.", 2582801268],
     [198, 14, 15, "Performance/FixedSize: Do not compute the size of statically sized objects.", 2132976099]
   ],
-  "lib/floss_funding.rb:2725431957": [
-    [134, 27, 2, "ThreadSafety/MutableClassInstanceVariable: Freeze mutable objects assigned to class instance variables.", 5861859],
-    [411, 34, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [414, 7, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
-    [421, 23, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [421, 58, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [423, 14, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844],
-    [424, 18, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [426, 28, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
-    [428, 85, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3931648013],
-    [430, 14, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227]
+  "lib/floss_funding.rb:3838232890": [
+    [135, 27, 2, "ThreadSafety/MutableClassInstanceVariable: Freeze mutable objects assigned to class instance variables.", 5861859],
+    [452, 34, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [455, 7, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
+    [462, 23, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [462, 58, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [464, 14, 21, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 114494844],
+    [465, 18, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [467, 28, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
+    [469, 85, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3931648013],
+    [471, 14, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227]
   ],
   "lib/floss_funding/config_finder.rb:3092547632": [
     [24, 7, 25, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 397451408],
@@ -157,29 +154,19 @@
   "spec/floss_funding/errored_inert_spec.rb:1121206128": [
     [3, 16, 20, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 1882947387]
   ],
-  "spec/floss_funding/final_summary_spec.rb:791606707": [
+  "spec/floss_funding/final_summary_spec.rb:3548029150": [
     [28, 5, 73, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 4139442821],
     [29, 34, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950],
     [51, 7, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
-    [66, 34, 4, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 2085345239],
     [67, 7, 6, "RSpec/ExpectInHook: Do not use `expect` in `before` hook", 1179768986],
-    [67, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
-    [67, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950],
-    [67, 109, 8, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 2094546817],
-    [69, 7, 6, "RSpec/ExpectInHook: Do not use `expect` in `before` hook", 1179768986],
-    [69, 14, 8, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 2094546817],
-    [69, 27, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `@fake_pb` as a spy using `allow` or `instance_spy`.", 1384559950],
-    [72, 5, 70, "RSpec/MultipleExpectations: Example has too many expectations [13/1].", 3473323205],
-    [99, 5, 76, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 2639291062],
-    [109, 7, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
-    [111, 33, 4, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 2085345239],
-    [112, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
-    [112, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950],
-    [123, 5, 72, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 358575326],
-    [134, 7, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
-    [136, 33, 4, "RSpec/VerifiedDoubleReference: Use a constant class reference for verified doubles. String references are not verifying unless the class is loaded.", 2085345239],
-    [137, 7, 19, "RSpec/StubbedMock: Prefer `allow` over `expect` when configuring a response.", 984704695],
-    [137, 30, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `ProgressBar` as a spy using `allow` or `instance_spy`.", 1384559950]
+    [67, 31, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [70, 5, 70, "RSpec/MultipleExpectations: Example has too many expectations [13/1].", 3473323205],
+    [97, 5, 76, "RSpec/MultipleExpectations: Example has too many expectations [5/1].", 2639291062],
+    [107, 7, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
+    [109, 31, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950],
+    [120, 5, 72, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 358575326],
+    [131, 7, 38, "RSpec/AnyInstance: Avoid stubbing using `allow_any_instance_of`.", 3627954156],
+    [133, 31, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding` as a spy using `allow` or `instance_spy`.", 1384559950]
   ],
   "spec/floss_funding/floss_funding_more_spec.rb:1604292455": [
     [15, 5, 62, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2540439717],
