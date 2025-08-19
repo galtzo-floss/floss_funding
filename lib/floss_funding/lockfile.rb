@@ -310,6 +310,7 @@ module FlossFunding
 
   # Facade to access the two lockfiles from existing call sites
   # :nocov:
+  # rubocop:disable ThreadSafety/ClassInstanceVariable
   # NOTE: These facade methods are heavily defensive to protect production apps if
   # lockfile initialization fails. Forcing these error branches in tests is not
   # practical without stubbing core classes in ways that reduce test value. The
@@ -377,5 +378,6 @@ module FlossFunding
       end
     end
   end
+  # rubocop:enable ThreadSafety/ClassInstanceVariable
   # :nocov:
 end

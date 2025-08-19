@@ -1,13 +1,13 @@
 {
-  "Rakefile:1577028124": [
-    [69, 5, 15, "Rake/Desc: Describe the task with `desc` method.", 842824456]
+  "Rakefile:3665486145": [
+    [75, 5, 15, "Rake/Desc: Describe the task with `desc` method.", 842824456]
   ],
   "bin/summary_counts:3146913659": [
     [196, 14, 13, "Performance/FixedSize: Do not compute the size of statically sized objects.", 1245805370],
     [197, 13, 14, "Performance/FixedSize: Do not compute the size of statically sized objects.", 2582801268],
     [198, 14, 15, "Performance/FixedSize: Do not compute the size of statically sized objects.", 2132976099]
   ],
-  "lib/floss_funding.rb:991099657": [
+  "lib/floss_funding.rb:2725431957": [
     [134, 27, 2, "ThreadSafety/MutableClassInstanceVariable: Freeze mutable objects assigned to class instance variables.", 5861859],
     [411, 34, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227],
     [414, 7, 15, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 595748268],
@@ -19,7 +19,7 @@
     [428, 85, 13, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3931648013],
     [430, 14, 26, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 3815434227]
   ],
-  "lib/floss_funding/config_finder.rb:2857557530": [
+  "lib/floss_funding/config_finder.rb:3092547632": [
     [24, 7, 25, "ThreadSafety/ClassAndModuleAttributes: Avoid mutating class and module attributes.", 397451408],
     [27, 9, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
     [29, 16, 18, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2380368430],
@@ -35,16 +35,16 @@
     [69, 17, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790],
     [74, 9, 23, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2008273790]
   ],
-  "lib/floss_funding/config_loader.rb:465503781": [
+  "lib/floss_funding/config_loader.rb:2755619365": [
     [73, 9, 22, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2323500225],
     [80, 9, 22, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2323500225]
   ],
   "lib/floss_funding/configuration.rb:3670048929": [
     [23, 5, 393, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 642745473]
   ],
-  "lib/floss_funding/contra_indications.rb:2572348720": [
-    [36, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
-    [70, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
+  "lib/floss_funding/contra_indications.rb:2444382249": [
+    [37, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952],
+    [71, 30, 6, "Style/GlobalStdStream: Use `$stdout` instead of `STDOUT`.", 3356722952]
   ],
   "lib/floss_funding/file_finder.rb:3679377405": [
     [18, 5, 61, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2617869649],
@@ -55,10 +55,8 @@
   "lib/floss_funding/inclusion.rb:3169101046": [
     [127, 7, 248, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 3139421737]
   ],
-  "lib/floss_funding/lockfile.rb:2308671463": [
-    [118, 7, 35, "Style/InvertibleUnlessCondition: Prefer `if age <= max_age_seconds` over `unless age > max_age_seconds`.", 32631412],
-    [320, 9, 8, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 610947325],
-    [332, 9, 8, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 1570262735]
+  "lib/floss_funding/lockfile.rb:1958210656": [
+    [118, 7, 35, "Style/InvertibleUnlessCondition: Prefer `if age <= max_age_seconds` over `unless age > max_age_seconds`.", 32631412]
   ],
   "lib/floss_funding/under_bar.rb:3767427366": [
     [23, 9, 6, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2752972489],
@@ -68,11 +66,11 @@
     [66, 13, 74, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 113680191],
     [85, 13, 70, "Style/UnlessLogicalOperators: Do not use mixed logical operators in an `unless`.", 1958209916]
   ],
-  "lib/floss_funding/wedge.rb:608620680": [
+  "lib/floss_funding/wedge.rb:4255189448": [
     [192, 14, 10, "Lint/NoReturnInBeginEndBlocks: Do not `return` in `begin..end` blocks in assignment contexts.", 1900003172]
   ],
-  "lib/gem_mine.rb:3127632421": [
-    [15, 3, 67, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2396624473]
+  "lib/gem_mine.rb:606664932": [
+    [18, 3, 67, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2396624473]
   ],
   "lib/gem_mine/generator.rb:3243445120": [
     [144, 12, 2, "Lint/Syntax: unexpected token error\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 5858765],
@@ -122,7 +120,7 @@
     [8, 16, 23, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 3202457120],
     [9, 3, 80, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 114688600]
   ],
-  "spec/floss_funding/config_finder_spec.rb:236378484": [
+  "spec/floss_funding/config_finder_spec.rb:4015936852": [
     [3, 1, 41, "RSpec/MultipleDescribes: Do not use multiple top-level example groups - try to nest them.", 2736237141],
     [53, 5, 38, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3762634766],
     [76, 5, 60, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1913492188],
@@ -244,6 +242,11 @@
     [158, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865],
     [165, 9, 12, "RSpec/DescribedClass: Use `described_class` instead of `FlossFunding`.", 3988319865]
   ],
+  "spec/floss_funding/gitignore_sentinels_spec.rb:476971314": [
+    [5, 16, 52, "RSpec/DescribeClass: The first argument to describe should be the class or module being tested.", 2827122209],
+    [53, 3, 77, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 2940011140],
+    [77, 3, 122, "RSpec/MultipleExpectations: Example has too many expectations [4/1].", 2523566448]
+  ],
   "spec/floss_funding/inclusion_spec.rb:1250063878": [
     [33, 7, 67, "RSpec/MultipleExpectations: Example has too many expectations [6/1].", 2026600398],
     [38, 37, 2, "RSpec/BeEq: Prefer `be` over `eq`.", 5860785],
@@ -271,15 +274,15 @@
     [25, 3, 91, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 202545117],
     [26, 47, 7, "RSpec/MessageSpies: Prefer `have_received` for setting message expectations. Setup `FlossFunding::ConfigFinder` as a spy using `allow` or `instance_spy`.", 1384559950]
   ],
-  "spec/floss_funding/poke_spec.rb:4060067051": [
+  "spec/floss_funding/poke_spec.rb:3482265355": [
     [7, 1, 33, "RSpec/MultipleDescribes: Do not use multiple top-level example groups - try to nest them.", 3101784828],
-    [7, 1, 3411, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [81, 93]", 2632677970],
+    [7, 1, 3327, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [79, 91]", 2632677970],
     [26, 9, 14, "ThreadSafety/DirChdir: Avoid using `Dir.chdir` due to its process-wide effect.", 2866645406],
-    [56, 9, 14, "ThreadSafety/DirChdir: Avoid using `Dir.chdir` due to its process-wide effect.", 2866645406],
-    [81, 1, 345, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [7, 93]", 2324754422],
-    [85, 9, 73, "RSpec/LeakyConstantDeclaration: Stub module constant instead of declaring explicitly.", 3748187113],
-    [93, 1, 534, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [7, 81]", 2656800319],
-    [95, 5, 89, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1549567724]
+    [55, 9, 14, "ThreadSafety/DirChdir: Avoid using `Dir.chdir` due to its process-wide effect.", 2866645406],
+    [79, 1, 345, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [7, 91]", 2324754422],
+    [83, 9, 73, "RSpec/LeakyConstantDeclaration: Stub module constant instead of declaring explicitly.", 3748187113],
+    [91, 1, 534, "RSpec/RepeatedExampleGroupDescription: Repeated describe block description on line(s) [7, 79]", 2656800319],
+    [93, 5, 89, "RSpec/MultipleExpectations: Example has too many expectations [2/1].", 1549567724]
   ],
   "spec/floss_funding/project_spec.rb:1190394389": [
     [5, 1, 38, "RSpec/SpecFilePathFormat: Spec path should end with `floss_funding/inclusion*_spec.rb`.", 1002342667],
@@ -296,7 +299,7 @@
   "spec/floss_funding/under_bar_spec.rb:3568468672": [
     [119, 7, 71, "RSpec/MultipleExpectations: Example has too many expectations [3/1].", 3379891608]
   ],
-  "spec/floss_funding/wedge_spec.rb:3362564704": [
+  "spec/floss_funding/wedge_spec.rb:3329108925": [
     [13, 3, 6, "Lint/Syntax: unexpected token kRESCUE\n(Using Ruby 2.0 parser; configure using `TargetRubyVersion` parameter, under `AllCops`)", 2123792210]
   ],
   "spec/scenarios/scenario_gems_spec.rb:3480206350": [
