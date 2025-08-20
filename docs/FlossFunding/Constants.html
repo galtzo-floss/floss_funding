@@ -108,7 +108,7 @@ reloaded in tests without reloading the entire library.</p>
   <div class="discussion">
     <p>Default ENV prefix used when constructing activation ENV variable names.<br />
 Can be globally overridden for the entire process by setting<br />
-ENV[‘FLOSS_FUNDING_ENV_PREFIX’] to a String (including an empty String<br />
+ENV[‘FLOSS_CFG_FUND_ENV_PREFIX’] to a String (including an empty String<br />
 to indicate no prefix at all).<br />
 :nocov:<br />
 DEFAULT_PREFIX can be overridden via ENV. Exercising the “then” branch<br />
@@ -122,17 +122,18 @@ would require reloading this file with a modified ENV in-process.</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='kw'>if</span> <span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FLOSS_FUNDING_ENV_PREFIX</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FLOSS_FUNDING_ENV_PREFIX</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+        <dd><pre class="code"><span class='kw'>if</span> <span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FLOSS_CFG_FUND_ENV_PREFIX</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FLOSS_CFG_FUND_ENV_PREFIX</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
 <span class='kw'>else</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FLOSS_FUNDING_</span><span class='tstring_end'>&quot;</span></span>
+  <span class='comment'># Default prefix used with ENV variables that will hold activation keys
+</span>  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FLOSS_FUNDING_</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre></dd>
       
         <dt id="SILENT-constant" class="">SILENT =
           <div class="docstring">
   <div class="discussion">
     <p>Global silence switch controlled by ENV.<br />
-When ENV[‘FLOSS_FUNDING_SILENT’] case-insensitively equals<br />
+When ENV[‘FLOSS_CFG_FUND_SILENT’] case-insensitively equals<br />
 “CATHEDRAL_OR_BAZAAR”, SILENT is true; otherwise false.</p>
 
 
@@ -143,7 +144,12 @@ When ENV[‘FLOSS_FUNDING_SILENT’] case-insensitively equals<br />
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FLOSS_FUNDING_SILENT</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>false</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_casecmp'>casecmp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CATHEDRAL_OR_BAZAAR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>0</span></pre></dd>
+        <dd><pre class="code"><span class='kw'>begin</span>
+  <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FLOSS_CFG_FUND_SILENT</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_casecmp'>casecmp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CATHEDRAL_OR_BAZAAR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>0</span>
+<span class='kw'>rescue</span> <span class='const'>StandardError</span>
+  <span class='kw'>false</span>
+<span class='kw'>end</span></pre></dd>
       
     </dl>
   
@@ -159,7 +165,7 @@ When ENV[‘FLOSS_FUNDING_SILENT’] case-insensitively equals<br />
 </div>
 
       <div id="footer">
-  Generated on Sat Aug 16 18:09:20 2025 by
+  Generated on Tue Aug 19 19:50:25 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

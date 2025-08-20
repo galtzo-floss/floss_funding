@@ -82,7 +82,7 @@
 <p>* There will be many ways to disable nags, to ensure it is always an option for Mr. Scrooge.<br>
 A global ones is:</p>
 
-<pre class="code ruby"><code class="ruby">ENV[&#39;FLOSS_FUNDING_SILENT&#39;] = &quot;CATHEDRAL_OR_BAZAAR&quot;`
+<pre class="code ruby"><code class="ruby">ENV[&#39;FLOSS_CFG_FUNDING_SILENT&#39;] = &quot;CATHEDRAL_OR_BAZAAR&quot;`
 </code></pre>
 
 <p>Instructions for turning this tool off will always be front and center.<br>
@@ -94,6 +94,50 @@ If all you want is to turn it off, no sense in wasting your time figuring out ho
   include FlossFunding::Poke.new(__FILE__) # &lt;====== THERE IT IS! ONE LINE OF CODE!
 end
 </code></pre>
+
+<p>OK, the one line of code was a bit of a lie. You <strong>do</strong> have to require the gem. So it is two lines of code.</p>
+
+<p>Complete setup steps are:</p>
+
+<ol>
+  <li>Add gem to your Gemfile:
+    <pre class="code language-ruby"><code class="language-ruby">gem &quot;floss_funding&quot;
+</code></pre>
+  </li>
+  <li>Run the generator:
+    <pre class="code language-console"><code class="language-console">bundle exec rake floss_funding:install
+</code></pre>
+    <ul>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>Idempotent: each file is handled independently. If a file already exists, you will be prompted to [d]iff, [o]verwrite, [s]kip, or [a]bort (set FF_INSTALL_CHOICE=overwrite</td>
+              <td>skip</td>
+              <td>abort</td>
+              <td>diff for non-interactive runs).</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>Adds or updates .gitignore to include a sentinel ignore for FlossFunding lockfiles: <code>.floss_funding.*.lock</code>.</li>
+    </ul>
+  </li>
+  <li>Configure generated defaults:
+    <pre class="code language-console"><code class="language-console">nano .floss_funding.yml
+</code></pre>
+  </li>
+  <li>Add to your code (already done!):
+    <pre class="code language-console"><code class="language-console">require &quot;floss_funding&quot;
+
+module MyLibrary
+# namespace (optional): custom namespace for activation key
+# config_file (optional): alternate file name for your config at the library root (defaults to .floss_funding.yml)
+include FlossFunding::Poke.new(__FILE__, namespace: &quot;MyLibrary&quot;, config_file: &quot;.my_custom.yml&quot;)
+end
+</code></pre>
+  </li>
+</ol>
 
 <p>The website that will generate activation keys for your gems is coming soon @ <a href="https://floss-funding.dev">floss-funding.dev</a>.  FLOSS Funding relies on empathy, respect, honor, and annoyance of the most extreme mildness.  It doesn’t accept payments for activation keys, and trusts you to go and sponsor or donate to your favorite open source projects before getting their “activation key”.</p>
 
@@ -234,7 +278,7 @@ due to the inherent limitations of GitHub Actions.</p>
 
 </details>
 
-<h3 id="enterprise-support-">Enterprise Support <a href="https://tidelift.com/subscription/pkg/rubygems-library_tree?utm_source=rubygems-library_tree&amp;utm_medium=referral&amp;utm_campaign=readme"><img src="https://tidelift.com/badges/package/rubygems/library_tree" alt="Tidelift"></a>
+<h3 id="enterprise-support-">Enterprise Support <a href="https://tidelift.com/subscription/pkg/rubygems-floss_funding?utm_source=rubygems-floss_funding&amp;utm_medium=referral&amp;utm_campaign=readme"><img src="https://tidelift.com/badges/package/rubygems/floss_funding" alt="Tidelift"></a>
 </h3>
 
 <details>
@@ -267,13 +311,13 @@ Alternatively:
     <tr>
       <td>Works with JRuby</td>
       <td>
-<a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml"><img src="https://img.shields.io/badge/JRuby-9.1-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.1 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml"><img src="https://img.shields.io/badge/JRuby-9.2-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.2 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml"><img src="https://img.shields.io/badge/JRuby-9.3-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.3 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml"><img src="https://img.shields.io/badge/JRuby-9.4-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.4 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/current.yml"><img src="https://img.shields.io/badge/JRuby-current-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=green" alt="JRuby 10.0 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/heads.yml"><img src="https://img.shields.io/badge/JRuby-HEAD-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=blue" alt="JRuby HEAD Compat"></a>
+<img src="https://img.shields.io/badge/JRuby-9.1_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.1 Compat"> <img src="https://img.shields.io/badge/JRuby-9.2_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.2 Compat"> <br> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml"><img src="https://img.shields.io/badge/JRuby-9.3-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.3 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml"><img src="https://img.shields.io/badge/JRuby-9.4-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=red" alt="JRuby 9.4 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/current.yml"><img src="https://img.shields.io/badge/JRuby-current-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=green" alt="JRuby 10.0 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/heads.yml"><img src="https://img.shields.io/badge/JRuby-HEAD-FBE742?style=for-the-badge&amp;logo=ruby&amp;logoColor=blue" alt="JRuby HEAD Compat"></a>
 </td>
     </tr>
     <tr>
       <td>Works with Truffle Ruby</td>
       <td>
-<a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/truffle.yml"><img src="https://img.shields.io/badge/Truffle_Ruby-22.3-34BCB1?style=for-the-badge&amp;logo=ruby&amp;logoColor=pink" alt="Truffle Ruby 22.3 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/truffle.yml"><img src="https://img.shields.io/badge/Truffle_Ruby-23.0-34BCB1?style=for-the-badge&amp;logo=ruby&amp;logoColor=pink" alt="Truffle Ruby 23.0 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/truffle.yml"><img src="https://img.shields.io/badge/Truffle_Ruby-23.1-34BCB1?style=for-the-badge&amp;logo=ruby&amp;logoColor=pink" alt="Truffle Ruby 23.1 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/current.yml"><img src="https://img.shields.io/badge/Truffle_Ruby-current-34BCB1?style=for-the-badge&amp;logo=ruby&amp;logoColor=green" alt="Truffle Ruby 24.1 Compat"></a>
+<img src="https://img.shields.io/badge/Truffle_Ruby-22.3_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&amp;logo=ruby&amp;logoColor=pink" alt="Truffle Ruby 22.3 Compat"> <br> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/truffle.yml"><img src="https://img.shields.io/badge/Truffle_Ruby-23.0-34BCB1?style=for-the-badge&amp;logo=ruby&amp;logoColor=pink" alt="Truffle Ruby 23.0 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/truffle.yml"><img src="https://img.shields.io/badge/Truffle_Ruby-23.1-34BCB1?style=for-the-badge&amp;logo=ruby&amp;logoColor=pink" alt="Truffle Ruby 23.1 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/current.yml"><img src="https://img.shields.io/badge/Truffle_Ruby-current-34BCB1?style=for-the-badge&amp;logo=ruby&amp;logoColor=green" alt="Truffle Ruby 24.1 Compat"></a>
 </td>
     </tr>
     <tr>
@@ -285,12 +329,12 @@ Alternatively:
     <tr>
       <td>Works with MRI Ruby 2</td>
       <td>
-<img src="https://img.shields.io/badge/Ruby-2.0-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.0 Compat"> <img src="https://img.shields.io/badge/Ruby-2.1-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.1 Compat"> <img src="https://img.shields.io/badge/Ruby-2.2-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.2 Compat"> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/ancient.yml"><img src="https://img.shields.io/badge/Ruby-2.3-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.3 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/ancient.yml"><img src="https://img.shields.io/badge/Ruby-2.4-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.4 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/ancient.yml"><img src="https://img.shields.io/badge/Ruby-2.5-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.5 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/unsupported.yml"><img src="https://img.shields.io/badge/Ruby-2.6-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.6 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/unsupported.yml"><img src="https://img.shields.io/badge/Ruby-2.7-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.7 Compat"></a>
+<img src="https://img.shields.io/badge/Ruby-2.0_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.0 Compat"> <img src="https://img.shields.io/badge/Ruby-2.1_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.1 Compat"> <img src="https://img.shields.io/badge/Ruby-2.2_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.2 Compat"> <br> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/ancient.yml"><img src="https://img.shields.io/badge/Ruby-2.3-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.3 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/ancient.yml"><img src="https://img.shields.io/badge/Ruby-2.4-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.4 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/ancient.yml"><img src="https://img.shields.io/badge/Ruby-2.5-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.5 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/unsupported.yml"><img src="https://img.shields.io/badge/Ruby-2.6-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.6 Compat"></a> <a href="https://github.com/galtzo-floss/floss_funding/actions/workflows/unsupported.yml"><img src="https://img.shields.io/badge/Ruby-2.7-DF00CA?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 2.7 Compat"></a>
 </td>
     </tr>
     <tr>
       <td>Works with MRI Ruby 1</td>
-      <td><img src="https://img.shields.io/badge/Ruby-1.9-412BD3?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 1.9 Compat"></td>
+      <td><img src="https://img.shields.io/badge/Ruby-1.9_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&amp;logo=ruby&amp;logoColor=white" alt="Ruby 1.9 Compat"></td>
     </tr>
     <tr>
       <td>Source</td>
@@ -398,28 +442,86 @@ NOTE: Be prepared to track down certs for signed gems and add them the same way 
 
 <h2 id="-basic-usage">🔧 Basic Usage</h2>
 
-<p>Usage patterns:</p>
+<p>Usage pattern options when including in to a library namespace:</p>
 
 <ol>
   <li>Traditional namespace (uses the including module’s name):
-    <pre class="code language-ruby"><code class="language-ruby"> module MyGemLibrary
-   include FlossFunding::Poke.new(__FILE__)
- end
+    <pre class="code language-ruby"><code class="language-ruby"> include FlossFunding::Poke.new(__FILE__)
 </code></pre>
   </li>
   <li>Arbitrary custom namespace (can add version, or anything else):
-    <pre class="code language-ruby"><code class="language-ruby"> module MyGemLibrary
-   include FlossFunding::Poke.new(__FILE__, :namespace =&gt; &quot;Custom::Namespace::V4&quot;)
- end
+    <pre class="code language-ruby"><code class="language-ruby"> include FlossFunding::Poke.new(__FILE__, :namespace =&gt; &quot;Custom::Namespace::V4&quot;)
+</code></pre>
+  </li>
+  <li>Explicitly disable gemspec parsing, and config discovery (including library_name) by passing <code>nil</code> and <code>wedge: true</code>:
+    <pre class="code language-ruby"><code class="language-ruby"> include FlossFunding::Poke.new(nil, :wedge =&gt; true)
+</code></pre>
+  </li>
+  <li>Provide a custom config file name located at the library root:<br>
+module MyGemLibrary
+    <pre class="code language-ruby"><code class="language-ruby"> include FlossFunding::Poke.new(__FILE__, :config_file =&gt; &quot;.my_custom.yml&quot;)
 </code></pre>
   </li>
 </ol>
+
+<p>In all cases, the first parameter should be a String file path (e.g., <code>__FILE__</code>) or <code>nil</code> to disable discovery.</p>
+
+<h2 id="cli">CLI</h2>
+
+<p>The gem ships a CLI executable you can run from a Bundler project root:</p>
+
+<ul>
+  <li>floss_funding -p / –progress
+    <ul>
+      <li>Shows a progress bar of Activated libraries vs Activated + Unactivated libraries in the current project.</li>
+      <li>The bar reflects progress made toward activating all fingerprinted libraries.</li>
+      <li>Edge cases:
+        <ul>
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <td>If 0 of N libraries are activated, the bar shows 0% and remains at the start, e.g., Funding:</td>
+                  <td> </td>
+                  <td>0% (0/N)</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li>If there are no fingerprinted libraries at all (0/0), a simple fallback line is printed: Funding: 0% (0/0)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby">$ ./exe/floss_funding -t
+
++------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Needs Funding (Unactivated + Invalid)                                        | Funded by You (Activated)                                                   |
++------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+| floss_funding [FlossFunding]                                                 |                                                                             |
++------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+
+$ ./exe/floss_funding -p
+Funding: | | 0% (0/1)
+</code></pre>
+
+<ul>
+  <li>floss_funding -t / –table
+    <ul>
+      <li>Shows a two-pane table of libraries by activation state (Unactivated + Invalid on the left; Activated on the right).</li>
+    </ul>
+  </li>
+</ul>
 
 <h2 id="configuration">Configuration</h2>
 
 <h3 id="silence-via-lobal-environment-variable">Silence via lobal Environment Variable</h3>
 
-<p>For global silence the best solution is to set the environment variable <code>FLOSS_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR</code> before your application starts.</p>
+<p>For global silence the best solution is to set the environment variable <code>FLOSS_CFG_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR</code> before your application starts.</p>
 
 <p>If you can’t control ENV variables, and you can control the stack, at the beginning of the stack, before other things load, simply <code>require "floss_funding/silent"</code>, and it will silence all output. Note that this is less performant than setting the global environment variable, as above.</p>
 
@@ -437,7 +539,7 @@ NOTE: Be prepared to track down certs for signed gems and add them the same way 
 
 <p><strong>IMPORTANT</strong> - By the time your <code>Poke.new</code> using library loads into a stack, other libraries may have already loaded <code>Poke.new</code> for themselves, and may have already generated output. This is not a solution for silencing all output. The main thing it can reliably do is silence the output from the at_exit handler.</p>
 
-<p>If you need to silence <strong>everything</strong>, do so by setting the environment variable <code>FLOSS_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR</code> before your application starts.</p>
+<p>If you need to silence <strong>everything</strong>, do so by setting the environment variable <code>FLOSS_CFG_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR</code> before your application starts.</p>
 
 <h3 id="file-based-configuration">File-based Configuration</h3>
 
@@ -461,6 +563,85 @@ a. default: https://floss-funding.dev, which doesn’t take donations on behalf 
 floss_funding_url: https://example.com/fund
 </code></pre>
 
+<h2 id="environment-variables">Environment variables</h2>
+
+<p>These environment variables let you control FlossFunding behavior at runtime. Each variable is optional; unset variables use safe defaults.</p>
+
+<p>Note: This section documents the FLOSS_CFG_FUNDING_* variables specifically requested. The library also honors additional variables (e.g., activation key envs and some FLOSS_CFG_FUND_* controls) which are described elsewhere in the README and code comments.</p>
+
+<h3 id="floss_cfg_funding_logfile">FLOSS_CFG_FUNDING_LOGFILE</h3>
+<ul>
+  <li>Purpose: Redirects FlossFunding debug output to a file when debugging is enabled.</li>
+  <li>Type: file path (string)</li>
+  <li>Default: unset (debug messages, if any, go to STDOUT)</li>
+  <li>Behavior:
+    <ul>
+      <li>When set to a non-empty path, FlossFunding attempts to create/truncate the file on first use and logs debug messages via Ruby’s Logger at DEBUG level.</li>
+      <li>Directory creation is best-effort (mkdir -p). Failures fall back to STDOUT without raising.</li>
+    </ul>
+  </li>
+  <li>Example:
+    <ul>
+      <li>FLOSS_CFG_FUNDING_LOGFILE=tmp/log/floss_funding.debug.log</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="floss_cfg_funding_on_load_sec_per_nag_max">FLOSS_CFG_FUNDING_ON_LOAD_SEC_PER_NAG_MAX</h3>
+<ul>
+  <li>Purpose: Limits how often a given library can emit an on-load (include-time) nag message.</li>
+  <li>Type: integer seconds</li>
+  <li>Default: 86400 (24 hours)</li>
+  <li>Behavior:
+    <ul>
+      <li>A YAML lockfile .floss_funding.ruby.on_load.lock in the project root records the last on-load nag per library. If the recorded time is within this many seconds, the on-load nag is suppressed.</li>
+      <li>Values are clamped to a safe range internally.</li>
+    </ul>
+  </li>
+  <li>Example:
+    <ul>
+      <li>FLOSS_CFG_FUNDING_ON_LOAD_SEC_PER_NAG_MAX=3600  # at most one on-load nag per hour per library</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="floss_cfg_funding_at_exit_sec_per_nag_max">FLOSS_CFG_FUNDING_AT_EXIT_SEC_PER_NAG_MAX</h3>
+<ul>
+  <li>Purpose: Limits how often the at-exit spotlight (the featured info card at process end) can highlight a library.</li>
+  <li>Type: integer seconds</li>
+  <li>Default: 2400 (40 minutes)</li>
+  <li>Behavior:
+    <ul>
+      <li>A YAML lockfile .floss_funding.ruby.at_exit.lock in the project root records the last at-exit spotlight per library. If within this many seconds, that library won’t be spotlighted again.</li>
+      <li>Values are clamped to a safe range internally.</li>
+    </ul>
+  </li>
+  <li>Example:
+    <ul>
+      <li>FLOSS_CFG_FUNDING_AT_EXIT_SEC_PER_NAG_MAX=600  # at most one at-exit spotlight per 10 minutes per library</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="floss_cfg_funding_wedge_dangerous">FLOSS_CFG_FUNDING_WEDGE_DANGEROUS</h3>
+<ul>
+  <li>Purpose: Enables an aggressive mode for FlossFunding::Wedge that attempts to require gems before injecting, to increase chances of finding their namespaces.</li>
+  <li>Type: string; recognized value: “1”</li>
+  <li>Default: unset (safe mode)</li>
+  <li>Behavior:
+    <ul>
+      <li>When set to “1”, the wedge will attempt to require each loaded gem before resolving constants, but only if FlossFunding DEBUG is true. If DEBUG is false, wedge prints a warning and remains safe.</li>
+      <li>This file is not auto-required by the gem; wedge must be explicitly required/used.</li>
+    </ul>
+  </li>
+  <li>Example:
+    <ul>
+      <li>FLOSS_CFG_FUNDING_WEDGE_DANGEROUS=1</li>
+      <li>With DEBUG enabled (see README for DEBUG), running: ruby -rfloss_funding/wedge -e ‘FlossFunding::Wedge.wedge!’</li>
+    </ul>
+  </li>
+</ul>
+
 <h2 id="-floss-funding">🦷 FLOSS Funding</h2>
 
 <blockquote>
@@ -475,17 +656,6 @@ floss_funding_url: https://example.com/fund
 <p>I’m developing a new library, <a href="https://github.com/galtzo-floss/floss_funding">floss_funding</a>, designed to empower open-source developers like myself to get paid for the work we do, in a sustainable way. Please give it a look.</p>
 
 <p><strong><a href="https://floss-funding.dev">Floss-Funding.dev</a>: 👉️ No network calls. 👉️ No tracking. 👉️ No oversight. 👉️ Minimal crypto hashing. 💡 Easily disabled nags</strong></p>
-
-<p>Here’s a joke I’m workshopping - tell me how I’m doing:</p>
-
-<blockquote>
-  <p>Software rots with time and lack of maintenance, just like teeth.<br>
-FLOSS funding should be done on a regular basis, just like tooth burshing</p>
-  <blockquote>
-    <p>Do it at least once a month.<br>
-– My fuzzy memory of pediatric dentist</p>
-  </blockquote>
-</blockquote>
 
 <p><a href="https://liberapay.com/pboling/donate"><img src="https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay&amp;color=a51611" alt="Liberapay Goal Progress"></a> <a href="https://www.paypal.com/paypalme/peterboling"><img src="https://img.shields.io/badge/donate-paypal-a51611.svg?style=flat&amp;logo=paypal" alt="Donate on PayPal"></a> <a href="https://github.com/sponsors/pboling"><img src="https://img.shields.io/badge/Sponsor_Me!-pboling.svg?style=social&amp;logo=github" alt="Sponsor Me on Github"></a> <a href="https://www.buymeacoffee.com/pboling"><img src="https://img.shields.io/badge/buy_me_a_coffee-%E2%9C%93-a51611.svg?style=flat" alt="Buy me a coffee"></a> <a href="https://polar.sh/pboling"><img src="https://img.shields.io/badge/polar-donate-a51611.svg" alt="Donate on Polar"></a> <a href="https://ko-fi.com/O5O86SNP4"><img src="https://img.shields.io/badge/ko--fi-%E2%9C%93-a51611.svg" alt="Donate to my FLOSS or refugee efforts at ko-fi.com"></a> <a href="https://patreon.com/galtzo"><img src="https://img.shields.io/badge/patreon-donate-a51611.svg" alt="Donate to my FLOSS or refugee efforts using Patreon"></a></p>
 
@@ -558,7 +728,7 @@ the <a href="http://guides.rubygems.org/patterns/#pessimistic-version-constraint
 
 <p>For example:</p>
 
-<pre class="code language-ruby"><code class="language-ruby">spec.add_dependency(&quot;library_tree&quot;, &quot;~&gt; 1.0&quot;)
+<pre class="code language-ruby"><code class="language-ruby">spec.add_dependency(&quot;floss_funding&quot;, &quot;~&gt; 1.0&quot;)
 </code></pre>
 
 <details>
@@ -606,7 +776,7 @@ See <a href="file.LICENSE.html" title="LICENSE.txt">LICENSE.txt</a> for the offi
 </div></div>
 
       <div id="footer">
-  Generated on Sat Aug 16 18:09:20 2025 by
+  Generated on Tue Aug 19 19:50:25 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

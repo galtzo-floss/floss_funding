@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
+# rubocop:disable RSpec/DescribeClass, RSpec/BeforeAfterAll, RSpec/MultipleExpectations
 require "floss_funding/wedge"
 
 RSpec.describe "Wedge scenario fixtures" do
+  before(:all) do
+    require_relative "../support/wedge_scenario_gems_generator"
+    FlossFunding::WedgeScenarioGemsGenerator.generate_all
+  end
+
   def with_load_path(*paths)
     old = $LOAD_PATH.dup
     paths.each { |p| $LOAD_PATH.unshift(p) }
@@ -96,3 +102,4 @@ RSpec.describe "Wedge scenario fixtures" do
     end
   end
 end
+# rubocop:enable RSpec/DescribeClass, RSpec/BeforeAfterAll, RSpec/MultipleExpectations

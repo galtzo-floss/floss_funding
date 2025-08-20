@@ -23,10 +23,10 @@ module FlossFunding
   #       include FlossFunding::Poke.new(nil, wedge: true)
   #     end
   #
-  # 4. Provide an explicit config path (bypasses directory-walk search):
+  # 4. Provide a custom config file name located at the library root:
   #
   #     module MyGemLibrary
-  #       include FlossFunding::Poke.new(__FILE__, config_path: "/path/to/.floss_funding.yml")
+  #       include FlossFunding::Poke.new(__FILE__, config_file: ".my_custom.yml")
   #     end
   #
   # In all cases, the first parameter should be a String file path (e.g., `__FILE__`) or nil to disable discovery.
@@ -49,7 +49,7 @@ module FlossFunding
       # @param options [Hash] options hash for configuration
       # @option options [String, nil] :namespace optional custom namespace for activation key
       # @option options [Object, nil] :silent optional silence flag or callable to request global silence
-      # @option options [String, nil] :config_path explicit path to a config file; bypasses directory-walk search when provided
+      # @option options [String, nil] :config_file alternate file name located at the library root; defaults to .floss_funding.yml
       # @option options [Boolean, nil] :wedge explicitly disable config discovery (including library_name)
       # @return [Module] a module that can be included into your namespace
       def new(including_path, options = {})
@@ -80,7 +80,7 @@ module FlossFunding
             if wedge
               begin
                 ::FlossFunding.debug_log { "[Poke] wedge registration for #{base.name.inspect} ns=#{(namespace || base.name).inspect}" }
-                ::FlossFunding.register_wedge(base, namespace)
+                ::FlossFunding.register_wedge(base, namespace, contraindicated)
               rescue StandardError => e
                 # never raise from wedge registration, but record and become inert
                 ::FlossFunding.error!(e, "Poke#wedge_registration")

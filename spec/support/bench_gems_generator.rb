@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "gem_mine"
+
 module FlossFunding
   module BenchGemsGenerator
     module_function

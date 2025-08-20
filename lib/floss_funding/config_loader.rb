@@ -23,11 +23,11 @@ module FlossFunding
   class ConfigLoader
     # Absolute path to the root of the floss_funding project (the gem itself).
     # @return [String]
-    FLOSS_FUNDING_HOME = File.realpath(File.join(File.dirname(__FILE__), "..", ".."))
+    FF_ROOT = File.realpath(File.join(File.dirname(__FILE__), "..", ".."))
 
     # Absolute path to the built-in default configuration YAML file.
     # @return [String]
-    DEFAULT_FILE = File.join(FLOSS_FUNDING_HOME, "config", "default.yml")
+    DEFAULT_FILE = File.join(FF_ROOT, "config", "default.yml")
 
     class << self
       include ::FlossFunding::FileFinder

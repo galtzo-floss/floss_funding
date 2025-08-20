@@ -2,6 +2,7 @@
 
 # external gems
 require "terminal-table"
+require "floss_funding/terminal_helpers"
 
 # this gem
 require "floss_funding"
@@ -22,7 +23,12 @@ module FlossFunding
     # This could be extremely dangerous, because some gems are destructive on load.
     # Fortunately this entire wedge file is not loaded at all by the floss_funding gem.
     # Wedge must be loaded explicitly; preferably in a clean testing environment.
-    maybe_dangerous = ENV.fetch("FLOSS_FUNDING_WEDGE_DANGEROUS", "0") == "1"
+    maybe_dangerous = begin
+      v = ENV.fetch("FLOSS_CFG_FUNDING_WEDGE_DANGEROUS", nil)
+      v == "1"
+    rescue StandardError
+      false
+    end
     DANGEROUS =
       if maybe_dangerous
         if DEBUG
@@ -212,8 +218,23 @@ module FlossFunding
         end
 
         title = "[Wedge] Summary: tried=#{results[:tried]} injected=#{results[:injected]}"
-        table = Terminal::Table.new(:title => title, :headings => ["Gem", "Injected Into"], :rows => rows)
-        table.to_s
+        begin
+          table = ::Terminal::Table.new(:title => title, :headings => ["Gem", "Injected Into"], :rows => rows)
+          ::FlossFunding::Terminal.apply_width!(table)
+          table.to_s
+        rescue StandardError => e
+          # Any terminal-table issues (missing constant, width errors, etc.): fallback to filtered list
+          ::FlossFunding.debug_log { "[Wedge] render_summary_table terminal-table failed: #{e.class}: #{e.message}" }
+          lines = [title]
+          if rows.empty?
+            lines << "(no injections)"
+          else
+            rows.each do |(gem_name, injected_into)|
+              lines << "  #{gem_name}: #{injected_into}"
+            end
+          end
+          lines.join("\n")
+        end
       rescue StandardError => e
         ::FlossFunding.debug_log { "[Wedge] render_summary_table error: #{e.class}: #{e.message}" }
         "[Wedge] Summary: #{results.inspect}"

@@ -29,7 +29,7 @@ This tool can help library maintainers earn money from their open source work in
 A global ones is:
 
 ```
-ENV['FLOSS_FUNDING_SILENT'] = "CATHEDRAL_OR_BAZAAR"`
+ENV['FLOSS_CFG_FUNDING_SILENT'] = "CATHEDRAL_OR_BAZAAR"`
 ```
 
 Instructions for turning this tool off will always be front and center.
@@ -41,6 +41,35 @@ Now, back to the one line of code I mentioned. If you blink you may miss it...
 module MyGemLibrary
   include FlossFunding::Poke.new(__FILE__) # <====== THERE IT IS! ONE LINE OF CODE!
 end
+```
+
+OK, the one line of code was a bit of a lie. You __do__ have to require the gem. So it is two lines of code.
+
+Complete setup steps are:
+
+1. Add gem to your Gemfile:
+```ruby
+gem "floss_funding"
+```
+2. Run the generator:
+```console
+bundle exec rake floss_funding:install
+```
+   - Idempotent: each file is handled independently. If a file already exists, you will be prompted to [d]iff, [o]verwrite, [s]kip, or [a]bort (set FF_INSTALL_CHOICE=overwrite|skip|abort|diff for non-interactive runs).
+   - Adds or updates .gitignore to include a sentinel ignore for FlossFunding lockfiles: `.floss_funding.*.lock`.
+3. Configure generated defaults:
+```console
+nano .floss_funding.yml
+```
+4. Add to your code (already done!):
+```console
+   require "floss_funding"
+
+   module MyLibrary
+   # namespace (optional): custom namespace for activation key
+   # config_file (optional): alternate file name for your config at the library root (defaults to .floss_funding.yml)
+   include FlossFunding::Poke.new(__FILE__, namespace: "MyLibrary", config_file: ".my_custom.yml")
+   end
 ```
 
 The website that will generate activation keys for your gems is coming soon @ [floss-funding.dev](https://floss-funding.dev).  FLOSS Funding relies on empathy, respect, honor, and annoyance of the most extreme mildness.  It doesn't accept payments for activation keys, and trusts you to go and sponsor or donate to your favorite open source projects before getting their "activation key".
@@ -133,7 +162,7 @@ due to the inherent limitations of GitHub Actions.
 
 [gh-discussions]: https://github.com/galtzo-floss/floss_funding/discussions
 
-### Enterprise Support [![Tidelift](https://tidelift.com/badges/package/rubygems/library_tree)](https://tidelift.com/subscription/pkg/rubygems-library_tree?utm_source=rubygems-library_tree&utm_medium=referral&utm_campaign=readme)
+### Enterprise Support [![Tidelift](https://tidelift.com/badges/package/rubygems/floss_funding)](https://tidelift.com/subscription/pkg/rubygems-floss_funding?utm_source=rubygems-floss_funding&utm_medium=referral&utm_campaign=readme)
 
 <details>
   <summary>Need enterprise-level guarantees?</summary>
@@ -152,20 +181,20 @@ Alternatively:
 
 </details>
 
-| Tokens to Remember      | [![Gem name][⛳️name-img]][⛳️gem-name] [![Gem namespace][⛳️namespace-img]][⛳️gem-namespace]                                                                                                                                                                                                                                       |
-|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Works with JRuby        | [![JRuby 9.1 Compat][💎jruby-9.1i]][🚎10-j-wf] [![JRuby 9.2 Compat][💎jruby-9.2i]][🚎10-j-wf] [![JRuby 9.3 Compat][💎jruby-9.3i]][🚎10-j-wf] [![JRuby 9.4 Compat][💎jruby-9.4i]][🚎10-j-wf] [![JRuby 10.0 Compat][💎jruby-c-i]][🚎11-c-wf] [![JRuby HEAD Compat][💎jruby-headi]][🚎3-hd-wf]                                      |
-| Works with Truffle Ruby | [![Truffle Ruby 22.3 Compat][💎truby-22.3i]][🚎9-t-wf] [![Truffle Ruby 23.0 Compat][💎truby-23.0i]][🚎9-t-wf] [![Truffle Ruby 23.1 Compat][💎truby-23.1i]][🚎9-t-wf] [![Truffle Ruby 24.1 Compat][💎truby-c-i]][🚎11-c-wf]                                                                                                       |
-| Works with MRI Ruby 3   | [![Ruby 3.0 Compat][💎ruby-3.0i]][🚎4-lg-wf] [![Ruby 3.1 Compat][💎ruby-3.1i]][🚎6-s-wf] [![Ruby 3.2 Compat][💎ruby-3.2i]][🚎6-s-wf] [![Ruby 3.3 Compat][💎ruby-3.3i]][🚎6-s-wf] [![Ruby 3.4 Compat][💎ruby-c-i]][🚎11-c-wf] [![Ruby HEAD Compat][💎ruby-headi]][🚎3-hd-wf]                                                      |
-| Works with MRI Ruby 2   | ![Ruby 2.0 Compat][💎ruby-2.0i] ![Ruby 2.1 Compat][💎ruby-2.1i] ![Ruby 2.2 Compat][💎ruby-2.2i] [![Ruby 2.3 Compat][💎ruby-2.3i]][🚎1-an-wf] [![Ruby 2.4 Compat][💎ruby-2.4i]][🚎1-an-wf] [![Ruby 2.5 Compat][💎ruby-2.5i]][🚎1-an-wf] [![Ruby 2.6 Compat][💎ruby-2.6i]][🚎7-us-wf] [![Ruby 2.7 Compat][💎ruby-2.7i]][🚎7-us-wf] |
-| Works with MRI Ruby 1   | ![Ruby 1.9 Compat][💎ruby-1.9i]                                                                                                                                                                                                                                                                                                  |
-| Source                  | [![Source on GitLab.com][📜src-gl-img]][📜src-gl] [![Source on CodeBerg.org][📜src-cb-img]][📜src-cb] [![Source on Github.com][📜src-gh-img]][📜src-gh] [![The best SHA: dQw4w9WgXcQ!][🧮kloc-img]][🧮kloc]                                                                                                                      |
-| Documentation           | [![Current release on RubyDoc.info][📜docs-cr-rd-img]][🚎yard-current] [![YARD on Galtzo.com][📜docs-head-rd-img]][🚎yard-head] [![Maintainer Blog][🚂maint-blog-img]][🚂maint-blog] [![Wiki][📜wiki-img]][📜wiki]                                                                                                               |
-| Compliance              | [![License: MIT][📄license-img]][📄license-ref] [![📄ilo-declaration-img]][📄ilo-declaration] [![Security Policy][🔐security-img]][🔐security] [![Contributor Covenant 2.1][🪇conduct-img]][🪇conduct] [![SemVer 2.0.0][📌semver-img]][📌semver]                                                                                 |
-| Style                   | [![Enforced Code Style Linter][💎rlts-img]][💎rlts] [![Keep-A-Changelog 1.0.0][📗keep-changelog-img]][📗keep-changelog] [![Gitmoji Commits][📌gitmoji-img]][📌gitmoji] [![Compatibility appraised by: appraisal2][💎appraisal2-img]][💎appraisal2]                                                                               |
-| Support                 | [![Live Chat on Discord][✉️discord-invite-img]][✉️discord-invite] [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]][👨🏼‍🏫expsup-upwork] [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]][👨🏼‍🏫expsup-codementor]                                                                                    |
-| Maintainer 🎖️          | [![Follow Me on LinkedIn][💖🖇linkedin-img]][💖🖇linkedin] [![Follow Me on Ruby.Social][💖🐘ruby-mast-img]][💖🐘ruby-mast] [![Follow Me on Bluesky][💖🦋bluesky-img]][💖🦋bluesky] [![Contact Maintainer][🚂maint-contact-img]][🚂maint-contact] [![My technical writing][💖💁🏼‍♂️devto-img]][💖💁🏼‍♂️devto]                   |
-| `...` 💖                | [![Find Me on WellFound:][💖✌️wellfound-img]][💖✌️wellfound] [![Find Me on CrunchBase][💖💲crunchbase-img]][💖💲crunchbase] [![My LinkTree][💖🌳linktree-img]][💖🌳linktree] [![More About Me][💖💁🏼‍♂️aboutme-img]][💖💁🏼‍♂️aboutme] [🧊][💖🧊berg] [🐙][💖🐙hub]  [🛖][💖🛖hut] [🧪][💖🧪lab]                                |
+| Tokens to Remember      | [![Gem name][⛳️name-img]][⛳️gem-name] [![Gem namespace][⛳️namespace-img]][⛳️gem-namespace]                                                                                                                                                                                                                                             |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Works with JRuby        | ![JRuby 9.1 Compat][💎jruby-9.1i] ![JRuby 9.2 Compat][💎jruby-9.2i] <br/> [![JRuby 9.3 Compat][💎jruby-9.3i]][🚎10-j-wf] [![JRuby 9.4 Compat][💎jruby-9.4i]][🚎10-j-wf] [![JRuby 10.0 Compat][💎jruby-c-i]][🚎11-c-wf] [![JRuby HEAD Compat][💎jruby-headi]][🚎3-hd-wf]                                                                |
+| Works with Truffle Ruby | ![Truffle Ruby 22.3 Compat][💎truby-22.3i] <br/> [![Truffle Ruby 23.0 Compat][💎truby-23.0i]][🚎9-t-wf] [![Truffle Ruby 23.1 Compat][💎truby-23.1i]][🚎9-t-wf] [![Truffle Ruby 24.1 Compat][💎truby-c-i]][🚎11-c-wf]                                                                                                                   |
+| Works with MRI Ruby 3   | [![Ruby 3.0 Compat][💎ruby-3.0i]][🚎4-lg-wf] [![Ruby 3.1 Compat][💎ruby-3.1i]][🚎6-s-wf] [![Ruby 3.2 Compat][💎ruby-3.2i]][🚎6-s-wf] [![Ruby 3.3 Compat][💎ruby-3.3i]][🚎6-s-wf] [![Ruby 3.4 Compat][💎ruby-c-i]][🚎11-c-wf] [![Ruby HEAD Compat][💎ruby-headi]][🚎3-hd-wf]                                                            |
+| Works with MRI Ruby 2   | ![Ruby 2.0 Compat][💎ruby-2.0i] ![Ruby 2.1 Compat][💎ruby-2.1i] ![Ruby 2.2 Compat][💎ruby-2.2i] <br/> [![Ruby 2.3 Compat][💎ruby-2.3i]][🚎1-an-wf] [![Ruby 2.4 Compat][💎ruby-2.4i]][🚎1-an-wf] [![Ruby 2.5 Compat][💎ruby-2.5i]][🚎1-an-wf] [![Ruby 2.6 Compat][💎ruby-2.6i]][🚎7-us-wf] [![Ruby 2.7 Compat][💎ruby-2.7i]][🚎7-us-wf] |
+| Works with MRI Ruby 1   | ![Ruby 1.9 Compat][💎ruby-1.9i]                                                                                                                                                                                                                                                                                                        |
+| Source                  | [![Source on GitLab.com][📜src-gl-img]][📜src-gl] [![Source on CodeBerg.org][📜src-cb-img]][📜src-cb] [![Source on Github.com][📜src-gh-img]][📜src-gh] [![The best SHA: dQw4w9WgXcQ!][🧮kloc-img]][🧮kloc]                                                                                                                            |
+| Documentation           | [![Current release on RubyDoc.info][📜docs-cr-rd-img]][🚎yard-current] [![YARD on Galtzo.com][📜docs-head-rd-img]][🚎yard-head] [![Maintainer Blog][🚂maint-blog-img]][🚂maint-blog] [![Wiki][📜wiki-img]][📜wiki]                                                                                                                     |
+| Compliance              | [![License: MIT][📄license-img]][📄license-ref] [![📄ilo-declaration-img]][📄ilo-declaration] [![Security Policy][🔐security-img]][🔐security] [![Contributor Covenant 2.1][🪇conduct-img]][🪇conduct] [![SemVer 2.0.0][📌semver-img]][📌semver]                                                                                       |
+| Style                   | [![Enforced Code Style Linter][💎rlts-img]][💎rlts] [![Keep-A-Changelog 1.0.0][📗keep-changelog-img]][📗keep-changelog] [![Gitmoji Commits][📌gitmoji-img]][📌gitmoji] [![Compatibility appraised by: appraisal2][💎appraisal2-img]][💎appraisal2]                                                                                     |
+| Support                 | [![Live Chat on Discord][✉️discord-invite-img]][✉️discord-invite] [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]][👨🏼‍🏫expsup-upwork] [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]][👨🏼‍🏫expsup-codementor]                                                                                          |
+| Maintainer 🎖️          | [![Follow Me on LinkedIn][💖🖇linkedin-img]][💖🖇linkedin] [![Follow Me on Ruby.Social][💖🐘ruby-mast-img]][💖🐘ruby-mast] [![Follow Me on Bluesky][💖🦋bluesky-img]][💖🦋bluesky] [![Contact Maintainer][🚂maint-contact-img]][🚂maint-contact] [![My technical writing][💖💁🏼‍♂️devto-img]][💖💁🏼‍♂️devto]                         |
+| `...` 💖                | [![Find Me on WellFound:][💖✌️wellfound-img]][💖✌️wellfound] [![Find Me on CrunchBase][💖💲crunchbase-img]][💖💲crunchbase] [![My LinkTree][💖🌳linktree-img]][💖🌳linktree] [![More About Me][💖💁🏼‍♂️aboutme-img]][💖💁🏼‍♂️aboutme] [🧊][💖🧊berg] [🐙][💖🐙hub]  [🛖][💖🛖hut] [🧪][💖🧪lab]                                      |
 
 ## ✨ Installation
 
@@ -220,26 +249,62 @@ NOTE: Be prepared to track down certs for signed gems and add them the same way 
 
 ## 🔧 Basic Usage
 
-Usage patterns:
+Usage pattern options when including in to a library namespace:
 
 1. Traditional namespace (uses the including module's name):
     ```ruby
-    module MyGemLibrary
-      include FlossFunding::Poke.new(__FILE__)
-    end
+    include FlossFunding::Poke.new(__FILE__)
     ```
 2. Arbitrary custom namespace (can add version, or anything else):
     ```ruby
-    module MyGemLibrary
-      include FlossFunding::Poke.new(__FILE__, :namespace => "Custom::Namespace::V4")
-    end
+    include FlossFunding::Poke.new(__FILE__, :namespace => "Custom::Namespace::V4")
     ```
+3. Explicitly disable gemspec parsing, and config discovery (including library_name) by passing `nil` and `wedge: true`:
+    ```ruby
+    include FlossFunding::Poke.new(nil, :wedge => true)
+    ```
+4. Provide a custom config file name located at the library root:
+   module MyGemLibrary
+    ```ruby
+    include FlossFunding::Poke.new(__FILE__, :config_file => ".my_custom.yml")
+    ```
+
+In all cases, the first parameter should be a String file path (e.g., `__FILE__`) or `nil` to disable discovery.
+
+## CLI
+
+The gem ships a CLI executable you can run from a Bundler project root:
+
+- floss_funding -p / --progress
+  - Shows a progress bar of Activated libraries vs Activated + Unactivated libraries in the current project.
+  - The bar reflects progress made toward activating all fingerprinted libraries.
+  - Edge cases:
+    - If 0 of N libraries are activated, the bar shows 0% and remains at the start, e.g., Funding: | | 0% (0/N)
+    - If there are no fingerprinted libraries at all (0/0), a simple fallback line is printed: Funding: 0% (0/0)
+
+Example:
+
+```
+$ ./exe/floss_funding -t
+
++------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Needs Funding (Unactivated + Invalid)                                        | Funded by You (Activated)                                                   |
++------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+| floss_funding [FlossFunding]                                                 |                                                                             |
++------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+
+$ ./exe/floss_funding -p
+Funding: | | 0% (0/1)
+```
+
+- floss_funding -t / --table
+  - Shows a two-pane table of libraries by activation state (Unactivated + Invalid on the left; Activated on the right).
 
 ## Configuration
 
 ### Silence via lobal Environment Variable
 
-For global silence the best solution is to set the environment variable `FLOSS_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
+For global silence the best solution is to set the environment variable `FLOSS_CFG_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
 
 If you can't control ENV variables, and you can control the stack, at the beginning of the stack, before other things load, simply `require "floss_funding/silent"`, and it will silence all output. Note that this is less performant than setting the global environment variable, as above.
 
@@ -255,7 +320,7 @@ If you have a library that doesn't know, at the time of `Poke.new` inclusion, if
 
 **IMPORTANT** - By the time your `Poke.new` using library loads into a stack, other libraries may have already loaded `Poke.new` for themselves, and may have already generated output. This is not a solution for silencing all output. The main thing it can reliably do is silence the output from the at_exit handler.
 
-If you need to silence **everything**, do so by setting the environment variable `FLOSS_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
+If you need to silence **everything**, do so by setting the environment variable `FLOSS_CFG_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
 
 ### File-based Configuration
 
@@ -276,6 +341,53 @@ suggested_donation_amount: 10
 floss_funding_url: https://example.com/fund
 ```
 
+## Environment variables
+
+These environment variables let you control FlossFunding behavior at runtime. Each variable is optional; unset variables use safe defaults.
+
+Note: This section documents the FLOSS_CFG_FUNDING_* variables specifically requested. The library also honors additional variables (e.g., activation key envs and some FLOSS_CFG_FUND_* controls) which are described elsewhere in the README and code comments.
+
+### FLOSS_CFG_FUNDING_LOGFILE
+- Purpose: Redirects FlossFunding debug output to a file when debugging is enabled.
+- Type: file path (string)
+- Default: unset (debug messages, if any, go to STDOUT)
+- Behavior:
+  - When set to a non-empty path, FlossFunding attempts to create/truncate the file on first use and logs debug messages via Ruby's Logger at DEBUG level.
+  - Directory creation is best-effort (mkdir -p). Failures fall back to STDOUT without raising.
+- Example:
+  - FLOSS_CFG_FUNDING_LOGFILE=tmp/log/floss_funding.debug.log
+
+### FLOSS_CFG_FUNDING_ON_LOAD_SEC_PER_NAG_MAX
+- Purpose: Limits how often a given library can emit an on-load (include-time) nag message.
+- Type: integer seconds
+- Default: 86400 (24 hours)
+- Behavior:
+  - A YAML lockfile .floss_funding.ruby.on_load.lock in the project root records the last on-load nag per library. If the recorded time is within this many seconds, the on-load nag is suppressed.
+  - Values are clamped to a safe range internally.
+- Example:
+  - FLOSS_CFG_FUNDING_ON_LOAD_SEC_PER_NAG_MAX=3600  # at most one on-load nag per hour per library
+
+### FLOSS_CFG_FUNDING_AT_EXIT_SEC_PER_NAG_MAX
+- Purpose: Limits how often the at-exit spotlight (the featured info card at process end) can highlight a library.
+- Type: integer seconds
+- Default: 2400 (40 minutes)
+- Behavior:
+  - A YAML lockfile .floss_funding.ruby.at_exit.lock in the project root records the last at-exit spotlight per library. If within this many seconds, that library won't be spotlighted again.
+  - Values are clamped to a safe range internally.
+- Example:
+  - FLOSS_CFG_FUNDING_AT_EXIT_SEC_PER_NAG_MAX=600  # at most one at-exit spotlight per 10 minutes per library
+
+### FLOSS_CFG_FUNDING_WEDGE_DANGEROUS
+- Purpose: Enables an aggressive mode for FlossFunding::Wedge that attempts to require gems before injecting, to increase chances of finding their namespaces.
+- Type: string; recognized value: "1"
+- Default: unset (safe mode)
+- Behavior:
+  - When set to "1", the wedge will attempt to require each loaded gem before resolving constants, but only if FlossFunding DEBUG is true. If DEBUG is false, wedge prints a warning and remains safe.
+  - This file is not auto-required by the gem; wedge must be explicitly required/used.
+- Example:
+  - FLOSS_CFG_FUNDING_WEDGE_DANGEROUS=1
+  - With DEBUG enabled (see README for DEBUG), running: ruby -rfloss_funding/wedge -e 'FlossFunding::Wedge.wedge!'
+
 ## 🦷 FLOSS Funding
 
 > How wonderful it is that nobody need wait a single moment before starting to improve the world.<br/>
@@ -288,13 +400,6 @@ If you work at a company that uses my work, please encourage them to support me 
 I’m developing a new library, [floss_funding][🖇floss-funding-gem], designed to empower open-source developers like myself to get paid for the work we do, in a sustainable way. Please give it a look.
 
 **[Floss-Funding.dev][🖇floss-funding.dev]: 👉️ No network calls. 👉️ No tracking. 👉️ No oversight. 👉️ Minimal crypto hashing. 💡 Easily disabled nags**
-
-Here's a joke I'm workshopping - tell me how I'm doing:
-
-> Software rots with time and lack of maintenance, just like teeth.
-> FLOSS funding should be done on a regular basis, just like tooth burshing
-> > Do it at least once a month.
->-- My fuzzy memory of pediatric dentist
 
 [![Liberapay Goal Progress][⛳liberapay-img]][⛳liberapay] [![Donate on PayPal][🖇paypal-img]][🖇paypal] [![Sponsor Me on Github][🖇sponsor-img]][🖇sponsor] [![Buy me a coffee][🖇buyme-small-img]][🖇buyme] [![Donate on Polar][🖇polar-img]][🖇polar] [![Donate to my FLOSS or refugee efforts at ko-fi.com][🖇kofi-img]][🖇kofi] [![Donate to my FLOSS or refugee efforts using Patreon][🖇patreon-img]][🖇patreon]
 
@@ -366,7 +471,7 @@ the [Pessimistic Version Constraint][📌pvc] with two digits of precision.
 For example:
 
 ```ruby
-spec.add_dependency("library_tree", "~> 1.0")
+spec.add_dependency("floss_funding", "~> 1.0")
 ```
 
 <details>
@@ -517,14 +622,14 @@ P.S. If you need help️ or want to say thanks, 👇 Join the Discord.
 [🚎10-j-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/jruby.yml/badge.svg
 [🚎11-c-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/current.yml
 [🚎11-c-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/current.yml/badge.svg
-[🚎13-🔒️-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/deps_locked.yml
-[🚎13-🔒️-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/deps_locked.yml/badge.svg
-[🚎14-🔓️-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/deps_unlocked.yml
-[🚎14-🔓️-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/deps_unlocked.yml/badge.svg
-[💎ruby-1.9i]: https://img.shields.io/badge/Ruby-1.9-412BD3?style=for-the-badge&logo=ruby&logoColor=white
-[💎ruby-2.0i]: https://img.shields.io/badge/Ruby-2.0-DF00CA?style=for-the-badge&logo=ruby&logoColor=white
-[💎ruby-2.1i]: https://img.shields.io/badge/Ruby-2.1-DF00CA?style=for-the-badge&logo=ruby&logoColor=white
-[💎ruby-2.2i]: https://img.shields.io/badge/Ruby-2.2-DF00CA?style=for-the-badge&logo=ruby&logoColor=white
+[🚎13-🔒️-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/locked_deps.yml
+[🚎13-🔒️-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/locked_deps.yml/badge.svg
+[🚎14-🔓️-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/unlocked_deps.yml
+[🚎14-🔓️-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/unlocked_deps.yml/badge.svg
+[💎ruby-1.9i]: https://img.shields.io/badge/Ruby-1.9_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=white
+[💎ruby-2.0i]: https://img.shields.io/badge/Ruby-2.0_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=white
+[💎ruby-2.1i]: https://img.shields.io/badge/Ruby-2.1_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=white
+[💎ruby-2.2i]: https://img.shields.io/badge/Ruby-2.2_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-2.3i]: https://img.shields.io/badge/Ruby-2.3-DF00CA?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-2.4i]: https://img.shields.io/badge/Ruby-2.4-DF00CA?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-2.5i]: https://img.shields.io/badge/Ruby-2.5-DF00CA?style=for-the-badge&logo=ruby&logoColor=white
@@ -536,13 +641,13 @@ P.S. If you need help️ or want to say thanks, 👇 Join the Discord.
 [💎ruby-3.3i]: https://img.shields.io/badge/Ruby-3.3-CC342D?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-c-i]: https://img.shields.io/badge/Ruby-current-CC342D?style=for-the-badge&logo=ruby&logoColor=green
 [💎ruby-headi]: https://img.shields.io/badge/Ruby-HEAD-CC342D?style=for-the-badge&logo=ruby&logoColor=blue
-[💎truby-22.3i]: https://img.shields.io/badge/Truffle_Ruby-22.3-34BCB1?style=for-the-badge&logo=ruby&logoColor=pink
+[💎truby-22.3i]: https://img.shields.io/badge/Truffle_Ruby-22.3_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=pink
 [💎truby-23.0i]: https://img.shields.io/badge/Truffle_Ruby-23.0-34BCB1?style=for-the-badge&logo=ruby&logoColor=pink
 [💎truby-23.1i]: https://img.shields.io/badge/Truffle_Ruby-23.1-34BCB1?style=for-the-badge&logo=ruby&logoColor=pink
 [💎truby-c-i]: https://img.shields.io/badge/Truffle_Ruby-current-34BCB1?style=for-the-badge&logo=ruby&logoColor=green
 [💎truby-headi]: https://img.shields.io/badge/Truffle_Ruby-HEAD-34BCB1?style=for-the-badge&logo=ruby&logoColor=blue
-[💎jruby-9.1i]: https://img.shields.io/badge/JRuby-9.1-FBE742?style=for-the-badge&logo=ruby&logoColor=red
-[💎jruby-9.2i]: https://img.shields.io/badge/JRuby-9.2-FBE742?style=for-the-badge&logo=ruby&logoColor=red
+[💎jruby-9.1i]: https://img.shields.io/badge/JRuby-9.1_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=red
+[💎jruby-9.2i]: https://img.shields.io/badge/JRuby-9.2_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=red
 [💎jruby-9.3i]: https://img.shields.io/badge/JRuby-9.3-FBE742?style=for-the-badge&logo=ruby&logoColor=red
 [💎jruby-9.4i]: https://img.shields.io/badge/JRuby-9.4-FBE742?style=for-the-badge&logo=ruby&logoColor=red
 [💎jruby-c-i]: https://img.shields.io/badge/JRuby-current-FBE742?style=for-the-badge&logo=ruby&logoColor=green

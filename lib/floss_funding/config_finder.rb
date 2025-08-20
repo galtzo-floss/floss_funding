@@ -14,7 +14,7 @@ module FlossFunding
     DOTFILE = ".floss_funding.yml"
     XDG_CONFIG = "config.yml"
     XDG_DIRNAME = "floss_funding"
-    DEFAULT_FILE = File.join(FLOSS_FUNDING_HOME, "config", "default.yml")
+    DEFAULT_FILE = File.join(FF_ROOT, "config", "default.yml")
 
     class << self
       include FileFinder
@@ -29,9 +29,9 @@ module FlossFunding
         return @config_path_cache[key] if @config_path_cache.key?(key)
         path = find_project_dotfile(key) || find_user_dotfile || find_user_xdg_config || DEFAULT_FILE
         # Test-friendly fallback: when no project/user config is found (path == DEFAULT_FILE),
-        # prefer a repo-root .floss_funding.yml if it exists within FLOSS_FUNDING_HOME.
+        # prefer a repo-root .floss_funding.yml if it exists within FF_ROOT.
         if path == DEFAULT_FILE
-          repo_root_dotfile = File.join(FLOSS_FUNDING_HOME, DOTFILE)
+          repo_root_dotfile = File.join(FF_ROOT, DOTFILE)
           path = repo_root_dotfile if File.exist?(repo_root_dotfile)
         end
         @config_path_cache[key] = path
@@ -71,7 +71,7 @@ module FlossFunding
         dir = File.dirname(root_indicator_file)
         # Ignore the gem's own repository root when resolving a project root for
         # external/embedded consumers (e.g., test fixtures within this repo).
-        @project_root_for_cache[key] = if dir == FLOSS_FUNDING_HOME
+        @project_root_for_cache[key] = if dir == FF_ROOT
           nil
         else
           dir
@@ -89,7 +89,7 @@ module FlossFunding
         dir = File.dirname(root_indicator_file)
         # Ignore the gem's own repository root when resolving a project root for
         # the current process (mirrors project_root_for behavior).
-        return if dir == FLOSS_FUNDING_HOME
+        return if dir == FF_ROOT
 
         dir
       end

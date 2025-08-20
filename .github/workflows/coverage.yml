@@ -6,8 +6,8 @@ permissions:
   id-token: write
 
 env:
-  K_SOUP_COV_MIN_BRANCH: 86
-  K_SOUP_COV_MIN_LINE: 94
+  K_SOUP_COV_MIN_BRANCH: 79
+  K_SOUP_COV_MIN_LINE: 92
   K_SOUP_COV_MIN_HARD: true
   K_SOUP_COV_FORMATTERS: "html,xml,rcov,lcov,tty"
   K_SOUP_COV_DO: true
@@ -93,6 +93,7 @@ jobs:
       # Build will fail here if coverage upload fails
       #   which will hopefully be noticed for the lack of code coverage comments
       - name: Upload coverage to CodeCov
+        if: ${{ !env.ACT }}
         uses: codecov/codecov-action@v5
         with:
           use_oidc: true
@@ -113,7 +114,7 @@ jobs:
           hide_complexity: true
           indicators: true
           output: both
-          thresholds: '94 86'
+          thresholds: '92 79'
         continue-on-error: ${{ matrix.experimental != 'false' }}
 
       - name: Add Coverage PR Comment

@@ -181,7 +181,6 @@ All information is derived from global FlossFunding state to avoid tight couplin
       <pre class="lines">
 
 
-11
 12
 13
 14
@@ -200,10 +199,13 @@ All information is derived from global FlossFunding state to avoid tight couplin
 27
 28
 29
-30</pre>
+30
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/final_summary.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/final_summary.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
   <span class='comment'># Precompute everything once; print at the end.
@@ -216,10 +218,12 @@ All information is derived from global FlossFunding state to avoid tight couplin
 </span>  <span class='ivar'>@activated_ns_names</span> <span class='op'>=</span> <span class='id identifier rubyid_pick_ns_names_with_state'>pick_ns_names_with_state</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html#STATES-constant" title="FlossFunding::STATES (constant)">STATES</a></span></span><span class='lbracket'>[</span><span class='symbol'>:activated</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='ivar'>@unactivated_ns_names</span> <span class='op'>=</span> <span class='id identifier rubyid_pick_ns_names_with_state'>pick_ns_names_with_state</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html#STATES-constant" title="FlossFunding::STATES (constant)">STATES</a></span></span><span class='lbracket'>[</span><span class='symbol'>:unactivated</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='ivar'>@invalid_ns_names</span> <span class='op'>=</span> <span class='id identifier rubyid_pick_ns_names_with_state'>pick_ns_names_with_state</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html#STATES-constant" title="FlossFunding::STATES (constant)">STATES</a></span></span><span class='lbracket'>[</span><span class='symbol'>:invalid</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='ivar'>@detained_ns_names</span> <span class='op'>=</span> <span class='id identifier rubyid_pick_ns_names_with_state'>pick_ns_names_with_state</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html#STATES-constant" title="FlossFunding::STATES (constant)">STATES</a></span></span><span class='lbracket'>[</span><span class='symbol'>:detained</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 
   <span class='ivar'>@activated_libs</span> <span class='op'>=</span> <span class='id identifier rubyid_pick_unique_libs_with_state'>pick_unique_libs_with_state</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html#STATES-constant" title="FlossFunding::STATES (constant)">STATES</a></span></span><span class='lbracket'>[</span><span class='symbol'>:activated</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='ivar'>@unactivated_libs</span> <span class='op'>=</span> <span class='id identifier rubyid_pick_unique_libs_with_state'>pick_unique_libs_with_state</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html#STATES-constant" title="FlossFunding::STATES (constant)">STATES</a></span></span><span class='lbracket'>[</span><span class='symbol'>:unactivated</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='ivar'>@invalid_libs</span> <span class='op'>=</span> <span class='id identifier rubyid_pick_unique_libs_with_state'>pick_unique_libs_with_state</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html#STATES-constant" title="FlossFunding::STATES (constant)">STATES</a></span></span><span class='lbracket'>[</span><span class='symbol'>:invalid</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='ivar'>@detained_libs</span> <span class='op'>=</span> <span class='id identifier rubyid_pick_unique_libs_with_state'>pick_unique_libs_with_state</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html" title="FlossFunding (module)">FlossFunding</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../FlossFunding.html#STATES-constant" title="FlossFunding::STATES (constant)">STATES</a></span></span><span class='lbracket'>[</span><span class='symbol'>:detained</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 
   <span class='ivar'>@all_libs</span> <span class='op'>=</span> <span class='id identifier rubyid_unique_libraries'>unique_libraries</span><span class='lparen'>(</span><span class='ivar'>@events</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:library</span><span class='rparen'>)</span><span class='rparen'>)</span>
 
@@ -236,7 +240,7 @@ All information is derived from global FlossFunding state to avoid tight couplin
 </div>
 
       <div id="footer">
-  Generated on Sat Aug 16 18:09:21 2025 by
+  Generated on Tue Aug 19 19:50:26 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

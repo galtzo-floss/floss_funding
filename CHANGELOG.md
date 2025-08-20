@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning v2](https://semver.org/spec/v2.
 
 ## [Unreleased]
 ### Added
+- Documentation of all ENV configuration variables, and their behavior
+- Rakefile: Added `appraisal:update` task to update Appraisal gemfiles and run RuboCop Gradual autocorrect.
 ### Changed
+- Final summary header now shows only the project basename (name) instead of the full project root path.
 ### Deprecated
 ### Removed
 ### Fixed

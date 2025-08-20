@@ -7,8 +7,8 @@ RSpec.describe FlossFunding::Library do
   let(:namespace) { FlossFunding::Namespace.new("TestModule") }
 
   it "sets silence when :silent is a callable" do
-    root_path = FlossFunding::FLOSS_FUNDING_HOME
-    config_path = FlossFunding::FLOSS_FUNDING_HOME
+    root_path = FlossFunding::FF_ROOT
+    config_path = FlossFunding::FF_ROOT
     including_path = __FILE__
     config = FlossFunding::Configuration.new({"library_name" => "TestModule"})
     callable = -> { true }

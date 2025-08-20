@@ -19,9 +19,9 @@ module FlossFunding
     attr_reader namespace: String
     attr_reader base_name: String
     attr_reader library_name: String
-    attr_reader including_path: String
+    attr_reader including_path: (String | nil)
     attr_reader env_var_name: String
-    attr_reader library_root_path: String
+    attr_reader library_root_path: (String | nil)
     attr_reader library_config_path: String
     attr_reader seen_at: Time
     attr_reader silence: untyped
@@ -68,7 +68,7 @@ module FlossFunding
   # Constants
   DEBUG: bool
   CONFIG_FILE_NAME: String
-  FLOSS_FUNDING_HOME: String
+  FF_ROOT: String
   REQUIRED_YAML_KEYS: Array[String]
   FREE_AS_IN_BEER: String
   BUSINESS_IS_NOT_GOOD_YET: String
@@ -133,7 +133,7 @@ module FlossFunding
 
   module Poke
     def self.included: (Module) -> void
-    def self.new: ((String | nil), ?{ namespace: String?, silent: untyped?, config_path: String?, wedge: bool? }) -> Module
+    def self.new: ((String | nil), ?{ namespace: String?, silent: untyped?, config_file: String?, wedge: bool? }) -> Module
   end
 
   class ContraIndications
@@ -145,7 +145,7 @@ module FlossFunding
   end
 
   class ConfigLoader
-    FLOSS_FUNDING_HOME: String
+    FF_ROOT: String
     DEFAULT_FILE: String
 
     def self.clear_options: -> void

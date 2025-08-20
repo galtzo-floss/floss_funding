@@ -7,16 +7,16 @@ module FlossFunding
   class ContraIndications
     class << self
       # Returns true if we should short-circuit and do nothing for poke/setup.
+      # NOTE: contraindications do not prevent wedge: true.
       # - In CI: ENV["CI"] case-insensitively equals "true".
-      # - If Dir.pwd raises (defensive check for broken runtime env).
+      # - If Dir.pwd raises (defensive check for incompatible runtime env).
       # @return [Boolean]
       def poke_contraindicated?
-        # If an internal error occurred, become inert immediately
+        # If global inert/silence flags are set, become inert immediately
         return true if ::FlossFunding.errored?
-        # Callable silencers do not apply during load; only at-exit.
-        # For early short-circuiting we honor the global silenced flag only.
         return true if ::FlossFunding.silenced
 
+        # CI environments may prefer to suppress poke/setup side effects
         begin
           ci_val = ENV.fetch("CI", "")
           return true if ci_val.respond_to?(:casecmp) && ci_val.casecmp("true") == 0
@@ -25,6 +25,7 @@ module FlossFunding
           return true
         end
 
+        # Environment sanity check: if Dir.pwd raises, become inert
         begin
           Dir.pwd
         rescue StandardError
@@ -54,7 +55,13 @@ module FlossFunding
       # @return [Boolean]
       def at_exit_contraindicated?
         # Honor global flags first
-        return true if !$ERROR_INFO.nil? # if not nil the process is exiting with non-zero exit status due to an uncaught error, and we don't want to suppress that, or interfere by raising a different error.
+        # Only contraindicate when there is an actual unhandled exception present.
+        # $ERROR_INFO is an alias for $! and is always defined, even when nil,
+        # so we must check its value.
+        # Prior to any errors it will likely not be defined at all,
+        # which will result in interpreter warnings,
+        # so we also have to check if it is defined.
+        return true if defined?($ERROR_INFO) && !$ERROR_INFO.nil?
         return true if ::FlossFunding.errored?
         return true if ::FlossFunding.silenced
         return true if ::FlossFunding::Constants::SILENT

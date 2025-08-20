@@ -19,17 +19,24 @@ require "floss_funding/version"
 # Load runtime control switch constants separately for easier test isolation
 require "floss_funding/constants"
 require "floss_funding/lockfile"
+require "floss_funding/validators"
+require "floss_funding/rake_helpers"
 
 # Now declare some constants
 module FlossFunding
-  # Debug toggle controlled by ENV; set true when ENV['FLOSS_FUNDING_DEBUG'] case-insensitively equals "true".
-  DEBUG = ENV.fetch("FLOSS_FUNDING_DEBUG", "").casecmp("true") == 0
+  # Debug toggle controlled by ENV; set true when ENV['FLOSS_CFG_FUND_DEBUG'] case-insensitively equals "true".
+  DEBUG = begin
+    v = ENV.fetch("FLOSS_CFG_FUND_DEBUG", nil)
+    v.to_s.casecmp("true") == 0
+  rescue StandardError
+    false
+  end
 
   # The file name to look for in the project root.
   # @return [String]
   CONFIG_FILE_NAME = ".floss_funding.yml"
 
-  FLOSS_FUNDING_HOME = File.realpath(File.join(File.dirname(__FILE__), ".."))
+  FF_ROOT = File.realpath(File.join(File.dirname(__FILE__), ".."))
 
   # Minimum required keys for a valid .floss_funding.yml file
   # Used to validate presence when integrating without :wedge mode
@@ -54,6 +61,7 @@ module FlossFunding
     :activated => "activated",
     :unactivated => "unactivated",
     :invalid => "invalid",
+    :detained => "detained",
   }.freeze
   STATE_VALUES = STATES.values.freeze
 
@@ -108,9 +116,10 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
   # A warning would be printed about the invalid key,
   # which may be a gentle way to discover that your system time is broken.
   #
-  # Time source for month arithmetic; overridable for tests.
+  # Time source for month arithmetic (UTC); overridable for tests.
+  # Always stored as a UTC Time to avoid local timezone issues.
   # @return [Time]
-  @loaded_at = Time.now.freeze
+  @loaded_at = Time.now.utc.freeze
 
   # Current Month index for time-based key validity
   # @return [Integer]
@@ -143,11 +152,51 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
     end
 
   class << self
+    # Display a concise progress indicator for activated vs total libraries.
+    # Falls back gracefully if ruby-progressbar is not available or when total is zero.
+    # - In TTY: renders a progress bar and ensures a trailing newline.
+    # - In non-TTY: prints a stable summary with counts to avoid spinner artifacts.
+    # @param activated_count [Integer]
+    # @param total_count [Integer]
+    def progress_bar(activated_count, total_count)
+      begin
+        require "ruby-progressbar"
+      rescue LoadError
+        # Fallback without ruby-progressbar: print a concise summary with percentage and counts
+        total_i = total_count.to_i
+        if total_i <= 0
+          puts "FUNDED🦷%: 0% (0/0)"
+        else
+          pct = ((activated_count.to_f / total_i.to_f) * 100).round
+          puts "FUNDED🦷%: #{pct}% (#{activated_count}/#{total_i})"
+        end
+        return
+      end
+
+      total = [total_count, 0].max
+      activated = [[activated_count, 0].max, total].min
+      if total.zero?
+        # Avoid creating a progressbar with zero total; print a stable fallback
+        puts "FUNDED🦷%: 0% (0/0)"
+        return
+      end
+
+      bar = ProgressBar.create(:title => "FUNDED🦷%", :total => total, :format => "%t: |%B| %p%% (%c/%C)")
+      bar.progress = activated
+      # Ensure we end with a newline after progress bar output without forcing completion
+      if $stdout.tty?
+        puts ""
+      else
+        # In non-TTY (e.g., CI capture), provide a stable summary with counts
+        puts "(#{activated}/#{total})"
+      end
+    end
+
     # Register a minimal activation event for wedge-injected libraries to ensure
     # they are counted in the final summary without performing config discovery.
     # @param base [Module] the including module
     # @param custom_namespace [String, nil] optional override namespace
-    def register_wedge(base, custom_namespace = nil)
+    def register_wedge(base, custom_namespace = nil, contraindicated = false)
       # Derive namespace string
       ns_name = (custom_namespace.is_a?(String) && custom_namespace.strip != "") ? custom_namespace : base.name.to_s
 
@@ -188,7 +237,7 @@ floss_funding v#{::FlossFunding::Version::VERSION} is made with ❤️ in 🇺�
       )
 
       add_or_update_namespace_with_event(namespace, event)
-      initiate_begging(event)
+      initiate_begging(event) unless contraindicated
 
       event
     rescue StandardError => e
@@ -481,6 +530,11 @@ Then find the correct one, or get a new one @ https://floss-funding.dev and set 
           lock.record_nag(library, event, "on_load") if lock
           ::FlossFunding.start_coughing(activation_key, ns, env_var_name)
         end
+      when ::FlossFunding::STATES[:detained]
+        unless lock && lock.nagged?(library)
+          lock.record_nag(library, event, "on_load") if lock
+          puts %(FLOSS Funding: Configuration for #{library_name} (#{ns}) contains invalid values and has been detained; details will be shown at exit.) unless ::FlossFunding::ContraIndications.at_exit_contraindicated?
+        end
       else
         unless lock && lock.nagged?(library)
           lock.record_nag(library, event, "on_load") if lock
@@ -507,14 +561,7 @@ require "floss_funding/poke"
 require "floss_funding/final_summary"
 # require "floss_funding/wedge" # Used independently, loaded discretely
 
-# Initialize lockfile on library load (after project_root helpers are available)
-begin
-  FlossFunding::Lockfile.install!
-rescue StandardError => e
-  FlossFunding.error!(e, "Lockfile.install!")
-end
-
-# Dog Food
+# Dog Food test #2
 FlossFunding.send(
   :include,
   FlossFunding::Poke.new(

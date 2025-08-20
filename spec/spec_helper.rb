@@ -1,20 +1,35 @@
 # frozen_string_literal: true
 
 DEBUGGING = ENV.fetch("DEBUG", "false").casecmp("true").zero?
+# Within the test suite, we will consider this gem to be activated
+ENV["FLOSS_FUNDING_FLOSS_FUNDING"] = "Free-as-in-beer"
 
 # External gems
 require "debug" if DEBUGGING
+require "fileutils"
+
+# NOTE: Gemfiles for older rubies won't have kettle-soup-cover.
+#       The rescue LoadError handles that scenario.
+begin
+  require "kettle-soup-cover"
+  require "simplecov" if Kettle::Soup::Cover::DO_COV # `.simplecov` is run here!
+rescue LoadError => error
+  # check the error message and re-raise when unexpected
+  raise error unless error.message.include?("kettle")
+end
+
+# Load floss_funding early because other gems used in the test harness
+# will also load floss_funding, which would prevent test coverage
+require "floss_funding"
+
 require "silent_stream"
 require "rspec/block_is_expected"
 require "rspec/block_is_expected/matchers/not"
 require "rspec/stubbed_env"
-require "fileutils"
-
-# NOTE: GemMine will be moved into a separate gem, so it can have discrete tests and coverage.
-require "gem_mine"
 
 # Config files
-require "config/timecop"
+require "support/config/timecop"
+require "support/config/timecop_rspec"
 require "support/bench_gems_generator"
 require "support/classes/spec_struct"
 require "support/helpers/activation_events_helper"
@@ -36,6 +51,27 @@ RSpec.configure do |config|
   end
 
   config.include(SilentStream)
+
+  # Reset only the at_exit sentinel before each example so at-exit behavior is testable,
+  # but leave on_load sentinel in place to avoid triggering immediate on-load nags.
+  config.before do
+    begin
+      root = File.expand_path("..", __dir__)
+      Dir.glob(File.join(root, ".floss_funding.ruby.at_exit.lock")).each { |f| FileUtils.rm_f(f) }
+    rescue StandardError => e
+      warn "pre-example at_exit sentinel cleanup warning: #{e.class}: #{e.message}"
+    end
+  end
+
+  # Also remove sentinel lockfiles after each example so each spec remains isolated
+  config.after do
+    begin
+      root = File.expand_path("..", __dir__)
+      Dir.glob(File.join(root, ".floss_funding.*.lock")).each { |f| FileUtils.rm_f(f) }
+    rescue StandardError => e
+      warn "post-example sentinel cleanup warning: #{e.class}: #{e.message}"
+    end
+  end
 
   # Exclude examples/groups tagged with :skip_ci when running on CI
   # Usage: add `:skip_ci` to any example or group you want to skip on CI
@@ -104,18 +140,3 @@ end
 
 # Generate the 100 gem fixtures on disk (idempotent)
 FlossFunding::BenchGemsGenerator.generate_all
-
-# Within the test suite, we will consider this gem to be activated
-ENV["FLOSS_FUNDING_FLOSS_FUNDING"] = "Free-as-in-beer"
-
-# NOTE: Gemfiles for older rubies won't have kettle-soup-cover.
-#       The rescue LoadError handles that scenario.
-begin
-  require "kettle-soup-cover"
-  require "simplecov" if Kettle::Soup::Cover::DO_COV # `.simplecov` is run here!
-rescue LoadError => error
-  # check the error message and re-raise when unexpected
-  raise error unless error.message.include?("kettle")
-end
-
-require "floss_funding"

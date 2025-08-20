@@ -63,10 +63,8 @@ RSpec.describe FlossFunding::FinalSummary do
       })
 
       # Silence the progressbar’s own console output; we only verify it is created and increments
-      @fake_pb = instance_double("PB", :increment => nil)
-      expect(ProgressBar).to receive(:create).with(:title => "Activated Libraries", :total => 3).and_return(@fake_pb)
-      # Expect it to increment exactly for activated libraries (1 time)
-      expect(@fake_pb).to receive(:increment).once
+      # Expect the shared progress bar helper to be invoked with activated vs total
+      expect(FlossFunding).to receive(:progress_bar).with(1, 3)
     end
 
     it "prints spotlight for chosen ns and shows counts including invalid" do
@@ -108,8 +106,7 @@ RSpec.describe FlossFunding::FinalSummary do
       lib_for_spotlight = FlossFunding::Library.new("gem_u", ns_obj, nil, "OnlyU", __FILE__, nil, nil, ns_obj.env_var_name, cfg, nil)
       allow_any_instance_of(described_class).to receive(:random_unpaid_or_invalid_library).and_return(lib_for_spotlight)
 
-      fake_pb = instance_double("PB", :increment => nil)
-      expect(ProgressBar).to receive(:create).with(:title => "Activated Libraries", :total => 1).and_return(fake_pb)
+      expect(FlossFunding).to receive(:progress_bar).with(0, 1)
 
       output = capture_stdout { described_class.new }
       expect(output).to include("unactivated")
@@ -133,8 +130,7 @@ RSpec.describe FlossFunding::FinalSummary do
       lib_for_spotlight = FlossFunding::Library.new(nil, ns_obj, nil, "CfgLess", __FILE__, nil, nil, ns_obj.env_var_name, cfg, nil)
       allow_any_instance_of(described_class).to receive(:random_unpaid_or_invalid_library).and_return(lib_for_spotlight)
 
-      fake_pb = instance_double("PB", :increment => nil)
-      expect(ProgressBar).to receive(:create).with(:title => "Activated Libraries", :total => 1).and_return(fake_pb)
+      expect(FlossFunding).to receive(:progress_bar).with(0, 1)
 
       output = capture_stdout { described_class.new }
       expect(output).to include("Funding URL: https://floss-funding.dev")

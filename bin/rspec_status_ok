@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Simple checker: read .rspec_status in project root and exit 0 when all examples
+# are marked passed; otherwise print a brief failure summary and exit 1.
+# This avoids parsing RSpec console output, which varies by formatter/TTY.
+
+status_path = File.expand_path(".rspec_status", Dir.pwd)
+unless File.file?(status_path)
+  warn(".rspec_status not found at #{status_path}. Run RSpec with example status persistence enabled.")
+  exit(2)
+end
+
+failed = []
+File.foreach(status_path) do |line|
+  # Expected format: "<example_id> | status | <run_time> |"
+  # We only care about lines that contain "| failed |"
+  next unless line.include?("| failed |")
+  # Extract example id up to first pipe
+  ex_id = line.split("|").first.to_s.strip
+  failed << ex_id unless ex_id.empty?
+end
+
+if failed.empty?
+  puts("rspec_status_ok: all examples passed (according to .rspec_status)")
+  exit(0)
+else
+  puts("rspec_status_ok: failures detected (#{failed.size})\n-- failing examples:")
+  failed.each { |id| puts("  - #{id}") }
+  exit(1)
+end

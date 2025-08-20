@@ -19,7 +19,9 @@ RSpec.describe FlossFunding::Lockfile do
         FlossFunding::ConfigFinder.clear_caches!
         expect(FlossFunding::ConfigFinder.project_root).to eq(dir)
 
-        described_class.install!
+        # Access the lockfiles to initialize and persist them
+        described_class.on_load
+        described_class.at_exit
         on_load_path = File.join(dir, ".floss_funding.ruby.on_load.lock")
         at_exit_path = File.join(dir, ".floss_funding.ruby.at_exit.lock")
 
@@ -42,7 +44,8 @@ RSpec.describe FlossFunding::Lockfile do
       File.write(File.join(dir, "Gemfile"), "gemfile")
       Dir.chdir(dir) do
         FlossFunding::ConfigFinder.clear_caches!
-        described_class.install!
+        # Access the lockfiles to initialize and persist them
+        described_class.on_load
 
         # Build a minimal fake library/event
         ns = FlossFunding::Namespace.new("My::Lib", Module.new)

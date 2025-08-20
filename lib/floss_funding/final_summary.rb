@@ -3,6 +3,7 @@
 require "ruby-progressbar"
 require "terminal-table"
 require "rainbow"
+require "floss_funding/terminal_helpers"
 
 module FlossFunding
   # Builds and renders an end-of-process summary without exposing any attributes.
@@ -19,10 +20,12 @@ module FlossFunding
       @activated_ns_names = pick_ns_names_with_state(::FlossFunding::STATES[:activated])
       @unactivated_ns_names = pick_ns_names_with_state(::FlossFunding::STATES[:unactivated])
       @invalid_ns_names = pick_ns_names_with_state(::FlossFunding::STATES[:invalid])
+      @detained_ns_names = pick_ns_names_with_state(::FlossFunding::STATES[:detained])
 
       @activated_libs = pick_unique_libs_with_state(::FlossFunding::STATES[:activated])
       @unactivated_libs = pick_unique_libs_with_state(::FlossFunding::STATES[:unactivated])
       @invalid_libs = pick_unique_libs_with_state(::FlossFunding::STATES[:invalid])
+      @detained_libs = pick_unique_libs_with_state(::FlossFunding::STATES[:detained])
 
       @all_libs = unique_libraries(@events.map(&:library))
 
@@ -46,7 +49,7 @@ module FlossFunding
     end
 
     def render
-      # 3. Choose a random library from unactivated + invalid that hasn't nagged recently (at_exit lockfile)
+      # 3. Choose a random library from unactivated + invalid + detained that hasn't nagged recently (at_exit lockfile)
       showcased_lib = random_unpaid_or_invalid_library
 
       lines = []
@@ -57,7 +60,8 @@ module FlossFunding
 
         # 4. Render a summary of counts
         root = ::FlossFunding.project_root
-        root_label = (root.nil? || root.to_s.empty?) ? "(unknown)" : root.to_s
+        root_str = root.to_s unless root.nil?
+        root_label = (root_str.nil? || root_str.empty?) ? "(unknown)" : File.basename(root_str)
         lines << "FLOSS Funding Summary: #{root_label}"
         lines << build_summary_table
         ::FlossFunding.debug_log { "[FinalSummary] counts ns: activated=#{@activated_ns_names.size} unactivated=#{@unactivated_ns_names.size} invalid=#{@invalid_ns_names.size}; libs: activated=#{@activated_libs.size} unactivated=#{@unactivated_libs.size} invalid=#{@invalid_libs.size}" }
@@ -67,12 +71,7 @@ module FlossFunding
 
         # 5. Show a progressbar of activated libraries over total fingerprinted libraries
         total = @all_libs.size
-        if total > 0
-          progressbar = ProgressBar.create(:title => "Activated Libraries", :total => total)
-          @activated_libs.size.times { progressbar.increment }
-          # Ensure we end with a newline after progress bar output
-          puts ""
-        end
+        ::FlossFunding.progress_bar(@activated_libs.size, total)
       end
     rescue StandardError => e
       # Record the failure and switch library to inert mode.
@@ -87,12 +86,29 @@ module FlossFunding
     end
     # :nocov:
 
+    # Fallback rendering when terminal-table cannot render due to width constraints.
+    # Produces a very basic key: value list with the same information.
+    def build_summary_kv_list(statuses, ns_counts, lib_counts)
+      lines = []
+      lines << "namespaces:"
+      statuses.each do |st|
+        lines << sprintf("  %-12s %s", "#{st}:", ns_counts[st].to_s)
+      end
+      lines << "libraries:"
+      statuses.each do |st|
+        lines << sprintf("  %-12s %s", "#{st}:", lib_counts[st].to_s)
+      end
+      lines.join("\n")
+    end
+
     # Build a terminal-table summary with colored columns per status.
     def build_summary_table
       # Determine which statuses to show (skip invalid if no invalids at all)
       invalid_total = @invalid_ns_names.size + @invalid_libs.size
+      detained_total = @detained_ns_names.size + @detained_libs.size
       statuses = ::FlossFunding::STATE_VALUES.dup
       statuses.delete(::FlossFunding::STATES[:invalid]) if invalid_total.zero?
+      statuses.delete(::FlossFunding::STATES[:detained]) if detained_total.zero?
 
       # Headings: first column empty (row labels), then status columns
       headings = [""] + statuses.map { |st| colorize_heading(st) }
@@ -105,7 +121,14 @@ module FlossFunding
       rows << (["namespaces"] + statuses.map { |st| colorize_cell(st, ns_counts[st]) })
       rows << (["libraries"] + statuses.map { |st| colorize_cell(st, lib_counts[st]) })
 
-      Terminal::Table.new(:headings => headings, :rows => rows).to_s
+      begin
+        tbl = ::Terminal::Table.new(:headings => headings, :rows => rows)
+        ::FlossFunding::Terminal.apply_width!(tbl)
+        tbl.to_s
+      rescue RuntimeError => e
+        ::FlossFunding.debug_log { "[FinalSummary] terminal-table failed: #{e.message}" } if defined?(::FlossFunding)
+        build_summary_kv_list(statuses, ns_counts, lib_counts)
+      end
     end
 
     # :nocov:
@@ -119,12 +142,14 @@ module FlossFunding
           ::FlossFunding::STATES[:activated] => @activated_ns_names.size,
           ::FlossFunding::STATES[:unactivated] => @unactivated_ns_names.size,
           ::FlossFunding::STATES[:invalid] => @invalid_ns_names.size,
+          ::FlossFunding::STATES[:detained] => @detained_ns_names.size,
         }
       when :libraries
         {
           ::FlossFunding::STATES[:activated] => @activated_libs.size,
           ::FlossFunding::STATES[:unactivated] => @unactivated_libs.size,
           ::FlossFunding::STATES[:invalid] => @invalid_libs.size,
+          ::FlossFunding::STATES[:detained] => @detained_libs.size,
         }
       else
         {}
@@ -173,6 +198,10 @@ module FlossFunding
         light_hex = "#87cefa"  # light sky blue
         dark_hex = "#00008b"  # dark blue
         default = ->(t) { Rainbow(t).blue }
+      when ::FlossFunding::STATES[:detained]
+        light_hex = "#ffd1dc"  # light pink
+        dark_hex = "#c71585"  # medium violet red
+        default = ->(t) { Rainbow(t).magenta }
       else
         return text
       end
@@ -226,7 +255,7 @@ module FlossFunding
 
     def random_unpaid_or_invalid_library
       # Build pool of unique libraries in unactivated or invalid states
-      libs = (@unactivated_libs + @invalid_libs).uniq
+      libs = (@unactivated_libs + @invalid_libs + @detained_libs).uniq
       return if libs.empty?
 
       # Filter using at_exit lockfile to exclude recently featured libraries
