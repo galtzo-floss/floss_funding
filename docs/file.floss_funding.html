@@ -78,9 +78,9 @@ def validate!: -&gt; void   end
 <pre class="code ruby"><code class="ruby">attr_reader namespace: String
 attr_reader base_name: String
 attr_reader library_name: String
-attr_reader including_path: String
+attr_reader including_path: (String | nil)
 attr_reader env_var_name: String
-attr_reader library_root_path: String
+attr_reader library_root_path: (String | nil)
 attr_reader library_config_path: String
 attr_reader seen_at: Time
 attr_reader silence: untyped
@@ -127,7 +127,7 @@ def empty?: -&gt; bool   end
 <p># Constants<br>
   DEBUG: bool<br>
   CONFIG_FILE_NAME: String<br>
-  FLOSS_FUNDING_HOME: String<br>
+  FF_ROOT: String<br>
   REQUIRED_YAML_KEYS: Array[String]<br>
   FREE_AS_IN_BEER: String<br>
   BUSINESS_IS_NOT_GOOD_YET: String<br>
@@ -204,7 +204,7 @@ def self.to_under_bar: (String) -&gt; String   end
   end</p>
 
 <p>class ConfigLoader<br>
-    FLOSS_FUNDING_HOME: String<br>
+    FF_ROOT: String<br>
     DEFAULT_FILE: String</p>
 
 <pre class="code ruby"><code class="ruby">def self.clear_options: -&gt; void
@@ -216,7 +216,7 @@ def self.reset_caches!: -&gt; void   end end
 </div></div>
 
       <div id="footer">
-  Generated on Sun Aug 17 20:16:37 2025 by
+  Generated on Tue Aug 19 19:50:25 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

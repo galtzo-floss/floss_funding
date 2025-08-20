@@ -120,7 +120,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#root_level=-class_method" title="root_level= (class method)">.<strong>root_level=</strong>(level)  &#x21d2; Object </a>
+      <a href="#root_level=-class_method" title="root_level= (class method)">.<strong>root_level=</strong>(level)  &#x21d2; void </a>
     
 
     
@@ -134,7 +134,7 @@
   <span class="private note title">private</span>
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Set the artificial root level used to stop upward traversal when searching.</p>
 </div></span>
   
 </li>
@@ -157,7 +157,7 @@
   <span class="private note title">private</span>
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Check whether the given path has reached the configured root level or stop_dir.</p>
 </div></span>
   
 </li>
@@ -175,7 +175,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#find_file_upwards-instance_method" title="#find_file_upwards (instance method)">#<strong>find_file_upwards</strong>(filename, start_dir, stop_dir = nil)  &#x21d2; Object </a>
+      <a href="#find_file_upwards-instance_method" title="#find_file_upwards (instance method)">#<strong>find_file_upwards</strong>(filename, start_dir, stop_dir = nil)  &#x21d2; String<sup>?</sup> </a>
     
 
     
@@ -189,7 +189,7 @@
   <span class="private note title">private</span>
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Find the first occurrence of a file walking upward from a starting directory.</p>
 </div></span>
   
 </li>
@@ -198,7 +198,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#find_last_file_upwards-instance_method" title="#find_last_file_upwards (instance method)">#<strong>find_last_file_upwards</strong>(filename, start_dir, stop_dir = nil)  &#x21d2; Object </a>
+      <a href="#find_last_file_upwards-instance_method" title="#find_last_file_upwards (instance method)">#<strong>find_last_file_upwards</strong>(filename, start_dir, stop_dir = nil)  &#x21d2; String<sup>?</sup> </a>
     
 
     
@@ -212,7 +212,7 @@
   <span class="private note title">private</span>
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Find the last occurrence of a file while walking upward from a starting directory.</p>
 </div></span>
   
 </li>
@@ -230,7 +230,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="root_level=-class_method">
   
-    .<strong>root_level=</strong>(level)  &#x21d2; <tt>Object</tt> 
+    .<strong>root_level=</strong>(level)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -242,13 +242,32 @@
   <strong>This method is part of a private API.</strong>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
-
+<p class="note returns_void">This method returns an undefined value.</p><p>Set the artificial root level used to stop upward traversal when searching.</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>level</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Absolute directory path or nil to clear</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -256,12 +275,12 @@
       <pre class="lines">
 
 
-14
-15
-16</pre>
+18
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/file_finder.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/file_finder.rb', line 18</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_root_level='>root_level=</span><span class='lparen'>(</span><span class='id identifier rubyid_level'>level</span><span class='rparen'>)</span>
   <span class='ivar'>@root_level</span> <span class='op'>=</span> <span class='id identifier rubyid_level'>level</span>
@@ -286,13 +305,47 @@
   <strong>This method is part of a private API.</strong>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
-
+<p>Check whether the given path has reached the configured root level or stop_dir.</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>path</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>Pathname</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The directory being checked during ascent</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>stop_dir</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Optional hard stop directory when no root_level is set</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
@@ -302,6 +355,10 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'><p>true if traversal should stop at this path</p>
+</div>
       
     </li>
   
@@ -313,12 +370,12 @@
       <pre class="lines">
 
 
-18
-19
-20</pre>
+27
+28
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/file_finder.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/file_finder.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_root_level?'>root_level?</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_stop_dir'>stop_dir</span><span class='rparen'>)</span>
   <span class='lparen'>(</span><span class='ivar'>@root_level</span> <span class='op'>||</span> <span class='id identifier rubyid_stop_dir'>stop_dir</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -337,7 +394,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="find_file_upwards-instance_method">
   
-    #<strong>find_file_upwards</strong>(filename, start_dir, stop_dir = nil)  &#x21d2; <tt>Object</tt> 
+    #<strong>find_file_upwards</strong>(filename, start_dir, stop_dir = nil)  &#x21d2; <tt>String</tt><sup>?</sup> 
   
 
   
@@ -349,13 +406,81 @@
   <strong>This method is part of a private API.</strong>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
-
+<p>Find the first occurrence of a file walking upward from a starting directory.</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>filename</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The basename or glob pattern to match (e.g., “Gemfile”, “*.gemspec”)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>start_dir</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Absolute or relative directory to start from</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>stop_dir</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Optional directory at which to stop searching</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Absolute path to the first matching file, or nil if none found</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -363,15 +488,15 @@
       <pre class="lines">
 
 
-22
-23
-24
-25
-26
-27</pre>
+37
+38
+39
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/file_finder.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/file_finder.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_file_upwards'>find_file_upwards</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_start_dir'>start_dir</span><span class='comma'>,</span> <span class='id identifier rubyid_stop_dir'>stop_dir</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_traverse_files_upwards'>traverse_files_upwards</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_start_dir'>start_dir</span><span class='comma'>,</span> <span class='id identifier rubyid_stop_dir'>stop_dir</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
@@ -387,7 +512,7 @@
       <div class="method_details ">
   <h3 class="signature " id="find_last_file_upwards-instance_method">
   
-    #<strong>find_last_file_upwards</strong>(filename, start_dir, stop_dir = nil)  &#x21d2; <tt>Object</tt> 
+    #<strong>find_last_file_upwards</strong>(filename, start_dir, stop_dir = nil)  &#x21d2; <tt>String</tt><sup>?</sup> 
   
 
   
@@ -399,13 +524,82 @@
   <strong>This method is part of a private API.</strong>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
-
+<p>Find the last occurrence of a file while walking upward from a starting directory.<br />
+Useful for selecting the nearest ancestor config file when multiple are present.</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>filename</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The basename or glob pattern to match (e.g., “Gemfile”, “*.gemspec”)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>start_dir</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Absolute or relative directory to start from</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>stop_dir</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Optional directory at which to stop searching</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Absolute path to the last matching file, or nil if none found</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -413,14 +607,14 @@
       <pre class="lines">
 
 
-29
-30
-31
-32
-33</pre>
+51
+52
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/floss_funding/file_finder.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'lib/floss_funding/file_finder.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_last_file_upwards'>find_last_file_upwards</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_start_dir'>start_dir</span><span class='comma'>,</span> <span class='id identifier rubyid_stop_dir'>stop_dir</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_last_file'>last_file</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -437,7 +631,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Aug 17 20:16:37 2025 by
+  Generated on Tue Aug 19 19:50:25 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

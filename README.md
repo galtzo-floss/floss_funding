@@ -341,6 +341,53 @@ suggested_donation_amount: 10
 floss_funding_url: https://example.com/fund
 ```
 
+## Environment variables
+
+These environment variables let you control FlossFunding behavior at runtime. Each variable is optional; unset variables use safe defaults.
+
+Note: This section documents the FLOSS_CFG_FUNDING_* variables specifically requested. The library also honors additional variables (e.g., activation key envs and some FLOSS_CFG_FUND_* controls) which are described elsewhere in the README and code comments.
+
+### FLOSS_CFG_FUNDING_LOGFILE
+- Purpose: Redirects FlossFunding debug output to a file when debugging is enabled.
+- Type: file path (string)
+- Default: unset (debug messages, if any, go to STDOUT)
+- Behavior:
+  - When set to a non-empty path, FlossFunding attempts to create/truncate the file on first use and logs debug messages via Ruby's Logger at DEBUG level.
+  - Directory creation is best-effort (mkdir -p). Failures fall back to STDOUT without raising.
+- Example:
+  - FLOSS_CFG_FUNDING_LOGFILE=tmp/log/floss_funding.debug.log
+
+### FLOSS_CFG_FUNDING_ON_LOAD_SEC_PER_NAG_MAX
+- Purpose: Limits how often a given library can emit an on-load (include-time) nag message.
+- Type: integer seconds
+- Default: 86400 (24 hours)
+- Behavior:
+  - A YAML lockfile .floss_funding.ruby.on_load.lock in the project root records the last on-load nag per library. If the recorded time is within this many seconds, the on-load nag is suppressed.
+  - Values are clamped to a safe range internally.
+- Example:
+  - FLOSS_CFG_FUNDING_ON_LOAD_SEC_PER_NAG_MAX=3600  # at most one on-load nag per hour per library
+
+### FLOSS_CFG_FUNDING_AT_EXIT_SEC_PER_NAG_MAX
+- Purpose: Limits how often the at-exit spotlight (the featured info card at process end) can highlight a library.
+- Type: integer seconds
+- Default: 2400 (40 minutes)
+- Behavior:
+  - A YAML lockfile .floss_funding.ruby.at_exit.lock in the project root records the last at-exit spotlight per library. If within this many seconds, that library won't be spotlighted again.
+  - Values are clamped to a safe range internally.
+- Example:
+  - FLOSS_CFG_FUNDING_AT_EXIT_SEC_PER_NAG_MAX=600  # at most one at-exit spotlight per 10 minutes per library
+
+### FLOSS_CFG_FUNDING_WEDGE_DANGEROUS
+- Purpose: Enables an aggressive mode for FlossFunding::Wedge that attempts to require gems before injecting, to increase chances of finding their namespaces.
+- Type: string; recognized value: "1"
+- Default: unset (safe mode)
+- Behavior:
+  - When set to "1", the wedge will attempt to require each loaded gem before resolving constants, but only if FlossFunding DEBUG is true. If DEBUG is false, wedge prints a warning and remains safe.
+  - This file is not auto-required by the gem; wedge must be explicitly required/used.
+- Example:
+  - FLOSS_CFG_FUNDING_WEDGE_DANGEROUS=1
+  - With DEBUG enabled (see README for DEBUG), running: ruby -rfloss_funding/wedge -e 'FlossFunding::Wedge.wedge!'
+
 ## 🦷 FLOSS Funding
 
 > How wonderful it is that nobody need wait a single moment before starting to improve the world.<br/>

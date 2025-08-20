@@ -82,7 +82,7 @@
 <p>* There will be many ways to disable nags, to ensure it is always an option for Mr. Scrooge.<br>
 A global ones is:</p>
 
-<pre class="code ruby"><code class="ruby">ENV[&#39;FLOSS_FUNDING_SILENT&#39;] = &quot;CATHEDRAL_OR_BAZAAR&quot;`
+<pre class="code ruby"><code class="ruby">ENV[&#39;FLOSS_CFG_FUNDING_SILENT&#39;] = &quot;CATHEDRAL_OR_BAZAAR&quot;`
 </code></pre>
 
 <p>Instructions for turning this tool off will always be front and center.<br>
@@ -107,6 +107,21 @@ end
   <li>Run the generator:
     <pre class="code language-console"><code class="language-console">bundle exec rake floss_funding:install
 </code></pre>
+    <ul>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>Idempotent: each file is handled independently. If a file already exists, you will be prompted to [d]iff, [o]verwrite, [s]kip, or [a]bort (set FF_INSTALL_CHOICE=overwrite</td>
+              <td>skip</td>
+              <td>abort</td>
+              <td>diff for non-interactive runs).</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>Adds or updates .gitignore to include a sentinel ignore for FlossFunding lockfiles: <code>.floss_funding.*.lock</code>.</li>
+    </ul>
   </li>
   <li>Configure generated defaults:
     <pre class="code language-console"><code class="language-console">nano .floss_funding.yml
@@ -451,11 +466,62 @@ module MyGemLibrary
 
 <p>In all cases, the first parameter should be a String file path (e.g., <code>__FILE__</code>) or <code>nil</code> to disable discovery.</p>
 
+<h2 id="cli">CLI</h2>
+
+<p>The gem ships a CLI executable you can run from a Bundler project root:</p>
+
+<ul>
+  <li>floss_funding -p / –progress
+    <ul>
+      <li>Shows a progress bar of Activated libraries vs Activated + Unactivated libraries in the current project.</li>
+      <li>The bar reflects progress made toward activating all fingerprinted libraries.</li>
+      <li>Edge cases:
+        <ul>
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <td>If 0 of N libraries are activated, the bar shows 0% and remains at the start, e.g., Funding:</td>
+                  <td> </td>
+                  <td>0% (0/N)</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li>If there are no fingerprinted libraries at all (0/0), a simple fallback line is printed: Funding: 0% (0/0)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby">$ ./exe/floss_funding -t
+
++------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Needs Funding (Unactivated + Invalid)                                        | Funded by You (Activated)                                                   |
++------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+| floss_funding [FlossFunding]                                                 |                                                                             |
++------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+
+$ ./exe/floss_funding -p
+Funding: | | 0% (0/1)
+</code></pre>
+
+<ul>
+  <li>floss_funding -t / –table
+    <ul>
+      <li>Shows a two-pane table of libraries by activation state (Unactivated + Invalid on the left; Activated on the right).</li>
+    </ul>
+  </li>
+</ul>
+
 <h2 id="configuration">Configuration</h2>
 
 <h3 id="silence-via-lobal-environment-variable">Silence via lobal Environment Variable</h3>
 
-<p>For global silence the best solution is to set the environment variable <code>FLOSS_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR</code> before your application starts.</p>
+<p>For global silence the best solution is to set the environment variable <code>FLOSS_CFG_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR</code> before your application starts.</p>
 
 <p>If you can’t control ENV variables, and you can control the stack, at the beginning of the stack, before other things load, simply <code>require "floss_funding/silent"</code>, and it will silence all output. Note that this is less performant than setting the global environment variable, as above.</p>
 
@@ -473,7 +539,7 @@ module MyGemLibrary
 
 <p><strong>IMPORTANT</strong> - By the time your <code>Poke.new</code> using library loads into a stack, other libraries may have already loaded <code>Poke.new</code> for themselves, and may have already generated output. This is not a solution for silencing all output. The main thing it can reliably do is silence the output from the at_exit handler.</p>
 
-<p>If you need to silence <strong>everything</strong>, do so by setting the environment variable <code>FLOSS_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR</code> before your application starts.</p>
+<p>If you need to silence <strong>everything</strong>, do so by setting the environment variable <code>FLOSS_CFG_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR</code> before your application starts.</p>
 
 <h3 id="file-based-configuration">File-based Configuration</h3>
 
@@ -496,6 +562,85 @@ a. default: https://floss-funding.dev, which doesn’t take donations on behalf 
 <pre class="code language-yaml"><code class="language-yaml">suggested_donation_amount: 10
 floss_funding_url: https://example.com/fund
 </code></pre>
+
+<h2 id="environment-variables">Environment variables</h2>
+
+<p>These environment variables let you control FlossFunding behavior at runtime. Each variable is optional; unset variables use safe defaults.</p>
+
+<p>Note: This section documents the FLOSS_CFG_FUNDING_* variables specifically requested. The library also honors additional variables (e.g., activation key envs and some FLOSS_CFG_FUND_* controls) which are described elsewhere in the README and code comments.</p>
+
+<h3 id="floss_cfg_funding_logfile">FLOSS_CFG_FUNDING_LOGFILE</h3>
+<ul>
+  <li>Purpose: Redirects FlossFunding debug output to a file when debugging is enabled.</li>
+  <li>Type: file path (string)</li>
+  <li>Default: unset (debug messages, if any, go to STDOUT)</li>
+  <li>Behavior:
+    <ul>
+      <li>When set to a non-empty path, FlossFunding attempts to create/truncate the file on first use and logs debug messages via Ruby’s Logger at DEBUG level.</li>
+      <li>Directory creation is best-effort (mkdir -p). Failures fall back to STDOUT without raising.</li>
+    </ul>
+  </li>
+  <li>Example:
+    <ul>
+      <li>FLOSS_CFG_FUNDING_LOGFILE=tmp/log/floss_funding.debug.log</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="floss_cfg_funding_on_load_sec_per_nag_max">FLOSS_CFG_FUNDING_ON_LOAD_SEC_PER_NAG_MAX</h3>
+<ul>
+  <li>Purpose: Limits how often a given library can emit an on-load (include-time) nag message.</li>
+  <li>Type: integer seconds</li>
+  <li>Default: 86400 (24 hours)</li>
+  <li>Behavior:
+    <ul>
+      <li>A YAML lockfile .floss_funding.ruby.on_load.lock in the project root records the last on-load nag per library. If the recorded time is within this many seconds, the on-load nag is suppressed.</li>
+      <li>Values are clamped to a safe range internally.</li>
+    </ul>
+  </li>
+  <li>Example:
+    <ul>
+      <li>FLOSS_CFG_FUNDING_ON_LOAD_SEC_PER_NAG_MAX=3600  # at most one on-load nag per hour per library</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="floss_cfg_funding_at_exit_sec_per_nag_max">FLOSS_CFG_FUNDING_AT_EXIT_SEC_PER_NAG_MAX</h3>
+<ul>
+  <li>Purpose: Limits how often the at-exit spotlight (the featured info card at process end) can highlight a library.</li>
+  <li>Type: integer seconds</li>
+  <li>Default: 2400 (40 minutes)</li>
+  <li>Behavior:
+    <ul>
+      <li>A YAML lockfile .floss_funding.ruby.at_exit.lock in the project root records the last at-exit spotlight per library. If within this many seconds, that library won’t be spotlighted again.</li>
+      <li>Values are clamped to a safe range internally.</li>
+    </ul>
+  </li>
+  <li>Example:
+    <ul>
+      <li>FLOSS_CFG_FUNDING_AT_EXIT_SEC_PER_NAG_MAX=600  # at most one at-exit spotlight per 10 minutes per library</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="floss_cfg_funding_wedge_dangerous">FLOSS_CFG_FUNDING_WEDGE_DANGEROUS</h3>
+<ul>
+  <li>Purpose: Enables an aggressive mode for FlossFunding::Wedge that attempts to require gems before injecting, to increase chances of finding their namespaces.</li>
+  <li>Type: string; recognized value: “1”</li>
+  <li>Default: unset (safe mode)</li>
+  <li>Behavior:
+    <ul>
+      <li>When set to “1”, the wedge will attempt to require each loaded gem before resolving constants, but only if FlossFunding DEBUG is true. If DEBUG is false, wedge prints a warning and remains safe.</li>
+      <li>This file is not auto-required by the gem; wedge must be explicitly required/used.</li>
+    </ul>
+  </li>
+  <li>Example:
+    <ul>
+      <li>FLOSS_CFG_FUNDING_WEDGE_DANGEROUS=1</li>
+      <li>With DEBUG enabled (see README for DEBUG), running: ruby -rfloss_funding/wedge -e ‘FlossFunding::Wedge.wedge!’</li>
+    </ul>
+  </li>
+</ul>
 
 <h2 id="-floss-funding">🦷 FLOSS Funding</h2>
 
@@ -631,7 +776,7 @@ See <a href="file.LICENSE.html" title="LICENSE.txt">LICENSE.txt</a> for the offi
 </div></div>
 
       <div id="footer">
-  Generated on Sun Aug 17 20:16:36 2025 by
+  Generated on Tue Aug 19 19:50:25 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>

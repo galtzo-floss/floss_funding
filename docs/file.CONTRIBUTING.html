@@ -111,6 +111,13 @@ bundle exec rake rubocop_gradual:autocorrect
 <pre class="code language-console"><code class="language-console">bundle exec rake test
 </code></pre>
 
+<p>Test hygiene and coverage notes:</p>
+<ul>
+  <li>Sentinel lockfiles are ephemeral. The test harness removes any <code>.floss_funding.*.lock</code> files in the project root before the suite starts and again after it finishes. If you run specs outside the standard harness, make sure to delete these files to avoid stale at-exit/on-load state affecting results.</li>
+  <li>Coverage output is always printed when coverage is enabled, even if specs fail. Do not interpret a coverage report as success; always check RSpec’s exit status and failure summary.</li>
+  <li>When running only a subset of specs locally, you may need to disable the hard coverage threshold with <code>K_SOUP_COV_MIN_HARD=false</code> as documented in the project guidelines.</li>
+</ul>
+
 <h2 id="lint-it">Lint It</h2>
 
 <p>Run all the default tasks, which includes running the gradually autocorrecting linter, <code>rubocop-gradual</code>.</p>
@@ -210,7 +217,7 @@ push git commits and tags, and push the <code>.gem</code> file to <a href="https
 </div></div>
 
       <div id="footer">
-  Generated on Sun Aug 17 20:16:36 2025 by
+  Generated on Tue Aug 19 19:50:25 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
