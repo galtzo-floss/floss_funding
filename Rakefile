@@ -330,7 +330,7 @@ task :bench => "bench:run"
 # --- CI helpers ---
 namespace :ci do
   # rubocop:disable ThreadSafety/NewThread
-  desc "Run 'act' with a selected workflow. Usage: rake ci:act[loc] (short code, e.g., 'loc' => deps_locked.yml), rake ci:act[deps_locked], rake ci:act[deps_locked.yml], or rake ci:act (then choose)"
+  desc "Run 'act' with a selected workflow. Usage: rake ci:act[loc] (short code, e.g., 'loc' => locked_deps.yml), rake ci:act[locked_deps], rake ci:act[locked_deps.yml], or rake ci:act (then choose)"
   task :act, [:opt] do |_t, args|
     require "io/console"
     require "open3"
@@ -342,7 +342,7 @@ namespace :ci do
       "anc" => "ancient.yml",
       "cov" => "coverage.yml",
       "cur" => "current.yml",
-      "loc" => "deps_locked.yml",
+      "loc" => "locked_deps.yml",
       # The repo uses 'deps_unlocked.yml' for unlocked dependencies
       "unl" => "deps_unlocked.yml",
       "hed" => "heads.yml",
