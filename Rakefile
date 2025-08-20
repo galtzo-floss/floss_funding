@@ -330,7 +330,7 @@ task :bench => "bench:run"
 # --- CI helpers ---
 namespace :ci do
   # rubocop:disable ThreadSafety/NewThread
-  desc "Run 'act' with a selected workflow. Usage: rake ci:act[loc] (short code, e.g., 'loc' => locked_deps.yml), rake ci:act[locked_deps], rake ci:act[locked_deps.yml], or rake ci:act (then choose)"
+  desc "Run 'act' with a selected workflow. Usage: rake ci:act[loc] (short code = first 3 letters of filename, e.g., 'loc' => locked_deps.yml), rake ci:act[locked_deps], rake ci:act[locked_deps.yml], or rake ci:act (then choose)"
   task :act, [:opt] do |_t, args|
     require "io/console"
     require "open3"
@@ -338,28 +338,15 @@ namespace :ci do
     require "json"
     require "uri"
 
-    mapping = {
-      "anc" => "ancient.yml",
-      "cov" => "coverage.yml",
-      "cur" => "current.yml",
-      "loc" => "locked_deps.yml",
-      # The repo uses 'unlocked_deps.yml' for unlocked dependencies
-      "unl" => "unlocked_deps.yml",
-      "hed" => "heads.yml",
-      "jrb" => "jruby.yml",
-      "leg" => "legacy.yml",
-      "sty" => "style.yml",
-      "sup" => "supported.yml",
-      "tru" => "truffle.yml",
-      "uns" => "unsupported.yml",
-    }
+    # Build mapping dynamically from workflow files; short code = first three letters of filename.
+    # Collisions are resolved by first-come wins via ||= as requested.
+    mapping = {}
 
     # Normalize provided option. Accept either short code or the exact yml/yaml filename
     choice = args[:opt] ? args[:opt].strip : nil
     workflows_dir = File.join(File.dirname(__FILE__), ".github", "workflows")
 
-    # Determine actual workflow files present, filter mapping to existing,
-    # and prepare dynamic additions (no short codes) excluding specified files.
+    # Determine actual workflow files present, and prepare dynamic additions excluding specified files.
     existing_files = if Dir.exist?(workflows_dir)
       Dir[File.join(workflows_dir, "*.yml")] + Dir[File.join(workflows_dir, "*.yaml")]
     else
@@ -367,10 +354,7 @@ namespace :ci do
     end
     existing_basenames = existing_files.map { |p| File.basename(p) }
 
-    # Reduce mapping choices to only those with a corresponding workflow file
-    mapping.select! { |_k, v| existing_basenames.include?(v) }
-
-    # Dynamic additions: any workflow in the directory not already in mapping, excluding these:
+    # Exemptions: do not offer these workflows for local 'act' runs
     exclusions = %w[
       auto-assign.yml
       codeql-analysis.yml
@@ -378,7 +362,17 @@ namespace :ci do
       dependency-review.yml
       discord-notifier.yml
     ]
-    dynamic_files = existing_basenames.uniq - mapping.values - exclusions
+
+    eligible_files = (existing_basenames.uniq - exclusions)
+
+    # Assign short codes dynamically (first 3 letters, lowercase); first one set wins
+    eligible_files.sort.each do |fname|
+      code = fname[0, 3].to_s.downcase
+      mapping[code] ||= fname
+    end
+
+    # Any eligible files not covered by a unique short code still appear without a code
+    dynamic_files = eligible_files - mapping.values
 
     # For internal status tracking and rendering, we use a display_code_for hash.
     # For mapped (short-code) entries, display_code is the short code.
