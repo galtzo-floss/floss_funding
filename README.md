@@ -624,8 +624,8 @@ P.S. If you need help️ or want to say thanks, 👇 Join the Discord.
 [🚎11-c-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/current.yml/badge.svg
 [🚎13-🔒️-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/locked_deps.yml
 [🚎13-🔒️-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/locked_deps.yml/badge.svg
-[🚎14-🔓️-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/deps_unlocked.yml
-[🚎14-🔓️-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/deps_unlocked.yml/badge.svg
+[🚎14-🔓️-wf]: https://github.com/galtzo-floss/floss_funding/actions/workflows/unlocked_deps.yml
+[🚎14-🔓️-wfi]: https://github.com/galtzo-floss/floss_funding/actions/workflows/unlocked_deps.yml/badge.svg
 [💎ruby-1.9i]: https://img.shields.io/badge/Ruby-1.9_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-2.0i]: https://img.shields.io/badge/Ruby-2.0_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-2.1i]: https://img.shields.io/badge/Ruby-2.1_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=white

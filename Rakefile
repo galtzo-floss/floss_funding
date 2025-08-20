@@ -343,8 +343,8 @@ namespace :ci do
       "cov" => "coverage.yml",
       "cur" => "current.yml",
       "loc" => "locked_deps.yml",
-      # The repo uses 'deps_unlocked.yml' for unlocked dependencies
-      "unl" => "deps_unlocked.yml",
+      # The repo uses 'unlocked_deps.yml' for unlocked dependencies
+      "unl" => "unlocked_deps.yml",
       "hed" => "heads.yml",
       "jrb" => "jruby.yml",
       "leg" => "legacy.yml",
