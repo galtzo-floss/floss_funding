@@ -60,7 +60,8 @@ module FlossFunding
 
         # 4. Render a summary of counts
         root = ::FlossFunding.project_root
-        root_label = (root.nil? || root.to_s.empty?) ? "(unknown)" : root.to_s
+        root_str = root.to_s unless root.nil?
+        root_label = (root_str.nil? || root_str.empty?) ? "(unknown)" : File.basename(root_str)
         lines << "FLOSS Funding Summary: #{root_label}"
         lines << build_summary_table
         ::FlossFunding.debug_log { "[FinalSummary] counts ns: activated=#{@activated_ns_names.size} unactivated=#{@unactivated_ns_names.size} invalid=#{@invalid_ns_names.size}; libs: activated=#{@activated_libs.size} unactivated=#{@unactivated_libs.size} invalid=#{@invalid_libs.size}" }
