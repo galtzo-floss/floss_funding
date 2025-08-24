@@ -237,7 +237,7 @@ Usage patterns:
 
 ## Configuration
 
-### Silence via lobal Environment Variable
+### Silence via global Environment Variable
 
 For global silence the best solution is to set the environment variable `FLOSS_FUNDING_SILENT=CATHEDRAL_OR_BAZAAR` before your application starts.
 
